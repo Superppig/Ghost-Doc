@@ -5,16 +5,16 @@ using UnityEngine;
 namespace Services
 {
     /// <summary>
-    /// �̳д����ʾ�����з���ĵ�����Ϊ�������Ǽǡ�ȡ���Ǽǵ�
+    /// 继承此类表示，具有服务的典型行为，包括登记、取消登记等
     /// </summary>
     [Serializable]
     public class Service : MonoBehaviour
     {
         /// <summary>
-        /// <para>�Ǽ�ʱʹ�õ����ͣ�����ͬһ�Ǽ����͵�ʵ��Ӧ��ֻ����һ��</para>
-        /// <para>Ĭ������£��Ǽ�����Ӧ����һ���ӿ����ͣ�ĳ����̳�Service����ʵ�ָýӿ����ͣ��ýӿ������ټ̳�IService��
-        /// �����ű�Ҫ��ȡһ������ʱ��Ҳ���岢��ȡ�ӿ����͵��ֶΣ�������������ע��</para>
-        /// <para>���ǣ��������Ŀ����ʱ���ӵķ����࣬���ܲ�ϣ��Ϊ�䶨��һ���ӿڣ���������£�����̳�Service����ֱ��ʵ��IService���Ǽ�����ֱ��ʹ�ø��౾��</para>
+        /// <para>登记时使用的类型，具有同一登记类型的实例应当只存在一个</para>
+        /// <para>默认情况下，登记类型应该是一个接口类型；某个类继承Service，又实现该接口类型，该接口类型再继承IService；
+        /// 其他脚本要获取一个服务时，也定义并获取接口类型的字段，这体现了依赖注入</para>
+        /// <para>但是，如果是项目中临时增加的服务类，可能不希望为其定义一个接口；这种情况下，该类继承Service，并直接实现IService，登记类型直接使用该类本身</para>
         /// </summary>
         public virtual Type RegisterType => IService.GetSubInterfaceOfIService(GetType());
         protected virtual EConflictSolution Solution => EConflictSolution.DestroyNew;
@@ -23,7 +23,7 @@ namespace Services
 
         protected virtual void Awake()
         {
-            Informantion = $"��������:{RegisterType},������Ϸ����:{gameObject.name}";
+            Informantion = $"服务类型:{RegisterType},所在游戏物体:{gameObject.name}";
             ServiceLocator.Register(this, Solution);
         }
 
@@ -49,7 +49,7 @@ namespace Services
     }
 
     /// <summary>
-    ///�Զ���ȡ��������
+    ///自动获取其他服务
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     internal class AutoServiceAttribute : Attribute
