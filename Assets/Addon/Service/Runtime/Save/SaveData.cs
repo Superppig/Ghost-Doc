@@ -1,41 +1,61 @@
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Services.Save
 {
     /// <summary>
-    /// 一种对象的数据集合
+    /// <para>规定了一个对象的存档数据，以及读档存档时存档数据与对象的关系</para>
+    /// <para>子类不需要添加[Serializable]，但其字段必须正确使用public和[JsonProperty]</para>
     /// </summary>
     [System.Serializable]
-    public class SaveData<T> where T : SingleSaveData, new()
+    [JsonConverter(typeof(PolyConverter<SaveData>))]
+    public abstract class SaveData
     {
-        protected Dictionary<string, T> searcher;
+        [JsonProperty]
+        internal string identifier;
 
-        [SerializeField]
-        protected List<T> datas;
+        /// <summary>
+        /// <para>与此存档数据绑定的对象，Identifier的确定通常会依赖此字段；Save和Load函数通常与此字段有关</para>
+        /// <para>注意：对象与存档数据绑定后，由于场景切换等原因，对象可能不再存在，这种情况下Save和Load函数不会被自动调用</para>
+        /// </summary>
+        protected Object obj;
 
-        public SaveData()
+        public void Initialize(string identifier, Object obj)
         {
-            datas = new List<T>();
-            searcher = new Dictionary<string, T>();
+            this.obj = obj;
+            this.identifier = identifier;
         }
 
-        public T Get(string identifier)
+        /// <summary>
+        /// 无法确定obj是否存在时，使用此方法避免发生错误
+        /// </summary>
+        public void LoadIfExist()
         {
-            if (searcher.ContainsKey(identifier))
-                return searcher[identifier];
-            else
-            {
-                T data = new T();
-                searcher.Add(identifier, data);
-                return data;
-            }
+            if (obj != null)
+                Load();
+        }
+        /// <summary>
+        /// 无法确定obj是否存在时，使用此方法避免发生错误
+        /// </summary>
+        public void SaveIfExist()
+        {
+            if (obj != null)
+                Save();
         }
 
-        public void Add(T data)
+        /// <summary>
+        /// 读档时的行为
+        /// </summary>
+        public abstract void Load();
+
+        /// <summary>
+        /// 存档时的行为
+        /// </summary>
+        public abstract void Save();
+
+        public override string ToString()
         {
-            datas.Add(data);
-            searcher.Add(data.identifier, data);
+            return identifier;
         }
     }
 }
