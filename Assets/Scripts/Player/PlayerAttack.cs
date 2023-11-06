@@ -1,7 +1,7 @@
 using System.Threading;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     [Header("射击属性")] 
     public LayerMask enemyMask;
@@ -79,4 +79,5 @@ public class PlayerShoot : MonoBehaviour
             }
         }
     }
+    
 }
