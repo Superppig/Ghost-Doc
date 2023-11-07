@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Services
 {
-    //´ËÀà½ûÖ¹·ÃÎÊServiceLocatorÀà
+    //æ­¤ç±»ç¦æ­¢è®¿é—®ServiceLocatorç±»
     [DefaultExecutionOrder(-1000)]
     internal class GameLaunchHelper : MonoBehaviour
     {
