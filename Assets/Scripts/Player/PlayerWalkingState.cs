@@ -1,4 +1,3 @@
-using System.Collections;
 using Player_FSM;
 using UnityEngine;
 
@@ -7,9 +6,10 @@ public class PlayerWalkingState : IState
     private PlayerBlackboard _playerBlackboard;
     
     private float walkSpeed;
-    private float moveForce;
+    private float accelerate;
     private Vector3 moveDir;
     private Rigidbody rb;
+    private Transform oritation;
 
     public PlayerWalkingState(PlayerBlackboard playerBlackboard)
     {
@@ -18,17 +18,23 @@ public class PlayerWalkingState : IState
     
     public void OnEnter()
     {
+        //读取黑板数据
+
         rb = _playerBlackboard.m_rigidbody;
         walkSpeed = _playerBlackboard.walkSpeed;
-        moveForce = _playerBlackboard.VerForce;
+        accelerate = _playerBlackboard.accelerate;
+        oritation = _playerBlackboard.oritation;
+        
+        rb.velocity = _playerBlackboard.speed;
     }
     public void OnExit()
     {
-        
+        _playerBlackboard.speed = rb.velocity;
     }
     public void OnUpdate()
     {
-        moveDir = _playerBlackboard.moveDir;
+        moveDir = (_playerBlackboard.moveDir.x*oritation.right+_playerBlackboard.moveDir.z*oritation.forward).normalized;
+        Walk();
         SpeedCon();
     }
     public void OnCheck()
@@ -37,19 +43,20 @@ public class PlayerWalkingState : IState
     }
     public void OnFixUpdate()
     {
-        Walk();
+        
     }
-
+    
     void Walk()
     {
-        rb.AddForce(moveDir.normalized*moveForce,ForceMode.Force);
+        rb.velocity += moveDir * (Time.deltaTime * accelerate);
     }
-
     void SpeedCon()
     {
-        if (rb.velocity.magnitude > walkSpeed)
+        Vector2 XZSpeed = new Vector2(rb.velocity.x, rb.velocity.z);
+        if (XZSpeed.magnitude>walkSpeed)
         {
-            rb.velocity=rb.velocity.normalized*walkSpeed;
+            XZSpeed = XZSpeed.normalized * walkSpeed;
+            rb.velocity = new Vector3(XZSpeed.x, rb.velocity.y, XZSpeed.y);
         }
     }
 }

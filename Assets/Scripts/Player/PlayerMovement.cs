@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("墙跳")] 
     public float wallJumpUpForce; //墙跳向上力
-    public float wallJumpSideForce; //墙跳向下力
+    public float wallJumpSideForce; //墙跳向外力
     private bool exitingWall;
     public float exitWallTime;
     private float exitWallTimer;

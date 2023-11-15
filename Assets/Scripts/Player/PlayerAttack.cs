@@ -7,10 +7,13 @@ public class PlayerAttack : MonoBehaviour
     public LayerMask enemyMask;
     public float damage;
     public float maxShootDistance;
+    public Transform pos;
+    
 
     private bool fireing;//射击
     private bool aiming;//瞄准
 
+    private Bullet _bullet;
     public float fireRate = 700f;//射速
     private float fireWaitTime;
     private float fireTimer = 0f;
@@ -28,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        _bullet = Resources.Load<Bullet>("Perfabs/Bullet");
         fireWaitTime = 60f / fireRate;
     }
     void Update()
@@ -62,7 +66,9 @@ public class PlayerAttack : MonoBehaviour
         {
             Fire();
             gunAnimator.SetTrigger("fire");
-            _playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
+            
+            //后坐力
+            //_playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
             
             fireTimer = 0f;
         }
@@ -71,13 +77,17 @@ public class PlayerAttack : MonoBehaviour
     {
         Ray fireRay = new Ray(orientation.transform.position, orientation.transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(fireRay, out hit, maxShootDistance, enemyMask))
+        if (Physics.Raycast(fireRay, out hit, maxShootDistance))
         {
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                hit.collider.GetComponent<Enemy>().TakeDamage(damage);
-            }
+            Bullet bullet = Instantiate(_bullet, pos.position, Quaternion.identity);
+            bullet.end = hit.point;
+            bullet.ready = true;
+        }
+        else
+        {
+            Bullet bullet = Instantiate(_bullet, pos.position, Quaternion.identity);
+            bullet.end = orientation.transform.forward.normalized * maxShootDistance + pos.position;
+            bullet.ready = true;
         }
     }
-    
 }

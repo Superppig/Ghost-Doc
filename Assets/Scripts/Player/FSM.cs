@@ -1,8 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.VersionControl;
-using UnityEngine;
 using System;
 
 namespace Player_FSM
@@ -14,8 +10,8 @@ namespace Player_FSM
         sprinting,
         crouching,
         sliding,
-        wallRunning,
-        air
+        air,
+        wallRunning
     }
     public interface IState
     {
@@ -44,6 +40,7 @@ namespace Player_FSM
 
     public class FSM
     {
+        public StateType current;
         public IState curState;
         public Dictionary<StateType, IState> states;
         public Blackboard blackboard;
@@ -67,7 +64,7 @@ namespace Player_FSM
         {
             if (!states.ContainsKey(stateType))
             {
-                Debug.Log("[SwitchState] >>>>>>>>>> not contain key:"+stateType);
+                //Debug.Log("[SwitchState] >>>>>>>>>> not contain key:"+stateType);
                 return;
             }
 
@@ -78,6 +75,7 @@ namespace Player_FSM
 
             curState = states[stateType];
             curState.OnEnter();
+            current = stateType;
         }
 
         public void OnUpdate()
