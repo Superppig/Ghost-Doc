@@ -93,7 +93,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         //检测
-        grounded = IsGrounded(0.1f);
+        grounded = IsGrounded(0.2f);
+        //Debug.Log(grounded);
+
 
         if (!playerBlackboard.isWallJump)
         {
@@ -145,20 +147,16 @@ public class Player : MonoBehaviour
                     fsm.SwitchState(StateType.jumping);
                 }
             }
-            else
+            else if (current == StateType.wallRunning)
             {
                 // 墙跳逻辑
-                if (current == StateType.wallRunning)
-                {
-                    StartCoroutine(WallJumping(0.3f));
-                    last = current;
-                    fsm.SwitchState(StateType.jumping);
-                }
+                StartCoroutine(WallJumping(0.3f));
             }
         }
 
         //空中
-        if (!grounded && current != StateType.sprinting && !(playerBlackboard.rightWall || playerBlackboard.leftWall))
+        if (!grounded && current != StateType.sprinting &&
+                 !(playerBlackboard.rightWall || playerBlackboard.leftWall))
         {
             if (CanSwitch(current, StateType.air))
             {
@@ -168,12 +166,11 @@ public class Player : MonoBehaviour
         }
 
         //落地
-        if ((current==StateType.jumping || current == StateType.air) && grounded)
+        if ((current == StateType.jumping || current == StateType.air) && grounded)
         {
             last = current;
             fsm.SwitchState(StateType.walking);
         }
-
 
         //冲刺
         if (Input.GetKeyDown(playerBlackboard.sprintKey))
@@ -208,7 +205,7 @@ public class Player : MonoBehaviour
 
         //滑墙
         if (!IsGrounded(playerBlackboard.wallRunMinDisTance) &&
-            (playerBlackboard.rightWall || playerBlackboard.leftWall))
+                 (playerBlackboard.rightWall || playerBlackboard.leftWall))
         {
             if (CanSwitch(current, StateType.wallRunning))
             {
@@ -216,6 +213,7 @@ public class Player : MonoBehaviour
                 fsm.SwitchState(StateType.wallRunning);
             }
         }
+
         SlopJudgement();
     }
 
@@ -225,34 +223,40 @@ public class Player : MonoBehaviour
         if (current == StateType.walking)
         {
             if (next == StateType.crouching || next == StateType.sprinting || next == StateType.jumping ||
-                next == StateType.sliding)
+                next == StateType.sliding || next == StateType.air)
                 return true;
         }
+
         else if (current == StateType.jumping)
         {
-            if (next == StateType.air||next==StateType.jumping)
+            if (next == StateType.air || next == StateType.jumping)
                 return true;
         }
+
         else if (current == StateType.sprinting)
         {
             if (next == StateType.walking || next == StateType.air || next == StateType.sliding)
                 return true;
         }
+
         else if (current == StateType.crouching)
         {
             if (next == StateType.walking)
                 return true;
         }
+
         else if (current == StateType.sliding)
         {
             if (next == StateType.walking || next == StateType.sprinting)
                 return true;
         }
+
         else if (current == StateType.air)
         {
             if (next == StateType.walking || next == StateType.wallRunning || next == StateType.sprinting)
                 return true;
         }
+
         else if (current == StateType.wallRunning)
         {
             if (next == StateType.air || next == StateType.jumping || next == StateType.walking)
@@ -283,6 +287,8 @@ public class Player : MonoBehaviour
         playerBlackboard.isWallJump = true;
         playerBlackboard.leftWall = false;
         playerBlackboard.rightWall = false;
+        last = current;
+        fsm.SwitchState(StateType.jumping);
         yield return new WaitForSeconds(time);
         playerBlackboard.isWallJump = false;
     }
@@ -294,6 +300,7 @@ public class Player : MonoBehaviour
             playerBlackboard.moveDir = Vector3.ProjectOnPlane(playerBlackboard.moveDir, slopeHit.normal).normalized;
         }
     }
+
     //检测是否在斜坡上
     private bool OnSlope()
     {
