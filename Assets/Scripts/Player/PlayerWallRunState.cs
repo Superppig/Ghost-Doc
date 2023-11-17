@@ -13,7 +13,7 @@ public class PlayerWallRunState : IState
     private Transform ori;
     private float rate;
     private RaycastHit wall;//储存墙壁信息
-    private Transform cam;
+    private Transform camTrans;
     private bool isLeft;
     
     private float speed;//速度
@@ -32,24 +32,24 @@ public class PlayerWallRunState : IState
         isLeft = _playerBlackboard.leftWall;
 
         trans = rb.GetComponent<Transform>();
-        cam = Camera.main.GetComponent<Transform>();
-        ori = _playerBlackboard.oritation;
+        camTrans = _playerBlackboard.camTrans;
+        ori = _playerBlackboard.orientation;
 
         speed = _playerBlackboard.wallRunSpeed;
 
         if (isLeft)
         {
             //镜头晃动
-            cam.DOLocalRotate(new Vector3(0, 0, -10), 0.25f);
+            camTrans.DOLocalRotate(new Vector3(0, 0, -10), 0.25f);
         }
         else
         {
-            cam.DOLocalRotate(new Vector3(0, 0, 10), 0.25f);
+            camTrans.DOLocalRotate(new Vector3(0, 0, 10), 0.25f);
         }
     }
     public void OnExit()
     {
-        cam.DOLocalRotate(Vector3.zero, 0.25f);
+        camTrans.DOLocalRotate(Vector3.zero, 0.25f);
 
     }
     public void OnUpdate()

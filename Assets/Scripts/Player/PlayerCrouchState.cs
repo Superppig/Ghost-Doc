@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using Player_FSM;
 using UnityEngine;
 
@@ -70,6 +69,13 @@ public class PlayerCrouchState : IState
         if (rb.velocity.magnitude>crouchSpeed)
         {
             rb.velocity = rb.velocity.normalized * crouchSpeed;
+        }
+        
+        if (moveDir.magnitude<0.1f&&rb.velocity.magnitude>0.1f)
+        {
+            // 使用 DOVirtual.Float 插值当前速度到0
+            DOTween.To(() => rb.velocity, x => rb.velocity = x, Vector3.zero, 0.05f)
+                .SetEase(Ease.InOutQuad);
         }
     }
 }

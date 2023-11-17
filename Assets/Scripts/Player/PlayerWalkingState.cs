@@ -1,5 +1,6 @@
 using Player_FSM;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerWalkingState : IState
 {
@@ -53,6 +54,13 @@ public class PlayerWalkingState : IState
         if (rb.velocity.magnitude>walkSpeed)
         {
             rb.velocity = rb.velocity.normalized * walkSpeed;
+        }
+
+        if (moveDir.magnitude<0.1f&&rb.velocity.magnitude>0.1f)
+        {
+            // 使用 DOVirtual.Float 插值当前速度到0
+            DOTween.To(() => rb.velocity, x => rb.velocity = x, Vector3.zero, 0.05f)
+                .SetEase(Ease.InOutQuad);
         }
     }
 }

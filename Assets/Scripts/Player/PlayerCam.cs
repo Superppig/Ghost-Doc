@@ -17,8 +17,8 @@ public class PlayerCam : MonoBehaviour
     public float YView;
 
     public Transform orientation;//Player方向
-    public Transform camHolder;
-    private Camera cam;
+    //public Transform camHolder;
+    //private Camera cam;
     [Header("枪械后坐力")] 
     private float verTotalOff;//水平总偏移
     private float horTotalOff;//垂直总偏移
@@ -31,7 +31,7 @@ public class PlayerCam : MonoBehaviour
     private float yRotation;
     void Start()
     {
-        cam = GetComponent<Camera>();
+        //cam = GetComponent<Camera>();
         //锁定鼠标
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -98,13 +98,13 @@ public class PlayerCam : MonoBehaviour
 
         xRotation = Mathf.Clamp(xRotation, -1 * YView, YView);
         //旋转
-        camHolder.rotation=Quaternion.Euler(Mathf.Clamp(-(xRotation+verCurrunt), -1*YView, YView),yRotation+horCurrent,0);
+        transform.rotation=Quaternion.Euler(Mathf.Clamp(-(xRotation+verCurrunt), -1*YView, YView),yRotation+horCurrent,0);
         orientation.rotation=Quaternion.Euler(0,yRotation+horCurrent,0);
     }
     //视角倾斜
     public void DoFov(float endValue)
     {
-        cam.DOFieldOfView(endValue, 0.25f);
+        //cam.DOFieldOfView(endValue, 0.25f);
     }
     public void DoTile(float zTilt)
     {
