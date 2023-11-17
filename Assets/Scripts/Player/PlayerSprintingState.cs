@@ -6,7 +6,6 @@ public class PlayerSprintingState : IState
 {
     private PlayerBlackboard _playerBlackboard;
     private Rigidbody rb;
-    private Transform oritation;
     
     private float sprintSpeed;
     private float firstSpeed;
@@ -14,7 +13,8 @@ public class PlayerSprintingState : IState
     private Vector3 sprintDir;
     
     //相机行为
-    private Transform cam;
+    private Transform camTrans;
+    
 
 
     public PlayerSprintingState(PlayerBlackboard playerBlackboard)
@@ -27,28 +27,24 @@ public class PlayerSprintingState : IState
     {
         rb = _playerBlackboard.m_rigidbody;
         sprintSpeed = _playerBlackboard.sprintSpeed;
-        oritation = _playerBlackboard.oritation;
         
-        cam = Camera.main.GetComponent<Transform>();
+        camTrans = Camera.main.GetComponent<Transform>();
 
         firstSpeed = rb.velocity.magnitude;
-        sprintDir = (_playerBlackboard.moveDir.x * oritation.right + _playerBlackboard.moveDir.z * oritation.forward)
-            .normalized;
+        sprintDir = _playerBlackboard.moveDir;
 
         rb.velocity = Vector3.zero;
         
         //镜头行为
-        if (_playerBlackboard.moveDir.x!=0)
+
+        if (_playerBlackboard.dirInput.x > 0)
         {
-            if (_playerBlackboard.moveDir.x >0)
-            {
-                //镜头晃动
-                cam.DOLocalRotate(new Vector3(0, 0, 1), 0.1f);
-            }
-            else
-            {
-                cam.DOLocalRotate(new Vector3(0, 0, -1), 0.1f);
-            }
+            //镜头晃动
+            camTrans.DOLocalRotate(new Vector3(0, 0, 1), 0.1f);
+        }
+        else if(_playerBlackboard.dirInput.x < 0)
+        {
+            camTrans.DOLocalRotate(new Vector3(0, 0, -1), 0.1f);
         }
     }
 
@@ -59,8 +55,7 @@ public class PlayerSprintingState : IState
         
         
         
-        cam.DOLocalRotate(new Vector3(0, 0, 0), 0.1f);
-
+        camTrans.DOLocalRotate(new Vector3(0, 0, 0), 0.1f);
     }
 
     public void OnUpdate()

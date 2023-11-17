@@ -11,7 +11,6 @@ public class PlayerAirState : IState
     private Vector3 moveDir;
     private float airTransformAccelerate;
     private Rigidbody rb;
-    private Transform oritation;
 
 
     
@@ -20,7 +19,6 @@ public class PlayerAirState : IState
         _playerBlackboard = playerBlackboard;
         
         rb = _playerBlackboard.m_rigidbody;
-        oritation = _playerBlackboard.oritation;
         
         rb.velocity = _playerBlackboard.speed;//初始化速度
         airTransformAccelerate = _playerBlackboard.airTransformAccelerate;
@@ -38,7 +36,7 @@ public class PlayerAirState : IState
 
     public void OnUpdate()
     {
-        moveDir = (_playerBlackboard.moveDir.x*oritation.right+_playerBlackboard.moveDir.z*oritation.forward).normalized;
+        moveDir = _playerBlackboard.moveDir;
         MoveInAir();
     }
 

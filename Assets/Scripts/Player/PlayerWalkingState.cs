@@ -9,7 +9,6 @@ public class PlayerWalkingState : IState
     private float accelerate;
     private Vector3 moveDir;
     private Rigidbody rb;
-    private Transform oritation;
 
     public PlayerWalkingState(PlayerBlackboard playerBlackboard)
     {
@@ -23,7 +22,6 @@ public class PlayerWalkingState : IState
         rb = _playerBlackboard.m_rigidbody;
         walkSpeed = _playerBlackboard.walkSpeed;
         accelerate = _playerBlackboard.accelerate;
-        oritation = _playerBlackboard.oritation;
         
         rb.velocity = _playerBlackboard.speed;
     }
@@ -33,7 +31,7 @@ public class PlayerWalkingState : IState
     }
     public void OnUpdate()
     {
-        moveDir = (_playerBlackboard.moveDir.x*oritation.right+_playerBlackboard.moveDir.z*oritation.forward).normalized;
+        moveDir = _playerBlackboard.moveDir;
         Walk();
         SpeedCon();
     }
@@ -52,11 +50,9 @@ public class PlayerWalkingState : IState
     }
     void SpeedCon()
     {
-        Vector2 XZSpeed = new Vector2(rb.velocity.x, rb.velocity.z);
-        if (XZSpeed.magnitude>walkSpeed)
+        if (rb.velocity.magnitude>walkSpeed)
         {
-            XZSpeed = XZSpeed.normalized * walkSpeed;
-            rb.velocity = new Vector3(XZSpeed.x, rb.velocity.y, XZSpeed.y);
+            rb.velocity = rb.velocity.normalized * walkSpeed;
         }
     }
 }

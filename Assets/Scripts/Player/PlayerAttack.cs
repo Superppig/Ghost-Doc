@@ -91,6 +91,11 @@ public class PlayerAttack : MonoBehaviour
         if (Physics.Raycast(fireRay, out hit, maxShootDistance))
         {
             StartCoroutine(BulletStart(pos.position, hit.point));
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
+                enemyBeHit.HitEnemy(1);
+            }
         }
         else
         {
@@ -133,7 +138,6 @@ public class PlayerAttack : MonoBehaviour
 
             yield return null;
         }
-
         bullet.startWidth = 0f;
         bullet.endWidth = 0f;
     }

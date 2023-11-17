@@ -9,7 +9,6 @@ public class PlayerCrouchState : IState
     
     private Rigidbody rb;
     private Transform tr;
-    private Transform oritation;
     private float LastYScale;
     private float YScale;
     private float crouchSpeed;
@@ -25,7 +24,6 @@ public class PlayerCrouchState : IState
         YScale = _playerBlackboard.crouchYScale;
         crouchSpeed = _playerBlackboard.crouchSpeed;
         accelerate = _playerBlackboard.accelerate;
-        oritation = _playerBlackboard.oritation;
         tr = rb.GetComponent<Transform>();
         LastYScale = tr.localScale.y;
         Crouch();
@@ -39,7 +37,7 @@ public class PlayerCrouchState : IState
 
     public void OnUpdate()
     {
-        moveDir = (_playerBlackboard.moveDir.x*oritation.right+_playerBlackboard.moveDir.z*oritation.forward).normalized;
+        moveDir = _playerBlackboard.moveDir;
 
         Walk();
         SpeedCon();
@@ -69,11 +67,9 @@ public class PlayerCrouchState : IState
 
     void SpeedCon()
     {
-        Vector2 XZSpeed = new Vector2(rb.velocity.x, rb.velocity.z);
-        if (XZSpeed.magnitude>crouchSpeed)
+        if (rb.velocity.magnitude>crouchSpeed)
         {
-            XZSpeed = XZSpeed.normalized * crouchSpeed;
-            rb.velocity = new Vector3(XZSpeed.x, rb.velocity.y, XZSpeed.y);
+            rb.velocity = rb.velocity.normalized * crouchSpeed;
         }
     }
 }

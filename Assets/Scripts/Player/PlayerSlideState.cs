@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Player_FSM;
 using UnityEngine;
 
@@ -9,12 +10,14 @@ public class PlayerSlideState : IState
 
     private Rigidbody rb;
     private Transform tr;
-    private Transform oritation;
     private float LastYScale;
     private float YScale;
     private float slideSpeed;
     private float accelerate;
     private Vector3 moveDir;
+    
+    //摄像机
+    private Camera cam;
     public PlayerSlideState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -25,16 +28,21 @@ public class PlayerSlideState : IState
         YScale = _playerBlackboard.slideYScale;
         slideSpeed = _playerBlackboard.slideSpeed;
         accelerate = _playerBlackboard.accelerate;
-        oritation = _playerBlackboard.oritation;
         tr = rb.GetComponent<Transform>();
+        cam = Camera.main;
         LastYScale = tr.localScale.y;
         StartSlide();
+
+        cam.DOFieldOfView(70, 0.1f);
     }
 
     public void OnExit()
     {
         _playerBlackboard.speed = rb.velocity;
         tr.localScale = new Vector3(tr.localScale.x, LastYScale, tr.localScale.z);
+        
+        cam.DOFieldOfView(60, 0.1f);
+
     }
 
     public void OnUpdate()
@@ -59,7 +67,7 @@ public class PlayerSlideState : IState
 
     void Slide()
     {
-        moveDir = (_playerBlackboard.moveDir.x*oritation.right+_playerBlackboard.moveDir.z*oritation.forward).normalized;
+        moveDir = _playerBlackboard.moveDir;
         rb.velocity = moveDir * slideSpeed;
     }
 }

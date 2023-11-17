@@ -6,7 +6,8 @@ using System.Collections;
 [Serializable]
 public class PlayerBlackboard : Blackboard
 {
-    [Header("玩家属性")] public Vector3 moveDir;
+    [Header("玩家属性")] public Vector3 dirInput;
+    public Vector3 moveDir;
     public Rigidbody m_rigidbody;
     public Transform oritation;
     public Vector3 speed = new Vector3(0, 0, 0); //继承速度
@@ -61,7 +62,9 @@ public class Player : MonoBehaviour
 {
     private FSM fsm;
     public PlayerBlackboard playerBlackboard;
+    
     private bool grounded;
+    private bool jumping;
 
 
     public StateType current;
@@ -93,7 +96,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //检测
-        grounded = IsGrounded(0.2f);
+        grounded = jumping? false: IsGrounded(0.2f);
         //Debug.Log(grounded);
 
 
@@ -118,8 +121,11 @@ public class Player : MonoBehaviour
 
     private void MyInput()
     {
-        playerBlackboard.moveDir =
+        playerBlackboard.dirInput =
             new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        //斜坡判定
+        SlopJudgement();
+
         //下蹲
         if (Input.GetKeyDown(playerBlackboard.crouchKey))
         {
@@ -144,11 +150,13 @@ public class Player : MonoBehaviour
                 if (CanSwitch(current, StateType.jumping))
                 {
                     last = current;
+                    StartCoroutine(StartJump(0.2f));
                     fsm.SwitchState(StateType.jumping);
                 }
             }
             else if (current == StateType.wallRunning)
             {
+                StartCoroutine(StartJump(0.2f));
                 // 墙跳逻辑
                 StartCoroutine(WallJumping(0.3f));
             }
@@ -214,7 +222,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        SlopJudgement();
     }
 
     //状态机逻辑
@@ -293,8 +300,16 @@ public class Player : MonoBehaviour
         playerBlackboard.isWallJump = false;
     }
 
+    IEnumerator StartJump(float time)
+    {
+        jumping = true;
+        yield return new WaitForSeconds(time);
+        jumping = false;
+    }
+
     private void SlopJudgement()
     {
+        playerBlackboard.moveDir=(playerBlackboard.dirInput.x*playerBlackboard.oritation.right+playerBlackboard.dirInput.z*playerBlackboard.oritation.forward).normalized;
         if (OnSlope())
         {
             playerBlackboard.moveDir = Vector3.ProjectOnPlane(playerBlackboard.moveDir, slopeHit.normal).normalized;
