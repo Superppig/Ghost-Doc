@@ -13,6 +13,8 @@ public class PlayerSprintingState : IState
     private float firstSpeed;
     
     private Vector3 sprintDir;
+
+    private VLineSummon _vLineSummon;
     
     //相机行为
     private Transform camTrans;
@@ -40,7 +42,8 @@ public class PlayerSprintingState : IState
         
 
         rb.velocity = Vector3.zero;
-        
+        //调试
+        _vLineSummon = GameObject.FindWithTag("VLine").GetComponent<VLineSummon>();
         //镜头行为
 
         if (_playerBlackboard.dirInput.x > 0)
@@ -62,8 +65,8 @@ public class PlayerSprintingState : IState
             {
                 cam.DOFieldOfView(55, 0.2f);
             }
-            
         }
+        _vLineSummon.Summon(orientation.position,sprintDir.normalized);
     }
 
     public void OnExit()

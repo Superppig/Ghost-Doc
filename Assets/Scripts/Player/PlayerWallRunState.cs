@@ -73,6 +73,7 @@ public class PlayerWallRunState : IState
             wallForward = -wallForward;//调整向前方向
 
         rb.velocity = wallForward.normalized * speed;//向前速度
-        rb.AddForce(Vector3.up*(rb.mass*Physics.gravity.magnitude*rate));
+        rb.AddForce(Vector3.up*(rb.mass*Physics.gravity.magnitude*rate));//抵消部分重力的力
+        rb.AddForce(wall.normal.normalized*(-1*10),ForceMode.Force);//向墙的力
     }
 }

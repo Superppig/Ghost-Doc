@@ -247,7 +247,7 @@ public class Player : MonoBehaviour
 
         else if (current == StateType.sprinting)
         {
-            if (next == StateType.walking || next == StateType.air || next == StateType.sliding)
+            if (next == StateType.walking || next == StateType.air || next == StateType.sliding||next== StateType.jumping)
                 return true;
         }
 

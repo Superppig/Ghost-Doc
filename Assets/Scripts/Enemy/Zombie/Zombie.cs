@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Pathfinding;
 
@@ -16,7 +15,8 @@ public class Zombie : Enemy
     public Path path;
     //角色移动速度
     public float speed = 100.0f;
-    public float turnSpeed = 5f;
+
+    public float turnTime = 0.5f;//转向时间
     //判断玩家与航点的距离
     public float nextWaypointDistance = 3;
     //对当前的航点进行编号
@@ -32,6 +32,11 @@ public class Zombie : Enemy
     }
     void FixedUpdate()
     {
+        Find();
+    }
+
+    private void Find()
+    {
         targetPosition = player.transform.position;
         //开始寻路
         seeker.StartPath(transform.position, targetPosition);
@@ -45,21 +50,20 @@ public class Zombie : Enemy
             Debug.Log("路径搜索结束");
             return;
         }
-
-        Vector3 dir = (path.vectorPath[currentWaypoint+1] - transform.position);//.normalized;
-        dir *= speed * Time.fixedDeltaTime;
-       
+        //确定当前物体方向
+        Vector3 dir = (path.vectorPath[currentWaypoint+1] - transform.position);
+        dir = new Vector3(dir.x, 0, dir.z).normalized;
         //玩家转向
-        transform.Translate(Vector3.forward*Time.fixedDeltaTime*speed);
-        Quaternion targetRotation = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+
+        transform.position += dir * (Time.fixedDeltaTime * speed);
         //玩家当前位置与当前的航向点距离小于一个给定值后，转向下一个航向点
         if (Vector3.Distance(transform.position,path.vectorPath[currentWaypoint])<nextWaypointDistance)
         {
+            Vector3 rotation = new Vector3(0, Quaternion.FromToRotation(transform.forward, dir).eulerAngles.y+transform.rotation.eulerAngles.y,0) ;
+            transform.DOLocalRotate(rotation, turnTime);
             currentWaypoint++;
             return;
         }
-
     }
     /// <summary>
     /// 当寻路结束后调用这个函数
