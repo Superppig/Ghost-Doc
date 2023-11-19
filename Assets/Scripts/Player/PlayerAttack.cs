@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("射击属性")] 
     public LayerMask enemyMask;
-    public float damageRate;
+    public float damage;
     public float maxShootDistance;
     public Transform pos;
     [Header("子弹(激光)")] 
@@ -94,7 +94,7 @@ public class PlayerAttack : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
-                enemyBeHit.HitEnemy(damageRate);
+                enemyBeHit.HitEnemy(1);
             }
         }
         else
@@ -109,9 +109,9 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator CamChange()
     {
         //镜头缩放
-        _playerCam.DOFieldOfView(59.5f, 0.05f);
+        _playerCam.DOFieldOfView(59.5f, 0.01f);
         yield return new WaitForSeconds(0.05f);
-        _playerCam.DOFieldOfView(60, 0.05f);
+        _playerCam.DOFieldOfView(60, 0.01f);
     }
 
     IEnumerator BulletStart(Vector3 start,Vector3 end)
@@ -126,8 +126,16 @@ public class PlayerAttack : MonoBehaviour
             bulletTimer += Time.deltaTime;
             float lerpFactor = Mathf.Lerp(0f, 1f, bulletTimer / bulletTime);
 
-            bullet.startWidth = lineWindth * Mathf.Lerp(2f, 0f, lerpFactor);
+            bullet.startWidth = lineWindth * Mathf.Lerp(0f, 2f, lerpFactor);
             bullet.endWidth = bullet.startWidth;
+
+            // 检查是否过了一半的时间，进行相应调整
+            if (bulletTimer > halfBulletTime)
+            {
+                bullet.startWidth = lineWindth * Mathf.Lerp(2f, 0f, (bulletTimer - halfBulletTime) / halfBulletTime);
+                bullet.endWidth = bullet.startWidth;
+            }
+
             yield return null;
         }
         bullet.startWidth = 0f;

@@ -33,7 +33,7 @@ public class PlayerSlideState : IState
         LastYScale = tr.localScale.y;
         StartSlide();
 
-        cam.DOFieldOfView(70, 0.2f);
+        cam.DOFieldOfView(70, 0.1f);
     }
 
     public void OnExit()
@@ -41,7 +41,7 @@ public class PlayerSlideState : IState
         _playerBlackboard.speed = rb.velocity;
         tr.localScale = new Vector3(tr.localScale.x, LastYScale, tr.localScale.z);
         
-        cam.DOFieldOfView(60, 0.2f);
+        cam.DOFieldOfView(60, 0.1f);
 
     }
 
