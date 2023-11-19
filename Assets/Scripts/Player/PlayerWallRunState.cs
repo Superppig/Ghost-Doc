@@ -13,7 +13,7 @@ public class PlayerWallRunState : IState
     private Transform ori;
     private float rate;
     private RaycastHit wall;//储存墙壁信息
-    private Transform camTrans;
+    private Transform cam;
     private bool isLeft;
     
     private float speed;//速度
@@ -32,24 +32,24 @@ public class PlayerWallRunState : IState
         isLeft = _playerBlackboard.leftWall;
 
         trans = rb.GetComponent<Transform>();
-        camTrans = _playerBlackboard.camTrans;
-        ori = _playerBlackboard.orientation;
+        cam = Camera.main.GetComponent<Transform>();
+        ori = _playerBlackboard.oritation;
 
         speed = _playerBlackboard.wallRunSpeed;
 
         if (isLeft)
         {
             //镜头晃动
-            camTrans.DOLocalRotate(new Vector3(0, 0, -10), 0.25f);
+            cam.DOLocalRotate(new Vector3(0, 0, -10), 0.25f);
         }
         else
         {
-            camTrans.DOLocalRotate(new Vector3(0, 0, 10), 0.25f);
+            cam.DOLocalRotate(new Vector3(0, 0, 10), 0.25f);
         }
     }
     public void OnExit()
     {
-        camTrans.DOLocalRotate(Vector3.zero, 0.25f);
+        cam.DOLocalRotate(Vector3.zero, 0.25f);
 
     }
     public void OnUpdate()
@@ -73,7 +73,6 @@ public class PlayerWallRunState : IState
             wallForward = -wallForward;//调整向前方向
 
         rb.velocity = wallForward.normalized * speed;//向前速度
-        rb.AddForce(Vector3.up*(rb.mass*Physics.gravity.magnitude*rate));//抵消部分重力的力
-        rb.AddForce(wall.normal.normalized*(-1*10),ForceMode.Force);//向墙的力
+        rb.AddForce(Vector3.up*(rb.mass*Physics.gravity.magnitude*rate));
     }
 }
