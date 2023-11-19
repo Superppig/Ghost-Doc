@@ -2,20 +2,15 @@ using UnityEngine;
 using Player_FSM;
 using System;
 using System.Collections;
-using Cinemachine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerBlackboard : Blackboard
 {
-    [Header("玩家属性")] 
-    public Vector3 dirInput;
+    [Header("玩家属性")] public Vector3 dirInput;
     public Vector3 moveDir;
     public Rigidbody m_rigidbody;
-    public Transform orientation;
+    public Transform oritation;
     public Vector3 speed = new Vector3(0, 0, 0); //继承速度
-    public Transform camTrans;
-    public Camera cam;
     [Header("移动")] public float walkSpeed; //行走速度
     public float sprintSpeed; //冲刺速度
     public float sprintDistance; //冲刺距离
@@ -247,7 +242,7 @@ public class Player : MonoBehaviour
 
         else if (current == StateType.sprinting)
         {
-            if (next == StateType.walking || next == StateType.air || next == StateType.sliding||next== StateType.jumping)
+            if (next == StateType.walking || next == StateType.air || next == StateType.sliding)
                 return true;
         }
 
@@ -314,7 +309,7 @@ public class Player : MonoBehaviour
 
     private void SlopJudgement()
     {
-        playerBlackboard.moveDir=(playerBlackboard.dirInput.x*playerBlackboard.orientation.right+playerBlackboard.dirInput.z*playerBlackboard.orientation.forward).normalized;
+        playerBlackboard.moveDir=(playerBlackboard.dirInput.x*playerBlackboard.oritation.right+playerBlackboard.dirInput.z*playerBlackboard.oritation.forward).normalized;
         if (OnSlope())
         {
             playerBlackboard.moveDir = Vector3.ProjectOnPlane(playerBlackboard.moveDir, slopeHit.normal).normalized;
@@ -345,10 +340,10 @@ public class Player : MonoBehaviour
     //检测墙壁
     private void WallCheck()
     {
-        playerBlackboard.rightWall = Physics.Raycast(transform.position, playerBlackboard.orientation.right,
+        playerBlackboard.rightWall = Physics.Raycast(transform.position, playerBlackboard.oritation.right,
             out playerBlackboard.wallRightHit, playerBlackboard.wallCheckDistance,
             playerBlackboard.whatIsWall);
-        playerBlackboard.leftWall = Physics.Raycast(transform.position, -playerBlackboard.orientation.right,
+        playerBlackboard.leftWall = Physics.Raycast(transform.position, -playerBlackboard.oritation.right,
             out playerBlackboard.wallLeftHit, playerBlackboard.wallCheckDistance,
             playerBlackboard.whatIsWall);
 
