@@ -9,6 +9,8 @@ public class PlayerAirState : IState
 
     
     private Vector3 moveDir;
+    private Vector3 dirInput;
+    
     private float airTransformAccelerate;
     private Rigidbody rb;
 
@@ -52,9 +54,10 @@ public class PlayerAirState : IState
     //空中转向
     void MoveInAir()
     {
-        Vector2 XZSpeed = new Vector2(rb.velocity.x,rb.velocity.z);
+        Vector3 XZSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z);
         rb.velocity += moveDir * (airTransformAccelerate * Time.deltaTime);
         Vector3 dir = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
-        rb.velocity = new Vector3(0, rb.velocity.y, 0) + XZSpeed.magnitude * dir;
+        if ((moveDir.normalized + XZSpeed.normalized).magnitude > 0.1f)
+            rb.velocity = new Vector3(0, rb.velocity.y, 0) + XZSpeed.magnitude * dir;
     }
 }

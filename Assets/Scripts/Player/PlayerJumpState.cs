@@ -59,9 +59,6 @@ public class PlayerJumpState : IState
     {
         
     }
-
-
-    
     //速度求解器
     float Speed(float height)
     {

@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
         }
 
         //跳跃
-        if (Input.GetKeyDown(playerBlackboard.jumpkey))
+        if (Input.GetKey(playerBlackboard.jumpkey))
         {
             if (grounded)
             {
@@ -229,7 +229,7 @@ public class Player : MonoBehaviour
 
     }
 
-    //状态机逻辑
+    //状态机逻辑(待重构)
     private bool CanSwitch(StateType current, StateType next)
     {
         if (current == StateType.walking)

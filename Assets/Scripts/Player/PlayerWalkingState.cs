@@ -32,6 +32,9 @@ public class PlayerWalkingState : IState
     public void OnExit()
     {
         _playerBlackboard.speed = rb.velocity;
+        
+        //退出时复原视角
+        camTrans.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
     }
     public void OnUpdate()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading;
+using Cinemachine;
 using UnityEngine;
 using DG.Tweening;
 
@@ -32,7 +33,16 @@ public class PlayerAttack : MonoBehaviour
     [Header("枪械")] 
     [SerializeField] private Animator gunAnimator;
 
+    [Header("相机")] 
+    public CinemachineImpulseSource camImpulse;
     public Transform orientation;//摄像机的transform
+    public float impulseTime;
+    [Header("效果")] 
+    public ParticleSystem hitParticle;
+    public ParticleSystem fireParticle;
+    public float hitScale=0.5f;
+    public float fireScale=0.5f;
+    
     private Rigidbody rb;
 
     private Camera _playerCam; 
@@ -44,6 +54,8 @@ public class PlayerAttack : MonoBehaviour
 
         bullet.startWidth = 0f;
         bullet.endWidth = 0f;
+
+        camImpulse = GetComponent<CinemachineImpulseSource>();
     }
     void Update()
     {
@@ -90,6 +102,10 @@ public class PlayerAttack : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fireRay, out hit, maxShootDistance))
         {
+            
+            //相机振动
+            camImpulse.GenerateImpulse(impulseTime);
+            HitPartical(hit);
             StartCoroutine(BulletStart(pos.position, hit.point));
             if (hit.collider.CompareTag("Enemy"))
             {
@@ -101,6 +117,7 @@ public class PlayerAttack : MonoBehaviour
         {
             StartCoroutine(BulletStart(pos.position, orientation.transform.position+orientation.transform.forward.normalized*maxShootDistance));
         }
+        FirePartical();
 
         StartCoroutine(CamChange());
 
@@ -132,5 +149,21 @@ public class PlayerAttack : MonoBehaviour
         }
         bullet.startWidth = 0f;
         bullet.endWidth = 0f;
+    }
+
+    private void FirePartical()
+    {
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, pos.forward);
+        ParticleSystem fire = Instantiate(fireParticle, pos.position, rotation);
+
+        Destroy(fire.gameObject,fire.main.duration);
+    }
+
+    private void HitPartical(RaycastHit hit)
+    {
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal.normalized);
+        ParticleSystem fire = Instantiate(hitParticle,hit.point , rotation);
+
+        Destroy(fire.gameObject,fire.main.duration);
     }
 }

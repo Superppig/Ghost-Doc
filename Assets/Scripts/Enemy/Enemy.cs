@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
-        Debug.Log("已造成伤害");
     }
 
     public virtual void Dead()
