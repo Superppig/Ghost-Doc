@@ -3,8 +3,10 @@ Shader "XinY/Par/AlphaBlend"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" { }
-        
         [HDR]_BaseColor ("BaseColor", Color) = (1, 1, 1, 1)
+        [Enum(UnityEngine.Rendering.CullMode)]_Cull("Cull",int)=0
+        [Enum(Off, 0, On, 1)]_ZWrite("ZWrite",int)=0
+        [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest("ZTest",int)=5
     }
     SubShader
     {
@@ -58,9 +60,10 @@ Shader "XinY/Par/AlphaBlend"
         ENDHLSL
         Pass
         {
-            ZWrite Off
+            ZWrite [_ZWrite]
             Blend SrcAlpha OneMinusSrcAlpha
-            Cull Off
+            Cull [_Cull]
+            ZTest [_ZTest]
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
