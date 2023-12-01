@@ -12,6 +12,7 @@ Shader "XinY/SceneCommon"
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
         _EmissionMap ("EmissionMap", 2D) = "black" { }
+        _EmissionMask ("EmissionMask", 2D) = "white" { }
         [HDR]_Emission ("Emission", color) = (0, 0, 0, 1)
         _FlowSpeed ("FlowSpeed", Range(-2, 2)) = 0.5
         [HDR]_OutlineColor ("OutlineColor", color) = (1, 1, 1, 1)
@@ -47,12 +48,14 @@ Shader "XinY/SceneCommon"
                 float3 normalOS : NORMAL;
                 float4 tangentOS : TANGENT;
                 float2 texcoord : TEXCOORD0;
+                float2 texcoord2 : TEXCOORD1;
                 float2 staticLightmapUV : TEXCOORD1;
                 float2 dynamicLightmapUV : TEXCOORD2;
             };
             struct v2f
             {
                 float4 uv : TEXCOORD0;
+                
                 float3 positionWS : TEXCOORD1;
                 float3 normalWS : TEXCOORD2;
                 half3 tangentWS : TEXCOORD3;
@@ -63,6 +66,7 @@ Shader "XinY/SceneCommon"
                 float3 positionVS : TEXCOORD7;
                 half3 binormalWS : TEXCOORD8;
                 half3 normalOS : TEXCOORD9;
+                float2 uv_2 : TEXCOORD10;
             };
 
 
@@ -84,7 +88,8 @@ Shader "XinY/SceneCommon"
             SAMPLER(sampler_NormalMap);
             TEXTURE2D(_EmissionMap);
             SAMPLER(sampler_EmissionMap);
-            
+            TEXTURE2D(_EmissionMask);
+            SAMPLER(sampler_EmissionMask);
             v2f vert(appdata v)
             {
                 v2f output = (v2f)0;;
@@ -103,6 +108,7 @@ Shader "XinY/SceneCommon"
                 output.binormalWS = real3(cross(output.normalWS, float3(output.tangentWS))) * sign;
                 //UV相关
                 output.uv = float4(TRANSFORM_TEX(v.texcoord, _BaseMap), v.texcoord);
+                output.uv_2=v.texcoord2;
                 OUTPUT_LIGHTMAP_UV(v.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
                 #ifdef DYNAMICLIGHTMAP_ON
                     output.dynamicLightmapUV = v.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
@@ -121,7 +127,8 @@ Shader "XinY/SceneCommon"
                 half3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv), _NormalScale);
 
                 half2 emissUV = half2(i.uv.x + _Time.y * _FlowSpeed, i.uv.y);
-                half emissMask = lerp(0, SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, emissUV), abs(i.normalOS));
+                half emissMap = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, emissUV);
+                half emissMask = SAMPLE_TEXTURE2D(_EmissionMask,sampler_EmissionMask,i.uv_2)*emissMap;
                 half gradient = smoothstep(0, 0.1, 0.5 - distance(i.uv.z, 0.5));
                 emissMask *= gradient;
                 
@@ -130,7 +137,7 @@ Shader "XinY/SceneCommon"
                 half4 shadowMask = unity_ProbesOcclusion;
                 
                 //ShadowMask烘焙模式或者烘焙阴影会用到shadowMask，联级阴影会用到posWS,开启联级阴影一定到在frag中计算shadowcoord
-                Light light = GetMainLight(XinY_GetShadowCoord(i.positionCS, i.positionWS),i.positionWS,0);
+                Light light = GetMainLight(XinY_GetShadowCoord(i.positionCS, i.positionWS), i.positionWS, 0);
 
 
                 half3x3 TBN = half3x3(i.tangentWS, i.binormalWS, i.normalWS);

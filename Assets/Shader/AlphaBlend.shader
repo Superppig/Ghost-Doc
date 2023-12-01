@@ -6,7 +6,7 @@ Shader "XinY/Par/AlphaBlend"
         [HDR]_BaseColor ("BaseColor", Color) = (1, 1, 1, 1)
         [Enum(UnityEngine.Rendering.CullMode)]_Cull("Cull",int)=0
         [Enum(Off, 0, On, 1)]_ZWrite("ZWrite",int)=0
-        [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest("ZTest",int)=5
+        [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest("ZTest",int)=4
     }
     SubShader
     {
