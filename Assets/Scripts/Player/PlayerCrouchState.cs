@@ -20,6 +20,8 @@ public class PlayerCrouchState : IState
     public void OnEnter()
     {
         rb = _playerBlackboard.m_rigidbody;
+        rb.velocity = _playerBlackboard.speed;
+
         YScale = _playerBlackboard.crouchYScale;
         crouchSpeed = _playerBlackboard.crouchSpeed;
         accelerate = _playerBlackboard.accelerate;
@@ -30,7 +32,6 @@ public class PlayerCrouchState : IState
 
     public void OnExit()
     {
-        _playerBlackboard.speed = rb.velocity;
         tr.localScale = new Vector3(tr.localScale.x, LastYScale, tr.localScale.z);
     }
 

@@ -1,10 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    [Header("黑板")] 
+    public Player player;
+
+    private PlayerBlackboard _playerBlackboard;
     public Transform CamTrans;
     public float smoothness = 0.5f;
     [Header("摇摆")] 
@@ -18,23 +21,15 @@ public class WeaponController : MonoBehaviour
     public float swayTime;
     public Vector3 swayPosition;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        _playerBlackboard = player.playerBlackboard;
+        CamTrans = _playerBlackboard.cam.transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        AnimCon();
         CalculateWeaponSway();
-    }
-
-    void AnimCon()
-    {
-        transform.position = Vector3.Lerp(transform.position, CamTrans.position, smoothness * Time.deltaTime);
-        transform.rotation = Quaternion.Lerp(transform.rotation, CamTrans.rotation, smoothness * Time.deltaTime);
     }
 
     private void CalculateWeaponSway()
@@ -45,7 +40,7 @@ public class WeaponController : MonoBehaviour
 
         swayTime += Time.deltaTime;
 
-        if (swayTime>6.3f)
+        if (swayTime>2*Mathf.PI)
         {
             swayTime = 0;
         }

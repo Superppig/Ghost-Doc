@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Services;
 using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
@@ -29,12 +26,38 @@ public class PlayerCam : MonoBehaviour
     //旋转所需变量
     private float xRotation;
     private float yRotation;
+    
+    [Header("武器动作")] 
+    private Player player;
+    private PlayerBlackboard _playerBlackboard;
+    //呼吸摇动变量
+    private Transform weaponSwayObject;
+    public float swayAmountA = 1;
+    public float swayAmountB = 2;
+    public float swayScale = 600;
+    public float swayLerpSpeed = 14;
+    public float swayTime;
+    public Vector3 swayPosition;
+    //z轴晃动幅度
+    public float zRotation;
+    private Transform gunRotate;
+
+    private bool hasRotate;
+    
+    
+    
     void Start()
     {
         //cam = GetComponent<Camera>();
         //锁定鼠标
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        //获取变量
+        player = transform.parent.GetComponent<Player>();
+        _playerBlackboard = player.playerBlackboard;
+        weaponSwayObject = _playerBlackboard.gunTrans;
+        gunRotate = _playerBlackboard.gunModel;
     }
     void Update()
     {
@@ -100,7 +123,61 @@ public class PlayerCam : MonoBehaviour
         //旋转
         transform.rotation=Quaternion.Euler(Mathf.Clamp(-(xRotation+verCurrunt), -1*YView, YView),yRotation+horCurrent,0);
         orientation.rotation=Quaternion.Euler(0,yRotation+horCurrent,0);
+
+        //武器移动效果
+        GunMove();
     }
+
+    private void GunMove()
+    {
+        //枪械摇动
+        if (mouthX > 0.01f)
+        {
+            if (!hasRotate)
+            {
+                gunRotate.DOLocalRotate(new Vector3(0, 0, -zRotation), 0.25f);
+                hasRotate = true;
+            }
+        }
+        else if (mouthX < -0.01f)
+        {
+            if (!hasRotate)
+            {
+                gunRotate.DOLocalRotate(new Vector3(0, 0, zRotation), 0.25f);
+                hasRotate = true;
+            }        
+        }
+        else
+        {
+            gunRotate.DOLocalRotate(Vector3.zero, 0.25f);
+            hasRotate = false;
+            CalculateWeaponSway();
+        }
+    }
+    
+    //呼吸摇动
+    private void CalculateWeaponSway()
+    {
+        var targetPosition = LissajousCurve(swayTime, swayAmountA, swayAmountB)/swayScale;
+
+        swayPosition = Vector3.Lerp(swayPosition, targetPosition, Time.smoothDeltaTime);
+
+        swayTime += Time.deltaTime;
+
+        if (swayTime>2*Mathf.PI)
+        {
+            swayTime = 0;
+        }
+        weaponSwayObject.localPosition = swayPosition;
+    }
+    
+    
+    //求解李萨如图
+    private Vector3 LissajousCurve(float Time, float A, float B)
+    {
+        return new Vector3(Mathf.Sin(Time), A * Mathf.Sin(B * Time + Mathf.PI));
+    }
+    
     //视角倾斜
     public void DoFov(float endValue)
     {

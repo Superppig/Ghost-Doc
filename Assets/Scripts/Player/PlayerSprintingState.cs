@@ -19,7 +19,8 @@ public class PlayerSprintingState : IState
     //相机行为
     private Transform camTrans;
     private Camera cam;
-    
+
+    private StateType next;//下一个状态
 
 
     public PlayerSprintingState(PlayerBlackboard playerBlackboard)
@@ -71,11 +72,14 @@ public class PlayerSprintingState : IState
 
     public void OnExit()
     {
-        rb.velocity = sprintDir * firstSpeed;
-        _playerBlackboard.speed=sprintDir * firstSpeed;
-        
-        
-        
+        next = _playerBlackboard.next;
+        //冲刺跳
+        if (next != StateType.jumping)
+        {
+            rb.velocity = sprintDir * firstSpeed;
+            _playerBlackboard.speed=sprintDir * firstSpeed;
+        }
+
         camTrans.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
         cam.DOFieldOfView(60, 0.2f);
     }

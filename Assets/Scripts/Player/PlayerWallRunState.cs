@@ -27,6 +27,8 @@ public class PlayerWallRunState : IState
     public void OnEnter()
     {
         rb = _playerBlackboard.m_rigidbody;
+        rb.velocity = _playerBlackboard.speed;
+
         wall = _playerBlackboard.currentWall;
         rate = _playerBlackboard.wallRunGRate;
         isLeft = _playerBlackboard.leftWall;

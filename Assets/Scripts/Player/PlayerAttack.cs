@@ -38,7 +38,8 @@ public class PlayerAttack : MonoBehaviour
     public Transform orientation;//摄像机的transform
     public float impulseTime;
     [Header("效果")] 
-    public ParticleSystem hitParticle;
+    public ParticleSystem hitEenemyParticle;
+    public ParticleSystem hitBuildingParticle;
     public ParticleSystem fireParticle;
     public float hitScale=0.5f;
     public float fireScale=0.5f;
@@ -105,12 +106,16 @@ public class PlayerAttack : MonoBehaviour
             
             //相机振动
             camImpulse.GenerateImpulse(impulseTime);
-            HitPartical(hit);
             StartCoroutine(BulletStart(pos.position, hit.point));
             if (hit.collider.CompareTag("Enemy"))
             {
+                HitPartical(hit,hitEenemyParticle);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 enemyBeHit.HitEnemy(damageRate);
+            }
+            else
+            {
+                HitPartical(hit,hitBuildingParticle);
             }
         }
         else
@@ -159,7 +164,7 @@ public class PlayerAttack : MonoBehaviour
         Destroy(fire.gameObject,fire.main.duration);
     }
 
-    private void HitPartical(RaycastHit hit)
+    private void HitPartical(RaycastHit hit, ParticleSystem hitParticle)
     {
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal.normalized);
         ParticleSystem fire = Instantiate(hitParticle,hit.point , rotation);

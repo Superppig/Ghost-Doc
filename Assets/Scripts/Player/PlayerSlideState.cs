@@ -25,6 +25,8 @@ public class PlayerSlideState : IState
     public void OnEnter()
     {
         rb = _playerBlackboard.m_rigidbody;
+        rb.velocity = _playerBlackboard.speed;
+
         YScale = _playerBlackboard.slideYScale;
         slideSpeed = _playerBlackboard.slideSpeed;
         accelerate = _playerBlackboard.accelerate;
@@ -38,7 +40,6 @@ public class PlayerSlideState : IState
 
     public void OnExit()
     {
-        _playerBlackboard.speed = rb.velocity;
         tr.localScale = new Vector3(tr.localScale.x, LastYScale, tr.localScale.z);
         
         cam.DOFieldOfView(60, 0.2f);

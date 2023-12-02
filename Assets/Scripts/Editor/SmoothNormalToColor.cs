@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class SmoothNormalToColor :Editor
+public class SmoothNormalToColor: Editor
 {
     [MenuItem("Tools/SmoothNormalToColor")]
     static void SmoothNormalToColorFunc()

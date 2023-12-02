@@ -39,11 +39,13 @@ public class PlayerJumpState : IState
         {
             rb.velocity += new Vector3(0, jumpSpeed, 0);
         }
+
+        _playerBlackboard.speed = rb.velocity;//提前写入速度
     }
 
     public void OnExit()
     {
-        _playerBlackboard.speed = rb.velocity;
+        
     }
 
     public void OnUpdate()

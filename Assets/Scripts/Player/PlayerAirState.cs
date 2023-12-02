@@ -19,21 +19,20 @@ public class PlayerAirState : IState
     public PlayerAirState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
-        
-        rb = _playerBlackboard.m_rigidbody;
-        
-        rb.velocity = _playerBlackboard.speed;//初始化速度
-        airTransformAccelerate = _playerBlackboard.airTransformAccelerate;
+
 
     }
     public void OnEnter()
     {
+        rb = _playerBlackboard.m_rigidbody;
         
+        rb.velocity = _playerBlackboard.speed;//初始化速度
+        airTransformAccelerate = _playerBlackboard.airTransformAccelerate;
     }
 
     public void OnExit()
     {
-        _playerBlackboard.speed = rb.velocity;
+        
     }
 
     public void OnUpdate()
