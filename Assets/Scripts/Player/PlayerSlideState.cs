@@ -13,11 +13,12 @@ public class PlayerSlideState : IState
     private float LastYScale;
     private float YScale;
     private float slideSpeed;
-    private float accelerate;
     private Vector3 moveDir;
-    
+
+    private float accelerate;//减速的加速度
     //摄像机
     private Camera cam;
+
     public PlayerSlideState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -28,14 +29,15 @@ public class PlayerSlideState : IState
         rb.velocity = _playerBlackboard.speed;
 
         YScale = _playerBlackboard.slideYScale;
-        slideSpeed = _playerBlackboard.slideSpeed;
-        accelerate = _playerBlackboard.accelerate;
+        accelerate = _playerBlackboard.slideAccelerate;
+        slideSpeed = _playerBlackboard.speedMag;//继承向量
         tr = rb.GetComponent<Transform>();
         cam = Camera.main;
         LastYScale = tr.localScale.y;
         StartSlide();
 
         cam.DOFieldOfView(70, 0.2f);
+        
     }
 
     public void OnExit()
@@ -68,6 +70,8 @@ public class PlayerSlideState : IState
 
     void Slide()
     {
+        slideSpeed -= accelerate * Time.deltaTime;
+        slideSpeed = slideSpeed > 0 ? slideSpeed : 0;
         moveDir = _playerBlackboard.moveDir;
         rb.velocity = moveDir * slideSpeed;
     }

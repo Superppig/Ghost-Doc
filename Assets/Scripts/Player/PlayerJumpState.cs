@@ -13,6 +13,11 @@ public class PlayerJumpState : IState
     private float height;
     private Rigidbody rb;
 
+    private float slideHeightRate;
+
+    //逻辑变量
+    private StateType last;
+    
     public PlayerJumpState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -24,12 +29,15 @@ public class PlayerJumpState : IState
         //读取黑板数据
 
         height = _playerBlackboard.height;
-        jumpSpeed = Speed(height);
+        last = _playerBlackboard.last;
+        slideHeightRate = _playerBlackboard.slideToJumpHeightRate;
+
+        jumpSpeed = last==StateType.sliding? Speed(height*slideHeightRate):Speed(height);//滑铲跳跳跃高度改变
         rb = _playerBlackboard.m_rigidbody;
         rb.velocity = _playerBlackboard.speed;
         wallSpeed = _playerBlackboard.wallJumpSpeed;
 
-
+        
         if (isWallJump)
         {
             wall = _playerBlackboard.currentWall;

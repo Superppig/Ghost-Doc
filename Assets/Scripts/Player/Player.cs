@@ -9,23 +9,19 @@ using UnityEngine.Serialization;
 public class PlayerBlackboard : Blackboard
 {
     //太繁琐,待自定义editor
-    [Header("游戏状态")] 
-    public Vector3 dirInput;
+    [Header("游戏状态")] public Vector3 dirInput;
     public Vector3 moveDir;
     public Rigidbody m_rigidbody;
     public Transform orientation;
     public Vector3 speed = new Vector3(0, 0, 0); //继承速度
-    public float speedMag;//当前动量;
+    public float speedMag; //当前动量;
     public Transform camTrans;
     public Camera cam;
+    public StateType last;
     public StateType current;
     public StateType next;
-    [Space(10)]
-    [Header("移动")] public float walkSpeed; //行走速度
-    public float sprintSpeed; //冲刺速度
-    public float sprintDistance; //冲刺距离
-    public float slideSpeed; //滑行速度
-    public float wallRunSpeed; //墙跑速度
+    [Space(10)] [Header("行走")] public float walkSpeed; //行走速度
+
     public float accelerate; //加速度
     public float groundDrag; //地面阻力
 
@@ -35,24 +31,26 @@ public class PlayerBlackboard : Blackboard
     [Header("下蹲")] public float crouchSpeed; //蹲行速度
     public float crouchYScale; //下蹲时y缩放量
 
-    [Header("按键")] 
-    public KeyCode jumpkey = KeyCode.Space; //跳跃按键
+    [Header("按键")] public KeyCode jumpkey = KeyCode.Space; //跳跃按键
     public KeyCode sprintKey = KeyCode.LeftShift; //冲刺按键
     public KeyCode crouchKey = KeyCode.C; //下蹲按键
     public KeyCode slideKey = KeyCode.LeftControl; //滑行按键
 
-    [Header("着地检测")] 
-    public float playerHeight; //玩家最低高度
+    [Header("着地检测")] public float playerHeight; //玩家最低高度
     public LayerMask whatIsGround; //地面图层
 
-    [Header("上坡")] 
-    public float maxSlopeAngle; //最大坡度
+    [Header("上坡")] public float maxSlopeAngle; //最大坡度
+    [Header("冲刺")] public float sprintSpeed; //冲刺速度
+    public float sprintDistance; //冲刺距离
 
-    [Header("滑行")] 
-    public float maxSlideTime; //最大滑行时间
+    public float sprintTime; //冲刺时间(无需暴露)
+
+    [Header("滑行")] public float maxSlideTime; //最大滑行时间
     public float slideYScale; //滑行时y缩放度
+    public float slideAccelerate; //滑行减速的加速度
+    public float startSlideSpeed = 1f; //滑行至少需要的速度
 
-    [Header("贴墙跑")] 
+    [Header("贴墙跑")] public float wallRunSpeed; //墙跑速度
     public LayerMask whatIsWall; //wall的图层
     public float wallRunGRate = 0.1f; //滑墙重力倍率
 
@@ -71,8 +69,11 @@ public class PlayerBlackboard : Blackboard
     public bool isWallJump;
     public float exitWallTime;
 
-    [Space(10)] [Header("武器")]
-    public Transform gunModel;
+    [Header("逻辑变量")] public float sprintChangeRate; //冲刺动量转化速率
+    public float walkToSlideCovoteTime; //walk状态转化为slide的动量继承土狼时间;
+    public float slideToJumpHeightRate = 0.5f; //slide到jump状态,跳跃高度的变化率
+
+    [Space(10)] [Header("武器")] public Transform gunModel;
     public Transform gunTrans;
 }
 
@@ -84,25 +85,23 @@ public class Player : MonoBehaviour
     private bool grounded;
     private bool jumping;
 
-    
-    private StateType last;
 
     private RaycastHit slopeHit; //斜坡检测
 
     //private bool rightWall;
     //private bool leftWall;//墙壁检测
 
-    public bool[,] changeMatrix=
+    public bool[,] changeMatrix =
     {
-        { false,true,true,true,true,true,false},
-        { false,true,false,false,false,true,false},
-        { true,true,false,false,true,true,false},
-        { true,false,false,false,false,false,false},
-        { true,false,true,false,false,false,false},
-        { true,false,true,false,false,false,true},
-        { true,true,false,false,false,true,false}
-    };//状态机转移邻接矩阵
-    
+        { false, true, true, true, true, true, false },
+        { false, true, false, false, false, true, false },
+        { true, true, false, false, true, true, false },
+        { true, false, false, false, false, false, false },
+        { true, true, true, false, false, false, false },
+        { true, false, true, false, false, false, true },
+        { true, true, false, false, false, true, false }
+    }; //状态机转移邻接矩阵
+
     private void Awake()
     {
         playerBlackboard.m_rigidbody = GetComponent<Rigidbody>();
@@ -114,20 +113,19 @@ public class Player : MonoBehaviour
         fsm.AddState(StateType.sliding, new PlayerSlideState(playerBlackboard));
         fsm.AddState(StateType.air, new PlayerAirState(playerBlackboard));
         fsm.AddState(StateType.wallRunning, new PlayerWallRunState(playerBlackboard));
-        
-
     }
 
 
     void Start()
     {
         fsm.SwitchState(StateType.walking);
+        playerBlackboard.sprintTime = playerBlackboard.sprintDistance / playerBlackboard.sprintSpeed;
     }
 
     void Update()
     {
         //检测
-        grounded = jumping? false: IsGrounded(0.1f);
+        grounded = jumping ? false : IsGrounded(0.1f);
         //Debug.Log(grounded);
 
 
@@ -140,7 +138,7 @@ public class Player : MonoBehaviour
         MyInput();
         fsm.OnCheck();
         fsm.OnUpdate();
-        
+
         //一些状态的获取
         playerBlackboard.current = fsm.current;
         playerBlackboard.speed = playerBlackboard.m_rigidbody.velocity;
@@ -159,12 +157,20 @@ public class Player : MonoBehaviour
         //斜坡判定
         SlopJudgement();
 
+        //落地
+        if ((playerBlackboard.current == StateType.jumping || playerBlackboard.current == StateType.air) && grounded)
+        {
+            playerBlackboard.last = playerBlackboard.current;
+            playerBlackboard.next = StateType.walking;
+            fsm.SwitchState(StateType.walking);
+        }
+
         //下蹲
-        if (Input.GetKeyDown(playerBlackboard.crouchKey))
+        if (Input.GetKey(playerBlackboard.crouchKey))
         {
             if (CanSwitch(playerBlackboard.current, StateType.crouching))
             {
-                last = playerBlackboard.current;
+                playerBlackboard.last = playerBlackboard.current;
                 playerBlackboard.next = StateType.crouching;
                 fsm.SwitchState(StateType.crouching);
             }
@@ -172,9 +178,57 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyUp(playerBlackboard.crouchKey))
         {
-            last = playerBlackboard.current;
+            playerBlackboard.last = playerBlackboard.current;
             playerBlackboard.next = StateType.walking;
             fsm.SwitchState(StateType.walking);
+        }
+
+
+        //空中
+        if (!grounded && playerBlackboard.current != StateType.sprinting &&
+            !(playerBlackboard.rightWall || playerBlackboard.leftWall))
+        {
+            if (CanSwitch(playerBlackboard.current, StateType.air))
+            {
+                playerBlackboard.last = playerBlackboard.current;
+                playerBlackboard.next = StateType.air;
+                fsm.SwitchState(StateType.air);
+            }
+        }
+
+
+        //冲刺
+        if (Input.GetKeyDown(playerBlackboard.sprintKey))
+        {
+            if (CanSwitch(playerBlackboard.current, StateType.sprinting))
+            {
+                playerBlackboard.last = playerBlackboard.current;
+                playerBlackboard.next = StateType.sprinting;
+                fsm.SwitchState(StateType.sprinting);
+                StartCoroutine(EndState(playerBlackboard.sprintDistance / playerBlackboard.sprintSpeed));
+                playerBlackboard.last = StateType.sprinting;
+            }
+        }
+
+        //滑行
+        if (Input.GetKey(playerBlackboard.slideKey) && grounded && playerBlackboard.dirInput.magnitude > 0 &&
+            playerBlackboard.speedMag > playerBlackboard.startSlideSpeed)
+        {
+            if (CanSwitch(playerBlackboard.current, StateType.sliding))
+            {
+                playerBlackboard.last = playerBlackboard.current;
+                playerBlackboard.next = StateType.sliding;
+                fsm.SwitchState(StateType.sliding);
+            }
+        }
+        else if(playerBlackboard.current==StateType.sliding)
+        {
+            if (CanSwitch(playerBlackboard.current, playerBlackboard.last))
+            {
+                playerBlackboard.next = playerBlackboard.last;
+                fsm.SwitchState(playerBlackboard.last);
+                playerBlackboard.last = StateType.sliding;
+            }
         }
 
         //跳跃
@@ -184,7 +238,7 @@ public class Player : MonoBehaviour
             {
                 if (CanSwitch(playerBlackboard.current, StateType.jumping))
                 {
-                    last = playerBlackboard.current;
+                    playerBlackboard.last = playerBlackboard.current;
                     StartCoroutine(StartJump(0.2f));
                     playerBlackboard.next = StateType.jumping;
                     fsm.SwitchState(StateType.jumping);
@@ -198,73 +252,19 @@ public class Player : MonoBehaviour
             }
         }
 
-        //空中
-        if (!grounded && playerBlackboard.current != StateType.sprinting && !(playerBlackboard.rightWall || playerBlackboard.leftWall))
-        {
-            if (CanSwitch(playerBlackboard.current, StateType.air))
-            {
-                last = playerBlackboard.current;
-                playerBlackboard.next = StateType.air;
-                fsm.SwitchState(StateType.air);
-            }
-        }
-
-        //落地
-        if ((playerBlackboard.current == StateType.jumping || playerBlackboard.current == StateType.air) && grounded)
-        {
-            last = playerBlackboard.current;
-            playerBlackboard.next = StateType.walking;
-            fsm.SwitchState(StateType.walking);
-        }
-
-        //冲刺
-        if (Input.GetKeyDown(playerBlackboard.sprintKey))
-        {
-            if (CanSwitch(playerBlackboard.current, StateType.sprinting))
-            {
-                last = playerBlackboard.current;
-                playerBlackboard.next = StateType.sprinting;
-                fsm.SwitchState(StateType.sprinting);
-                StartCoroutine(EndState(playerBlackboard.sprintDistance / playerBlackboard.sprintSpeed));
-                last = StateType.sprinting;
-            }
-        }
-
-        //滑行
-        if (Input.GetKeyDown(playerBlackboard.slideKey) && grounded)
-        {
-            if (CanSwitch(playerBlackboard.current, StateType.sliding))
-            {
-                last = playerBlackboard.current;
-                playerBlackboard.next = StateType.sliding;
-                fsm.SwitchState(StateType.sliding);
-            }
-        }
-
-        if (Input.GetKeyUp(playerBlackboard.slideKey))
-        {
-            if (CanSwitch(playerBlackboard.current, last))
-            {
-                playerBlackboard.next = last;
-                fsm.SwitchState(last);
-                last = StateType.sliding;
-            }
-        }
-
         //滑墙
         if (!IsGrounded(playerBlackboard.wallRunMinDisTance) &&
-                 (playerBlackboard.rightWall || playerBlackboard.leftWall))
+            (playerBlackboard.rightWall || playerBlackboard.leftWall))
         {
             if (CanSwitch(playerBlackboard.current, StateType.wallRunning))
             {
-                last = playerBlackboard.current;
+                playerBlackboard.last = playerBlackboard.current;
                 playerBlackboard.next = StateType.wallRunning;
                 fsm.SwitchState(StateType.wallRunning);
             }
         }
-
     }
-    
+
     private bool CanSwitch(StateType current, StateType next)
     {
         /*if (current == StateType.walking)
@@ -342,8 +342,8 @@ public class Player : MonoBehaviour
         playerBlackboard.isWallJump = true;
         playerBlackboard.leftWall = false;
         playerBlackboard.rightWall = false;
-        last = playerBlackboard.current;
-        
+        playerBlackboard.last = playerBlackboard.current;
+
         playerBlackboard.next = StateType.wallRunning;
         fsm.SwitchState(StateType.jumping);
         yield return new WaitForSeconds(time);
@@ -359,7 +359,8 @@ public class Player : MonoBehaviour
 
     private void SlopJudgement()
     {
-        playerBlackboard.moveDir=(playerBlackboard.dirInput.x*playerBlackboard.orientation.right+playerBlackboard.dirInput.z*playerBlackboard.orientation.forward).normalized;
+        playerBlackboard.moveDir = (playerBlackboard.dirInput.x * playerBlackboard.orientation.right +
+                                    playerBlackboard.dirInput.z * playerBlackboard.orientation.forward).normalized;
         if (OnSlope())
         {
             playerBlackboard.moveDir = Vector3.ProjectOnPlane(playerBlackboard.moveDir, slopeHit.normal).normalized;

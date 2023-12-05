@@ -270,13 +270,13 @@ MonoBehaviour:
     m_rigidbody: {fileID: 0}
     orientation: {fileID: 2400941454820154825}
     speed: {x: 0, y: 0, z: 0}
+    speedMag: 0
     camTrans: {fileID: 6394809932711590825}
     cam: {fileID: 0}
+    last: 0
+    current: 0
+    next: 0
     walkSpeed: 7
-    sprintSpeed: 30
-    sprintDistance: 4
-    slideSpeed: 10
-    wallRunSpeed: 10
     accelerate: 1000
     groundDrag: 0
     height: 4
@@ -292,8 +292,13 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 1024
     maxSlopeAngle: 40
+    sprintSpeed: 30
+    sprintDistance: 4
+    sprintTime: 0
     maxSlideTime: 1
     slideYScale: 0.5
+    slideAccelerate: 1
+    wallRunSpeed: 10
     whatIsWall:
       serializedVersion: 2
       m_Bits: 512
@@ -305,9 +310,11 @@ MonoBehaviour:
     wallJumpSpeed: 10
     isWallJump: 0
     exitWallTime: 0
+    sprintChangeRate: 0.7
+    walkToSlideCovoteTime: 0.2
+    slideToJumpHeightRate: 0.5
     gunModel: {fileID: 0}
     gunTrans: {fileID: 0}
-  current: 0
 --- !u!114 &2452838150266692855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,7 +521,7 @@ MonoBehaviour:
   swayLerpSpeed: 14
   swayTime: 0
   swayPosition: {x: 0, y: 0, z: 0}
-  zRotation: 3
+  gunRotation: 2
 --- !u!1 &2400941454820154824
 GameObject:
   m_ObjectHideFlags: 0

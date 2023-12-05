@@ -15,14 +15,20 @@ public class PlayerSprintingState : IState
     private Vector3 sprintDir;
 
     private VLineSummon _vLineSummon;
+
+    private float changeRate;
+    private float sprintTime;
     
     //相机行为
     private Transform camTrans;
     private Camera cam;
 
+
+
+    //逻辑变量
     private StateType next;//下一个状态
-
-
+    private float timer;
+    
     public PlayerSprintingState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -43,6 +49,10 @@ public class PlayerSprintingState : IState
         
 
         rb.velocity = Vector3.zero;
+
+        sprintTime = _playerBlackboard.sprintTime;
+        changeRate = _playerBlackboard.sprintChangeRate;
+        
         //调试
         _vLineSummon = GameObject.FindWithTag("VLine").GetComponent<VLineSummon>();
         //镜头行为
@@ -68,17 +78,26 @@ public class PlayerSprintingState : IState
             }
         }
         _vLineSummon.Summon(orientation.position,sprintDir.normalized);
+        
+        //初始滑逻辑变量
+        timer = 0f;
     }
 
     public void OnExit()
     {
         next = _playerBlackboard.next;
         //冲刺跳
+        float rate;
         if (next != StateType.jumping)
         {
-            rb.velocity = sprintDir * firstSpeed;
-            _playerBlackboard.speed=sprintDir * firstSpeed;
+            rate = firstSpeed;
         }
+        else
+        {
+            rate = changeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(sprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
+        }
+        rb.velocity = sprintDir * rate;
+        _playerBlackboard.speed=sprintDir * rate;
 
         camTrans.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
         cam.DOFieldOfView(60, 0.2f);
@@ -87,6 +106,7 @@ public class PlayerSprintingState : IState
     public void OnUpdate()
     {
         rb.velocity = sprintDir * sprintSpeed;
+        timer += Time.deltaTime;
     }
 
     public void OnCheck()

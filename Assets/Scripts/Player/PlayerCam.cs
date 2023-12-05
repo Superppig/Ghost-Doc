@@ -38,8 +38,8 @@ public class PlayerCam : MonoBehaviour
     public float swayLerpSpeed = 14;
     public float swayTime;
     public Vector3 swayPosition;
-    //z轴晃动幅度
-    public float zRotation;
+    //y轴晃动幅度
+    public float gunRotation;
     private Transform gunRotate;
 
     private bool hasRotate;
@@ -135,7 +135,7 @@ public class PlayerCam : MonoBehaviour
         {
             if (!hasRotate)
             {
-                gunRotate.DOLocalRotate(new Vector3(0, 0, -zRotation), 0.25f);
+                gunRotate.DOLocalRotate(new Vector3(0, -gunRotation, 0), 0.25f);
                 hasRotate = true;
             }
         }
@@ -143,7 +143,7 @@ public class PlayerCam : MonoBehaviour
         {
             if (!hasRotate)
             {
-                gunRotate.DOLocalRotate(new Vector3(0, 0, zRotation), 0.25f);
+                gunRotate.DOLocalRotate(new Vector3(0, gunRotation, 0), 0.25f);
                 hasRotate = true;
             }        
         }
