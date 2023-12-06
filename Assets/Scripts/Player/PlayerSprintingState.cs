@@ -45,6 +45,7 @@ public class PlayerSprintingState : IState
         cam = _playerBlackboard.cam;
 
         firstSpeed = rb.velocity.magnitude;
+        
         sprintDir = _playerBlackboard.moveDir.magnitude>0.1f? _playerBlackboard.moveDir: orientation.forward.normalized;
         
 
@@ -87,17 +88,17 @@ public class PlayerSprintingState : IState
     {
         next = _playerBlackboard.next;
         //冲刺跳
-        float rate;
-        if (next != StateType.jumping)
-        {
-            rate = firstSpeed;
-        }
-        else
+        float rate=firstSpeed;//正常为冲刺前速度
+        if (next == StateType.jumping)
         {
             rate = changeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(sprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
         }
+        
+        
         rb.velocity = sprintDir * rate;
         _playerBlackboard.speed=sprintDir * rate;
+        _playerBlackboard.speedMag = rate;
+        
 
         camTrans.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
         cam.DOFieldOfView(60, 0.2f);

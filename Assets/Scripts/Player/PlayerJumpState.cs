@@ -37,11 +37,12 @@ public class PlayerJumpState : IState
         rb.velocity = _playerBlackboard.speed;
         wallSpeed = _playerBlackboard.wallJumpSpeed;
 
-        
+        isWallJump = _playerBlackboard.isWallJump;
         if (isWallJump)
         {
             wall = _playerBlackboard.currentWall;
             rb.velocity += (wall.normal.normalized*wallSpeed+new Vector3(0, jumpSpeed, 0));
+            Debug.Log("墙跳");
         }
         else
         {

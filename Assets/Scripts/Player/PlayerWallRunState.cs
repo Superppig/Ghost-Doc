@@ -52,7 +52,6 @@ public class PlayerWallRunState : IState
     public void OnExit()
     {
         camTrans.DOLocalRotate(Vector3.zero, 0.25f);
-
     }
     public void OnUpdate()
     {
@@ -76,6 +75,6 @@ public class PlayerWallRunState : IState
 
         rb.velocity = wallForward.normalized * speed;//向前速度
         rb.AddForce(Vector3.up*(rb.mass*Physics.gravity.magnitude*rate));//抵消部分重力的力
-        rb.AddForce(wall.normal.normalized*(-1*10),ForceMode.Force);//向墙的力
+        rb.AddForce(wall.normal.normalized*(-1*100),ForceMode.Force);//向墙的力
     }
 }
