@@ -37,7 +37,7 @@ public class PlayerWallRunState : IState
         camTrans = _playerBlackboard.camTrans;
         ori = _playerBlackboard.orientation;
 
-        speed = _playerBlackboard.wallRunSpeed;
+        speed = _playerBlackboard.speedMag;
 
         if (isLeft)
         {

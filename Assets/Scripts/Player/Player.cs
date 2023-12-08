@@ -9,7 +9,8 @@ using UnityEngine.Serialization;
 public class PlayerBlackboard : Blackboard
 {
     //太繁琐,待自定义editor
-    [Header("游戏状态")] public Vector3 dirInput;
+    [Header("游戏状态")] 
+    public Vector3 dirInput;
     public Vector3 moveDir;
     public Rigidbody m_rigidbody;
     public Transform orientation;
@@ -20,7 +21,8 @@ public class PlayerBlackboard : Blackboard
     public StateType last;
     public StateType current;
     public StateType next;
-    [Space(10)] [Header("行走")] public float walkSpeed; //行走速度
+    [Space(10)] 
+    [Header("行走")] public float walkSpeed; //行走速度
 
     public float accelerate; //加速度
     public float groundDrag; //地面阻力
@@ -50,7 +52,9 @@ public class PlayerBlackboard : Blackboard
     public float slideAccelerate; //滑行减速的加速度
     public float startSlideSpeed = 1f; //滑行至少需要的速度
 
-    [Header("贴墙跑")] public float wallRunSpeed; //墙跑速度
+    [Header("贴墙跑")] 
+    //墙跑速度改为继承
+    //public float wallRunSpeed; //墙跑速度
     public LayerMask whatIsWall; //wall的图层
     public float wallRunGRate = 0.1f; //滑墙重力倍率
 
