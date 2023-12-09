@@ -37,7 +37,9 @@ public class PlayerWallRunState : IState
         camTrans = _playerBlackboard.camTrans;
         ori = _playerBlackboard.orientation;
 
-        speed = _playerBlackboard.speedMag;
+        speed = _playerBlackboard.speedMag > _playerBlackboard.wallRunSpeed
+            ? _playerBlackboard.speedMag
+            : _playerBlackboard.wallRunSpeed;//最小墙跑速度
 
         if (isLeft)
         {

@@ -54,7 +54,7 @@ public class PlayerBlackboard : Blackboard
 
     [Header("贴墙跑")] 
     //墙跑速度改为继承
-    //public float wallRunSpeed; //墙跑速度
+    public float wallRunSpeed; //墙跑速度
     public LayerMask whatIsWall; //wall的图层
     public float wallRunGRate = 0.1f; //滑墙重力倍率
 
@@ -69,11 +69,13 @@ public class PlayerBlackboard : Blackboard
     public bool rightWall;
     public bool leftWall;
 
-    [Header("墙跳")] public float wallJumpSpeed;
+    [Header("墙跳")] 
+    public float wallJumpSpeed;
     public bool isWallJump;
     public float exitWallTime;
 
-    [Header("逻辑变量")] public float sprintChangeRate; //冲刺动量转化速率
+    [Header("逻辑变量")] 
+    public float sprintChangeRate; //冲刺动量转化速率
     public float walkToSlideCovoteTime; //walk状态转化为slide的动量继承土狼时间;
     public float slideToJumpHeightRate = 0.5f; //slide到jump状态,跳跃高度的变化率
 
