@@ -8,8 +8,10 @@ using DG.Tweening;
 public class PlayerAttack : MonoBehaviour
 {
     public Gun[] Guns;
+    public Melee[] Melees;
     [Header("当前武器类别")]
-    public int index = 0;
+    public int gunIndex = 0;
+    public int meleeIndex = 0;
     
     private WeaponType currentType;
     private Player player;
@@ -27,11 +29,25 @@ public class PlayerAttack : MonoBehaviour
     {
         player = GetComponent<Player>();
         weaponParent = player.playerBlackboard.cam.GetComponent<Transform>();
-        SwitchWeapon(WeaponType.Gun,index);
+        //初始化
+        SwitchWeapon(WeaponType.Gun,gunIndex);
+    }
+
+    private void Update()
+    {
+        //初步实现切换武器
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            if(currentType==WeaponType.Gun)
+                SwitchWeapon(WeaponType.Melee,meleeIndex);
+            else
+                SwitchWeapon(WeaponType.Gun,gunIndex);
+        }
     }
 
     private void SwitchWeapon(WeaponType type,int index)
     {
+        currentType= type;
         Destroy(currentWeapon);
         switch (type)
         {
@@ -42,7 +58,10 @@ public class PlayerAttack : MonoBehaviour
                 player.playerBlackboard.gunTrans = gun.trans;
                 break;
             case WeaponType.Melee:
-                
+                Melee melee = Instantiate(Melees[index],weaponParent,false);
+                currentWeapon=melee.gameObject;
+                player.playerBlackboard.gunModel = melee.transform;
+                player.playerBlackboard.gunTrans = melee.transform;
                 break;
         }
     }
