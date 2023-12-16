@@ -42,7 +42,8 @@ public class CommonKnife : Melee
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
-                    enemyBeHit.HitEnemy(damageRate);                
+                    enemyBeHit.HitEnemy(damageRate);
+                    Debug.Log("已造成伤害");
                 }
             }
             Debug.DrawLine(WeaponPoint.position, WeaponPoint.position+WeaponPoint.forward.normalized*WeaponLength, Color.red,1f);

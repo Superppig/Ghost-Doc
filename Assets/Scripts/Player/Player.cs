@@ -44,10 +44,12 @@ public class PlayerBlackboard : Blackboard
     [Header("上坡")] public float maxSlopeAngle; //最大坡度
     [Header("冲刺")] public float sprintSpeed; //冲刺速度
     public float sprintDistance; //冲刺距离
-
+    public float sprintLeaveSpeed;//冲刺结束的速度
+    
     public float sprintTime; //冲刺时间(无需暴露)
 
     [Header("滑行")] public float maxSlideTime; //最大滑行时间
+    public float vineLineTime; //速度线时间
     public float slideYScale; //滑行时y缩放度
     public float slideAccelerate; //滑行减速的加速度
     public float startSlideSpeed = 1f; //滑行至少需要的速度
@@ -81,6 +83,8 @@ public class PlayerBlackboard : Blackboard
 
     [Space(10)] [Header("武器")] public Transform gunModel;
     public Transform gunTrans;
+
+    [Header("其他效果")] public VLineSummon vineLine;
 }
 
 public class Player : MonoBehaviour
@@ -101,7 +105,7 @@ public class Player : MonoBehaviour
     {
         { false, true, true, true, true, true, false },
         { false, true, false, false, false, true, false },
-        { true, true, false, false, false, true, false },
+        { true, true, false, false, false, true, true },
         { true, false, false, false, false, false, false },
         { true, true, true, false, false, false, false },
         { true, false, true, false, false, false, true },
@@ -192,7 +196,8 @@ public class Player : MonoBehaviour
 
         //空中
         if (!grounded && playerBlackboard.current != StateType.sprinting &&
-            !(playerBlackboard.rightWall || playerBlackboard.leftWall))
+            !(!IsGrounded(playerBlackboard.wallRunMinDisTance) &&
+              (playerBlackboard.rightWall || playerBlackboard.leftWall)))//不是墙跑状态
         {
             if (CanSwitch(playerBlackboard.current, StateType.air))
             {
@@ -397,12 +402,44 @@ public class Player : MonoBehaviour
     //检测墙壁
     private void WallCheck()
     {
+        //新增墙壁检测
         playerBlackboard.rightWall = Physics.Raycast(transform.position, playerBlackboard.orientation.right,
             out playerBlackboard.wallRightHit, playerBlackboard.wallCheckDistance,
             playerBlackboard.whatIsWall);
+        if (!playerBlackboard.rightWall)
+        {
+            Vector3 dir = (playerBlackboard.orientation.right+playerBlackboard.orientation.forward).normalized;
+            playerBlackboard.rightWall = Physics.Raycast(transform.position, dir,
+                out playerBlackboard.wallRightHit, playerBlackboard.wallCheckDistance,
+                playerBlackboard.whatIsWall);
+        }
+        else if(!playerBlackboard.rightWall)
+        {
+            Vector3 dir = (playerBlackboard.orientation.right-playerBlackboard.orientation.forward).normalized;
+            playerBlackboard.rightWall = Physics.Raycast(transform.position, dir,
+                out playerBlackboard.wallRightHit, playerBlackboard.wallCheckDistance,
+                playerBlackboard.whatIsWall);
+        }
+        
+        
+        
         playerBlackboard.leftWall = Physics.Raycast(transform.position, -playerBlackboard.orientation.right,
             out playerBlackboard.wallLeftHit, playerBlackboard.wallCheckDistance,
             playerBlackboard.whatIsWall);
+        if (!playerBlackboard.leftWall)
+        {
+            Vector3 dir = (-playerBlackboard.orientation.right+playerBlackboard.orientation.forward).normalized;
+            playerBlackboard.leftWall = Physics.Raycast(transform.position, dir,
+                out playerBlackboard.wallLeftHit, playerBlackboard.wallCheckDistance,
+                playerBlackboard.whatIsWall);
+        }
+        else if(!playerBlackboard.leftWall)
+        {
+            Vector3 dir = (-playerBlackboard.orientation.right-playerBlackboard.orientation.forward).normalized;
+            playerBlackboard.leftWall = Physics.Raycast(transform.position, dir,
+                out playerBlackboard.wallLeftHit, playerBlackboard.wallCheckDistance,
+                playerBlackboard.whatIsWall);
+        }
 
         if (playerBlackboard.rightWall)
             playerBlackboard.currentWall = playerBlackboard.wallRightHit;

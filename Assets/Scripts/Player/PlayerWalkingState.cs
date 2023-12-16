@@ -41,7 +41,7 @@ public class PlayerWalkingState : IState
         //初始化逻辑变量
         timer = 0f;
         isOverCovote = false;
-        firstSpeed = _playerBlackboard.speedMag;
+        firstSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
     }
     public void OnExit()
     {

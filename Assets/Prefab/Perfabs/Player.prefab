@@ -146,8 +146,10 @@ MonoBehaviour:
     maxSlopeAngle: 40
     sprintSpeed: 30
     sprintDistance: 4
+    sprintLeaveSpeed: 7
     sprintTime: 0
     maxSlideTime: 1
+    vineLineTime: 0.5
     slideYScale: 0.5
     slideAccelerate: 1
     startSlideSpeed: 1
@@ -156,7 +158,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 512
     wallRunGRate: 0.3
-    wallCheckDistance: 0.7
+    wallCheckDistance: 0.6
     wallRunMinDisTance: 0.5
     rightWall: 0
     leftWall: 0
@@ -164,10 +166,11 @@ MonoBehaviour:
     isWallJump: 0
     exitWallTime: 0
     sprintChangeRate: 0.7
-    walkToSlideCovoteTime: 0.2
+    walkToSlideCovoteTime: 0.1
     slideToJumpHeightRate: 0.5
     gunModel: {fileID: 0}
     gunTrans: {fileID: 0}
+    vineLine: {fileID: 0}
 --- !u!114 &2452838150266692855
 MonoBehaviour:
   m_ObjectHideFlags: 0

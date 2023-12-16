@@ -19,6 +19,12 @@ public class PlayerSlideState : IState
     //摄像机
     private Camera cam;
 
+    private VLineSummon vineLine;
+    private Transform orientation;
+    
+    private float timer;
+    private float vinelineTime;
+
     public PlayerSlideState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -31,13 +37,18 @@ public class PlayerSlideState : IState
         YScale = _playerBlackboard.slideYScale;
         accelerate = _playerBlackboard.slideAccelerate;
         slideSpeed = _playerBlackboard.speedMag;//继承向量
+        
+        vineLine= _playerBlackboard.vineLine;
+        vinelineTime = _playerBlackboard.vineLineTime;
+        orientation = _playerBlackboard.orientation;
+        
         tr = rb.GetComponent<Transform>();
         cam = Camera.main;
         LastYScale = tr.localScale.y;
         StartSlide();
 
-        cam.DOFieldOfView(70, 0.2f);
-        
+        cam.DOFieldOfView(63, 0.2f);
+        timer = 0f;
     }
 
     public void OnExit()
@@ -51,6 +62,12 @@ public class PlayerSlideState : IState
     public void OnUpdate()
     {
         Slide();
+        timer+=Time.deltaTime;
+        if (timer> vinelineTime)
+        {
+            vineLine.Summon(orientation.position, moveDir.normalized);
+            timer = 0f;
+        }
     }
 
     public void OnCheck()

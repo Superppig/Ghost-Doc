@@ -696,7 +696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5216988099393871748, guid: 80be0916ede58c64782adc854f3fcab4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5341825333268926567, guid: 80be0916ede58c64782adc854f3fcab4, type: 3}
       propertyPath: player
@@ -2236,6 +2236,10 @@ PrefabInstance:
       propertyPath: playerBlackboard.gunTrans
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: playerBlackboard.vineLine
+      value: 
+      objectReference: {fileID: 83834942}
     - target: {fileID: 6394809933492538677, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: pos
       value: 

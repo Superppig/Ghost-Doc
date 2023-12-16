@@ -10,6 +10,7 @@ public class PlayerSprintingState : IState
     private Transform orientation;
     
     private float sprintSpeed;
+    private float leaveSpeed;
     private float firstSpeed;
     
     private Vector3 sprintDir;
@@ -44,6 +45,7 @@ public class PlayerSprintingState : IState
         camTrans = _playerBlackboard.camTrans;
         cam = _playerBlackboard.cam;
 
+        leaveSpeed = _playerBlackboard.sprintLeaveSpeed;
         firstSpeed = rb.velocity.magnitude;
         
         sprintDir = _playerBlackboard.moveDir.magnitude>0.1f? _playerBlackboard.moveDir: orientation.forward.normalized;
@@ -55,7 +57,7 @@ public class PlayerSprintingState : IState
         changeRate = _playerBlackboard.sprintChangeRate;
         
         //调试
-        _vLineSummon = GameObject.FindWithTag("VLine").GetComponent<VLineSummon>();
+        _vLineSummon = _playerBlackboard.vineLine;
         //镜头行为
 
         if (_playerBlackboard.dirInput.x > 0)
@@ -88,7 +90,7 @@ public class PlayerSprintingState : IState
     {
         next = _playerBlackboard.next;
         //冲刺跳
-        float rate=firstSpeed;//正常为冲刺前速度
+        float rate=leaveSpeed;//正常为冲刺前速度
         if (next == StateType.jumping)
         {
             rate = changeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(sprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
