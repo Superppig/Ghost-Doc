@@ -6,11 +6,12 @@ Shader "XinY/SceneCommon"
         _BaseMap ("BaseMap", 2D) = "white" { }
         _BaseColor ("BaseColor", color) = (1, 1, 1, 1)
         _MRHA ("M(Metallic)R(Roughness)H(Hight)A(AO)", 2D) = "white" { }
-        _MetallicAd ("MetallicAd", Range(-2, 2)) = 1
-        _RoughnessAd ("RoughnessAd", Range(-2, 2)) = 1
-        _AOAd ("AOAd", Range(-2, 2)) = 1
+        _MetallicAd ("MetallicAd", Range(0, 2)) = 1
+        _RoughnessAd ("RoughnessAd", Range(0, 2)) = 1
+        _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
+        _SpecIntensity("SpecIntensity",float)=1
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         _EmissionMask ("EmissionMask", 2D) = "white" { }
         [HDR]_Emission ("Emission", color) = (0, 0, 0, 1)
@@ -79,6 +80,7 @@ Shader "XinY/SceneCommon"
                 half4 _Emission;
                 half _NormalScale;
                 half _FlowSpeed;
+                half _SpecIntensity;
             CBUFFER_END
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap);
@@ -108,7 +110,7 @@ Shader "XinY/SceneCommon"
                 output.binormalWS = real3(cross(output.normalWS, float3(output.tangentWS))) * sign;
                 //UV相关
                 output.uv = float4(TRANSFORM_TEX(v.texcoord, _BaseMap), v.texcoord);
-                output.uv_2=v.texcoord2;
+                output.uv_2 = v.texcoord2;
                 OUTPUT_LIGHTMAP_UV(v.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
                 #ifdef DYNAMICLIGHTMAP_ON
                     output.dynamicLightmapUV = v.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
@@ -128,7 +130,7 @@ Shader "XinY/SceneCommon"
 
                 half2 emissUV = half2(i.uv.x + _Time.y * _FlowSpeed, i.uv.y);
                 half emissMap = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, emissUV);
-                half emissMask = SAMPLE_TEXTURE2D(_EmissionMask,sampler_EmissionMask,i.uv_2)*emissMap;
+                half emissMask = SAMPLE_TEXTURE2D(_EmissionMask, sampler_EmissionMask, i.uv_2) * emissMap;
                 half gradient = smoothstep(0, 0.1, 0.5 - distance(i.uv.z, 0.5));
                 emissMask *= gradient;
                 
@@ -181,7 +183,7 @@ Shader "XinY/SceneCommon"
                 half roughness2MinusOne = roughness2 - half(1.0);;    // roughness^2 - 1.0
                 half alpha = baseMap.a * oneMinusReflectivity + reflectivity;
                 half3 emission = _Emission * emissMask;
-                half occlusion = max(lerp(1, MRHA.a, _AOAd), 0);
+                half occlusion = max(lerp(0, MRHA.a, _AOAd), 0);
                 //AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(screenUV, occlusion);
 
 
@@ -209,7 +211,7 @@ Shader "XinY/SceneCommon"
                 half LdotH2 = LdotH * LdotH;
                 half specularTerm = roughness2 / ((d * d) * max(0.1h, LdotH2) * normalizationTerm);
                 
-                mainLightColor = (diffuse + specular * specularTerm) * diffuseTerm;
+                mainLightColor = (diffuse + specular * specularTerm*_SpecIntensity) * diffuseTerm;
 
                 //额外灯
                 uint pixelLightCount = GetAdditionalLightsCount();

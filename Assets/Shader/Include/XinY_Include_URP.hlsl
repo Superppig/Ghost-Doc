@@ -436,4 +436,12 @@ real XinY_InitializeFog(float4 positionWS)
 
     return fogFactor;
 }
+
+inline float RandomRange(float2 Seed, float MinNum, float MaxNum)
+{
+    float Out = 0;
+    float alpha = frac(sin(dot(Seed, float2(12.989, 78.233))) * 43758.55);
+    Out = lerp(MinNum, MaxNum, alpha);
+    return Out;
+}
 #endif
