@@ -7,14 +7,20 @@ using UnityEngine;
 [CustomEditor(typeof(Player))]
 public class PlayerEditor : AutoEditor
 {
+    private static float WordWidth = 80f;
+    private static float BlockWidth = 20f;
+
     private Player player;
     [AutoProperty]
-    private SerializedProperty playerBlackboard;
+    public SerializedProperty playerBlackboard;
+    private PlayerBlackboardEditor playerBlackboardEditor;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         player = target as Player;
+        playerBlackboardEditor = new PlayerBlackboardEditor();
+        playerBlackboardEditor.Initialize(playerBlackboard, "角色数据");
     }
 
     protected override void MyOnInspectorGUI()
@@ -28,13 +34,12 @@ public class PlayerEditor : AutoEditor
 
         EditorGUILayout.BeginHorizontal(); // 开始第一行
 
-        // 空的格子，与状态名对应
-        GUILayout.Space(80);
+        GUILayout.Space(WordWidth);
 
         // 显示列名
         for (int i = 0; i < states.Length; i++)
         {
-            EditorGUILayout.LabelField(states[i].ToString(), GUILayout.Width(20));
+            EditorGUILayout.LabelField(states[i].ToString(), GUILayout.Width(BlockWidth));
         }
 
         EditorGUILayout.EndHorizontal(); // 结束第一行
@@ -45,13 +50,13 @@ public class PlayerEditor : AutoEditor
             EditorGUILayout.BeginHorizontal();
 
             // 显示行名
-            EditorGUILayout.LabelField(states[i].ToString(), GUILayout.Width(80));
+            EditorGUILayout.LabelField(states[i].ToString(), GUILayout.Width(WordWidth));
 
             for (int j = 0; j < states.Length; j++)
             {
                 player.changeMatrix[i, j] = EditorGUILayout.Toggle(
                     player.changeMatrix[i, j],
-                    GUILayout.Width(20)
+                    GUILayout.Width(BlockWidth)
                 );
             }
 
