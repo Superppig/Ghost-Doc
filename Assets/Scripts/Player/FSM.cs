@@ -3,15 +3,15 @@ using System;
 
 namespace Player_FSM
 {
-    public enum StateType
+    public enum EStateType
     {
-        walking,
-        jumping,
-        sprinting,
-        crouching,
-        sliding,
-        air,
-        wallRunning
+        Walking,
+        Jumping,
+        Sprinting,
+        Crouching,
+        Sliding,
+        Air,
+        WallRunning
     }
     public interface IState
     {
@@ -40,18 +40,18 @@ namespace Player_FSM
 
     public class FSM
     {
-        public StateType current;
+        public EStateType current;
         public IState curState;
-        public Dictionary<StateType, IState> states;
+        public Dictionary<EStateType, IState> states;
         public Blackboard blackboard;
 
         public FSM(Blackboard blackboard)
         {
-            this.states = new Dictionary<StateType, IState>();
+            this.states = new Dictionary<EStateType, IState>();
             this.blackboard = blackboard;
         }
         
-        public void AddState(StateType stateType, IState state)
+        public void AddState(EStateType stateType, IState state)
         {
             if (states.ContainsKey(stateType))
             {
@@ -60,7 +60,7 @@ namespace Player_FSM
             states.Add(stateType,state);
         }
 
-        public void SwitchState(StateType stateType)
+        public void SwitchState(EStateType stateType)
         {
             if (!states.ContainsKey(stateType))
             {

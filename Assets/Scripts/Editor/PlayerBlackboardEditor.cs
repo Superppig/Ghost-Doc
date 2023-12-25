@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using EditorExtend;
 using UnityEditor;
-using UnityEngine;
 
 [CustomEditor(typeof(PlayerBlackboard))]
-public class PlayerBlackboardEditor : Editor
-{ 
-    protected void OnEnable(){}
-    public override void OnInspectorGUI(){}
+public class PlayerBlackboardEditor : IndirectEditor
+{
+    protected override void MyOnInspectorGUI()
+    {
+        
+    }
+
 }

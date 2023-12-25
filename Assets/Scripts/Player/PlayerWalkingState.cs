@@ -14,7 +14,7 @@ public class PlayerWalkingState : IState
     private Vector3 dirInput;
 
     private float covoteTime;
-    private StateType next;
+    private EStateType next;
     
     //逻辑变量
     private float timer;

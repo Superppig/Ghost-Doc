@@ -27,7 +27,7 @@ public class PlayerSprintingState : IState
 
 
     //逻辑变量
-    private StateType next;//下一个状态
+    private EStateType next;//下一个状态
     private float timer;
     
     public PlayerSprintingState(PlayerBlackboard playerBlackboard)
@@ -91,7 +91,7 @@ public class PlayerSprintingState : IState
         next = _playerBlackboard.next;
         //冲刺跳
         float rate=leaveSpeed;//正常为冲刺前速度
-        if (next == StateType.jumping)
+        if (next == EStateType.Jumping)
         {
             rate = changeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(sprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
         }
