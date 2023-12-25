@@ -1,32 +1,30 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using EditorExtend;
 using Player_FSM;
-using Unity.VisualScripting;
+using System;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Player))]
-public class ChangeMatrix : Editor
+public class PlayerEditor : AutoEditor
 {
-    private Player targetPlayer;
+    private Player player;
+    [AutoProperty]
+    private SerializedProperty playerBlackboard;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
-        targetPlayer = target as Player;
+        base.OnEnable();
+        player = target as Player;
     }
 
-    public override void OnInspectorGUI()
+    protected override void MyOnInspectorGUI()
     {
-        base.OnInspectorGUI();
-        serializedObject.Update();
-
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("状态邻接矩阵", EditorStyles.boldLabel);
 
         // 获取 Enum 类型的所有值
-        StateType[] states = (StateType[])Enum.GetValues(typeof(StateType));
+        EStateType[] states = (EStateType[])Enum.GetValues(typeof(EStateType));
 
         EditorGUILayout.BeginHorizontal(); // 开始第一行
 
@@ -51,23 +49,20 @@ public class ChangeMatrix : Editor
 
             for (int j = 0; j < states.Length; j++)
             {
-                targetPlayer.changeMatrix[i, j] = EditorGUILayout.Toggle(
-                    targetPlayer.changeMatrix[i, j],
+                player.changeMatrix[i, j] = EditorGUILayout.Toggle(
+                    player.changeMatrix[i, j],
                     GUILayout.Width(20)
                 );
             }
 
             EditorGUILayout.EndHorizontal();
-            
-            //不可缺少
-            serializedObject.ApplyModifiedProperties();
         }
 
         // 显示 Save 按钮
         if (GUILayout.Button("Save"))
         {
             // 标记对象为已修改
-            EditorUtility.SetDirty(targetPlayer);
+            EditorUtility.SetDirty(player);
         }
     }
 }

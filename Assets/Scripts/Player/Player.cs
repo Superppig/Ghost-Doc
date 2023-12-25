@@ -18,9 +18,9 @@ public class PlayerBlackboard : Blackboard
     public float speedMag; //当前动量;
     public Transform camTrans;
     public Camera cam;
-    public StateType last;
-    public StateType current;
-    public StateType next;
+    public EStateType last;
+    public EStateType current;
+    public EStateType next;
     [Space(10)] 
     [Header("行走")] public float walkSpeed; //行走速度
 
@@ -116,19 +116,19 @@ public class Player : MonoBehaviour
     {
         playerBlackboard.m_rigidbody = GetComponent<Rigidbody>();
         fsm = new FSM(playerBlackboard);
-        fsm.AddState(StateType.walking, new PlayerWalkingState(playerBlackboard));
-        fsm.AddState(StateType.crouching, new PlayerCrouchState(playerBlackboard));
-        fsm.AddState(StateType.jumping, new PlayerJumpState(playerBlackboard));
-        fsm.AddState(StateType.sprinting, new PlayerSprintingState(playerBlackboard));
-        fsm.AddState(StateType.sliding, new PlayerSlideState(playerBlackboard));
-        fsm.AddState(StateType.air, new PlayerAirState(playerBlackboard));
-        fsm.AddState(StateType.wallRunning, new PlayerWallRunState(playerBlackboard));
+        fsm.AddState(EStateType.Walking, new PlayerWalkingState(playerBlackboard));
+        fsm.AddState(EStateType.Crouching, new PlayerCrouchState(playerBlackboard));
+        fsm.AddState(EStateType.Jumping, new PlayerJumpState(playerBlackboard));
+        fsm.AddState(EStateType.Sprinting, new PlayerSprintingState(playerBlackboard));
+        fsm.AddState(EStateType.Sliding, new PlayerSlideState(playerBlackboard));
+        fsm.AddState(EStateType.Air, new PlayerAirState(playerBlackboard));
+        fsm.AddState(EStateType.WallRunning, new PlayerWallRunState(playerBlackboard));
     }
 
 
     void Start()
     {
-        fsm.SwitchState(StateType.walking);
+        fsm.SwitchState(EStateType.Walking);
         playerBlackboard.sprintTime = playerBlackboard.sprintDistance / playerBlackboard.sprintSpeed;
     }
 
@@ -168,42 +168,42 @@ public class Player : MonoBehaviour
         SlopJudgement();
 
         //落地
-        if ((playerBlackboard.current == StateType.jumping || playerBlackboard.current == StateType.air) && grounded)
+        if ((playerBlackboard.current == EStateType.Jumping || playerBlackboard.current == EStateType.Air) && grounded)
         {
             playerBlackboard.last = playerBlackboard.current;
-            playerBlackboard.next = StateType.walking;
-            fsm.SwitchState(StateType.walking);
+            playerBlackboard.next = EStateType.Walking;
+            fsm.SwitchState(EStateType.Walking);
         }
 
         //下蹲
         if (Input.GetKey(playerBlackboard.crouchKey))
         {
-            if (CanSwitch(playerBlackboard.current, StateType.crouching))
+            if (CanSwitch(playerBlackboard.current, EStateType.Crouching))
             {
                 playerBlackboard.last = playerBlackboard.current;
-                playerBlackboard.next = StateType.crouching;
-                fsm.SwitchState(StateType.crouching);
+                playerBlackboard.next = EStateType.Crouching;
+                fsm.SwitchState(EStateType.Crouching);
             }
         }
 
         if (Input.GetKeyUp(playerBlackboard.crouchKey))
         {
             playerBlackboard.last = playerBlackboard.current;
-            playerBlackboard.next = StateType.walking;
-            fsm.SwitchState(StateType.walking);
+            playerBlackboard.next = EStateType.Walking;
+            fsm.SwitchState(EStateType.Walking);
         }
 
 
         //空中
-        if (!grounded && playerBlackboard.current != StateType.sprinting &&
+        if (!grounded && playerBlackboard.current != EStateType.Sprinting &&
             !(!IsGrounded(playerBlackboard.wallRunMinDisTance) &&
               (playerBlackboard.rightWall || playerBlackboard.leftWall)))//不是墙跑状态
         {
-            if (CanSwitch(playerBlackboard.current, StateType.air))
+            if (CanSwitch(playerBlackboard.current, EStateType.Air))
             {
                 playerBlackboard.last = playerBlackboard.current;
-                playerBlackboard.next = StateType.air;
-                fsm.SwitchState(StateType.air);
+                playerBlackboard.next = EStateType.Air;
+                fsm.SwitchState(EStateType.Air);
             }
         }
 
@@ -211,13 +211,13 @@ public class Player : MonoBehaviour
         //冲刺
         if (Input.GetKeyDown(playerBlackboard.sprintKey))
         {
-            if (CanSwitch(playerBlackboard.current, StateType.sprinting))
+            if (CanSwitch(playerBlackboard.current, EStateType.Sprinting))
             {
                 playerBlackboard.last = playerBlackboard.current;
-                playerBlackboard.next = StateType.sprinting;
-                fsm.SwitchState(StateType.sprinting);
+                playerBlackboard.next = EStateType.Sprinting;
+                fsm.SwitchState(EStateType.Sprinting);
                 StartCoroutine(EndState(playerBlackboard.sprintDistance / playerBlackboard.sprintSpeed));
-                playerBlackboard.last = StateType.sprinting;
+                playerBlackboard.last = EStateType.Sprinting;
             }
         }
 
@@ -225,20 +225,20 @@ public class Player : MonoBehaviour
         if (Input.GetKey(playerBlackboard.slideKey) && grounded && playerBlackboard.dirInput.magnitude > 0 &&
             playerBlackboard.speedMag > playerBlackboard.startSlideSpeed)
         {
-            if (CanSwitch(playerBlackboard.current, StateType.sliding))
+            if (CanSwitch(playerBlackboard.current, EStateType.Sliding))
             {
                 playerBlackboard.last = playerBlackboard.current;
-                playerBlackboard.next = StateType.sliding;
-                fsm.SwitchState(StateType.sliding);
+                playerBlackboard.next = EStateType.Sliding;
+                fsm.SwitchState(EStateType.Sliding);
             }
         }
-        else if(playerBlackboard.current==StateType.sliding)
+        else if(playerBlackboard.current==EStateType.Sliding)
         {
             if (CanSwitch(playerBlackboard.current, playerBlackboard.last))
             {
                 playerBlackboard.next = playerBlackboard.last;
                 fsm.SwitchState(playerBlackboard.last);
-                playerBlackboard.last = StateType.sliding;
+                playerBlackboard.last = EStateType.Sliding;
             }
         }
 
@@ -247,15 +247,15 @@ public class Player : MonoBehaviour
         {
             if (grounded)
             {
-                if (CanSwitch(playerBlackboard.current, StateType.jumping))
+                if (CanSwitch(playerBlackboard.current, EStateType.Jumping))
                 {
                     playerBlackboard.last = playerBlackboard.current;
                     StartCoroutine(StartJump(0.2f));
-                    playerBlackboard.next = StateType.jumping;
-                    fsm.SwitchState(StateType.jumping);
+                    playerBlackboard.next = EStateType.Jumping;
+                    fsm.SwitchState(EStateType.Jumping);
                 }
             }
-            else if (playerBlackboard.current == StateType.wallRunning)
+            else if (playerBlackboard.current == EStateType.WallRunning)
             {
                 StartCoroutine(StartJump(0.2f));
                 // 墙跳逻辑
@@ -267,16 +267,16 @@ public class Player : MonoBehaviour
         if (!IsGrounded(playerBlackboard.wallRunMinDisTance) &&
             (playerBlackboard.rightWall || playerBlackboard.leftWall))
         {
-            if (CanSwitch(playerBlackboard.current, StateType.wallRunning))
+            if (CanSwitch(playerBlackboard.current, EStateType.WallRunning))
             {
                 playerBlackboard.last = playerBlackboard.current;
-                playerBlackboard.next = StateType.wallRunning;
-                fsm.SwitchState(StateType.wallRunning);
+                playerBlackboard.next = EStateType.WallRunning;
+                fsm.SwitchState(EStateType.WallRunning);
             }
         }
     }
 
-    private bool CanSwitch(StateType current, StateType next)
+    private bool CanSwitch(EStateType current, EStateType next)
     {
         /*if (current == StateType.walking)
         {
@@ -331,15 +331,15 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         // 添加额外条件，检查当前状态是否为跳跃且仍然在空中
-        if (playerBlackboard.current == StateType.jumping && !grounded)
+        if (playerBlackboard.current == EStateType.Jumping && !grounded)
         {
             // 如果仍然在空中，不要切回先前的状态
             yield break;
         }
 
-        if (playerBlackboard.current == StateType.sprinting)
+        if (playerBlackboard.current == EStateType.Sprinting)
         {
-            fsm.SwitchState(StateType.walking);
+            fsm.SwitchState(EStateType.Walking);
         }
         else
         {
@@ -355,8 +355,8 @@ public class Player : MonoBehaviour
         playerBlackboard.rightWall = false;
         playerBlackboard.last = playerBlackboard.current;
 
-        playerBlackboard.next = StateType.wallRunning;
-        fsm.SwitchState(StateType.jumping);
+        playerBlackboard.next = EStateType.WallRunning;
+        fsm.SwitchState(EStateType.Jumping);
         yield return new WaitForSeconds(time);
         playerBlackboard.isWallJump = false;
     }

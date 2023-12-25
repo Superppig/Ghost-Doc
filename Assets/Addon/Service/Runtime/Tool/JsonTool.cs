@@ -18,7 +18,7 @@ namespace Services
             PolyMorphicSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
             };
         }
 
