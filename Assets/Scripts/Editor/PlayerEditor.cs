@@ -7,8 +7,8 @@ using UnityEngine;
 [CustomEditor(typeof(Player))]
 public class PlayerEditor : AutoEditor
 {
-    private static float WordWidth = 80f;
-    private static float BlockWidth = 20f;
+    private const float WordWidth = 80f;
+    private const float BlockWidth = 20f;
 
     private Player player;
     [AutoProperty]
@@ -21,6 +21,7 @@ public class PlayerEditor : AutoEditor
         player = target as Player;
         playerBlackboardEditor = new PlayerBlackboardEditor();
         playerBlackboardEditor.Initialize(playerBlackboard, "角色数据");
+        inherit = true;
     }
 
     protected override void MyOnInspectorGUI()
@@ -63,10 +64,8 @@ public class PlayerEditor : AutoEditor
             EditorGUILayout.EndHorizontal();
         }
 
-        // 显示 Save 按钮
         if (GUILayout.Button("Save"))
         {
-            // 标记对象为已修改
             EditorUtility.SetDirty(player);
         }
     }

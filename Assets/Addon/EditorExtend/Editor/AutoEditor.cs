@@ -18,6 +18,7 @@ namespace EditorExtend
         protected bool foldout_debug;
         protected Object monoScript;
         protected System.Type targetType;
+        protected bool inherit;
 
         /// <summary>
         /// Scene窗口中，屏幕坐标下，给定世界坐标点到鼠标射线的距离
@@ -52,6 +53,8 @@ namespace EditorExtend
         /// </summary>
         public override void OnInspectorGUI()
         {
+            if(inherit)
+                base.OnInspectorGUI();
             serializedObject.Update();
             EditorGUILayout.BeginVertical();
             if (monoScript != null)
