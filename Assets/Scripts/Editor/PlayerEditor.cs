@@ -13,15 +13,12 @@ public class PlayerEditor : AutoEditor
     private Player player;
     [AutoProperty]
     public SerializedProperty playerBlackboard;
-    private PlayerBlackboardEditor playerBlackboardEditor;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         player = target as Player;
-        playerBlackboardEditor = new PlayerBlackboardEditor();
-        playerBlackboardEditor.Initialize(playerBlackboard, "角色数据");
-        inherit = true;
+        appendInspector = true;
     }
 
     protected override void MyOnInspectorGUI()
