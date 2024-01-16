@@ -15,10 +15,12 @@ namespace EditorExtend
         protected Event currentEvent;
         protected Ray mouseRay;
         protected Vector2 mousePosition;
-        protected bool foldout_debug;
         protected Object monoScript;
         protected System.Type targetType;
-        protected bool inherit;
+        /// <summary>
+        /// 自定义Inspector是否要附在原本的Inspector之后，而不是覆盖原本的Inspector
+        /// </summary>
+        protected bool appendInspector;
 
         /// <summary>
         /// Scene窗口中，屏幕坐标下，给定世界坐标点到鼠标射线的距离
@@ -43,7 +45,6 @@ namespace EditorExtend
         {
             if (target != null)
                 AutoPropertyAttribute.Apply(this, serializedObject);
-            foldout_debug = false;
             targetType = target.GetType();
             monoScript = EditorExtendUtility.FindMonoScrpit(targetType);
         }
@@ -53,7 +54,7 @@ namespace EditorExtend
         /// </summary>
         public override void OnInspectorGUI()
         {
-            if(inherit)
+            if(appendInspector)
                 base.OnInspectorGUI();
             serializedObject.Update();
             EditorGUILayout.BeginVertical();

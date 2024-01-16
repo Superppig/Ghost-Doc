@@ -1,15 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-public class SmoothNormalToColor: Editor
+public static class EditorModeTool
 {
     [MenuItem("Tools/SmoothNormalToColor")]
-    static void SmoothNormalToColorFunc()
+    public static void SmoothNormalToColor()
     {
         var trans = Selection.activeTransform;
-        //»ñÈ¡Mesh
+        //è·å–Mesh
         Mesh mesh = new Mesh();
         if (trans.GetComponent<SkinnedMeshRenderer>())
         {
@@ -21,8 +20,8 @@ public class SmoothNormalToColor: Editor
         }
         Debug.Log(mesh.name);
         string NewMeshPath = "Assets/Models/"+mesh.name+"_sN.asset";
-        //ÉùÃ÷Ò»¸öVector3Êı×é£¬³¤¶ÈÓëmesh.normalsÒ»Ñù£¬ÓÃÓÚ´æ·Å
-        //Óëmesh.verticesÖĞ¶¥µãÒ»Ò»¶ÔÓ¦µÄ¹â»¬´¦ÀíºóµÄ·¨ÏßÖµ
+        //å£°æ˜ä¸€ä¸ªVector3æ•°ç»„ï¼Œé•¿åº¦ä¸mesh.normalsä¸€æ ·ï¼Œç”¨äºå­˜æ”¾
+        //ä¸mesh.verticesä¸­é¡¶ç‚¹ä¸€ä¸€å¯¹åº”çš„å…‰æ»‘å¤„ç†åçš„æ³•çº¿å€¼
         Vector3[] smoothedNormals = new Vector3[mesh.normals.Length];
         //Dictionary<Vector3, List<int>> vertexDic = new Dictionary<Vector3, List<int>>();
         //for (int i = 0; i < mesh.vertices.Length; i++)
@@ -38,7 +37,7 @@ public class SmoothNormalToColor: Editor
         //        vertexDic[mesh.vertices[i]].Add(i);
         //    }
         //}
-        ////Æ½¾ù»¯Ã¿¸ö¶¥µã
+        ////å¹³å‡åŒ–æ¯ä¸ªé¡¶ç‚¹
         //foreach (var item in vertexDic)
         //{
         //    Vector3 smoothedNormal = new Vector3(0, 0, 0);
@@ -46,7 +45,7 @@ public class SmoothNormalToColor: Editor
         //    {
         //        smoothedNormal += mesh.normals[index];
         //    }
-        //    //¹éÒ»»¯
+        //    //å½’ä¸€åŒ–
         //    smoothedNormal.Normalize();
         //    foreach (var index in item.Value)
         //    {
@@ -55,9 +54,9 @@ public class SmoothNormalToColor: Editor
         //}
         for (int i = 0; i < smoothedNormals.Length; i++)
         {
-            //¶¨ÒåÒ»¸öÁãÖµ·¨Ïß
+            //å®šä¹‰ä¸€ä¸ªé›¶å€¼æ³•çº¿
             Vector3 smoothedNormal = new Vector3(0, 0, 0);
-            //±éÀúmesh.verticesÊı×é£¬Èç¹û±éÀúµ½µÄÖµÓëµ±Ç°ĞòºÅ¶¥µãÖµÏàÍ¬£¬Ôò½«Æä¶ÔÓ¦µÄ·¨ÏßÓëNormalÏà¼Ó
+            //éå†mesh.verticesæ•°ç»„ï¼Œå¦‚æœéå†åˆ°çš„å€¼ä¸å½“å‰åºå·é¡¶ç‚¹å€¼ç›¸åŒï¼Œåˆ™å°†å…¶å¯¹åº”çš„æ³•çº¿ä¸Normalç›¸åŠ 
             for (int j = 0; j < smoothedNormals.Length; j++)
             {
                 if (mesh.vertices[j] == mesh.vertices[i])
@@ -65,13 +64,13 @@ public class SmoothNormalToColor: Editor
                     smoothedNormal += mesh.normals[j];
                 }
             }
-            //¹éÒ»»¯Normal²¢½«meshNormalsÊıÁĞ¶ÔÓ¦Î»ÖÃ¸³ÖµÎªNormal,µ½´ËĞòºÅÎªiµÄ¶¥µãµÄ¶ÔÓ¦·¨Ïß¹â»¬´¦ÀíÍê³É
-            //´ËÊ±ÇóµÃµÄ·¨ÏßÎªÄ£ĞÍ¿Õ¼äÏÂµÄ·¨Ïß
+            //å½’ä¸€åŒ–Normalå¹¶å°†meshNormalsæ•°åˆ—å¯¹åº”ä½ç½®èµ‹å€¼ä¸ºNormal,åˆ°æ­¤åºå·ä¸ºiçš„é¡¶ç‚¹çš„å¯¹åº”æ³•çº¿å…‰æ»‘å¤„ç†å®Œæˆ
+            //æ­¤æ—¶æ±‚å¾—çš„æ³•çº¿ä¸ºæ¨¡å‹ç©ºé—´ä¸‹çš„æ³•çº¿
             smoothedNormal.Normalize();
             smoothedNormals[i] = smoothedNormal;
         }
 
-        //¹¹½¨Ä£ĞÍ¿Õ¼ä¡úÇĞÏß¿Õ¼äµÄ×ª»»¾ØÕó
+        //æ„å»ºæ¨¡å‹ç©ºé—´â†’åˆ‡çº¿ç©ºé—´çš„è½¬æ¢çŸ©é˜µ
         ArrayList OtoTMatrixs = new ArrayList();
         for (int i = 0; i < mesh.normals.Length; i++)
         {
@@ -81,7 +80,7 @@ public class SmoothNormalToColor: Editor
             OtoTMatrix[2] = mesh.normals[i];
             OtoTMatrixs.Add(OtoTMatrix);
         }
-        //½«meshNormalsÊı×éÖĞµÄ·¨ÏßÖµÒ»Ò»Óë¾ØÕóÏà³Ë£¬ÇóµÃÇĞÏß¿Õ¼äÏÂµÄ·¨ÏßÖµ
+        //å°†meshNormalsæ•°ç»„ä¸­çš„æ³•çº¿å€¼ä¸€ä¸€ä¸çŸ©é˜µç›¸ä¹˜ï¼Œæ±‚å¾—åˆ‡çº¿ç©ºé—´ä¸‹çš„æ³•çº¿å€¼
         for (int i = 0; i < smoothedNormals.Length; i++)
         {
             Vector3 normalTS;
@@ -92,7 +91,7 @@ public class SmoothNormalToColor: Editor
             smoothedNormals[i] = normalTS;
         }
 
-        //ĞÂ½¨Ò»¸öÑÕÉ«Êı×é°Ñ¹â»¬´¦ÀíºóµÄ·¨ÏßÖµ´æÈëÆäÖĞ
+        //æ–°å»ºä¸€ä¸ªé¢œè‰²æ•°ç»„æŠŠå…‰æ»‘å¤„ç†åçš„æ³•çº¿å€¼å­˜å…¥å…¶ä¸­
         Color[] meshColors = new Color[mesh.colors.Length];
         for (int i = 0; i < meshColors.Length; i++)
         {
@@ -107,7 +106,7 @@ public class SmoothNormalToColor: Editor
         //    Debug.Log(meshColors[i]);
         //}
         //return;
-        //ĞÂ½¨Ò»¸ömesh£¬½«Ö®Ç°meshµÄËùÓĞĞÅÏ¢copy¹ıÈ¥
+        //æ–°å»ºä¸€ä¸ªmeshï¼Œå°†ä¹‹å‰meshçš„æ‰€æœ‰ä¿¡æ¯copyè¿‡å»
         Mesh newMesh = new Mesh();
         newMesh.vertices = mesh.vertices;
         newMesh.triangles = mesh.triangles;
@@ -121,14 +120,14 @@ public class SmoothNormalToColor: Editor
         newMesh.uv6 = mesh.uv6;
         newMesh.uv7 = mesh.uv7;
         newMesh.uv8 = mesh.uv8;
-        //½«ĞÂÄ£ĞÍµÄÑÕÉ«¸³ÖµÎª¼ÆËãºÃµÄÑÕÉ«
+        //å°†æ–°æ¨¡å‹çš„é¢œè‰²èµ‹å€¼ä¸ºè®¡ç®—å¥½çš„é¢œè‰²
         newMesh.colors = meshColors;
         newMesh.bounds = mesh.bounds;
         newMesh.indexFormat = mesh.indexFormat;
         newMesh.bindposes = mesh.bindposes;
         newMesh.boneWeights = mesh.boneWeights;
         
-        //½«ĞÂmesh±£´æÎª.assetÎÄ¼ş                          
+        //å°†æ–°meshä¿å­˜ä¸º.assetæ–‡ä»¶                          
         AssetDatabase.CreateAsset(newMesh, NewMeshPath);
         AssetDatabase.SaveAssets();
         Debug.Log("Done");
