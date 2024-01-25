@@ -56,8 +56,8 @@ public class PlayerCam : MonoBehaviour
         //获取变量
         player = transform.parent.GetComponent<Player>();
         _playerBlackboard = player.playerBlackboard;
-        weaponSwayObject = _playerBlackboard.gunTrans;
-        gunRotate = _playerBlackboard.gunModel;
+        weaponSwayObject = _playerBlackboard.otherSettings.gunTrans;
+        gunRotate = _playerBlackboard.otherSettings.gunModel;
     }
     void Update()
     {
@@ -167,6 +167,11 @@ public class PlayerCam : MonoBehaviour
         if (swayTime>2*Mathf.PI)
         {
             swayTime = 0;
+        }
+
+        if (weaponSwayObject==null)
+        {
+            weaponSwayObject = _playerBlackboard.otherSettings.gunTrans;
         }
         weaponSwayObject.localPosition = swayPosition;
     }

@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 6394809933492538676}
   - component: {fileID: 6394809933492538677}
   - component: {fileID: 6394809933492538674}
-  - component: {fileID: 2452838150266692855}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -117,113 +116,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBlackboard:
-    dirInput: {x: 0, y: 0, z: 0}
-    moveDir: {x: 0, y: 0, z: 0}
-    m_rigidbody: {fileID: 0}
-    orientation: {fileID: 2400941454820154825}
-    speed: {x: 0, y: 0, z: 0}
-    speedMag: 0
-    camTrans: {fileID: 6394809932711590825}
-    cam: {fileID: 0}
-    last: 0
-    current: 0
-    next: 0
-    walkSpeed: 7
-    accelerate: 1000
-    groundDrag: 0
-    height: 4
-    airTransformAccelerate: 20
-    crouchSpeed: 5
-    crouchYScale: 0.5
-    jumpkey: 32
-    sprintKey: 304
-    crouchKey: 99
-    slideKey: 306
-    playerHeight: 2
-    whatIsGround:
-      serializedVersion: 2
-      m_Bits: 1024
-    maxSlopeAngle: 40
-    sprintSpeed: 30
-    sprintDistance: 4
-    sprintLeaveSpeed: 7
-    sprintTime: 0
-    maxSlideTime: 1
-    vineLineTime: 0.5
-    slideYScale: 0.5
-    slideAccelerate: 1
-    startSlideSpeed: 1
-    wallRunSpeed: 15
-    whatIsWall:
-      serializedVersion: 2
-      m_Bits: 512
-    wallRunGRate: 0.3
-    wallCheckDistance: 0.6
-    wallRunMinDisTance: 0.5
-    rightWall: 0
-    leftWall: 0
-    wallJumpSpeed: 5
-    isWallJump: 0
-    exitWallTime: 0
-    sprintChangeRate: 0.7
-    walkToSlideCovoteTime: 0.1
-    slideToJumpHeightRate: 0.5
-    gunModel: {fileID: 0}
-    gunTrans: {fileID: 0}
-    vineLine: {fileID: 0}
---- !u!114 &2452838150266692855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2400941453571652568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_ImpulseShape: 3
-    m_CustomImpulseShape:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ImpulseDuration: 0.2
-    m_ImpulseType: 2
-    m_DissipationRate: 0.244
-    m_RawSignal: {fileID: 0}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
+    walkSettings:
+      walkSpeed: 7
+      accelerate: 1000
+      groundDrag: 0
+    jumpSettings:
+      height: 4
+      wallJumpSpeed: 5
+      isWallJump: 0
+      exitWallTime: 0
+    sprintSettings:
+      sprintSpeed: 30
+      sprintDistance: 4
+      sprintLeaveSpeed: 7
+      sprintTime: 0
+    crouchSettings:
+      crouchSpeed: 5
+      crouchYScale: 0.5
+    slidingSettings:
+      maxSlideTime: 1
+      vineLineTime: 0.5
+      slideYScale: 0.5
+      slideAccelerate: 1
+      startSlideSpeed: 1
+    airSettings:
+      airTransformAccelerate: 20
+    wallRunningSettings:
+      wallRunSpeed: 15
+      whatIsWall:
         serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
+        m_Bits: 512
+      wallRunGRate: 0.3
+      wallCheckDistance: 0.6
+      wallRunMinDisTance: 0.5
+      rightWall: 0
+      leftWall: 0
+    keySettings:
+      jumpkey: 32
+      sprintKey: 304
+      crouchKey: 99
+      slideKey: 306
+    otherSettings:
+      dirInput: {x: 0, y: 0, z: 0}
+      moveDir: {x: 0, y: 0, z: 0}
+      m_rigidbody: {fileID: 0}
+      orientation: {fileID: 2400941454820154825}
+      speed: {x: 0, y: 0, z: 0}
+      speedMag: 0
+      camTrans: {fileID: 6394809932711590825}
+      cam: {fileID: 0}
+      last: 0
+      current: 0
+      next: 0
+      playerHeight: 2
+      whatIsGround:
         serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 100
-    m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 1, y: -1, z: 0}
+        m_Bits: 1024
+      maxSlopeAngle: 40
+      sprintChangeRate: 0.7
+      walkToSlideCovoteTime: 0.1
+      slideToJumpHeightRate: 0.5
+      gunModel: {fileID: 0}
+      gunTrans: {fileID: 0}
+      vineLine: {fileID: 0}
 --- !u!1 &2400941453953990343
 GameObject:
   m_ObjectHideFlags: 0

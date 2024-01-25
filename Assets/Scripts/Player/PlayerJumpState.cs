@@ -18,6 +18,7 @@ public class PlayerJumpState : IState
     //逻辑变量
     private EStateType last;
     
+
     public PlayerJumpState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -28,19 +29,19 @@ public class PlayerJumpState : IState
     {
         //读取黑板数据
 
-        height = _playerBlackboard.height;
-        last = _playerBlackboard.last;
-        slideHeightRate = _playerBlackboard.slideToJumpHeightRate;
+        height = _playerBlackboard.jumpSettings.height;
+        last = _playerBlackboard.otherSettings.last;
+        slideHeightRate = _playerBlackboard.otherSettings.slideToJumpHeightRate;
 
         jumpSpeed = last==EStateType.Sliding? Speed(height*slideHeightRate):Speed(height);//滑铲跳跳跃高度改变
-        rb = _playerBlackboard.m_rigidbody;
-        rb.velocity = _playerBlackboard.speed;
-        wallSpeed = _playerBlackboard.wallJumpSpeed;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
+        rb.velocity = _playerBlackboard.otherSettings.speed;
+        wallSpeed = _playerBlackboard.jumpSettings.wallJumpSpeed;
 
-        isWallJump = _playerBlackboard.isWallJump;
+        isWallJump = _playerBlackboard.jumpSettings.isWallJump;
         if (isWallJump)
         {
-            wall = _playerBlackboard.currentWall;
+            wall = _playerBlackboard.wallRunningSettings.currentWall;
             rb.velocity += (wall.normal.normalized*wallSpeed+new Vector3(0, jumpSpeed, 0));
             Debug.Log("墙跳");
         }
@@ -49,7 +50,7 @@ public class PlayerJumpState : IState
             rb.velocity += new Vector3(0, jumpSpeed, 0);
         }
 
-        _playerBlackboard.speed = rb.velocity;//提前写入速度
+        _playerBlackboard.otherSettings.speed = rb.velocity;//提前写入速度
     }
 
     public void OnExit()
@@ -59,6 +60,7 @@ public class PlayerJumpState : IState
 
     public void OnUpdate()
     {
+        
     }
 
     public void OnCheck()

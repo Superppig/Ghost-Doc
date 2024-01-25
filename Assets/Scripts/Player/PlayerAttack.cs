@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         player = GetComponent<Player>();
-        weaponParent = player.playerBlackboard.cam.GetComponent<Transform>();
+        weaponParent = player.playerBlackboard.otherSettings.cam.GetComponent<Transform>();
         //初始化
         SwitchWeapon(WeaponType.Gun,gunIndex);
     }
@@ -54,14 +54,14 @@ public class PlayerAttack : MonoBehaviour
             case WeaponType.Gun:
                 Gun gun = Instantiate(Guns[index],weaponParent,false);
                 currentWeapon=gun.gameObject;
-                player.playerBlackboard.gunModel = gun.model;
-                player.playerBlackboard.gunTrans = gun.trans;
+                player.playerBlackboard.otherSettings.gunModel = gun.model;
+                player.playerBlackboard.otherSettings.gunTrans = gun.trans;
                 break;
             case WeaponType.Melee:
                 Melee melee = Instantiate(Melees[index],weaponParent,false);
                 currentWeapon=melee.gameObject;
-                player.playerBlackboard.gunModel = melee.transform;
-                player.playerBlackboard.gunTrans = melee.transform;
+                player.playerBlackboard.otherSettings.gunModel = melee.transform;
+                player.playerBlackboard.otherSettings.gunTrans = melee.transform;
                 break;
         }
     }

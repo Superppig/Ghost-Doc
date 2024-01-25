@@ -19,12 +19,12 @@ public class PlayerCrouchState : IState
     }
     public void OnEnter()
     {
-        rb = _playerBlackboard.m_rigidbody;
-        rb.velocity = _playerBlackboard.speed;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
+        rb.velocity = _playerBlackboard.otherSettings.speed;
 
-        YScale = _playerBlackboard.crouchYScale;
-        crouchSpeed = _playerBlackboard.crouchSpeed;
-        accelerate = _playerBlackboard.accelerate;
+        YScale = _playerBlackboard.crouchSettings.crouchYScale;
+        crouchSpeed = _playerBlackboard.crouchSettings.crouchSpeed;
+        accelerate = _playerBlackboard.walkSettings.accelerate;
         tr = rb.GetComponent<Transform>();
         LastYScale = tr.localScale.y;
         Crouch();
@@ -37,7 +37,7 @@ public class PlayerCrouchState : IState
 
     public void OnUpdate()
     {
-        moveDir = _playerBlackboard.moveDir;
+        moveDir = _playerBlackboard.otherSettings.moveDir;
 
         Walk();
         SpeedCon();

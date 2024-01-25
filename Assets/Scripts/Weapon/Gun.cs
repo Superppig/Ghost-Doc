@@ -11,8 +11,11 @@ public class Gun: MonoBehaviour
     protected bool aiming;//瞄准
     protected float fireWaitTime;
     protected float fireTimer = 0f;
+    //击中镜头晃动
+    protected CinemachineVirtualCamera camImpulse;
+
+    
     protected Animator gunAnimator;
-    protected CinemachineImpulseSource camImpulse;
     protected Transform orientation;//摄像机的transform
     protected Rigidbody rb;
     protected Camera _playerCam;

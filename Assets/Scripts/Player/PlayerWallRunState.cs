@@ -26,20 +26,20 @@ public class PlayerWallRunState : IState
     }
     public void OnEnter()
     {
-        rb = _playerBlackboard.m_rigidbody;
-        rb.velocity = _playerBlackboard.speed;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
+        rb.velocity = _playerBlackboard.otherSettings.speed;
 
-        wall = _playerBlackboard.currentWall;
-        rate = _playerBlackboard.wallRunGRate;
-        isLeft = _playerBlackboard.leftWall;
+        wall = _playerBlackboard.wallRunningSettings.currentWall;
+        rate = _playerBlackboard.wallRunningSettings.wallRunGRate;
+        isLeft = _playerBlackboard.wallRunningSettings.leftWall;
 
         trans = rb.GetComponent<Transform>();
-        camTrans = _playerBlackboard.camTrans;
-        ori = _playerBlackboard.orientation;
+        camTrans = _playerBlackboard.otherSettings.camTrans;
+        ori = _playerBlackboard.otherSettings.orientation;
 
-        speed = _playerBlackboard.speedMag > _playerBlackboard.wallRunSpeed
-            ? _playerBlackboard.speedMag
-            : _playerBlackboard.wallRunSpeed;//最小墙跑速度
+        speed = _playerBlackboard.otherSettings.speedMag > _playerBlackboard.wallRunningSettings.wallRunSpeed
+            ? _playerBlackboard.otherSettings.speedMag
+            : _playerBlackboard.wallRunningSettings.wallRunSpeed;//最小墙跑速度
 
         if (isLeft)
         {

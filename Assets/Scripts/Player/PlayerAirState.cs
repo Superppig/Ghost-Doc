@@ -24,10 +24,10 @@ public class PlayerAirState : IState
     }
     public void OnEnter()
     {
-        rb = _playerBlackboard.m_rigidbody;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
         
-        rb.velocity = _playerBlackboard.speed;//初始化速度
-        airTransformAccelerate = _playerBlackboard.airTransformAccelerate;
+        rb.velocity = _playerBlackboard.otherSettings.speed;//初始化速度
+        airTransformAccelerate = _playerBlackboard.airSettings.airTransformAccelerate;
     }
 
     public void OnExit()
@@ -37,7 +37,7 @@ public class PlayerAirState : IState
 
     public void OnUpdate()
     {
-        moveDir = _playerBlackboard.moveDir;
+        moveDir = _playerBlackboard.otherSettings.moveDir;
         MoveInAir();
     }
 

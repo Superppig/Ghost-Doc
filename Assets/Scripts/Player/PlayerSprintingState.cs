@@ -30,6 +30,10 @@ public class PlayerSprintingState : IState
     private EStateType next;//下一个状态
     private float timer;
     
+    //冲刺消耗
+    private IPlayer iplayer;
+    
+    
     public PlayerSprintingState(PlayerBlackboard playerBlackboard)
     {
         _playerBlackboard = playerBlackboard;
@@ -38,40 +42,42 @@ public class PlayerSprintingState : IState
     
     public void OnEnter()
     {
-        rb = _playerBlackboard.m_rigidbody;
-        sprintSpeed = _playerBlackboard.sprintSpeed;
-        orientation = _playerBlackboard.orientation;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
+        sprintSpeed = _playerBlackboard.sprintSettings.sprintSpeed;
+        orientation = _playerBlackboard.otherSettings.orientation;
 
-        camTrans = _playerBlackboard.camTrans;
-        cam = _playerBlackboard.cam;
+        camTrans = _playerBlackboard.otherSettings.camTrans;
+        cam = _playerBlackboard.otherSettings.cam;
 
-        leaveSpeed = _playerBlackboard.sprintLeaveSpeed;
+        leaveSpeed = _playerBlackboard.sprintSettings.sprintLeaveSpeed;
         firstSpeed = rb.velocity.magnitude;
         
-        sprintDir = _playerBlackboard.moveDir.magnitude>0.1f? _playerBlackboard.moveDir: orientation.forward.normalized;
+        sprintDir = _playerBlackboard.otherSettings.moveDir.magnitude>0.1f? _playerBlackboard.otherSettings.moveDir: orientation.forward.normalized;
         
-
         rb.velocity = Vector3.zero;
 
-        sprintTime = _playerBlackboard.sprintTime;
-        changeRate = _playerBlackboard.sprintChangeRate;
+        sprintTime = _playerBlackboard.sprintSettings.sprintTime;
+        changeRate = _playerBlackboard.otherSettings.sprintChangeRate;
+
+        iplayer = GameObject.FindWithTag("Player").GetComponent<IPlayer>();
+
         
         //调试
-        _vLineSummon = _playerBlackboard.vineLine;
+        _vLineSummon = _playerBlackboard.otherSettings.vineLine;
         //镜头行为
 
-        if (_playerBlackboard.dirInput.x > 0)
+        if (_playerBlackboard.otherSettings.dirInput.x > 0)
         {
             //镜头晃动
             camTrans.DOLocalRotate(new Vector3(0, 0, -3), 0.2f);
         }
-        else if(_playerBlackboard.dirInput.x < 0)
+        else if(_playerBlackboard.otherSettings.dirInput.x < 0)
         {
             camTrans.DOLocalRotate(new Vector3(0, 0, 3), 0.2f);
         }
         else
         {
-            if (_playerBlackboard.dirInput.z < 0)
+            if (_playerBlackboard.otherSettings.dirInput.z < 0)
             {
                 cam.DOFieldOfView(65, 0.2f);
             }
@@ -88,18 +94,27 @@ public class PlayerSprintingState : IState
 
     public void OnExit()
     {
-        next = _playerBlackboard.next;
+        next = _playerBlackboard.otherSettings.next;
         //冲刺跳
         float rate=leaveSpeed;//正常为冲刺前速度
         if (next == EStateType.Jumping)
         {
-            rate = changeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(sprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
+            if (iplayer.GetEnerge() > 100)
+            {
+                iplayer.TakeEnerge(100);
+                rate = changeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(sprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
+            }
+            else
+            {
+                //消耗失败
+                iplayer.TakeEnergeFailAudio();
+            }
         }
         
         
         rb.velocity = sprintDir * rate;
-        _playerBlackboard.speed=sprintDir * rate;
-        _playerBlackboard.speedMag = rate;
+        _playerBlackboard.otherSettings.speed=sprintDir * rate;
+        _playerBlackboard.otherSettings.speedMag = rate;
         
 
         camTrans.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);

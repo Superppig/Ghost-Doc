@@ -31,16 +31,16 @@ public class PlayerSlideState : IState
     }
     public void OnEnter()
     {
-        rb = _playerBlackboard.m_rigidbody;
-        rb.velocity = _playerBlackboard.speed;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
+        rb.velocity = _playerBlackboard.otherSettings.speed;
 
-        YScale = _playerBlackboard.slideYScale;
-        accelerate = _playerBlackboard.slideAccelerate;
-        slideSpeed = _playerBlackboard.speedMag;//继承向量
+        YScale = _playerBlackboard.slidingSettings.slideYScale;
+        accelerate = _playerBlackboard.slidingSettings.slideAccelerate;
+        slideSpeed = _playerBlackboard.otherSettings.speedMag;//继承向量
         
-        vineLine= _playerBlackboard.vineLine;
-        vinelineTime = _playerBlackboard.vineLineTime;
-        orientation = _playerBlackboard.orientation;
+        vineLine= _playerBlackboard.otherSettings.vineLine;
+        vinelineTime = _playerBlackboard.slidingSettings.vineLineTime;
+        orientation = _playerBlackboard.otherSettings.orientation;
         
         tr = rb.GetComponent<Transform>();
         cam = Camera.main;
@@ -65,7 +65,7 @@ public class PlayerSlideState : IState
         timer+=Time.deltaTime;
         if (timer> vinelineTime)
         {
-            vineLine.Summon(orientation.position, moveDir.normalized);
+            vineLine.Summon(orientation.position, orientation.forward.normalized);
             timer = 0f;
         }
     }
@@ -89,7 +89,7 @@ public class PlayerSlideState : IState
     {
         slideSpeed -= accelerate * Time.deltaTime;
         slideSpeed = slideSpeed > 0 ? slideSpeed : 0;
-        moveDir = _playerBlackboard.moveDir;
+        moveDir = _playerBlackboard.otherSettings.moveDir;
         rb.velocity = moveDir * slideSpeed;
     }
 }

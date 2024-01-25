@@ -30,14 +30,14 @@ public class PlayerWalkingState : IState
     {
         //读取黑板数据
 
-        rb = _playerBlackboard.m_rigidbody;
-        walkSpeed = _playerBlackboard.walkSpeed;
-        accelerate = _playerBlackboard.accelerate;
+        rb = _playerBlackboard.otherSettings.m_rigidbody;
+        walkSpeed = _playerBlackboard.walkSettings.walkSpeed;
+        accelerate = _playerBlackboard.walkSettings.accelerate;
         
-        rb.velocity = _playerBlackboard.speed;
-        camTrans = _playerBlackboard.camTrans;
+        rb.velocity = _playerBlackboard.otherSettings.speed;
+        camTrans = _playerBlackboard.otherSettings.camTrans;
 
-        covoteTime = _playerBlackboard.walkToSlideCovoteTime;
+        covoteTime = _playerBlackboard.otherSettings.walkToSlideCovoteTime;
         //初始化逻辑变量
         timer = 0f;
         isOverCovote = false;
@@ -53,8 +53,8 @@ public class PlayerWalkingState : IState
     }
     public void OnUpdate()
     {
-        moveDir = _playerBlackboard.moveDir;
-        dirInput = _playerBlackboard.dirInput;
+        moveDir = _playerBlackboard.otherSettings.moveDir;
+        dirInput = _playerBlackboard.otherSettings.dirInput;
         Walk();
         //土狼时间
         if (!isOverCovote)

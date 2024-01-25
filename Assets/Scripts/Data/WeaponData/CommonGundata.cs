@@ -26,6 +26,8 @@ namespace Data.WeaponData
 
         [Header("相机")] 
         public float impulseTime;
+        public float impulseAmplitude;
+        
         [Header("效果")] 
         public ParticleSystem hitEenemyParticle;
         public ParticleSystem hitBuildingParticle;

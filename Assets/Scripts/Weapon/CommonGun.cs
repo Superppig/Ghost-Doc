@@ -8,23 +8,26 @@ public class CommonGun : Gun
 {
     [Header("普通左轮")] 
     public CommonGundata data;
-    
     public Transform position;
 
     private Player player;
+    //noise组件
+    private CinemachineBasicMultiChannelPerlin noiseModule;
 
     protected override void Start()
     {
          //初始化数据
          pos = position;
          gunAnimator = GetComponent<Animator>();
-         player=GameObject.FindWithTag("Player").GetComponent<Player>();
-         camImpulse = player.GetComponent<CinemachineImpulseSource>();
+         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+         camImpulse = player.playerBlackboard.otherSettings.cam.GetComponent<CinemachineVirtualCamera>();
          rb=player.GetComponent<Rigidbody>();
-         orientation = player.playerBlackboard.camTrans;
+         orientation = player.playerBlackboard.otherSettings.camTrans;
          _playerCam=Camera.main;
          
          fireWaitTime = 60f / data.fireRate;
+         
+         noiseModule = camImpulse.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
     }
 
@@ -39,12 +42,18 @@ public class CommonGun : Gun
         RaycastHit hit;
         if (Physics.Raycast(fireRay, out hit, data.maxShootDistance))
         {
-            
-            //相机振动
-            camImpulse.GenerateImpulse(data.impulseTime);
             StartCoroutine(BulletStart(pos.position, hit.point));
             if (hit.collider.CompareTag("Enemy"))
             {
+                //相机振动
+                if (noiseModule != null)
+                {
+                    StartCoroutine(StartShake(data.impulseTime));
+                }
+                else
+                {
+                    Debug.LogWarning("未找到CinemachineBasicMultiChannelPerlin模块。");
+                }
                 HitPartical(hit,data.hitEenemyParticle);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 enemyBeHit.HitEnemy(data.damageRate);
@@ -107,5 +116,12 @@ public class CommonGun : Gun
         ParticleSystem fire = Instantiate(hitParticle,hit.point , rotation);
 
         Destroy(fire.gameObject,fire.main.duration);
+    }
+
+    IEnumerator StartShake(float time)
+    {
+        noiseModule.m_AmplitudeGain= data.impulseAmplitude;
+        yield return new WaitForSeconds(time);
+        noiseModule.m_AmplitudeGain = 0f;
     }
 }

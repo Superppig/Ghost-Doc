@@ -19,12 +19,13 @@ MonoBehaviour:
   maxShootDistance: 100
   bullet: {fileID: 2506413551038873761, guid: b2f2de65505f42344a6c3dad83cc3e2b, type: 3}
   lineWindth: 0.05
-  bulletTime: 0.2
+  bulletTime: 0.1
   fireRate: 120
   verOffMin: 2
   verOffMax: 5
   horOff: 1
   impulseTime: 0.1
+  impulseAmplitude: 5
   hitEenemyParticle: {fileID: 620170322299365509, guid: 74db1c713baecaf4d961ec0ffc390b78, type: 3}
   hitBuildingParticle: {fileID: 4176453105898601307, guid: 66c0eb140e6068e4d9ca453d1483853e, type: 3}
   fireParticle: {fileID: 2090035424201745229, guid: b099199f12a521742860a403de24b168, type: 3}
