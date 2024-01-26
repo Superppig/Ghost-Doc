@@ -44,7 +44,7 @@ public class PlayerEditor : AutoEditor
                 fixedWidth = WordWidth,
                 fixedHeight = BlockWidth,
             };
-            EditorGUI.indentLevel++;
+
             // 显示列名
             Matrix4x4 origin = GUI.matrix;
 
@@ -77,8 +77,6 @@ public class PlayerEditor : AutoEditor
             {
                 EditorUtility.SetDirty(player);
             }
-
-            EditorGUI.indentLevel--;
         }
     }
 }
