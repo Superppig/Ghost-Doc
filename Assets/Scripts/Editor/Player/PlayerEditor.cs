@@ -16,8 +16,8 @@ public class PlayerEditor : AutoEditor
     EStateType[] stateNames;
 
     private Player player;
-    [AutoProperty]
-    public SerializedProperty playerBlackboard;
+    //[AutoProperty]
+    //public SerializedProperty playerBlackboard;
 
     protected override void OnEnable()
     {
@@ -31,7 +31,7 @@ public class PlayerEditor : AutoEditor
 
     protected override void MyOnInspectorGUI()
     {
-        Rect GetControlRect(float width, float height)
+        static Rect GetControlRect(float width, float height)
             => EditorGUILayout.GetControlRect(GUILayout.Width(width), GUILayout.Height(height));
 
         foldout = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, "状态邻接矩阵");
@@ -44,7 +44,7 @@ public class PlayerEditor : AutoEditor
                 fixedWidth = WordWidth,
                 fixedHeight = BlockWidth,
             };
-            EditorGUI.indentLevel++;
+
             // 显示列名
             Matrix4x4 origin = GUI.matrix;
 
@@ -77,8 +77,6 @@ public class PlayerEditor : AutoEditor
             {
                 EditorUtility.SetDirty(player);
             }
-
-            EditorGUI.indentLevel--;
         }
     }
 }

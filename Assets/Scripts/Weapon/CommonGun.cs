@@ -20,9 +20,9 @@ public class CommonGun : Gun
          pos = position;
          gunAnimator = GetComponent<Animator>();
          player = GameObject.FindWithTag("Player").GetComponent<Player>();
-         camImpulse = player.playerBlackboard.otherSettings.cam.GetComponent<CinemachineVirtualCamera>();
+         camImpulse = Camera.main.GetComponent<CinemachineVirtualCamera>();
          rb=player.GetComponent<Rigidbody>();
-         orientation = player.playerBlackboard.otherSettings.camTrans;
+         orientation = player.cameraTransform;
          _playerCam=Camera.main;
          
          fireWaitTime = 60f / data.fireRate;
