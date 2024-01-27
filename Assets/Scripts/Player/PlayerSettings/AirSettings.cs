@@ -4,4 +4,5 @@ using System;
 public class AirSettings
 {
     public float airTransformAccelerate;
+    public float playerHeight;
 }

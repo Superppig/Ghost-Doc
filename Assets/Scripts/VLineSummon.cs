@@ -12,7 +12,8 @@ public class VLineSummon : MonoBehaviour
     public float exitTime;//存在时间
     public float deepth;//生成深度
 
-
+    public void Summon(Transform trasform)
+        => Summon(trasform.position, transform.forward.normalized);
 
     public void Summon(Vector3 position,Vector3 dir)
     {

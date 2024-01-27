@@ -1,6 +1,5 @@
-using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -29,7 +28,7 @@ public class PlayerCam : MonoBehaviour
     
     [Header("武器动作")] 
     private Player player;
-    private PlayerBlackboard _playerBlackboard;
+    private PlayerSettings _playerBlackboard;
     //呼吸摇动变量
     private Transform weaponSwayObject;
     public float swayAmountA = 1;
@@ -54,10 +53,9 @@ public class PlayerCam : MonoBehaviour
         Cursor.visible = false;
         
         //获取变量
-        player = transform.parent.GetComponent<Player>();
-        _playerBlackboard = player.playerBlackboard;
-        weaponSwayObject = _playerBlackboard.otherSettings.gunTrans;
-        gunRotate = _playerBlackboard.otherSettings.gunModel;
+        player = GetComponentInParent<Player>();
+        weaponSwayObject = player.gunTrans;
+        gunRotate = player.gunModel;
     }
     void Update()
     {
@@ -171,7 +169,7 @@ public class PlayerCam : MonoBehaviour
 
         if (weaponSwayObject==null)
         {
-            weaponSwayObject = _playerBlackboard.otherSettings.gunTrans;
+            weaponSwayObject = player.gunTrans;
         }
         weaponSwayObject.localPosition = swayPosition;
     }

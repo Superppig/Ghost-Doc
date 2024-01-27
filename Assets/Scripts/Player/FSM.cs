@@ -31,24 +31,18 @@ namespace Player_FSM
         void OnCheck();
         void OnFixUpdate();
     }
-    [Serializable]
-    public class Blackboard
-    {
-        //储存共享的数据,或者向外展示的数据,可配置的数据
-        
-    }
 
     public class FSM
     {
         public EStateType current;
         public IState curState;
         public Dictionary<EStateType, IState> states;
-        public Blackboard blackboard;
+        public Player player;
 
-        public FSM(Blackboard blackboard)
+        public FSM(Player player)
         {
-            this.states = new Dictionary<EStateType, IState>();
-            this.blackboard = blackboard;
+            states = new Dictionary<EStateType, IState>();
+            this.player = player;
         }
         
         public void AddState(EStateType stateType, IState state)

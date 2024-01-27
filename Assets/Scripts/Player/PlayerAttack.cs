@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Threading;
-using Cinemachine;
 using UnityEngine;
-using DG.Tweening;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -28,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         player = GetComponent<Player>();
-        weaponParent = player.playerBlackboard.otherSettings.cam.GetComponent<Transform>();
+        weaponParent = Camera.main.transform;
         //初始化
         SwitchWeapon(WeaponType.Gun,gunIndex);
     }
@@ -54,14 +49,14 @@ public class PlayerAttack : MonoBehaviour
             case WeaponType.Gun:
                 Gun gun = Instantiate(Guns[index],weaponParent,false);
                 currentWeapon=gun.gameObject;
-                player.playerBlackboard.otherSettings.gunModel = gun.model;
-                player.playerBlackboard.otherSettings.gunTrans = gun.trans;
+                player.gunModel = gun.model;
+                player.gunTrans = gun.trans;
                 break;
             case WeaponType.Melee:
                 Melee melee = Instantiate(Melees[index],weaponParent,false);
                 currentWeapon=melee.gameObject;
-                player.playerBlackboard.otherSettings.gunModel = melee.transform;
-                player.playerBlackboard.otherSettings.gunTrans = melee.transform;
+                player.gunModel = melee.transform;
+                player.gunTrans = melee.transform;
                 break;
         }
     }

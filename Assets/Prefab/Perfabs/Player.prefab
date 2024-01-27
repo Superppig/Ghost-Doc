@@ -1,5 +1,55 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &83834941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83834943}
+  - component: {fileID: 83834942}
+  m_Layer: 0
+  m_Name: VLine
+  m_TagString: VLine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &83834943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83834941}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.318, y: -4.3250003, z: 1.8069999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2400941453571652569}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &83834942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83834941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da2e7583698334944b6cff5592008506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  line: {fileID: 3030397125725106860, guid: 4b06a9084df75454a9b0bc5da6e0891f, type: 3}
+  r_min: 1
+  r_max: 2
+  count: 20
+  exitTime: 0.2
+  deepth: 5
 --- !u!1 &1604792440895484290
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,6 +94,7 @@ GameObject:
   - component: {fileID: 6394809933492538676}
   - component: {fileID: 6394809933492538677}
   - component: {fileID: 6394809933492538674}
+  - component: {fileID: 6394809933363404764}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -66,6 +117,7 @@ Transform:
   - {fileID: 2400941454820154825}
   - {fileID: 2400941454446745864}
   - {fileID: 2758232792674710150}
+  - {fileID: 83834943}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -115,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cb4d8615bf47a4fb6c9e48bc0598f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBlackboard:
+  settings:
     walkSettings:
       walkSpeed: 7
       accelerate: 1000
@@ -123,7 +175,6 @@ MonoBehaviour:
     jumpSettings:
       height: 4
       wallJumpSpeed: 5
-      isWallJump: 0
       exitWallTime: 0
     sprintSettings:
       sprintSpeed: 30
@@ -141,44 +192,61 @@ MonoBehaviour:
       startSlideSpeed: 1
     airSettings:
       airTransformAccelerate: 20
+      playerHeight: 2
     wallRunningSettings:
       wallRunSpeed: 15
-      whatIsWall:
-        serializedVersion: 2
-        m_Bits: 512
       wallRunGRate: 0.3
       wallCheckDistance: 0.6
       wallRunMinDisTance: 0.5
-      rightWall: 0
-      leftWall: 0
     keySettings:
       jumpkey: 32
       sprintKey: 304
       crouchKey: 99
       slideKey: 306
     otherSettings:
-      dirInput: {x: 0, y: 0, z: 0}
-      moveDir: {x: 0, y: 0, z: 0}
-      m_rigidbody: {fileID: 0}
-      orientation: {fileID: 2400941454820154825}
-      speed: {x: 0, y: 0, z: 0}
-      speedMag: 0
-      camTrans: {fileID: 6394809932711590825}
-      cam: {fileID: 0}
-      last: 0
-      current: 0
-      next: 0
-      playerHeight: 2
-      whatIsGround:
+      groundLayer:
         serializedVersion: 2
         m_Bits: 1024
+      wallLayer:
+        serializedVersion: 2
+        m_Bits: 512
       maxSlopeAngle: 40
       sprintChangeRate: 0.7
       walkToSlideCovoteTime: 0.1
       slideToJumpHeightRate: 0.5
-      gunModel: {fileID: 0}
-      gunTrans: {fileID: 0}
-      vineLine: {fileID: 0}
+  blackboard:
+    isWallJump: 0
+    dirInput: {x: 0, y: 0, z: 0}
+    moveDir: {x: 0, y: 0, z: 0}
+    velocity: {x: 0, y: 0, z: 0}
+    speed: 0
+    lastState: 0
+    currentState: 0
+    nextState: 0
+    isRight: 0
+    isLeft: 0
+  health: 100
+  maxHealth: 100
+  energe: 300
+  maxEnerge: 300
+  cameraTransform: {fileID: 6394809932711590825}
+  vineLine: {fileID: 83834942}
+  orientation: {fileID: 2400941454820154825}
+  gunModel: {fileID: 0}
+  gunTrans: {fileID: 0}
+  rb: {fileID: 0}
+--- !u!114 &6394809933363404764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400941453571652568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4136956b373fd1a46949358efd29ddce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2400941453953990343
 GameObject:
   m_ObjectHideFlags: 0

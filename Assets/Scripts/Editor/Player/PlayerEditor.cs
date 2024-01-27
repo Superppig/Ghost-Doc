@@ -16,8 +16,8 @@ public class PlayerEditor : AutoEditor
     EStateType[] stateNames;
 
     private Player player;
-    [AutoProperty]
-    public SerializedProperty playerBlackboard;
+    //[AutoProperty]
+    //public SerializedProperty playerBlackboard;
 
     protected override void OnEnable()
     {
@@ -31,7 +31,7 @@ public class PlayerEditor : AutoEditor
 
     protected override void MyOnInspectorGUI()
     {
-        Rect GetControlRect(float width, float height)
+        static Rect GetControlRect(float width, float height)
             => EditorGUILayout.GetControlRect(GUILayout.Width(width), GUILayout.Height(height));
 
         foldout = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, "状态邻接矩阵");
