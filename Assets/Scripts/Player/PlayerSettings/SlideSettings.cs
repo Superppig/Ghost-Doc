@@ -1,8 +1,7 @@
 using System;
-using UnityEngine;
 
 [Serializable]
-public class SlidingSettings
+public class SlideSettings
 {
     public float maxSlideTime; //最大滑行时间
     public float vineLineTime; //速度线时间

@@ -7,29 +7,44 @@ using UnityEngine;
 [CustomEditor(typeof(Player))]
 public class PlayerEditor : AutoEditor
 {
+    private StateMatrixDrawer drawer;
+    [AutoProperty]
+    public SerializedProperty playerblackboard;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        drawer = new StateMatrixDrawer(target as Player);
+        appendInspector = true;
+    }
+
+    protected override void MyOnInspectorGUI()
+    {
+        drawer.Draw();
+    }
+}
+
+public class StateMatrixDrawer
+{
     private const float WordWidth = 80f;
     private const float BlockWidth = 20f;
     private const float Offset = 1f;
 
     private Vector2 nameSize;
     private bool foldout;
-    EStateType[] stateNames;
+    private readonly EStateType[] stateNames;
 
-    private Player player;
-    //[AutoProperty]
-    //public SerializedProperty playerBlackboard;
+    private readonly Player player;
 
-    protected override void OnEnable()
+    public StateMatrixDrawer(Player player)
     {
-        base.OnEnable();
-        player = target as Player;
-        appendInspector = true;
+        this.player = player;
         nameSize = new Vector2(WordWidth, BlockWidth);
         stateNames = (EStateType[])Enum.GetValues(typeof(EStateType));
         foldout = true;
     }
 
-    protected override void MyOnInspectorGUI()
+    public void Draw()
     {
         static Rect GetControlRect(float width, float height)
             => EditorGUILayout.GetControlRect(GUILayout.Width(width), GUILayout.Height(height));

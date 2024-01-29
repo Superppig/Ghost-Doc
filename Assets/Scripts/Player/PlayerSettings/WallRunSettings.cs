@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class WallRunningSettings
+public class WallRunSettings
 {
     //墙跑速度改为继承
     public float wallRunSpeed; //墙跑速度

@@ -3,28 +3,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[Serializable]
-public class PlayerSettings
-{
-    public WalkSettings walkSettings;
-    public JumpSettings jumpSettings;
-    public SprintSettings sprintSettings;
-    public CrouchSettings crouchSettings;
-    public SlidingSettings slidingSettings;
-    public AirSettings airSettings;
-    public WallRunningSettings wallRunningSettings;
-    public KeySettings keySettings;
-    public OtherSettings otherSettings;
-}
-
 public class Player : MonoBehaviour,IPlayer
 {
     private FSM fsm;
     public PlayerSettings settings;
     public PlayerBlackboard blackboard;
 
-    private bool grounded;
-    private bool jumping;
     private RaycastHit slopeHit; //斜坡检测
     public bool[,] changeMatrix =
     {
@@ -50,6 +34,8 @@ public class Player : MonoBehaviour,IPlayer
     public Transform gunModel;
     public Transform gunTrans;
     public Rigidbody rb;
+    private bool grounded;
+    private bool jumping;
 
     private void Awake()
     {
@@ -68,7 +54,6 @@ public class Player : MonoBehaviour,IPlayer
     void Start()
     {
         fsm.SwitchState(EStateType.Walking);
-        settings.sprintSettings.sprintTime = settings.sprintSettings.sprintDistance / settings.sprintSettings.sprintSpeed;
     }
 
     void Update()
@@ -136,7 +121,7 @@ public class Player : MonoBehaviour,IPlayer
 
         //空中
         if (!grounded && blackboard.currentState != EStateType.Sprinting &&
-            !(!IsGrounded(settings.wallRunningSettings.wallRunMinDisTance) &&
+            !(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
               (blackboard.isRight || blackboard.isLeft)))//不是墙跑状态
         {
             if (CanSwitch(blackboard.currentState, EStateType.Air))
@@ -173,7 +158,7 @@ public class Player : MonoBehaviour,IPlayer
 
         //滑行
         if (Input.GetKey(settings.keySettings.slideKey) && grounded && blackboard.dirInput.magnitude > 0 &&
-            blackboard.speed > settings.slidingSettings.startSlideSpeed)
+            blackboard.speed > settings.slideSettings.startSlideSpeed)
         {
             if (CanSwitch(blackboard.currentState, EStateType.Sliding))
             {
@@ -214,7 +199,7 @@ public class Player : MonoBehaviour,IPlayer
         }
 
         //滑墙
-        if (!IsGrounded(settings.wallRunningSettings.wallRunMinDisTance) &&
+        if (!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
             (blackboard.isRight || blackboard.isLeft))
         {
             if (CanSwitch(blackboard.currentState, EStateType.WallRunning))
@@ -354,37 +339,37 @@ public class Player : MonoBehaviour,IPlayer
     {
         //新增墙壁检测
         blackboard.isRight = Physics.Raycast(transform.position, orientation.right,
-            out blackboard.wallRightHit, settings.wallRunningSettings.wallCheckDistance,
+            out blackboard.wallRightHit, settings.wallRunSettings.wallCheckDistance,
             settings.otherSettings.wallLayer);
         if (!blackboard.isRight)
         {
             Vector3 dir = (orientation.right+orientation.forward).normalized;
             blackboard.isRight = Physics.Raycast(transform.position, dir,
-                out blackboard.wallRightHit, settings.wallRunningSettings.wallCheckDistance,
+                out blackboard.wallRightHit, settings.wallRunSettings.wallCheckDistance,
                 settings.otherSettings.wallLayer);
         }
         else if(!blackboard.isRight)
         {
             Vector3 dir = (orientation.right-orientation.forward).normalized;
             blackboard.isRight = Physics.Raycast(transform.position, dir,
-                out blackboard.wallRightHit, settings.wallRunningSettings.wallCheckDistance,
+                out blackboard.wallRightHit, settings.wallRunSettings.wallCheckDistance,
                 settings.otherSettings.wallLayer);
         }
         blackboard.isLeft = Physics.Raycast(transform.position, -orientation.right,
-            out blackboard.wallLeftHit, settings.wallRunningSettings.wallCheckDistance,
+            out blackboard.wallLeftHit, settings.wallRunSettings.wallCheckDistance,
             settings.otherSettings.wallLayer);
         if (!blackboard.isLeft)
         {
             Vector3 dir = (-orientation.right+orientation.forward).normalized;
             blackboard.isLeft = Physics.Raycast(transform.position, dir,
-                out blackboard.wallLeftHit, settings.wallRunningSettings.wallCheckDistance,
+                out blackboard.wallLeftHit, settings.wallRunSettings.wallCheckDistance,
                 settings.otherSettings.wallLayer);
         }
         else if(!blackboard.isLeft)
         {
             Vector3 dir = (-orientation.right-orientation.forward).normalized;
             blackboard.isLeft = Physics.Raycast(transform.position, dir,
-                out blackboard.wallLeftHit, settings.wallRunningSettings.wallCheckDistance,
+                out blackboard.wallLeftHit, settings.wallRunSettings.wallCheckDistance,
                 settings.otherSettings.wallLayer);
         }
 

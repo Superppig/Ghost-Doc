@@ -11,7 +11,7 @@ public class PlayerSprintingState : PlayerStateBase
     private Vector3 sprintDir;
 
     private float ChangeRate => settings.otherSettings.sprintChangeRate;
-    private float SprintTime => settings.sprintSettings.sprintTime;
+    private float sprintTime;
 
     //逻辑变量
     private EStateType next;//下一个状态
@@ -22,6 +22,7 @@ public class PlayerSprintingState : PlayerStateBase
 
     public PlayerSprintingState(Player player) : base(player)
     {
+        sprintTime = settings.sprintSettings.sprintDistance / settings.sprintSettings.sprintSpeed;
     }
 
     public override void OnEnter()
@@ -71,7 +72,7 @@ public class PlayerSprintingState : PlayerStateBase
             if (iplayer.GetEnerge() > 100)
             {
                 iplayer.TakeEnerge(100);
-                rate = ChangeRate * ((timer / SprintTime < 1 ? timer / SprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
+                rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
             }
             else
             {

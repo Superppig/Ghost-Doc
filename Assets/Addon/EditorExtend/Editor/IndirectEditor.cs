@@ -10,6 +10,10 @@ namespace EditorExtend
     {
         public bool foldout;
         public string label;
+        protected virtual string DefaultLabel => string.Empty;
+
+        public void Initialize(SerializedProperty serializedProperty)
+            => Initialize(serializedProperty, DefaultLabel);
 
         public virtual void Initialize(SerializedProperty serializedProperty, string label)
         {

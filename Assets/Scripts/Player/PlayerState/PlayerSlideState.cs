@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class PlayerSlideState : PlayerStateBase
 {
-    private float YScale => settings.slidingSettings.slideYScale;
+    private float YScale => settings.slideSettings.slideYScale;
 
     private Vector3 MoveDir => blackboard.moveDir;
 
-    private float VinelineTime => settings.slidingSettings.vineLineTime;
-    private float Accelerate => settings.slidingSettings.slideAccelerate;
+    private float VinelineTime => settings.slideSettings.vineLineTime;
+    private float Accelerate => settings.slideSettings.slideAccelerate;
 
     private float slideSpeed;
     private Vector3 originalScale;
