@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class PlayerWallRunState : PlayerStateBase
 {
-    private float GRate => settings.wallRunningSettings.wallRunGRate;
+    private float GRate => settings.wallRunSettings.wallRunGRate;
     private RaycastHit CurrentWall => blackboard.currentWall;
-    private float WallRunSpeed => settings.wallRunningSettings.wallRunSpeed;
+    private float WallRunSpeed => settings.wallRunSettings.wallRunSpeed;
     
     private float speed;//速度
 

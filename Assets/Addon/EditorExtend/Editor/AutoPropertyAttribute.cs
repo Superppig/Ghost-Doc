@@ -36,7 +36,7 @@ namespace EditorExtend
                 {
                     SerializedProperty temp = serializedProperty.FindPropertyRelative(name);
                     if (temp != null)
-                        info.SetValue(obj, serializedProperty.FindPropertyRelative(name));
+                        info.SetValue(obj, temp);
                     else
                         Debug.Log($"{serializedProperty.name}找不到名为{name}的字段");
                 }

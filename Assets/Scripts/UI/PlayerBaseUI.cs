@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,24 +5,24 @@ public class PlayerBaseUI : MonoBehaviour
 {
     private Player player;
     private IPlayer iPlayer;
-    
-    private float maxHp;
-    private float maxEnerge;
-    private float currentHp;
-    private float currentEnerge;
+
+    private float MaxHealth => player.settings.otherSettings.maxHealth;
+    private float MaxEnergy => player.settings.otherSettings.maxEnergy;
+    private float Health => player.blackboard.health;
+    private float Energy => player.blackboard.energy;
 
 
-    private Slider health;
-    private Slider energe1;
-    private Slider energe2;
-    private Slider energe3;
+    private Slider healthSlider;
+    private Slider energySlider1;
+    private Slider energySlider2;
+    private Slider energySlider3;
 
     private Image energeImage1;
     private Image energeImage2;
     private Image energeImage3;
 
-    public Color energeColor1=Color.cyan;
-    public Color energeColor2=Color.blue;
+    public Color energeColor1 = Color.cyan;
+    public Color energeColor2 = Color.blue;
 
     public float MoveRange=0.2f;
     private Transform father;
@@ -33,62 +31,54 @@ public class PlayerBaseUI : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        iPlayer=player.GetComponent<IPlayer>();
+        iPlayer = player.GetComponent<IPlayer>();
         father = transform.parent;
-        
-        health = GameObject.Find("Health").GetComponent<Slider>();
-        energe1 = GameObject.Find("1").GetComponent<Slider>();
-        energe2 = GameObject.Find("2").GetComponent<Slider>();
-        energe3 = GameObject.Find("3").GetComponent<Slider>();
 
-        energeImage1 = energe1.fillRect.GetComponent<Image>();
-        energeImage2 = energe2.fillRect.GetComponent<Image>();
-        energeImage3 = energe3.fillRect.GetComponent<Image>();
+        Slider[] sliders = GetComponentsInChildren<Slider>();
+        healthSlider = sliders[0];
+        energySlider1 = sliders[1];
+        energySlider2 = sliders[2];
+        energySlider3 = sliders[3];
+
+        energeImage1 = energySlider1.fillRect.GetComponent<Image>();
+        energeImage2 = energySlider2.fillRect.GetComponent<Image>();
+        energeImage3 = energySlider3.fillRect.GetComponent<Image>();
     }
 
     void FixedUpdate()
     {
-        GetValue();
         ShowHp();
         ShowEnerge();
         Move();
     }
 
-    void GetValue()
-    {
-        maxHp = player.maxHealth;
-        maxEnerge = player.maxEnerge;
-        currentHp = player.health;
-        currentEnerge = player.energe;
-    }
-
     void ShowHp()
     {
-        health.value = currentHp / maxHp;
+        healthSlider.value = Health / MaxHealth;
     }
 
     void ShowEnerge()
     {
-        if (currentEnerge < maxEnerge / 3)
+        if (Energy < MaxEnergy / 3)
         {
-            energe1.value = currentEnerge * 1.0f / (maxEnerge / 3.0f);
-            energe2.value = 0f;
-            energe3.value = 0f;
+            energySlider1.value = Energy * 1.0f / (MaxEnergy / 3.0f);
+            energySlider2.value = 0f;
+            energySlider3.value = 0f;
         }
-        else if (currentEnerge >= maxEnerge / 3 && currentEnerge < 2 * maxEnerge / 3.0f)
+        else if (Energy >= MaxEnergy / 3 && Energy < 2 * MaxEnergy / 3.0f)
         {
-            energe1.value = 1f;
-            energe2.value = (currentEnerge - maxEnerge / 3.0f) * 1.0f / (maxEnerge / 3.0f);
-            energe3.value = 0f;
+            energySlider1.value = 1f;
+            energySlider2.value = (Energy - MaxEnergy / 3.0f) * 1.0f / (MaxEnergy / 3.0f);
+            energySlider3.value = 0f;
         }
-        else if (currentEnerge >= 2 * maxEnerge / 3)
+        else if (Energy >= 2 * MaxEnergy / 3)
         {
-            energe1.value = 1f;
-            energe2.value = 1f;
-            energe3.value = (currentEnerge - 2.0f * maxEnerge / 3.0f) * 1.0f / (maxEnerge / 3.0f);
+            energySlider1.value = 1f;
+            energySlider2.value = 1f;
+            energySlider3.value = (Energy - 2.0f * MaxEnergy / 3.0f) * 1.0f / (MaxEnergy / 3.0f);
         }
         //改变颜色
-        if ((1-energe1.value) > Mathf.Epsilon)
+        if ((1-energySlider1.value) > Mathf.Epsilon)
         {
             energeImage1.color = energeColor2;
         }
@@ -97,7 +87,7 @@ public class PlayerBaseUI : MonoBehaviour
             energeImage1.color = energeColor1;
         }
         
-        if ((1-energe2.value) > Mathf.Epsilon)
+        if ((1-energySlider2.value) > Mathf.Epsilon)
         {
             energeImage2.color = energeColor2;
         }
@@ -106,7 +96,7 @@ public class PlayerBaseUI : MonoBehaviour
             energeImage2.color = energeColor1;
         }       
         
-        if ((1-energe3.value) > Mathf.Epsilon)
+        if ((1-energySlider3.value) > Mathf.Epsilon)
         {
             energeImage3.color = energeColor2;
         }

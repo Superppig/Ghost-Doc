@@ -180,11 +180,10 @@ MonoBehaviour:
       sprintSpeed: 30
       sprintDistance: 4
       sprintLeaveSpeed: 7
-      sprintTime: 0
     crouchSettings:
       crouchSpeed: 5
       crouchYScale: 0.5
-    slidingSettings:
+    slideSettings:
       maxSlideTime: 1
       vineLineTime: 0.5
       slideYScale: 0.5
@@ -193,7 +192,7 @@ MonoBehaviour:
     airSettings:
       airTransformAccelerate: 20
       playerHeight: 2
-    wallRunningSettings:
+    wallRunSettings:
       wallRunSpeed: 15
       wallRunGRate: 0.3
       wallCheckDistance: 0.6

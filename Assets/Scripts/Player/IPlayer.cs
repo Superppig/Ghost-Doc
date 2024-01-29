@@ -3,7 +3,7 @@
 public interface IPlayer
 {
     void TakeDamage(float damage);
-    void TakeEnerge(float energe);
+    void UseEnerge(float energe);
     float GetHealth();
     float GetEnerge();
     
