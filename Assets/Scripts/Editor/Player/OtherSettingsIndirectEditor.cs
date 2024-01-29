@@ -9,11 +9,7 @@ public class OtherSettingsIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty groundLayer, wallLayer, maxSlopeAngle, sprintChangeRate, walkToSlideCovoteTime, slideToJumpHeightRate;
 
-    public OtherSettingsIndirectEditor(SerializedProperty serializedProperty, string label) : base(serializedProperty, label)
-    {
-    }
-
-    public OtherSettingsIndirectEditor(SerializedProperty serializedProperty) : base(serializedProperty)
+    public OtherSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
     {
     }
 
