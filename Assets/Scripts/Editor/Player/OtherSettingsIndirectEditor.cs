@@ -5,10 +5,22 @@ public class OtherSettingsIndirectEditor : IndirectEditor
 {
     protected override string DefaultLabel => "其他设置";
     [AutoProperty]
+    public SerializedProperty maxHealth, maxEnergy;
+    [AutoProperty]
     public SerializedProperty groundLayer, wallLayer, maxSlopeAngle, sprintChangeRate, walkToSlideCovoteTime, slideToJumpHeightRate;
+
+    public OtherSettingsIndirectEditor(SerializedProperty serializedProperty, string label) : base(serializedProperty, label)
+    {
+    }
+
+    public OtherSettingsIndirectEditor(SerializedProperty serializedProperty) : base(serializedProperty)
+    {
+    }
 
     protected override void MyOnInspectorGUI()
     {
+        maxHealth.FloatField("最大生命");
+        maxEnergy.FloatField("最大能量");
         groundLayer.PropertyField("地面Layer");
         wallLayer.PropertyField("墙壁Layer");
         maxSlopeAngle.FloatField("最大爬坡角");

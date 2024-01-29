@@ -12,21 +12,17 @@ namespace EditorExtend
         public string label;
         protected virtual string DefaultLabel => string.Empty;
 
-        public void Initialize(SerializedProperty serializedProperty)
-            => Initialize(serializedProperty, DefaultLabel);
-
-        public virtual void Initialize(SerializedProperty serializedProperty, string label)
+        public IndirectEditor(SerializedProperty serializedProperty, string label = null)
         {
             AutoPropertyAttribute.ApplyRelative(this, serializedProperty);
             foldout = true;
-            this.label = label;
+            this.label = label ?? DefaultLabel;
         }
 
         public virtual void OnInspectorGUI()
         {
             //FoldoutHeaderGroup不能嵌套，所以这里模仿嵌套的视觉效果，但没有嵌套
-            foldout = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, label);
-            EditorGUILayout.EndFoldoutHeaderGroup();
+            foldout = EditorGUI.Foldout(EditorGUILayout.GetControlRect(), foldout, label);
             if (foldout)
             {
                 EditorGUI.indentLevel++;

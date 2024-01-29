@@ -7,6 +7,10 @@ public class AirSettingsIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty airTransformAccelerate, playerHeight;
 
+    public AirSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
+    {
+    }
+
     protected override void MyOnInspectorGUI()
     {
         airTransformAccelerate.FloatField("加速度");

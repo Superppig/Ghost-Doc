@@ -7,6 +7,10 @@ public class CrouchSettingIndirectsEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty crouchSpeed, crouchYScale;
 
+    public CrouchSettingIndirectsEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
+    {
+    }
+
     protected override void MyOnInspectorGUI()
     {
         crouchSpeed.FloatField("移动速度");

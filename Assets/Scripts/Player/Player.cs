@@ -1,15 +1,17 @@
 using Player_FSM;
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour,IPlayer
 {
-    private FSM fsm;
     public PlayerSettings settings;
     public PlayerBlackboard blackboard;
 
-    private RaycastHit slopeHit; //斜坡检测
+    public Transform cameraTransform;
+    public VLineSummon vineLine;
+    public Transform orientation;
+
+    private FSM fsm;
     public bool[,] changeMatrix =
     {
         { false, true, true, true, true, true, false },
@@ -22,20 +24,9 @@ public class Player : MonoBehaviour,IPlayer
     }; //状态机转移邻接矩阵
 
 
-    public float health = 100f;
-    public float maxHealth = 100f;
-    public float  energe = 300;
-    public float  maxEnerge = 300;
-
-    public Transform cameraTransform;
-    public VLineSummon vineLine;
-    public Transform orientation;
-
     public Transform gunModel;
     public Transform gunTrans;
     public Rigidbody rb;
-    private bool grounded;
-    private bool jumping;
 
     private void Awake()
     {
@@ -59,8 +50,7 @@ public class Player : MonoBehaviour,IPlayer
     void Update()
     {
         //检测
-        grounded = !jumping && IsGrounded(0.1f);
-        //Debug.Log(grounded);
+        blackboard.grounded = !blackboard.jumping && IsGrounded(0.1f);
 
 
         if (!blackboard.isWallJump)
@@ -93,7 +83,7 @@ public class Player : MonoBehaviour,IPlayer
         SlopJudgement();
 
         //落地
-        if ((blackboard.currentState == EStateType.Jumping || blackboard.currentState == EStateType.Air) && grounded)
+        if ((blackboard.currentState == EStateType.Jumping || blackboard.currentState == EStateType.Air) && blackboard.grounded)
         {
             blackboard.lastState = blackboard.currentState;
             blackboard.nextState = EStateType.Walking;
@@ -120,7 +110,7 @@ public class Player : MonoBehaviour,IPlayer
 
 
         //空中
-        if (!grounded && blackboard.currentState != EStateType.Sprinting &&
+        if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting &&
             !(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
               (blackboard.isRight || blackboard.isLeft)))//不是墙跑状态
         {
@@ -138,9 +128,9 @@ public class Player : MonoBehaviour,IPlayer
         {
             if (CanSwitch(blackboard.currentState, EStateType.Sprinting))
             {
-                if(energe>100f)
+                if(blackboard.energy>100f)
                 {
-                    TakeEnerge(100);
+                    UseEnerge(100);
                     //开始冲刺
                     blackboard.lastState = blackboard.currentState;
                     blackboard.nextState = EStateType.Sprinting;
@@ -157,7 +147,7 @@ public class Player : MonoBehaviour,IPlayer
         }
 
         //滑行
-        if (Input.GetKey(settings.keySettings.slideKey) && grounded && blackboard.dirInput.magnitude > 0 &&
+        if (Input.GetKey(settings.keySettings.slideKey) && blackboard.grounded && blackboard.dirInput.magnitude > 0 &&
             blackboard.speed > settings.slideSettings.startSlideSpeed)
         {
             if (CanSwitch(blackboard.currentState, EStateType.Sliding))
@@ -180,7 +170,7 @@ public class Player : MonoBehaviour,IPlayer
         //跳跃
         if (Input.GetKey(settings.keySettings.jumpkey))
         {
-            if (grounded)
+            if (blackboard.grounded)
             {
                 if (CanSwitch(blackboard.currentState, EStateType.Jumping))
                 {
@@ -213,50 +203,6 @@ public class Player : MonoBehaviour,IPlayer
 
     private bool CanSwitch(EStateType current, EStateType next)
     {
-        /*if (current == StateType.walking)
-        {
-            if (next == StateType.crouching || next == StateType.sprinting || next == StateType.jumping ||
-                next == StateType.sliding || next == StateType.air)
-                return true;
-        }
-
-        else if (current == StateType.jumping)
-        {
-            if (next == StateType.air || next == StateType.jumping)
-                return true;
-        }
-
-        else if (current == StateType.sprinting)
-        {
-            if (next == StateType.walking || next == StateType.air || next == StateType.sliding||next== StateType.jumping)
-                return true;
-        }
-
-        else if (current == StateType.crouching)
-        {
-            if (next == StateType.walking)
-                return true;
-        }
-
-        else if (current == StateType.sliding)
-        {
-            if (next == StateType.walking || next == StateType.sprinting)
-                return true;
-        }
-
-        else if (current == StateType.air)
-        {
-            if (next == StateType.walking || next == StateType.wallRunning || next == StateType.sprinting)
-                return true;
-        }
-
-        else if (current == StateType.wallRunning)
-        {
-            if (next == StateType.air || next == StateType.jumping || next == StateType.walking)
-                return true;
-        }
-
-        return false;*/
         return changeMatrix[(int)current, (int)next];
     }
 
@@ -266,7 +212,7 @@ public class Player : MonoBehaviour,IPlayer
         yield return new WaitForSeconds(time);
 
         // 添加额外条件，检查当前状态是否为跳跃且仍然在空中
-        if (blackboard.currentState == EStateType.Jumping && !grounded)
+        if (blackboard.currentState == EStateType.Jumping && !blackboard.grounded)
         {
             // 如果仍然在空中，不要切回先前的状态
             yield break;
@@ -298,9 +244,9 @@ public class Player : MonoBehaviour,IPlayer
 
     IEnumerator StartJump(float time)
     {
-        jumping = true;
+        blackboard.jumping = true;
         yield return new WaitForSeconds(time);
-        jumping = false;
+        blackboard.jumping = false;
     }
 
     private void SlopJudgement()
@@ -309,7 +255,7 @@ public class Player : MonoBehaviour,IPlayer
                                     blackboard.dirInput.z * orientation.forward).normalized;
         if (OnSlope())
         {
-            blackboard.moveDir = Vector3.ProjectOnPlane(blackboard.moveDir, slopeHit.normal).normalized;
+            blackboard.moveDir = Vector3.ProjectOnPlane(blackboard.moveDir, blackboard.slopeHit.normal).normalized;
         }
     }
 
@@ -317,10 +263,10 @@ public class Player : MonoBehaviour,IPlayer
     private bool OnSlope()
     {
         //射线检测
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit,
+        if (Physics.Raycast(transform.position, Vector3.down, out blackboard.slopeHit,
                 settings.airSettings.playerHeight * 0.5f + 0.5f))
         {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            float angle = Vector3.Angle(Vector3.up, blackboard.slopeHit.normal);
             return angle < settings.otherSettings.maxSlopeAngle && angle != 0;
         }
 
@@ -383,31 +329,28 @@ public class Player : MonoBehaviour,IPlayer
     {
         EStateType now = blackboard.currentState;
         if(now!=EStateType.Sliding&&now!=EStateType.WallRunning&&now!=EStateType.Sprinting)
-            TakeEnerge(-100*Time.fixedDeltaTime);
+            UseEnerge(-100*Time.fixedDeltaTime);
     }
     
     
     //IPlayer接口实现
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        health = health < 0 ? 0 : health;
-        health = health > maxHealth ? maxHealth : health;
+        blackboard.health -= damage;
+        blackboard.health = Mathf.Clamp(blackboard.health - damage, 0, settings.otherSettings.maxHealth);
     }
 
-    public void TakeEnerge(float energe)
+    public void UseEnerge(float energy)
     {
-        this.energe -= energe;
-        this.energe = this.energe < 0 ? 0 : this.energe;
-        this.energe = this.energe > maxEnerge ? maxEnerge : this.energe;
+        blackboard.energy = Mathf.Clamp(blackboard.energy - energy, 0, settings.otherSettings.maxEnergy);
     }
     public float GetHealth()
     {
-        return health;
+        return blackboard.health;
     }
     public float GetEnerge()
     {
-        return energe;
+        return blackboard.energy;
     }
     public void TakeEnergeFailAudio()
     {

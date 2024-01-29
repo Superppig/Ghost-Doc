@@ -7,6 +7,10 @@ public class WallRunSettingsIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty wallRunSpeed, wallRunGRate, wallCheckDistance, wallRunMinDisTance;
 
+    public WallRunSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
+    {
+    }
+
     protected override void MyOnInspectorGUI()
     {
         wallRunSpeed.FloatField("移动速度");

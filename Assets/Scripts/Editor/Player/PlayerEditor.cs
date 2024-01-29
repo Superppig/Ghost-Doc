@@ -9,17 +9,29 @@ public class PlayerEditor : AutoEditor
 {
     private StateMatrixDrawer drawer;
     [AutoProperty]
-    public SerializedProperty playerblackboard;
+    public SerializedProperty settings, blackboard;
+
+    [AutoProperty]
+    public SerializedProperty cameraTransform, vineLine, orientation;
+
+    public PlayerSettingsIndirectEditor set;
+    public PlayerBlackboardIndirectEditor board;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         drawer = new StateMatrixDrawer(target as Player);
-        appendInspector = true;
+        set = new PlayerSettingsIndirectEditor(settings);
+        board = new PlayerBlackboardIndirectEditor(blackboard);
     }
 
     protected override void MyOnInspectorGUI()
     {
+        set.OnInspectorGUI();
+        board.OnInspectorGUI();
+        cameraTransform.PropertyField("cameraTransform");
+        orientation.PropertyField("orientation");
+        vineLine.PropertyField("vineLine");
         drawer.Draw();
     }
 }

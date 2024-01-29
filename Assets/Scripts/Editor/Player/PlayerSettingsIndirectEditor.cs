@@ -6,7 +6,7 @@ public class PlayerSettingsIndirectEditor : IndirectEditor
 {
     protected override string DefaultLabel => "参数设置";
     [AutoProperty]
-    public SerializedProperty walkSettings,jumpSettings, sprintSettings, crouchSettings, slideSettings, airSettings, wallRunningSettings, keySettings, otherSettings;
+    public SerializedProperty walkSettings,jumpSettings, sprintSettings, crouchSettings, slideSettings, airSettings, wallRunSettings, keySettings, otherSettings;
 
     public WalkSettingsIndirectEditor walk;
     public JumpSettingsIndirectEditor jump;
@@ -14,20 +14,19 @@ public class PlayerSettingsIndirectEditor : IndirectEditor
     public SlideSettingsIndirectEditor slide;
     public CrouchSettingIndirectsEditor crouch;
     public AirSettingsIndirectEditor air;
-    public WallRunSettingsIndirectEditor wallRunning;
+    public WallRunSettingsIndirectEditor wallRun;
     public OtherSettingsIndirectEditor other;
 
-    public override void Initialize(SerializedProperty serializedProperty, string label)
+    public PlayerSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
     {
-        base.Initialize(serializedProperty, label);
-        walk.Initialize(walkSettings);
-        jump.Initialize(jumpSettings);
-        sprint.Initialize(sprintSettings);
-        crouch.Initialize(crouchSettings);
-        slide.Initialize(slideSettings);
-        air.Initialize(airSettings);
-        wallRunning.Initialize(wallRunningSettings);
-        other.Initialize(otherSettings);
+        walk = new WalkSettingsIndirectEditor(walkSettings);
+        jump = new JumpSettingsIndirectEditor(jumpSettings);
+        sprint = new SprintSettingsIndirectEditor(sprintSettings);
+        crouch = new CrouchSettingIndirectsEditor(crouchSettings);
+        slide = new SlideSettingsIndirectEditor(slideSettings);
+        air = new AirSettingsIndirectEditor(airSettings);
+        wallRun = new WallRunSettingsIndirectEditor(wallRunSettings);
+        other = new OtherSettingsIndirectEditor(otherSettings);
     }
 
     protected override void MyOnInspectorGUI()
@@ -38,7 +37,7 @@ public class PlayerSettingsIndirectEditor : IndirectEditor
         crouch.OnInspectorGUI();
         slide.OnInspectorGUI();
         air.OnInspectorGUI();
-        wallRunning.OnInspectorGUI();
+        wallRun.OnInspectorGUI();
         other.OnInspectorGUI();
         keySettings.PropertyField("按键设置");
     }

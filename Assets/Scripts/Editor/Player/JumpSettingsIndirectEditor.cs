@@ -7,6 +7,14 @@ public class JumpSettingsIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty height, wallJumpSpeed, exitWallTime;
 
+    public JumpSettingsIndirectEditor(SerializedProperty serializedProperty, string label) : base(serializedProperty, label)
+    {
+    }
+
+    public JumpSettingsIndirectEditor(SerializedProperty serializedProperty) : base(serializedProperty)
+    {
+    }
+
     protected override void MyOnInspectorGUI()
     {
         height.FloatField("跳跃高度");

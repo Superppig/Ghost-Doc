@@ -71,7 +71,7 @@ public class PlayerSprintingState : PlayerStateBase
         {
             if (iplayer.GetEnerge() > 100)
             {
-                iplayer.TakeEnerge(100);
+                iplayer.UseEnerge(100);
                 rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
             }
             else

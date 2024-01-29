@@ -8,6 +8,10 @@ public class SlideSettingsIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty maxSlideTime, vineLineTime, slideYScale, slideAccelerate, startSlideSpeed;
 
+    public SlideSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
+    {
+    }
+
     protected override void MyOnInspectorGUI()
     {
         maxSlideTime.FloatField("最大滑行时间");

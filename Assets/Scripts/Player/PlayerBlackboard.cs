@@ -5,6 +5,11 @@ using UnityEngine;
 [Serializable]
 public class PlayerBlackboard
 {
+    public float health = 100f;
+    public float energy = 300f;
+
+    public bool grounded;
+    public bool jumping;
     public bool isWallJump;
 
     public Vector3 dirInput;
@@ -16,10 +21,11 @@ public class PlayerBlackboard
     public EStateType currentState;
     public EStateType nextState;
 
-
     public RaycastHit wallLeftHit;
     public RaycastHit wallRightHit;
     public RaycastHit currentWall;
     public bool isRight;
     public bool isLeft;
+
+    public RaycastHit slopeHit; //斜坡检测
 }

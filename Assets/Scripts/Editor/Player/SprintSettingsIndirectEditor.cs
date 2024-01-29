@@ -7,6 +7,10 @@ public class SprintSettingsIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty sprintSpeed, sprintDistance, sprintLeaveSpeed;
 
+    public SprintSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
+    {
+    }
+
     protected override void MyOnInspectorGUI()
     {
         sprintSpeed.FloatField("冲刺速度");
