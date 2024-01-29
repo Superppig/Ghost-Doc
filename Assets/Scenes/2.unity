@@ -1898,22 +1898,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cameras
       objectReference: {fileID: 0}
-    - target: {fileID: 2128754887249970033, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2128754887272203083, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2128754887505730748, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2128754887726318466, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2128754887903796518, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
       propertyPath: m_Follow
       value: 
