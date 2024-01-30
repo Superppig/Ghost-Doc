@@ -7,7 +7,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
     protected override string DefaultLabel => "玩家状态";
 
     [AutoProperty]
-    public SerializedProperty health, energy;
+    public SerializedProperty health, energy, maxHealth, maxEnergy;
     [AutoProperty]
     public SerializedProperty isWallJump, dirInput, moveDir, velocity, speed;
     [AutoProperty]
@@ -21,7 +21,9 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
 
     protected override void MyOnInspectorGUI()
     {
+        maxHealth.FloatField("最大生命");
         health.FloatField("当前生命");
+        maxEnergy.FloatField("最大生命");
         energy.FloatField("当前能量");
         EditorGUI.BeginDisabledGroup(true);
         isWallJump.BoolField("isWallJump");
