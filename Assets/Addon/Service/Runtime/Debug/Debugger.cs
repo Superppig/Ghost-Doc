@@ -8,12 +8,6 @@ namespace Services
     {
         public static DebuggerSettings settings;
 
-        static Debugger()
-        {
-            settings = Resources.Load<DebuggerSettings>(nameof(DebuggerSettings));
-            settings.Copy();
-        }
-
         public static void Log(object message, EMessageType type = EMessageType.Default)
         {
             Log(message, type, Debug.Log);
@@ -31,6 +25,19 @@ namespace Services
 
         private static void Log(object message, EMessageType type, UnityAction<object> method)
         {
+            if(settings == null)
+            {
+                try
+                {
+                    settings = Resources.Load<DebuggerSettings>(nameof(DebuggerSettings));
+                    settings.Copy();
+                }
+                catch
+                {
+                    method.Invoke(message);
+                    Debug.LogWarning($"无法加载DebuggerSettings");
+                }
+            }
             if (settings.GetAllowLog(type))
             {
                 message = FormatMessage(message, type);

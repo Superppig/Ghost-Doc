@@ -215,10 +215,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 484738458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: 38d7c74dcd7f2eb47868b9289b9aee37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: AssetLoader
 --- !u!1 &696849558
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,10 +259,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 696849558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a00c6d3c5b625f489b86672a9f7b911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: SaveManager
 --- !u!1 &1115605276
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,10 +303,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1115605276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: 41f49b42971d3234488f22998cee71c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: GlobalGameCycle
 --- !u!1 &1281416051
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,10 +347,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1281416051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: 604073a1d35c124408912335dca5cedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: EventSystem
 --- !u!1 &1790670938
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,10 +391,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790670938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: cc5c709fb333cba48aa208d2042e8f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: SceneController
+  async: 0
+  needConfirm: 0
 --- !u!1 &1840634011
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,10 +481,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2019740490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: a149911696ed42a46866c537056d42e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: ObjectManager
 --- !u!1 &2099774221
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +525,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2099774221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b66196fbcfc93408fdb193fb8b692e, type: 3}
+  m_Script: {fileID: 11500000, guid: 01f1217225e6a7c4a8bbede057bafa8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: AudioPlayer

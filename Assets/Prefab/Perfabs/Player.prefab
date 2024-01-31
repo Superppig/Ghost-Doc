@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 6394809933492538676}
   - component: {fileID: 6394809933492538677}
   - component: {fileID: 6394809933492538674}
-  - component: {fileID: 6394809933363404764}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -214,6 +213,12 @@ MonoBehaviour:
       walkToSlideCovoteTime: 0.1
       slideToJumpHeightRate: 0.5
   blackboard:
+    maxHealth: 100
+    health: 0
+    maxEnergy: 300
+    energy: 0
+    grounded: 0
+    jumping: 0
     isWallJump: 0
     dirInput: {x: 0, y: 0, z: 0}
     moveDir: {x: 0, y: 0, z: 0}
@@ -224,28 +229,12 @@ MonoBehaviour:
     nextState: 0
     isRight: 0
     isLeft: 0
-  health: 100
-  maxHealth: 100
-  energe: 300
-  maxEnerge: 300
   cameraTransform: {fileID: 6394809932711590825}
   vineLine: {fileID: 83834942}
   orientation: {fileID: 2400941454820154825}
   gunModel: {fileID: 0}
   gunTrans: {fileID: 0}
   rb: {fileID: 0}
---- !u!114 &6394809933363404764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2400941453571652568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4136956b373fd1a46949358efd29ddce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2400941453953990343
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,16 +42,16 @@ public class Player : MonoBehaviour
     }
 
 
-    void Start()
+    private void Start()
     {
+        Reborn();
         fsm.SwitchState(EStateType.Walking);
     }
 
-    void Update()
+    private void Update()
     {
         //检测
         blackboard.grounded = !blackboard.jumping && IsGrounded(0.1f);
-
 
         if (!blackboard.isWallJump)
         {
@@ -73,6 +73,12 @@ public class Player : MonoBehaviour
     {
         fsm.OnFixUpdate();
         EnergeRecover();
+    }
+
+    public void Reborn()
+    {
+        blackboard.Health = blackboard.maxHealth;
+        blackboard.Energy = blackboard.maxEnergy;
     }
 
     private void MyInput()
@@ -128,7 +134,7 @@ public class Player : MonoBehaviour
         {
             if (CanSwitch(blackboard.currentState, EStateType.Sprinting))
             {
-                if(blackboard.energy>100f)
+                if(blackboard.Energy>100f)
                 {
                     UseEnerge(100);
                     //开始冲刺
@@ -336,21 +342,21 @@ public class Player : MonoBehaviour
     //IPlayer接口实现
     public void TakeDamage(float damage)
     {
-        blackboard.health -= damage;
-        blackboard.health = Mathf.Clamp(blackboard.health - damage, 0, settings.otherSettings.maxHealth);
+        blackboard.Health -= damage;
+        blackboard.Health = Mathf.Clamp(blackboard.Health - damage, 0, blackboard.maxHealth);
     }
 
     public void UseEnerge(float energy)
     {
-        blackboard.energy = Mathf.Clamp(blackboard.energy - energy, 0, settings.otherSettings.maxEnergy);
+        blackboard.Energy = Mathf.Clamp(blackboard.Energy - energy, 0, blackboard.maxEnergy);
     }
     public float GetHealth()
     {
-        return blackboard.health;
+        return blackboard.Health;
     }
     public float GetEnerge()
     {
-        return blackboard.energy;
+        return blackboard.Energy;
     }
     public void TakeEnergeFailAudio()
     {
