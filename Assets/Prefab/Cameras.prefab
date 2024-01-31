@@ -1726,9 +1726,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64332843316b925478b420b6cc724e3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energeColor1: {r: 0, g: 1, b: 1, a: 1}
-  energeColor2: {r: 0, g: 0, b: 1, a: 1}
-  MoveRange: 1
+  amplitude: 0.2
+  color_fullEnergy: {r: 0, g: 0.69803923, b: 0.8980392, a: 1}
+  color_noEnergy: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2128754888603317280
 GameObject:
   m_ObjectHideFlags: 0

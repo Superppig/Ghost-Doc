@@ -1,7 +1,6 @@
 using EditorExtend;
 using UnityEditor;
 
-[CustomEditor(typeof(PlayerSettings))]
 public class PlayerSettingsIndirectEditor : IndirectEditor
 {
     protected override string DefaultLabel => "参数设置";

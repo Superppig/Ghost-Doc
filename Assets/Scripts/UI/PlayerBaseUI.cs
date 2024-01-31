@@ -1,116 +1,75 @@
+using Services;
+using Services.Event;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerBaseUI : MonoBehaviour
 {
-    private Player player;
-    private IPlayer iPlayer;
+    private IEventSystem eventSystem;
 
-    private float MaxHealth => player.settings.otherSettings.maxHealth;
-    private float MaxEnergy => player.settings.otherSettings.maxEnergy;
-    private float Health => player.blackboard.health;
-    private float Energy => player.blackboard.energy;
-
+    public float amplitude = 0.2f;
+    public Color color_fullEnergy;
+    public Color color_noEnergy;
 
     private Slider healthSlider;
-    private Slider energySlider1;
-    private Slider energySlider2;
-    private Slider energySlider3;
-
-    private Image energeImage1;
-    private Image energeImage2;
-    private Image energeImage3;
-
-    public Color energeColor1 = Color.cyan;
-    public Color energeColor2 = Color.blue;
-
-    public float MoveRange=0.2f;
+    private readonly List<Slider> energySliders = new List<Slider>();
+    private readonly List<Image> energyImages = new List<Image>();
     private Transform father;
+    private Player player;
 
-
-    void Start()
+    private void Awake()
     {
+        eventSystem = ServiceLocator.Get<IEventSystem>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        iPlayer = player.GetComponent<IPlayer>();
-        father = transform.parent;
-
         Slider[] sliders = GetComponentsInChildren<Slider>();
         healthSlider = sliders[0];
-        energySlider1 = sliders[1];
-        energySlider2 = sliders[2];
-        energySlider3 = sliders[3];
-
-        energeImage1 = energySlider1.fillRect.GetComponent<Image>();
-        energeImage2 = energySlider2.fillRect.GetComponent<Image>();
-        energeImage3 = energySlider3.fillRect.GetComponent<Image>();
+        for (int i = 1; i < sliders.Length; i++)
+        {
+            energySliders.Add(sliders[i]);
+            energyImages.Add(sliders[i].fillRect.GetComponent<Image>());
+        }
+        father = transform.parent;
     }
 
-    void FixedUpdate()
+    private void OnEnable()
     {
-        ShowHp();
-        ShowEnerge();
-        Move();
+        eventSystem.AddListener<float, float>(EEvent.PlayerHPChange, ShowHealth);
+        eventSystem.AddListener<float, float>(EEvent.PlayerEnergyChange, ShowEnergy);
     }
 
-    void ShowHp()
+    private void OnDisable()
     {
-        healthSlider.value = Health / MaxHealth;
+        eventSystem.RemoveListener<float, float>(EEvent.PlayerHPChange, ShowHealth);
+        eventSystem.RemoveListener<float, float>(EEvent.PlayerEnergyChange, ShowEnergy);
     }
 
-    void ShowEnerge()
+    private void FixedUpdate()
     {
-        if (Energy < MaxEnergy / 3)
+        Flutter();
+    }
+
+    private void ShowHealth(float health, float max)
+    {
+        healthSlider.value = health / max;
+    }
+
+    private void ShowEnergy(float energy, float max)
+    {
+        float percent = energy * 3 / max;
+        float temp;
+        for (int i = 0; i < energySliders.Count; i++)
         {
-            energySlider1.value = Energy * 1.0f / (MaxEnergy / 3.0f);
-            energySlider2.value = 0f;
-            energySlider3.value = 0f;
-        }
-        else if (Energy >= MaxEnergy / 3 && Energy < 2 * MaxEnergy / 3.0f)
-        {
-            energySlider1.value = 1f;
-            energySlider2.value = (Energy - MaxEnergy / 3.0f) * 1.0f / (MaxEnergy / 3.0f);
-            energySlider3.value = 0f;
-        }
-        else if (Energy >= 2 * MaxEnergy / 3)
-        {
-            energySlider1.value = 1f;
-            energySlider2.value = 1f;
-            energySlider3.value = (Energy - 2.0f * MaxEnergy / 3.0f) * 1.0f / (MaxEnergy / 3.0f);
-        }
-        //改变颜色
-        if ((1-energySlider1.value) > Mathf.Epsilon)
-        {
-            energeImage1.color = energeColor2;
-        }
-        else
-        {
-            energeImage1.color = energeColor1;
-        }
-        
-        if ((1-energySlider2.value) > Mathf.Epsilon)
-        {
-            energeImage2.color = energeColor2;
-        }
-        else
-        {
-            energeImage2.color = energeColor1;
-        }       
-        
-        if ((1-energySlider3.value) > Mathf.Epsilon)
-        {
-            energeImage3.color = energeColor2;
-        }
-        else
-        {
-            energeImage3.color = energeColor1;
+            temp = Mathf.Clamp01(percent- i);
+            energySliders[i].value = temp;
+            energyImages[i].color = Color.Lerp(color_noEnergy, color_fullEnergy, temp);
         }
     }
     
-    //移动
-    void Move()
+    private void Flutter()
     {
-        Vector3 speed = iPlayer.GetSpeed();
-        father.localPosition = iPlayer.GetOriRotation() *
-                               new Vector3(speed.x * MoveRange, speed.y *MoveRange, -speed.z * MoveRange);
+        Vector3 velocity = player.blackboard.velocity;
+        velocity = new Vector3(velocity.x, velocity.y, -velocity.z);
+        father.localPosition = player.orientation.rotation * velocity * amplitude;
     }
 }

@@ -1,7 +1,6 @@
 using EditorExtend;
 using UnityEditor;
 
-[CustomEditor(typeof(SlideSettings))]
 public class SlideSettingsIndirectEditor : IndirectEditor
 {
     protected override string DefaultLabel => "滑行设置";

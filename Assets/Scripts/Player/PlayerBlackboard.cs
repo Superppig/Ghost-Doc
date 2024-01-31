@@ -1,12 +1,45 @@
 using Player_FSM;
+using Services;
+using Services.Event;
 using System;
 using UnityEngine;
 
 [Serializable]
 public class PlayerBlackboard
 {
-    public float health = 100f;
-    public float energy = 300f;
+    private readonly IEventSystem eventSystem;
+
+    public float maxHealth = 100f;
+    [SerializeField]
+    private float health;
+    public float Health
+    {
+        get => health;
+        set
+        {
+            if (value != health)
+            {
+                eventSystem.Invoke(EEvent.PlayerHPChange, value, maxHealth);
+                health = value;
+            }
+        }
+    }
+
+    public float maxEnergy = 300f;
+    [SerializeField]
+    private float energy;
+    public float Energy
+    {
+        get => energy;
+        set
+        {
+            if (value != energy)
+            {
+                eventSystem.Invoke(EEvent.PlayerEnergyChange, value, maxEnergy);
+                energy = value;
+            }
+        }
+    }
 
     public bool grounded;
     public bool jumping;
@@ -28,4 +61,9 @@ public class PlayerBlackboard
     public bool isLeft;
 
     public RaycastHit slopeHit; //斜坡检测
+
+    public PlayerBlackboard()
+    {
+        eventSystem = ServiceLocator.Get<IEventSystem>();
+    }
 }
