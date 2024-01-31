@@ -17,8 +17,7 @@ public class PlayerSprintingState : PlayerStateBase
     private EStateType next;//下一个状态
     private float timer;
     
-    //冲刺消耗
-    private IPlayer iplayer;
+    
 
     public PlayerSprintingState(Player player) : base(player)
     {
@@ -32,7 +31,6 @@ public class PlayerSprintingState : PlayerStateBase
         sprintDir = blackboard.moveDir.magnitude > 0.1f ? blackboard.moveDir : player.orientation.forward.normalized;
         
         rb.velocity = Vector3.zero;
-        iplayer = player.GetComponent<IPlayer>();
 
         //镜头行为
 
@@ -69,15 +67,15 @@ public class PlayerSprintingState : PlayerStateBase
         float rate=LeaveSpeed;//正常为冲刺前速度
         if (next == EStateType.Jumping)
         {
-            if (iplayer.GetEnerge() > 100)
+            if (player.GetEnerge() > 100)
             {
-                iplayer.UseEnerge(100);
+                player.UseEnerge(100);
                 rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
             }
             else
             {
                 //消耗失败
-                iplayer.TakeEnergeFailAudio();
+                player.TakeEnergeFailAudio();
             }
         }
         

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class PlayerBaseUI : MonoBehaviour
 {
     private Player player;
-    private IPlayer iPlayer;
 
     private float MaxHealth => player.settings.otherSettings.maxHealth;
     private float MaxEnergy => player.settings.otherSettings.maxEnergy;
@@ -31,7 +30,6 @@ public class PlayerBaseUI : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        iPlayer = player.GetComponent<IPlayer>();
         father = transform.parent;
 
         Slider[] sliders = GetComponentsInChildren<Slider>();
@@ -109,8 +107,8 @@ public class PlayerBaseUI : MonoBehaviour
     //移动
     void Move()
     {
-        Vector3 speed = iPlayer.GetSpeed();
-        father.localPosition = iPlayer.GetOriRotation() *
+        Vector3 speed = player.GetSpeed();
+        father.localPosition = player.GetOriRotation() *
                                new Vector3(speed.x * MoveRange, speed.y *MoveRange, -speed.z * MoveRange);
     }
 }

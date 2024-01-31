@@ -2,7 +2,7 @@ using Player_FSM;
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour,IPlayer
+public class Player : MonoBehaviour
 {
     public PlayerSettings settings;
     public PlayerBlackboard blackboard;
