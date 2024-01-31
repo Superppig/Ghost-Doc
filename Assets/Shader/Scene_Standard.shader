@@ -168,7 +168,7 @@ Shader "XinY/Scene_Standard"
                 half roughness = max(perceptualRoughness * perceptualRoughness, HALF_MIN_SQRT);
                 half roughness2 = max(roughness * roughness, HALF_MIN);;
                 half grazingTerm = saturate(smoothness + reflectivity);;
-                half normalizationTerm = roughness * half(4.0) + half(2.0);;     // roughness * 4.0 + 2.0
+                half normalizationTerm = roughness * half(4.0) + half(2.0);     // roughness * 4.0 + 2.0
                 half roughness2MinusOne = roughness2 - half(1.0);;    // roughness^2 - 1.0
                 half alpha = baseMap.a * oneMinusReflectivity + reflectivity;
                 half3 emission = _EmissionColor*SAMPLE_TEXTURE2D(_EmissionMap,sampler_EmissionMap,i.uv);
