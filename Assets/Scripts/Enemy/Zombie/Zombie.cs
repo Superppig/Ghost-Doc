@@ -6,11 +6,16 @@ public class Zombie : Enemy
 {
     public float headDamage;
     public float bodyDamage;
-    public GameObject player;
-    private Vector3 targetPosition;
-
-    private Seeker seeker;
+    public Player player;
     
+    [Header("攻击")]
+    public float attackRate;
+    public EnemyBullet bullet;
+    private float timer;
+    
+    [Header("寻路相关")]
+    private Vector3 targetPosition;
+    private Seeker seeker;
     //存储路径
     public Path path;
     //角色移动速度
@@ -28,7 +33,16 @@ public class Zombie : Enemy
         seeker = GetComponent<Seeker>();
         //注册回调函数，在Astar Path完成后调用此函数
         seeker.pathCallback += OnPathComplete;
-        player=GameObject.FindWithTag("Player");
+        player=GameObject.FindWithTag("Player").GetComponent<Player>();
+
+
+        timer = 0f;
+    }
+    
+    void Update()
+    {
+        Attack();
+        Dead();
     }
     void FixedUpdate()
     {
@@ -47,7 +61,7 @@ public class Zombie : Enemy
         //当前搜索点编号大于等于路径存储的总点数时，路径搜索结束
         if (currentWaypoint>=path.vectorPath.Count)
         {
-            Debug.Log("路径搜索结束");
+            //Debug.Log("路径搜索结束");
             return;
         }
         //确定当前物体方向
@@ -65,13 +79,29 @@ public class Zombie : Enemy
             return;
         }
     }
+
+    void Attack()
+    {
+        float time = 1 / attackRate;
+        timer+=Time.deltaTime;
+        if (timer>time)
+        {
+            timer = 0f;
+            EnemyBullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
+            bullet1.dir = (player.transform.position - transform.position).normalized;
+            bullet1.damage = damage;
+        }
+    }
+
+
+
     /// <summary>
     /// 当寻路结束后调用这个函数
     /// </summary>
     /// <param name="p"></param>
     private void OnPathComplete(Path p)
     {
-        Debug.Log("发现这个路线"+p.error);
+        //Debug.Log("发现这个路线"+p.error);
         if (!p.error)
         {
             path = p;
@@ -81,12 +111,6 @@ public class Zombie : Enemy
     private void OnDisable()
     {
         seeker.pathCallback -= OnPathComplete;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Dead();
     }
 
     public override void TakeDamage(float damage)

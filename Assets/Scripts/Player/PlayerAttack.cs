@@ -11,6 +11,9 @@ public class PlayerAttack : MonoBehaviour
     private WeaponType currentType;
     private Player player;
     private Transform weaponParent;
+    
+    private Melee currentMelee;
+    private Gun currentGun;
     private enum WeaponType
     {
         Gun,//枪械
@@ -30,13 +33,21 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        //初步实现切换武器
-        if (Input.GetKeyDown(KeyCode.V))
+        PlayerInput();
+    }
+    
+    private void PlayerInput()
+    {
+        //右键为近战
+        if (Input.GetMouseButtonDown(1))
         {
             if(currentType==WeaponType.Gun)
                 SwitchWeapon(WeaponType.Melee,meleeIndex);
-            else
-                SwitchWeapon(WeaponType.Gun,gunIndex);
+        }
+        //近战攻击后切回枪械
+        if (currentType == WeaponType.Melee && currentMelee.hasAttack)
+        {
+            SwitchWeapon(WeaponType.Gun,gunIndex);
         }
     }
 
@@ -47,16 +58,16 @@ public class PlayerAttack : MonoBehaviour
         switch (type)
         {
             case WeaponType.Gun:
-                Gun gun = Instantiate(Guns[index],weaponParent,false);
-                currentWeapon=gun.gameObject;
-                player.gunModel = gun.model;
-                player.gunTrans = gun.trans;
+                currentGun = Instantiate(Guns[index],weaponParent,false);
+                currentWeapon=currentGun.gameObject;
+                player.gunModel = currentGun.model;
+                player.gunTrans = currentGun.trans;
                 break;
             case WeaponType.Melee:
-                Melee melee = Instantiate(Melees[index],weaponParent,false);
-                currentWeapon=melee.gameObject;
-                player.gunModel = melee.transform;
-                player.gunTrans = melee.transform;
+                currentMelee = Instantiate(Melees[index],weaponParent,false);
+                currentWeapon=currentMelee.gameObject;
+                player.gunModel = currentMelee.transform;
+                player.gunTrans = currentMelee.transform;
                 break;
         }
     }

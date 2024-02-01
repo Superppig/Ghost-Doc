@@ -123,7 +123,8 @@ public class PlayerCam : MonoBehaviour
         orientation.rotation=Quaternion.Euler(0,yRotation+horCurrent,0);
 
         //武器移动效果
-        GunMove();
+        if(gunRotate!=null)
+            GunMove();
     }
 
     private void GunMove()
