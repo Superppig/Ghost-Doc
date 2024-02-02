@@ -20,6 +20,8 @@ namespace Services
 
         private static void Restart()
         {
+            Debugger.Settings.Copy();
+            Debugger.Settings.SetAllowLog(EMessageType.Service, false); 
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 string name = SceneControllerUtility.GetSceneName(SceneUtility.GetScenePathByBuildIndex(i));
@@ -30,6 +32,7 @@ namespace Services
                     return;
                 }
             }
+            Debugger.Settings.Paste();
         }
 #endif
     }

@@ -54,12 +54,12 @@ namespace Services
         {
             Type type = service.RegisterType;
 
-            Debugger.settings.Copy();
-            Debugger.settings.SetAllowLog(EMessageType.Service, false);
+            Debugger.Settings.Copy();
+            Debugger.Settings.SetAllowLog(EMessageType.Service, false);
 
             bool contain = TryGet(type, out Service oldService);
 
-            Debugger.settings.Paste();
+            Debugger.Settings.Paste();
 
             if (contain)
             {

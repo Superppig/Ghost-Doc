@@ -63,12 +63,12 @@ namespace Services
                 AutoServiceAttribute attribute = ServiceUtility.GetAttribute<AutoServiceAttribute>(info, true);
                 if (attribute != null)
                 {
-                    Debugger.settings.Copy();
-                    Debugger.settings.SetAllowLog(EMessageType.System, false);
+                    Debugger.Settings.Copy();
+                    Debugger.Settings.SetAllowLog(EMessageType.System, false);
 
                     info.SetValue(obj, ServiceLocator.Get(type));
 
-                    Debugger.settings.Paste();
+                    Debugger.Settings.Paste();
 
                 }
             }
