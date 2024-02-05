@@ -7,7 +7,15 @@ using UnityEngine;
 [Serializable]
 public class PlayerBlackboard
 {
-    private readonly IEventSystem eventSystem;
+    private IEventSystem eventSystem;
+    private IEventSystem EventSystem
+    {
+        get
+        {
+            eventSystem ??= ServiceLocator.Get<IEventSystem>();
+            return eventSystem;
+        }
+    }
 
     public float maxHealth = 100f;
     [SerializeField]
@@ -19,7 +27,7 @@ public class PlayerBlackboard
         {
             if (value != health)
             {
-                eventSystem.Invoke(EEvent.PlayerHPChange, value, maxHealth);
+                EventSystem.Invoke(EEvent.PlayerHPChange, value, maxHealth);
                 health = value;
             }
         }
@@ -35,7 +43,7 @@ public class PlayerBlackboard
         {
             if (value != energy)
             {
-                eventSystem.Invoke(EEvent.PlayerEnergyChange, value, maxEnergy);
+                EventSystem.Invoke(EEvent.PlayerEnergyChange, value, maxEnergy);
                 energy = value;
             }
         }
@@ -61,9 +69,4 @@ public class PlayerBlackboard
     public bool isLeft;
 
     public RaycastHit slopeHit; //斜坡检测
-
-    public PlayerBlackboard()
-    {
-        eventSystem = ServiceLocator.Get<IEventSystem>();
-    }
 }
