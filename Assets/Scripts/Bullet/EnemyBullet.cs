@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class EnemyBullet : Bullet 
+public class EnemyBullet : Bullet ,IBlock
 {
     private bool beBlocked = false;
 
@@ -62,6 +62,11 @@ public class EnemyBullet : Bullet
                 other.transform.root.GetComponent<Player>().TakeDamage(damage);
                 Destroy(gameObject);
             }
+        }
+
+        if (other.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
         }
     }
 }

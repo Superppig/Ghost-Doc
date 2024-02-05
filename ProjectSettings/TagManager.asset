@@ -8,6 +8,9 @@ TagManager:
   - VLine
   - PlayerUI
   - EnemyBullet
+  - Wall
+  - Block
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,7 @@ public class Melee : MonoBehaviour
     [Header("基础属性")]
     public float damage;
     public float blockingtime;//格挡状态时间
+    public float denfendtime;//架势状态时间
 
 
 
@@ -47,8 +48,14 @@ public class Melee : MonoBehaviour
             timer+=Time.deltaTime;
             if(timer<=blockingtime)
                 state=WeaponState.Blocking;
-            else
+            else if (timer<=blockingtime+denfendtime)
+            {
                 state=WeaponState.Deffending;
+            }
+            else
+            {
+                Attack();
+            }
         }
         else if (Input.GetMouseButtonUp(1) && state!=WeaponState.Attacking)
         {
@@ -114,17 +121,17 @@ public class Melee : MonoBehaviour
     }
     IEnumerator StartAttack()
     {
-        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(0.15f);
         state=WeaponState.Idle;
         hasAttack = true;
     }
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("EnemyBullet"))
+        if (other.CompareTag("EnemyBullet")||other.CompareTag("EnemyAttack"))
         {
             Attack();
-            other.GetComponent<EnemyBullet>().BeBlocked();
+            other.GetComponent<IBlock>().BeBlocked();
         }
 
     }

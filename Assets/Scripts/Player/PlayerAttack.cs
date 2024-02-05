@@ -14,6 +14,8 @@ public class PlayerAttack : MonoBehaviour
     
     private Melee currentMelee;
     private Gun currentGun;
+ 
+    
     private enum WeaponType
     {
         Gun,//枪械
@@ -34,6 +36,7 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         PlayerInput();
+        
     }
     
     private void PlayerInput()

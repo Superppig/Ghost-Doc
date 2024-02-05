@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3741877056246699948}
   m_Layer: 0
   m_Name: CommonKnife
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,8 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b71519a1d5f4bb6a1a41caab0aab844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasAttack: 0
   damage: 2
   blockingtime: 0.5
+  denfendtime: 1
+  state: 0
   timer: 0
 --- !u!135 &3741877056246699948
 SphereCollider:
