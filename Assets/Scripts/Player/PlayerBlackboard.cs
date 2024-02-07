@@ -68,5 +68,8 @@ public class PlayerBlackboard
     public bool isRight;
     public bool isLeft;
 
+    public bool isMeleeAttacking;
+    public bool isBlocking;
+
     public RaycastHit slopeHit; //斜坡检测
 }

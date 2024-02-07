@@ -10,6 +10,8 @@ public class PlayerWalkingState : PlayerStateBase
 
     private float CovoteTime => settings.otherSettings.walkToSlideCovoteTime;
     //private EStateType next;
+    
+    private bool isMeleeAttack => blackboard.isMeleeAttacking;
 
     //逻辑变量
     private float timer;
@@ -58,18 +60,21 @@ public class PlayerWalkingState : PlayerStateBase
     private void Walk()
     {
         rb.velocity += MoveDir * (Time.deltaTime * Accelerate);
-        if (DirInput.x < 0)
+        if (!isMeleeAttack)
         {
-            player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 1), 0.2f);
+            if (DirInput.x < 0)
+            {
+                player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 1), 0.2f);
 
-        }
-        else if (DirInput.x>0)
-        {
-            player.cameraTransform.DOLocalRotate(new Vector3(0, 0, -1), 0.2f);
-        }
-        else
-        {
-            player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
+            }
+            else if (DirInput.x>0)
+            {
+                player.cameraTransform.DOLocalRotate(new Vector3(0, 0, -1), 0.2f);
+            }
+            else
+            {
+                player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
+            }
         }
     }
     private void SpeedCon()

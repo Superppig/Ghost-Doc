@@ -156,6 +156,7 @@ MonoBehaviour:
   damage: 2
   blockingtime: 0.5
   denfendtime: 1
+  hitBox: {fileID: 6794502023145329272}
   state: 0
   timer: 0
 --- !u!135 &3741877056246699948
@@ -328,3 +329,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5959289408115084636, guid: 865ce0bbe2fa35545a20dd3aaca11da0, type: 3}
   m_PrefabInstance: {fileID: 1234210939226429966}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5249150731251666408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6483061990200891366, guid: 865ce0bbe2fa35545a20dd3aaca11da0, type: 3}
+  m_PrefabInstance: {fileID: 1234210939226429966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6794502023145329272
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249150731251666408}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.203748, y: 0.03803647, z: 0.063957185}
+  m_Center: {x: 0, y: 0, z: 0}

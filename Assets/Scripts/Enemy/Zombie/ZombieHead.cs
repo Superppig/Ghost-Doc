@@ -8,7 +8,7 @@ public class ZombieHead : MonoBehaviour,IEnemyBeHit
     private float damage;
     private void Awake()
     {
-        zombie = transform.parent.GetComponent<Zombie>();
+        zombie = transform.root.GetComponent<Zombie>();
         damage = zombie.headDamage;
     }
 

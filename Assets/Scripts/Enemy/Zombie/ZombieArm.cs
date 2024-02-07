@@ -8,12 +8,20 @@ public class ZombieArm : MonoBehaviour,IBlock
     private float damage;
     private void Awake()
     {
-        zombie = transform.parent.GetComponent<Zombie>();
+        zombie = transform.root.GetComponent<Zombie>();
         damage = zombie.bodyDamage;
     }
 
     public void BeBlocked()
     {
         zombie.beBlocked=true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.transform.root.GetComponent<Player>().TakeDamage(damage);
+        }
     }
 }

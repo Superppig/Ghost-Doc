@@ -12,10 +12,19 @@ public class Melee : MonoBehaviour
     public float denfendtime;//架势状态时间
 
 
-
-    private Animator anim;
-    private Collider blockArea;
+    [Header("动画控制")]
+    protected Animator anim;
+    protected float AttackAnimTime;
+    
+    protected Collider blockArea;
+    public Collider hitBox;
+    
+    protected Transform camTrans;
+    protected Player player;
+    
     public WeaponState state=WeaponState.Idle;
+    
+    
     public float timer;
     public enum WeaponState
     {
@@ -29,6 +38,8 @@ public class Melee : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         blockArea = GetComponent<Collider>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        camTrans = player.cameraTransform;
         
         hasAttack = false;
         blockArea.enabled = false;
@@ -71,15 +82,23 @@ public class Melee : MonoBehaviour
         {
             case WeaponState.Idle:
                 blockArea.enabled = false;
+                hitBox.enabled = false;
+                player.blackboard.isBlocking = false;
                 break;
             case WeaponState.Blocking:
                 blockArea.enabled = true;
+                hitBox.enabled = false;
+                player.blackboard.isBlocking = true;
                 break;
             case WeaponState.Deffending:
                 blockArea.enabled = false;
+                hitBox.enabled = false;
+                player.blackboard.isBlocking = false;
                 break;
             case WeaponState.Attacking:
                 blockArea.enabled = true;
+                hitBox.enabled = true;
+                player.blackboard.isBlocking = false;
                 break;
         }
     }
@@ -88,6 +107,7 @@ public class Melee : MonoBehaviour
     protected virtual void Attack()
     {
         state=WeaponState.Attacking; 
+        player.blackboard.isMeleeAttacking = true;
         AnimCon();
         StartCoroutine(StartAttack());
     }
@@ -121,7 +141,8 @@ public class Melee : MonoBehaviour
     }
     IEnumerator StartAttack()
     {
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(AttackAnimTime);
+        player.blackboard.isMeleeAttacking = false;
         state=WeaponState.Idle;
         hasAttack = true;
     }
