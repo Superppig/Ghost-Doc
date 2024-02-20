@@ -8,6 +8,9 @@ Shader "XinY/Par/DissolveAndOffset"
         _DissolveTex ("DissolveTex", 2D) = "white" { }
         [NoScaleOffset]_Mask ("Mask", 2D) = "white" { }
         _MaskOffset ("MaskOffset", Range(0, 1)) = 0
+        [Enum(UnityEngine.Rendering.CullMode)]_Cull ("Cull", int) = 0
+        [Enum(Off, 0, On, 1)]_ZWrite ("ZWrite", int) = 0
+        [Enum(UnityEngine.Rendering.CompareFunction)]_ZTest ("ZTest", int) = 4
     }
     SubShader
     {
@@ -69,9 +72,9 @@ Shader "XinY/Par/DissolveAndOffset"
             finalcolor = mainWithBase.rgb * i.color.rgb;
 
             //Dissolve
-            half disValue = clamp(dissolveTex.r * dissolveTex.a,0.01,0.99);
+            half disValue = clamp(dissolveTex.r * dissolveTex.a, 0.01, 0.99);
             half softDis = clamp(disValue + (i.color.a * 2 - 1), 0, 1);
-            half hardDis = step(1 - i.color.a , disValue);
+            half hardDis = step(1 - i.color.a, disValue);
 
             //溶解时顶点色不控制透明度
             half finalDis = lerp(softDis, hardDis, _HardDis) * mainWithBase.a;
@@ -88,9 +91,10 @@ Shader "XinY/Par/DissolveAndOffset"
         ENDHLSL
         Pass
         {
-            ZWrite Off
+            ZWrite [_ZWrite]
             Blend SrcAlpha OneMinusSrcAlpha
-            Cull Off
+            Cull [_Cull]
+            ZTest [_ZTest]
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
