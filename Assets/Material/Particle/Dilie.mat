@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Particle_01_Trail
-  m_Shader: {fileID: 4800000, guid: cdd29985b65de8d4897190a9704da258, type: 3}
+  m_Name: Dilie
+  m_Shader: {fileID: 4800000, guid: 7566f75f7af7ee74f8a723d5d1380f09, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,15 +20,25 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DissolveTex:
+        m_Texture: {fileID: 2800000, guid: 84d37596150837b489531274d2444b5c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 958434ef976d8cc44a32be6ab3cbff21, type: 3}
+        m_Texture: {fileID: 2800000, guid: 016691bebe93b284eb701c5479d606a9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _Cull: 0
+    - _HardDis: 1
+    - _MaskOffset: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 11.181761, g: 11.181761, b: 11.181761, a: 1}
+    - _BaseColor: {r: 1.7207954, g: 1.7207954, b: 1.7207954, a: 1}
   m_BuildTextureStacks: []

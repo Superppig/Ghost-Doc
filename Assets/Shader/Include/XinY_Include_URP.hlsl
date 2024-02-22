@@ -444,4 +444,10 @@ inline float RandomRange(float2 Seed, float MinNum, float MaxNum)
     Out = lerp(MinNum, MaxNum, alpha);
     return Out;
 }
+
+float2 RotateUV(float2 uv, float degree)
+{
+    return float2(uv.x * cos(degree) - uv.y * sin(degree), uv.x * sin(degree) + uv.y * cos(degree));
+}
+
 #endif

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FloatingBridge
-  m_Shader: {fileID: 4800000, guid: d63bf55d9e0f43b479266628f6e5aaa0, type: 3}
+  m_Shader: {fileID: 4800000, guid: ed7ca51d35ccc8a4d8e9f7af1fdeed2a, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -59,13 +59,14 @@ Material:
     - _QueueOffset: 0
     - _Radius: 0.86
     - _ReceiveShadows: 1
+    - _ShapeRadius: 0.86
     m_Colors:
     - _AlphaFlowSpeed: {r: 0, g: 0.39, b: 0, a: 0}
     - _AlphaTilling: {r: 0.49, g: 0.21, b: 0, a: 0}
     - _Color: {r: 2.0441644, g: 0.6665163, b: 0.45125887, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FlowColor: {r: 0.35003555, g: 0.6217397, b: 0.8962264, a: 0.16862746}
-    - _FlowSpeed: {r: 0, g: -0.18, b: 0, a: 0}
+    - _FlowColor: {r: 0.35003546, g: 0.6217397, b: 0.8962264, a: 0.14901961}
+    - _FlowSpeed: {r: 0, g: 0.34, b: 0, a: 0}
     - _FlowSpeed1: {r: 0, g: 0.34, b: 0, a: 0}
     - _FlowTilling: {r: 0.96, g: 0.43, b: 0, a: 0}
     - _NoiseTilling: {r: 1.62, g: 0.95, b: 0, a: 0}

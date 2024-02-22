@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Baodian_01
-  m_Shader: {fileID: 4800000, guid: cdd29985b65de8d4897190a9704da258, type: 3}
+  m_Name: CircleDis
+  m_Shader: {fileID: 4800000, guid: 965f9d588f7327144ad10b0eaef4ba30, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,9 +20,17 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DissolveTex:
+        m_Texture: {fileID: 2800000, guid: 2856590a9fb4b044b9216862c326c060, type: 3}
+        m_Scale: {x: 1.5, y: 1.5}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f41abd9b1814e4649b1d5a8e2a0eb7bf, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 0a5f89ffb6d3f0a4185412a9adbb74d2, type: 3}
+        m_Scale: {x: 4, y: 4.62}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 7fbc3f9f9eb160d409cd7f3a100eeb93, type: 3}
+        m_Scale: {x: 1, y: 1.26}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
@@ -30,5 +38,5 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 1.9766746, g: 1.9766746, b: 1.9766746, a: 1}
+    - _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
   m_BuildTextureStacks: []
