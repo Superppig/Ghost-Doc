@@ -71,6 +71,7 @@ public class PlayerSprintingState : PlayerStateBase
             {
                 player.UseEnerge(100);
                 rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
+                
             }
             else
             {
@@ -83,7 +84,6 @@ public class PlayerSprintingState : PlayerStateBase
         rb.velocity = sprintDir * rate;
         blackboard.velocity = sprintDir * rate;
         blackboard.speed = rate;
-        
 
         player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
         Camera.main.DOFieldOfView(60, 0.2f);

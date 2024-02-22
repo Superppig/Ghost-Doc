@@ -112,9 +112,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: {x: 0, y: 0, z: 0}
-  speed: 7
+  speed: 15
   damage: 0
   lifeTime: 10
+  enemyColor: {r: 1, g: 0, b: 0, a: 1}
+  blockedColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!54 &1753143819596911870
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class PlayerJumpState : PlayerStateBase
     private float jumpSpeed;
 
     private float WallJumpSpeed => settings.jumpSettings.wallJumpSpeed;
+    private float WalkSpeed => settings.walkSettings.walkSpeed;
     private RaycastHit wall;
 
     public PlayerJumpState(Player player) : base(player)
@@ -17,10 +18,20 @@ public class PlayerJumpState : PlayerStateBase
     public override void OnEnter()
     {
         float height = settings.jumpSettings.height;
+
+        //获取速度
+        rb.velocity = blackboard.velocity;
+        
         if (blackboard.lastState == EStateType.Sliding)
             height *= settings.otherSettings.slideToJumpHeightRate;
+        else if(blackboard.lastState != EStateType.Sprinting)
+        {
+            //修正速度
+            Vector3 XZSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z);
+            rb.velocity = XZSpeed.magnitude>WalkSpeed?XZSpeed.normalized*WalkSpeed:XZSpeed;
+        }
+        
         jumpSpeed = Speed(height);
-        rb.velocity = blackboard.velocity;
         if (IsWallJump)
         {
             wall = blackboard.currentWall;

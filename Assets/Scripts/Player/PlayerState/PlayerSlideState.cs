@@ -39,10 +39,11 @@ public class PlayerSlideState : PlayerStateBase
     public override void OnUpdate()
     {
         Slide();
+        //速度线
         timer+=Time.deltaTime;
         if (timer> VinelineTime)
         {
-            player.vineLine.Summon(player.orientation);
+            player.vineLine.Summon(player.transform.position,player.orientation.forward);
             timer = 0f;
         }
     }
