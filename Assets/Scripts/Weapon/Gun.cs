@@ -8,6 +8,7 @@ public class Gun: MonoBehaviour
     protected Transform pos;
     protected float bulletTimer;
     protected bool fireing;//射击
+    protected bool canFire;
     protected bool aiming;//瞄准
     protected float fireWaitTime;
     protected float fireTimer = 0f;
@@ -25,7 +26,7 @@ public class Gun: MonoBehaviour
     
     protected virtual void Start()
     {
-
+        canFire = true;
     }
     protected virtual void Update()
     {
@@ -52,9 +53,8 @@ public class Gun: MonoBehaviour
     }
 
     protected virtual void FireAction()
-    {
-        fireTimer += Time.deltaTime;
-        if (fireing && fireTimer>=fireWaitTime)
+    { 
+        if (fireing && canFire)
         {
             Fire();
             gunAnimator.SetTrigger("fire");
@@ -63,6 +63,15 @@ public class Gun: MonoBehaviour
             //_playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
             
             fireTimer = 0f;
+            canFire = false;
+        }
+        else
+        {
+            fireTimer += Time.deltaTime;
+            if (fireTimer > fireWaitTime)
+            {
+                canFire = true;
+            }
         }
     }
     protected virtual void Fire()

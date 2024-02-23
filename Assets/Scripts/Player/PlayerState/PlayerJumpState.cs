@@ -24,7 +24,7 @@ public class PlayerJumpState : PlayerStateBase
         
         if (blackboard.lastState == EStateType.Sliding)
             height *= settings.otherSettings.slideToJumpHeightRate;
-        else if(blackboard.lastState != EStateType.Sprinting)
+        else if(blackboard.lastState != EStateType.Sprinting && blackboard.lastState != EStateType.WallRunning)
         {
             //修正速度
             Vector3 XZSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z);

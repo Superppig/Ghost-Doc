@@ -16,7 +16,8 @@ public class CommonGun : Gun
 
     protected override void Start()
     {
-         //初始化数据
+        base.Start();
+        //初始化数据
          pos = position;
          gunAnimator = GetComponent<Animator>();
          player = GameObject.FindWithTag("Player").GetComponent<Player>();

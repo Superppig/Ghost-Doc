@@ -1952,6 +1952,10 @@ PrefabInstance:
       propertyPath: settings.otherSettings.sprintChangeRate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: settings.airSettings.airTransformAccelerate
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e144750fce95e98449b081288bd1cacd, type: 3}
 --- !u!1001 &6920148439900872527

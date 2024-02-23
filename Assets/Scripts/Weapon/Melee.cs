@@ -9,6 +9,8 @@ public class Melee : MonoBehaviour
     [Header("基础属性")]
     public float damage;
     public float blockingtime;//格挡状态时间
+    
+    //目前为无限时间
     public float denfendtime;//架势状态时间
 
 
@@ -59,13 +61,9 @@ public class Melee : MonoBehaviour
             timer+=Time.deltaTime;
             if(timer<=blockingtime)
                 state=WeaponState.Blocking;
-            else if (timer<=blockingtime+denfendtime)
-            {
-                state=WeaponState.Deffending;
-            }
             else
             {
-                Attack();
+                state=WeaponState.Deffending;
             }
         }
         else if (Input.GetMouseButtonUp(1) && state!=WeaponState.Attacking)
