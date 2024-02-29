@@ -12,7 +12,7 @@ public class PlayerEditor : AutoEditor
     public SerializedProperty settings, blackboard;
 
     [AutoProperty]
-    public SerializedProperty cameraTransform, vineLine, orientation;
+    public SerializedProperty cameraTransform, vineLine, orientation,playerCam;
 
     public PlayerSettingsIndirectEditor set;
     public PlayerBlackboardIndirectEditor board;
@@ -32,6 +32,7 @@ public class PlayerEditor : AutoEditor
         cameraTransform.PropertyField("cameraTransform");
         orientation.PropertyField("orientation");
         vineLine.PropertyField("vineLine");
+        playerCam.PropertyField("playerCam");
         drawer.Draw();
     }
 }

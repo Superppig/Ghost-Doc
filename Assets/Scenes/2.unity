@@ -1892,10 +1892,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1604792440895484290, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 2400941453571652568, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1943,18 +1939,6 @@ PrefabInstance:
     - target: {fileID: 2400941453571652569, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2400941453953990343, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: settings.otherSettings.sprintChangeRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: settings.airSettings.airTransformAccelerate
-      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e144750fce95e98449b081288bd1cacd, type: 3}

@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public Transform cameraTransform;
     public VLineSummon vineLine;
     public Transform orientation;
+    
+    public PlayerCam playerCam;
 
     private FSM fsm;
     public bool[,] changeMatrix =

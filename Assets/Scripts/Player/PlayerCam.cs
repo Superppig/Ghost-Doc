@@ -41,6 +41,13 @@ public class PlayerCam : MonoBehaviour
     public float gunRotation;
     private Transform gunRotate;
 
+    //行走y轴晃动
+    public float yTilt;//y轴晃动幅度
+    public float fre;//频率
+    public bool isWalk;
+    private Transform CamTrans;
+    private float walkTimer;
+    
     private bool hasRotate;
     
     
@@ -54,6 +61,7 @@ public class PlayerCam : MonoBehaviour
         
         //获取变量
         player = GetComponentInParent<Player>();
+        CamTrans = GameObject.Find("CamTrans").transform;
         weaponSwayObject = player.gunTrans;
         gunRotate = player.gunModel;
     }
@@ -125,6 +133,9 @@ public class PlayerCam : MonoBehaviour
         //武器移动效果
         if(gunRotate!=null)
             GunMove();
+        
+        //walk时脚步效果
+        WalkCamTransChange();
     }
 
     private void GunMove()
@@ -197,5 +208,27 @@ public class PlayerCam : MonoBehaviour
         horTotalOff += horOff;
         timeToPos = time;
         fired = true;
+    }
+
+    public void WalkCamTransChange()
+    {
+        if (isWalk)
+        {
+            walkTimer += Time.deltaTime;
+            float co = Sigmond((player.blackboard.speed-3.5f)*5)+1;
+            
+            Vector3 pos = new Vector3(0, Mathf.Sin(walkTimer * fre * co) * yTilt,0);
+
+            CamTrans.localPosition = pos;
+        }
+        else
+        {
+            walkTimer=0f;
+            CamTrans.localPosition = Vector3.zero;
+        }
+    }
+    float Sigmond(float x)
+    {
+        return 1 / (1 + Mathf.Exp(-x));
     }
 }

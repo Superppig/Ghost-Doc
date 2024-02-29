@@ -28,12 +28,17 @@ public class PlayerWalkingState : PlayerStateBase
         timer = 0f;
         isOverCovote = false;
         firstSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+        
+        
     }
     public override void OnExit()
     {
         //退出时复原视角
         player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 0), 0.2f);
         
+        //脚步视角变化
+        player.playerCam.isWalk = false;
+
         //动量继承
         //next = _playerBlackboard.next;
     }
@@ -46,6 +51,15 @@ public class PlayerWalkingState : PlayerStateBase
 
         if (timer >= CovoteTime)
             isOverCovote = true;
+
+        if (DirInput.magnitude>0)
+        {
+            player.playerCam.isWalk = true;
+        }
+        else
+        {
+            player.playerCam.isWalk = false;
+        }
         SpeedCon();
     }
     public override void OnCheck()

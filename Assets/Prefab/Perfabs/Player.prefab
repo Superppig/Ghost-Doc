@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 2758232792674710150}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
       slideAccelerate: 1
       startSlideSpeed: 1
     airSettings:
-      airTransformAccelerate: 20
+      airTransformAccelerate: 50
       playerHeight: 2
     wallRunSettings:
       wallRunSpeed: 15
@@ -209,7 +209,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 512
       maxSlopeAngle: 40
-      sprintChangeRate: 0.7
+      sprintChangeRate: 1
       walkToSlideCovoteTime: 0.1
       slideToJumpHeightRate: 0.5
   blackboard:
@@ -229,9 +229,12 @@ MonoBehaviour:
     nextState: 0
     isRight: 0
     isLeft: 0
+    isMeleeAttacking: 0
+    isBlocking: 0
   cameraTransform: {fileID: 6394809932711590825}
   vineLine: {fileID: 83834942}
   orientation: {fileID: 2400941454820154825}
+  playerCam: {fileID: 6394809932384997858}
   gunModel: {fileID: 0}
   gunTrans: {fileID: 0}
   rb: {fileID: 0}
@@ -249,7 +252,7 @@ GameObject:
   - component: {fileID: 2400941453953990341}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -389,6 +392,9 @@ MonoBehaviour:
   swayTime: 0
   swayPosition: {x: 0, y: 0, z: 0}
   gunRotation: 2
+  yTilt: 0.05
+  fre: 8
+  isWalk: 0
 --- !u!1 &2400941454820154824
 GameObject:
   m_ObjectHideFlags: 0
