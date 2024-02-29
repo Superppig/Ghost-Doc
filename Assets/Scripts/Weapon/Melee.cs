@@ -24,6 +24,11 @@ public class Melee : MonoBehaviour
     protected Transform camTrans;
     protected Player player;
     
+    [Header("粒子效果")]
+    public ParticleSystem attackParticle;
+    public ParticleSystem hitParticle;
+    
+    
     public WeaponState state=WeaponState.Idle;
     
     

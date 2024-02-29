@@ -153,10 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasAttack: 0
-  damage: 2
+  damage: 0
   blockingtime: 0.5
   denfendtime: 1
   hitBox: {fileID: 6794502023145329272}
+  attackParticle: {fileID: 1592865448252765325, guid: fa6e8725359d57d4e8d717003f7807ca, type: 3}
+  hitParticle: {fileID: 8395321408609699306, guid: 89fe021e9dac9864da3983683bb0d0e7, type: 3}
   state: 0
   timer: 0
 --- !u!135 &3741877056246699948
@@ -345,5 +347,17 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.203748, y: 0.03803647, z: 0.063957185}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.6583157, y: 0.03803647, z: 0.063957185}
+  m_Center: {x: 0.2272839, y: 0, z: 0}
+--- !u!114 &854465176465034085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249150731251666408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36cec5080f5842dca35e08f9a09ccf7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -48,7 +48,6 @@ public class Enemy : MonoBehaviour
     {
         Dead();
         Find();
-
     }
     protected virtual void FixedUpdate()
     {
@@ -59,13 +58,19 @@ public class Enemy : MonoBehaviour
         health -= damage;
     }
 
-    public virtual void Dead()
+    protected virtual void Dead()
     {
         if (health <= 0)
         {
             Destroy(gameObject);
         }
     }
+
+    protected virtual void Hit()
+    {
+        
+    }
+
     
     //寻路
     protected void Find()
