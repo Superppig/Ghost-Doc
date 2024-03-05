@@ -97,6 +97,7 @@ public class Melee : MonoBehaviour
                 blockArea.enabled = false;
                 hitBox.enabled = false;
                 player.blackboard.isBlocking = false;
+                Debug.Log("格挡关闭");
                 break;
             case WeaponState.Attacking:
                 blockArea.enabled = true;

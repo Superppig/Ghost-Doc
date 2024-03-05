@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3158297843494480031}
   - component: {fileID: 6595895584345266140}
   - component: {fileID: 8040554030893157943}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArm
   m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8649867670766839845}
   - component: {fileID: 3390607165600771293}
   - component: {fileID: 5341825333268926567}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Zombies
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 5016867400159237830}
   - component: {fileID: 9145395674476618683}
   - component: {fileID: 1727610341296870079}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 9141447071147000320}
   - component: {fileID: 1224456224451815738}
   - component: {fileID: 6873809311422894460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 210140487523340977}
   - component: {fileID: 467756322858976832}
   - component: {fileID: 4186550916712343815}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 4252029727622274886}
   - component: {fileID: 6547711461384951624}
   - component: {fileID: 3010180912590773318}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArm
   m_TagString: EnemyAttack
   m_Icon: {fileID: 0}

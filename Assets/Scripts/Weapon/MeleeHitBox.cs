@@ -20,6 +20,9 @@ public class MeleeHitBox: MonoBehaviour
             enemy.HitEnemy(melee.damage);
             //粒子效果
             HitPartical(other.ClosestPoint(transform.position));
+            
+            //顿帧
+            ScreenControl.Instance.FrameFrozen(15, 0.2f);
         }
     }
     
@@ -30,4 +33,7 @@ public class MeleeHitBox: MonoBehaviour
         hit.gameObject.transform.SetParent(transform);
         Destroy(hit.gameObject, hit.main.duration);
     }
+    
+    
+    
 }
