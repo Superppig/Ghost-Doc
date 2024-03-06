@@ -35,7 +35,17 @@ public class PlayerJumpState : PlayerStateBase
         if (IsWallJump)
         {
             wall = blackboard.currentWall;
-            rb.velocity += (wall.normal.normalized*WallJumpSpeed+new Vector3(0, jumpSpeed, 0));
+            if (!player.blackboard.hasClimbOverTime)
+            {
+                rb.velocity += (wall.normal.normalized*player.blackboard.climbSpeed+new Vector3(0, jumpSpeed, 0));
+                player.blackboard.hasClimbOverTime = false;//重置参数
+                Debug.Log(player.blackboard.climbSpeed);
+            }
+            else
+            {
+                rb.velocity += (wall.normal.normalized*WallJumpSpeed+new Vector3(0, jumpSpeed, 0));
+                Debug.Log(WallJumpSpeed);
+            }
             Debug.Log("墙跳");
         }
         else

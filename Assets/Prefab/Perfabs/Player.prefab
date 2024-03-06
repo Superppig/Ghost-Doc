@@ -173,7 +173,7 @@ MonoBehaviour:
       groundDrag: 0
     jumpSettings:
       height: 4
-      wallJumpSpeed: 5
+      wallJumpSpeed: 0.7
       exitWallTime: 0
     sprintSettings:
       sprintSpeed: 30
@@ -194,6 +194,7 @@ MonoBehaviour:
     wallRunSettings:
       wallRunSpeed: 15
       wallRunGRate: 0.3
+      maxWallTime: 1
       wallCheckDistance: 0.6
       wallRunMinDisTance: 0.5
     keySettings:
@@ -224,6 +225,7 @@ MonoBehaviour:
     moveDir: {x: 0, y: 0, z: 0}
     velocity: {x: 0, y: 0, z: 0}
     speed: 0
+    climbSpeed: 0
     lastState: 0
     currentState: 0
     nextState: 0
@@ -231,6 +233,7 @@ MonoBehaviour:
     isLeft: 0
     isMeleeAttacking: 0
     isBlocking: 0
+    hasClimbOverTime: 0
   cameraTransform: {fileID: 6394809932711590825}
   vineLine: {fileID: 83834942}
   orientation: {fileID: 2400941454820154825}

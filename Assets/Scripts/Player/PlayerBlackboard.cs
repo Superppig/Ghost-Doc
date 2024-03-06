@@ -57,6 +57,7 @@ public class PlayerBlackboard
     public Vector3 moveDir;
     public Vector3 velocity;        //继承速度
     public float speed;             //当前速率
+    public float climbSpeed;        //爬墙继承速度
 
     public EStateType lastState;
     public EStateType currentState;
@@ -70,6 +71,9 @@ public class PlayerBlackboard
 
     public bool isMeleeAttacking;
     public bool isBlocking;
+    
+    public bool hasClimbOverTime;//爬墙是否超时
+
 
     public RaycastHit slopeHit; //斜坡检测
 }
