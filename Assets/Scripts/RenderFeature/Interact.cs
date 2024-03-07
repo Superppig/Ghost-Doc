@@ -9,6 +9,8 @@ public class Interact : MonoBehaviour
     public float FadeSpeed;
 
     Vector3 m_PrevPos;
+    public LayerMask layer;
+    RaycastHit hit;
     
     private void Start()
     {
@@ -30,7 +32,15 @@ public class Interact : MonoBehaviour
         Vector4 moveDir = transform.position - m_PrevPos;
         Shader.SetGlobalVector("_MoveDir", moveDir);
         m_PrevPos = transform.position;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.6f, layer.value))
+        {
+            Shader.SetGlobalVector("_HitUV", new Vector4(hit.textureCoord.x, hit.textureCoord.y, 0, 0));
+            Debug.Log("1");
+        }
+
     }
+
+
     //private void OnCollisionEnter(Collision collision)
     //{
     //    if (collision.transform.tag == "Enemy")
@@ -66,5 +76,6 @@ public class Interact : MonoBehaviour
     //        m_PrevPos = transform.position;
     //    }
     //}
+
 
 }
