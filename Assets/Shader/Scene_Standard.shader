@@ -161,7 +161,7 @@ Shader "XinY/Scene_Standard"
                 half oneMinusReflectivity = OneMinusReflectivityMetallic(metallic);
                 half3 albedo = baseMap.rgb;
                 half3 diffuse = albedo * oneMinusReflectivity;;
-                half3 specular = lerp(kDieletricSpec.rgb, albedo, metallic);;
+                half3 specular = lerp(kDieletricSpec.rgb, albedo, metallic);
                 half reflectivity = half(1.0) - oneMinusReflectivity;
                 half perceptualRoughness = lerp(0, MRA.g, _RoughnessAd);
                 half smoothness = 1 - perceptualRoughness;
@@ -200,7 +200,7 @@ Shader "XinY/Scene_Standard"
                 half LdotH2 = LdotH * LdotH;
                 half specularTerm = roughness2 / ((d * d) * max(0.1h, LdotH2) * normalizationTerm);
                 
-                mainLightColor = (diffuse + specular * specularTerm * _SpecIntensity) * diffuseTerm;
+                mainLightColor = clamp((diffuse + specular * specularTerm * _SpecIntensity) * diffuseTerm,0,1.5);
 
                 //额外灯
                 uint pixelLightCount = GetAdditionalLightsCount();
