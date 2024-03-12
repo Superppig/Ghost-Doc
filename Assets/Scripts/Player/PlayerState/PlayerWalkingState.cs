@@ -45,7 +45,7 @@ public class PlayerWalkingState : PlayerStateBase
     public override void OnUpdate()
     {
         Walk();
-        //土狼时间
+            //土狼时间
         if (!isOverCovote)
             timer += Time.deltaTime;
 

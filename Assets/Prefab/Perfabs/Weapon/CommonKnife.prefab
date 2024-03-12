@@ -160,7 +160,22 @@ MonoBehaviour:
   attackParticle: {fileID: 1592865448252765325, guid: fa6e8725359d57d4e8d717003f7807ca, type: 3}
   hitParticle: {fileID: 8395321408609699306, guid: 89fe021e9dac9864da3983683bb0d0e7, type: 3}
   state: 0
+  currentAttackType: 0
   timer: 0
+  shiftDamage: 0
+  shiftEnergyCost: 100
+  shiftSpeed: 60
+  shiftTime: 0.3
+  ctrlDamage: 0
+  forceToEnemy: 3
+  ctrlEnergyCost: 100
+  ctrlSpeed: 30
+  ctrlStartHeight: 2
+  ctrlEndHeight: 0.1
+  spaceDamage: 0
+  spaceEnergyCost: 100
+  spaceSpeed: 10
+  spaceTime: 0.5
 --- !u!135 &3741877056246699948
 SphereCollider:
   m_ObjectHideFlags: 0

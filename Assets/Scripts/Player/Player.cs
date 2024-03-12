@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public Transform orientation;
     
     public PlayerCam playerCam;
+    
+    public Collider playerCollider;
 
     private FSM fsm;
     public bool[,] changeMatrix =
@@ -90,121 +92,135 @@ public class Player : MonoBehaviour
         //斜坡判定
         SlopJudgement();
 
-        //落地
-        if ((blackboard.currentState == EStateType.Jumping || blackboard.currentState == EStateType.Air) && blackboard.grounded)
+        if (blackboard.isCombo)
         {
+            //组合技则直接变为air状态并停止输入
             blackboard.lastState = blackboard.currentState;
-            blackboard.nextState = EStateType.Walking;
-            fsm.SwitchState(EStateType.Walking);
+            blackboard.nextState = EStateType.Air;
+            fsm.SwitchState(EStateType.Air);
         }
-
-        //下蹲
-        if (Input.GetKey(settings.keySettings.crouchKey))
+        else
         {
-            if (CanSwitch(blackboard.currentState, EStateType.Crouching))
+            //落地
+            if ((blackboard.currentState == EStateType.Jumping || blackboard.currentState == EStateType.Air) &&
+                blackboard.grounded)
             {
                 blackboard.lastState = blackboard.currentState;
-                blackboard.nextState = EStateType.Crouching;
-                fsm.SwitchState(EStateType.Crouching);
+                blackboard.nextState = EStateType.Walking;
+                fsm.SwitchState(EStateType.Walking);
             }
-        }
 
-        if (Input.GetKeyUp(settings.keySettings.crouchKey))
-        {
-            blackboard.lastState = blackboard.currentState;
-            blackboard.nextState = EStateType.Walking;
-            fsm.SwitchState(EStateType.Walking);
-        }
-
-
-        //空中
-        if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting &&
-            !(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-              (blackboard.isRight || blackboard.isLeft)))//不是墙跑状态
-        {
-            if (CanSwitch(blackboard.currentState, EStateType.Air))
+            //下蹲
+            if (Input.GetKey(settings.keySettings.crouchKey)&& !blackboard.isHoldingMelee)
             {
-                blackboard.lastState = blackboard.currentState;
-                blackboard.nextState = EStateType.Air;
-                fsm.SwitchState(EStateType.Air);
-            }
-        }
-
-
-        //冲刺
-        if (Input.GetKeyDown(settings.keySettings.sprintKey))
-        {
-            if (CanSwitch(blackboard.currentState, EStateType.Sprinting))
-            {
-                if(blackboard.Energy>100f)
-                {
-                    UseEnerge(100);
-                    //开始冲刺
-                    blackboard.lastState = blackboard.currentState;
-                    blackboard.nextState = EStateType.Sprinting;
-                    fsm.SwitchState(EStateType.Sprinting);
-                    StartCoroutine(EndState(settings.sprintSettings.sprintDistance /
-                                            settings.sprintSettings.sprintSpeed));
-                    blackboard.lastState = EStateType.Sprinting;
-                }
-                else
-                {
-                    TakeEnergeFailAudio();
-                }
-            }
-        }
-
-        //滑行
-        if (Input.GetKey(settings.keySettings.slideKey) && blackboard.grounded && blackboard.dirInput.magnitude > 0 &&
-            blackboard.speed > settings.slideSettings.startSlideSpeed)
-        {
-            if (CanSwitch(blackboard.currentState, EStateType.Sliding))
-            {
-                blackboard.lastState = blackboard.currentState;
-                blackboard.nextState = EStateType.Sliding;
-                fsm.SwitchState(EStateType.Sliding);
-            }
-        }
-        else if(blackboard.currentState==EStateType.Sliding)
-        {
-            if (CanSwitch(blackboard.currentState, blackboard.lastState))
-            {
-                blackboard.nextState = blackboard.lastState;
-                fsm.SwitchState(blackboard.lastState);
-                blackboard.lastState = EStateType.Sliding;
-            }
-        }
-
-        //跳跃
-        if (Input.GetKey(settings.keySettings.jumpkey))
-        {
-            if (blackboard.grounded)
-            {
-                if (CanSwitch(blackboard.currentState, EStateType.Jumping))
+                if (CanSwitch(blackboard.currentState, EStateType.Crouching))
                 {
                     blackboard.lastState = blackboard.currentState;
+                    blackboard.nextState = EStateType.Crouching;
+                    fsm.SwitchState(EStateType.Crouching);
+                }
+            }
+
+            if (Input.GetKeyUp(settings.keySettings.crouchKey))
+            {
+                blackboard.lastState = blackboard.currentState;
+                blackboard.nextState = EStateType.Walking;
+                fsm.SwitchState(EStateType.Walking);
+            }
+
+
+            //空中
+            if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting &&
+                !(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
+                  (blackboard.isRight || blackboard.isLeft))) //不是墙跑状态
+            {
+                if (CanSwitch(blackboard.currentState, EStateType.Air))
+                {
+                    blackboard.lastState = blackboard.currentState;
+                    blackboard.nextState = EStateType.Air;
+                    fsm.SwitchState(EStateType.Air);
+                }
+            }
+
+
+            //冲刺
+            if (Input.GetKeyDown(settings.keySettings.sprintKey)&& !blackboard.isHoldingMelee)
+            {
+                
+                if (CanSwitch(blackboard.currentState, EStateType.Sprinting))
+                {
+                    if (blackboard.Energy > 100f)
+                    {
+                        UseEnerge(100);
+                        Debug.Log("冲刺");
+                        //开始冲刺
+                        blackboard.lastState = blackboard.currentState;
+                        blackboard.nextState = EStateType.Sprinting;
+                        fsm.SwitchState(EStateType.Sprinting);
+                        StartCoroutine(EndState(settings.sprintSettings.sprintDistance /
+                                                settings.sprintSettings.sprintSpeed));
+                        blackboard.lastState = EStateType.Sprinting;
+                    }
+                    else
+                    {
+                        TakeEnergeFailAudio();
+                    }
+                }
+            }
+
+            //滑行
+            if (Input.GetKey(settings.keySettings.slideKey) && blackboard.grounded &&
+                blackboard.dirInput.magnitude > 0 &&
+                blackboard.speed > settings.slideSettings.startSlideSpeed)
+            {
+                if (CanSwitch(blackboard.currentState, EStateType.Sliding))
+                {
+                    blackboard.lastState = blackboard.currentState;
+                    blackboard.nextState = EStateType.Sliding;
+                    fsm.SwitchState(EStateType.Sliding);
+                }
+            }
+            else if (blackboard.currentState == EStateType.Sliding)
+            {
+                if (CanSwitch(blackboard.currentState, blackboard.lastState))
+                {
+                    blackboard.nextState = blackboard.lastState;
+                    fsm.SwitchState(blackboard.lastState);
+                    blackboard.lastState = EStateType.Sliding;
+                }
+            }
+
+            //跳跃
+            if (Input.GetKey(settings.keySettings.jumpkey)&& !blackboard.isHoldingMelee)
+            {
+                if (blackboard.grounded)
+                {
+                    if (CanSwitch(blackboard.currentState, EStateType.Jumping))
+                    {
+                        blackboard.lastState = blackboard.currentState;
+                        StartCoroutine(StartJump(0.2f));
+                        blackboard.nextState = EStateType.Jumping;
+                        fsm.SwitchState(EStateType.Jumping);
+                    }
+                }
+                else if (blackboard.currentState == EStateType.WallRunning)
+                {
                     StartCoroutine(StartJump(0.2f));
-                    blackboard.nextState = EStateType.Jumping;
-                    fsm.SwitchState(EStateType.Jumping);
+                    // 墙跳逻辑
+                    StartCoroutine(WallJumping(0.3f));
                 }
             }
-            else if (blackboard.currentState == EStateType.WallRunning)
-            {
-                StartCoroutine(StartJump(0.2f));
-                // 墙跳逻辑
-                StartCoroutine(WallJumping(0.3f));
-            }
-        }
 
-        //滑墙
-        if (!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-            (blackboard.isRight || blackboard.isLeft))
-        {
-            if (CanSwitch(blackboard.currentState, EStateType.WallRunning))
+            //滑墙
+            if (!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
+                (blackboard.isRight || blackboard.isLeft))
             {
-                blackboard.lastState = blackboard.currentState;
-                blackboard.nextState = EStateType.WallRunning;
-                fsm.SwitchState(EStateType.WallRunning);
+                if (CanSwitch(blackboard.currentState, EStateType.WallRunning))
+                {
+                    blackboard.lastState = blackboard.currentState;
+                    blackboard.nextState = EStateType.WallRunning;
+                    fsm.SwitchState(EStateType.WallRunning);
+                }
             }
         }
     }
@@ -282,7 +298,7 @@ public class Player : MonoBehaviour
     }
 
     //检测人物是否离地面一定高度
-    private bool IsGrounded(float height)
+    public bool IsGrounded(float height)
     {
         return Physics.Raycast(transform.position, Vector3.down, settings.airSettings.playerHeight * 0.5f + height,
             settings.otherSettings.groundLayer);
@@ -341,7 +357,6 @@ public class Player : MonoBehaviour
     }
     
     
-    //IPlayer接口实现
     public void TakeDamage(float damage)
     {
         blackboard.Health -= damage;

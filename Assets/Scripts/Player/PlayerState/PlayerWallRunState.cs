@@ -22,6 +22,7 @@ public class PlayerWallRunState : PlayerStateBase
     {
         rb.velocity = blackboard.velocity;
         player.blackboard.climbSpeed = rb.velocity.magnitude;//继承墙壁速度
+        wallTimer=0f;
         if (blackboard.isLeft)
         {
             player.cameraTransform.DOLocalRotate(new Vector3(0, 0, -10), 0.25f);

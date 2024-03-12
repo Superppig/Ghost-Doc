@@ -11,8 +11,7 @@ public class CommonGun : Gun
     public Transform position;
 
     private Player player;
-    //noise组件
-    private CinemachineBasicMultiChannelPerlin noiseModule;
+    
 
     protected override void Start()
     {
@@ -28,8 +27,6 @@ public class CommonGun : Gun
          
          fireWaitTime = 60f / data.fireRate;
          
-         noiseModule = camImpulse.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
     }
 
     protected override void Update()
@@ -47,14 +44,7 @@ public class CommonGun : Gun
             if (hit.collider.CompareTag("Enemy"))
             {
                 //相机振动
-                if (noiseModule != null)
-                {
-                    StartCoroutine(StartShake(data.impulseTime));
-                }
-                else
-                {
-                    Debug.LogWarning("未找到CinemachineBasicMultiChannelPerlin模块。");
-                }
+                ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
                 HitPartical(hit,data.hitEenemyParticle);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 enemyBeHit.HitEnemy(data.damageRate);
@@ -119,10 +109,5 @@ public class CommonGun : Gun
         Destroy(fire.gameObject,fire.main.duration);
     }
 
-    IEnumerator StartShake(float time)
-    {
-        noiseModule.m_AmplitudeGain= data.impulseAmplitude;
-        yield return new WaitForSeconds(time);
-        noiseModule.m_AmplitudeGain = 0f;
-    }
+
 }

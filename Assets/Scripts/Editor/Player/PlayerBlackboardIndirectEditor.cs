@@ -13,7 +13,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty lastState, currentState, nextState;
     [AutoProperty]
-    public SerializedProperty isRight, isLeft, isMeleeAttacking, isBlocking,hasClimbOverTime;
+    public SerializedProperty isRight, isLeft, isMeleeAttacking, isBlocking,hasClimbOverTime,isCombo, isHoldingMelee;
 
     public PlayerBlackboardIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
     {
@@ -40,6 +40,8 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
         isMeleeAttacking.BoolField("正在进行近战攻击");
         isBlocking.BoolField("正在进行格挡");
         hasClimbOverTime.BoolField("爬墙是否超时");
+        isCombo.BoolField("释放组合技");
+        isHoldingMelee.BoolField("是否持有近战武器");
         EditorGUI.EndDisabledGroup();
     }
 }

@@ -163,13 +163,14 @@ public class Zombie : Enemy
         if (!hasHit)
         {
             hasHit = true;
-            anim.SetTrigger("Hit");
+            anim.SetBool("Hit",true);
             StartCoroutine(StartHit());
         }
     }
     IEnumerator StartHit()
     {
         yield return new WaitForSeconds(hitTime);
+        anim.SetBool("Hit",false);
         hasHit = false;
         _state = ZombieState.Idle;
     }

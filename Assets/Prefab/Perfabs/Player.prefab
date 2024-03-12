@@ -234,10 +234,12 @@ MonoBehaviour:
     isMeleeAttacking: 0
     isBlocking: 0
     hasClimbOverTime: 0
+    isCombo: 0
   cameraTransform: {fileID: 6394809932711590825}
   vineLine: {fileID: 83834942}
   orientation: {fileID: 2400941454820154825}
   playerCam: {fileID: 6394809932384997858}
+  playerCollider: {fileID: 2400941453953990341}
   gunModel: {fileID: 0}
   gunTrans: {fileID: 0}
   rb: {fileID: 0}

@@ -22,8 +22,18 @@ public class CommonKnife : Melee
 
     protected override void Attack()
     {
-        base.Attack();
-        AttackPartical();
+        if (currentAttackType==AttackType.Common)
+        {
+            state=WeaponState.Attacking; 
+            player.blackboard.isMeleeAttacking = true;
+            AnimCon();
+            StartCoroutine(StartAttack());
+            AttackPartical();
+        }
+        else
+        {
+            state = WeaponState.Comboing;
+        }
     }
 
     //Attack时的相机效果

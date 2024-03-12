@@ -212,7 +212,7 @@ MonoBehaviour:
   attackRange: 2
   attackWaitTime: 0.5
   findRange: 15
-  hitTime: 0.5
+  hitTime: 0.2
   beBlocked: 0
   _state: 0
 --- !u!1 &6346626515909951495

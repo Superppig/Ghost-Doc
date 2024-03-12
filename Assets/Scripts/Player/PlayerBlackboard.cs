@@ -74,6 +74,9 @@ public class PlayerBlackboard
     
     public bool hasClimbOverTime;//爬墙是否超时
 
+    public bool isHoldingMelee;//是否持有近战武器
+    public bool isCombo;//释放组合技
+
 
     public RaycastHit slopeHit; //斜坡检测
 }
