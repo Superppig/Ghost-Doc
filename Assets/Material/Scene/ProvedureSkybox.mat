@@ -42,8 +42,8 @@ Material:
         m_Offset: {x: 0.002, y: 0.004}
     m_Ints: []
     m_Floats:
-    - _CloudEnd: 0.57
-    - _CloudStart: 0.288
+    - _CloudEnd: 0.608
+    - _CloudStart: 0.257
     - _DistortIntensity: 0.0599
     - _HorizonRange: 0.142
     - _MoonBias: 0.0429
