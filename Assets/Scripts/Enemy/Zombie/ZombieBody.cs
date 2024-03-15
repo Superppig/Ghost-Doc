@@ -16,5 +16,6 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
     public void HitEnemy(float rate)
     {
         zombie.TakeDamage(damage*rate);
+        Debug.Log("身体被击中");
     }
 }

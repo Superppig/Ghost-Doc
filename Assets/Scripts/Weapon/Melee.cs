@@ -232,7 +232,7 @@ public class Melee : MonoBehaviour
             //连招相关逻辑
             
             //左键
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && currentAttackType==AttackType.Common)
             {
                 
             }
@@ -241,7 +241,7 @@ public class Melee : MonoBehaviour
                 - 功能：自由视角的长冲刺，方向为角色面朝方向，冲刺过程中能穿过敌人，造成伤害。相当于正常冲刺的加强版，距离和速度加快+穿透攻击敌人。
                 - 后续改进想法：1.攻击到的敌人产生时停效果
                 - 条件：需要消耗一格能量，不到一格无法释放，正常空闲状态下应该都可以释放 */
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && currentAttackType==AttackType.Common)
             {
                 ShiftCombo();
             }
@@ -252,7 +252,7 @@ public class Melee : MonoBehaviour
                 - 条件：要求垂直方向上的距离地面上有一定高度，略高于跳起高度，消耗一格能量
                 - 参考：ultrakill里的下落砸地 视频待补充*/
 
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.LeftControl) && currentAttackType==AttackType.Common)
             {
                 CtrlCombo();
             }
@@ -261,7 +261,7 @@ public class Melee : MonoBehaviour
                 - 功能：上劈，类似上勾拳的功能？同步垂直击飞前方空间的敌人，主角也同步跃起。
                 - 后续改进想法：加入辅助近战吸附的功能
                 - 条件：消耗一格能量，基本空闲状态下都可释放*/
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && currentAttackType==AttackType.Common)
             {
                 SpaceCombo();
             }
