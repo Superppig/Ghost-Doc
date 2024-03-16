@@ -131,8 +131,8 @@ public class Player : MonoBehaviour
 
             //空中
             if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting &&
-                !(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-                  (blackboard.isRight || blackboard.isLeft))) //不是墙跑状态
+                (!(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
+                  blackboard.isWall)||blackboard.hasClimbEnergyOut)) //不是墙跑状态
             {
                 if (CanSwitch(blackboard.currentState, EStateType.Air))
                 {
@@ -211,14 +211,18 @@ public class Player : MonoBehaviour
                 }
             }
 
-            //滑墙
+            //爬墙
             if (!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-                (blackboard.isRight || blackboard.isLeft))
+                blackboard.isWall&& !blackboard.hasClimbEnergyOut)
             {
                 if (CanSwitch(blackboard.currentState, EStateType.WallRunning))
                 {
                     blackboard.lastState = blackboard.currentState;
                     blackboard.nextState = EStateType.WallRunning;
+                    
+                    //获取爬墙方向
+                    blackboard.climbXZDir = new Vector3(blackboard.velocity.x,0, blackboard.velocity.z).normalized;
+
                     fsm.SwitchState(EStateType.WallRunning);
                 }
             }
@@ -256,8 +260,7 @@ public class Player : MonoBehaviour
     IEnumerator WallJumping(float time)
     {
         blackboard.isWallJump = true;
-        blackboard.isLeft = false;
-        blackboard.isRight = false;
+        blackboard.isWall = false;
         blackboard.lastState = blackboard.currentState;
 
         blackboard.nextState = EStateType.WallRunning;
@@ -307,46 +310,19 @@ public class Player : MonoBehaviour
     //检测墙壁
     private void WallCheck()
     {
-        //新增墙壁检测
-        blackboard.isRight = Physics.Raycast(transform.position, orientation.right,
-            out blackboard.wallRightHit, settings.wallRunSettings.wallCheckDistance,
-            settings.otherSettings.wallLayer);
-        if (!blackboard.isRight)
+        //检测墙壁
+        float angleStep = 360f/ settings.wallRunSettings.rayCount;
+        for (int i = 0; i < settings.wallRunSettings.rayCount; i++)
         {
-            Vector3 dir = (orientation.right+orientation.forward).normalized;
-            blackboard.isRight = Physics.Raycast(transform.position, dir,
-                out blackboard.wallRightHit, settings.wallRunSettings.wallCheckDistance,
+            Vector3 dir = Quaternion.Euler(0,angleStep * i, 0) * orientation.forward;
+            blackboard.isWall = Physics.Raycast(transform.position, dir,
+                out blackboard.wallHit, settings.wallRunSettings.wallCheckDistance,
                 settings.otherSettings.wallLayer);
+            if (blackboard.isWall)
+            {
+                break;
+            }
         }
-        else if(!blackboard.isRight)
-        {
-            Vector3 dir = (orientation.right-orientation.forward).normalized;
-            blackboard.isRight = Physics.Raycast(transform.position, dir,
-                out blackboard.wallRightHit, settings.wallRunSettings.wallCheckDistance,
-                settings.otherSettings.wallLayer);
-        }
-        blackboard.isLeft = Physics.Raycast(transform.position, -orientation.right,
-            out blackboard.wallLeftHit, settings.wallRunSettings.wallCheckDistance,
-            settings.otherSettings.wallLayer);
-        if (!blackboard.isLeft)
-        {
-            Vector3 dir = (-orientation.right+orientation.forward).normalized;
-            blackboard.isLeft = Physics.Raycast(transform.position, dir,
-                out blackboard.wallLeftHit, settings.wallRunSettings.wallCheckDistance,
-                settings.otherSettings.wallLayer);
-        }
-        else if(!blackboard.isLeft)
-        {
-            Vector3 dir = (-orientation.right-orientation.forward).normalized;
-            blackboard.isLeft = Physics.Raycast(transform.position, dir,
-                out blackboard.wallLeftHit, settings.wallRunSettings.wallCheckDistance,
-                settings.otherSettings.wallLayer);
-        }
-
-        if (blackboard.isRight)
-            blackboard.currentWall = blackboard.wallRightHit;
-        if (blackboard.isLeft)
-            blackboard.currentWall = blackboard.wallLeftHit;
     }
     //气槽回复
     private void EnergeRecover()
@@ -354,6 +330,12 @@ public class Player : MonoBehaviour
         EStateType now = blackboard.currentState;
         if(now!=EStateType.Sliding&&now!=EStateType.WallRunning&&now!=EStateType.Sprinting)
             UseEnerge(-100*Time.fixedDeltaTime);
+        
+        //爬墙能量回满
+        if(blackboard.maxEnergy-blackboard.Energy<0.1f)
+        {
+            blackboard.hasClimbEnergyOut= false;
+        }
     }
     
     

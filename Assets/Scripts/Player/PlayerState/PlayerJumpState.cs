@@ -1,4 +1,5 @@
 using Player_FSM;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerJumpState : PlayerStateBase
@@ -7,6 +8,7 @@ public class PlayerJumpState : PlayerStateBase
 
     private float WallJumpSpeed => settings.jumpSettings.wallJumpSpeed;
     private float WalkSpeed => settings.walkSettings.walkSpeed;
+    private float WallUpSpeed => settings.jumpSettings.wallUpSpeed;
     private RaycastHit wall;
 
     public PlayerJumpState(Player player) : base(player)
@@ -34,19 +36,35 @@ public class PlayerJumpState : PlayerStateBase
         jumpSpeed = Speed(height);
         if (IsWallJump)
         {
-            wall = blackboard.currentWall;
-            if (!player.blackboard.hasClimbOverTime)
+            wall = blackboard.wallHit;
+            //判断墙跳类型
+            // 设定最小墙跳速度
+            float speed = blackboard.climbSpeed > WallJumpSpeed
+                ? blackboard.climbSpeed
+                : WallJumpSpeed;
+            
+            
+            Debug.Log("hasClimbOverTime"+blackboard.hasClimbOverTime);
+            Debug.Log("hasClimbOverAngle"+blackboard.hasClimbOverAngel);
+            //x > 某个角度时上墙且快速跳离，可以理解为玩家想要类似跑墙的效果，此时可以给玩家一个固定的脱离墙壁的速度方向。
+            if (!blackboard.hasClimbOverTime&& blackboard.hasClimbOverAngel)
             {
-                rb.velocity += (wall.normal.normalized*player.blackboard.climbSpeed+new Vector3(0, jumpSpeed, 0));
-                player.blackboard.hasClimbOverTime = false;//重置参数
-                Debug.Log(player.blackboard.climbSpeed);
+                rb.velocity += (wall.normal.normalized*speed+new Vector3(0, jumpSpeed, 0));
             }
+            //x < 某个角度时上墙且快速跳离，可以理解为玩家是想要向墙上跳或是垂直于墙壁跳开
+            else if (!blackboard.hasClimbOverTime&& !blackboard.hasClimbOverAngel)
+            {
+                rb.velocity += (wall.normal.normalized * WallUpSpeed + new Vector3(0, jumpSpeed, 0));
+                Debug.Log(rb.velocity);
+            }
+            //玩家非快速跳离，可以理解为玩家想要在墙上呆一会、判断形势。
             else
             {
-                rb.velocity += (wall.normal.normalized*WallJumpSpeed+new Vector3(0, jumpSpeed, 0));
-                Debug.Log(WallJumpSpeed);
+                rb.velocity += (player.orientation.forward.normalized*speed+new Vector3(0, jumpSpeed, 0));
             }
-            Debug.Log("墙跳");
+            //重置参数
+            player.blackboard.hasClimbOverTime = false;
+            player.blackboard.hasClimbOverAngel = false;
         }
         else
         {

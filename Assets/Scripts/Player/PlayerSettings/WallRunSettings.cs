@@ -10,4 +10,8 @@ public class WallRunSettings
     public float maxWallTime; //最大继承动量时间
     public float wallCheckDistance; //墙跑检测距离
     public float wallRunMinDisTance;
+    public int rayCount = 8; //射线数量
+
+    public float leaveMaxAngel;//判断玩家想跑墙或者攀爬的最大角度
+    public float energyCostPerSecond; //每秒消耗能量
 }

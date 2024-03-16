@@ -43,7 +43,7 @@ public class PlayerSlideState : PlayerStateBase
         timer+=Time.deltaTime;
         if (timer> VinelineTime)
         {
-            player.vineLine.Summon(player.transform.position,player.orientation.forward);
+            player.vineLine.Summon(player.transform.position,new Vector3(player.rb.velocity.x,0,player.rb.velocity.z));
             timer = 0f;
         }
     }

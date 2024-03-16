@@ -4,10 +4,11 @@ using UnityEngine;
 public class PlayerWallRunState : PlayerStateBase
 {
     private float GRate => settings.wallRunSettings.wallRunGRate;
-    private RaycastHit CurrentWall => blackboard.currentWall;
+    private RaycastHit WallHit => blackboard.wallHit;
     private float WallRunSpeed => settings.wallRunSettings.wallRunSpeed;
     private float MaxWallTime => settings.wallRunSettings.maxWallTime;
-    
+    private float LeaveMaxAngel => settings.wallRunSettings.leaveMaxAngel;
+    private float EnergyCostPerSecond => settings.wallRunSettings.energyCostPerSecond;
 
     //private float wallWalkForce;
 
@@ -21,15 +22,13 @@ public class PlayerWallRunState : PlayerStateBase
     public override void OnEnter()
     {
         rb.velocity = blackboard.velocity;
-        player.blackboard.climbSpeed = rb.velocity.magnitude;//继承墙壁速度
+        player.blackboard.climbSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z).magnitude;//继承墙壁速度
         wallTimer=0f;
-        if (blackboard.isLeft)
+        
+        //计算角度并判断是否超过最大角度
+        if(Vector3.Angle(blackboard.climbXZDir,-1*WallHit.normal)>LeaveMaxAngel)
         {
-            player.cameraTransform.DOLocalRotate(new Vector3(0, 0, -10), 0.25f);
-        }
-        else
-        {
-            player.cameraTransform.DOLocalRotate(new Vector3(0, 0, 10), 0.25f);
+            player.blackboard.hasClimbOverAngel = true;
         }
     }
     public override void OnExit()
@@ -46,26 +45,22 @@ public class PlayerWallRunState : PlayerStateBase
     }
     public override void OnFixUpdate()
     {
-        
+        if (wallTimer>=MaxWallTime)
+        {
+            player.UseEnerge(EnergyCostPerSecond/60f);
+            if(player.GetEnerge()<0.1f)
+            {
+                player.blackboard.hasClimbEnergyOut = true;
+            }
+        }
     }
 
     private void WallRun()
     {
-        
-        //修改前
-        /*Vector3 wallNormal = CurrentWall.normal;//墙壁法线
-        Vector3 wallForward = Vector3.Cross(wallNormal, rbTransform.up);//墙壁向前距离
-        if ((player.orientation.forward - wallForward).magnitude > (player.orientation.forward - -wallForward).magnitude)
-            wallForward = -wallForward;//调整向前方向
-
-        rb.velocity = wallForward.normalized * speed;//向前速度
-        rb.AddForce(Vector3.up * (rb.mass * Physics.gravity.magnitude * GRate));//抵消部分重力的力
-        rb.AddForce(CurrentWall.normal.normalized*(-1*100),ForceMode.Force);//向墙的力*/
-        
         //修改后(粘墙)
         wallTimer+= Time.deltaTime;
-        Vector3 wallNormal = CurrentWall.normal;//墙壁法线
-        rb.AddForce(CurrentWall.normal.normalized*(-1*100),ForceMode.Force);//向墙的力
+        Vector3 wallNormal = WallHit.normal;//墙壁法线
+        rb.AddForce(wallNormal.normalized*(-1*100),ForceMode.Force);//向墙的力
         rb.AddForce(Vector3.up * (rb.mass * Physics.gravity.magnitude * GRate));//抵消部分重力的力
         if (wallTimer>=MaxWallTime)
         {

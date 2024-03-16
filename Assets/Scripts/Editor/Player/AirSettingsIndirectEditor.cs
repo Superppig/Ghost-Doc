@@ -13,7 +13,7 @@ public class AirSettingsIndirectEditor : IndirectEditor
 
     protected override void MyOnInspectorGUI()
     {
-        airTransformAccelerate.FloatField("加速度");
+        airTransformAccelerate.FloatField("加速度(空中控制力)");
         playerHeight.FloatField("离地高度标准");
     }
 }
