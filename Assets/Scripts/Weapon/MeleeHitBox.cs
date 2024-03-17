@@ -21,7 +21,11 @@ public class MeleeHitBox : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             IEnemyBeHit enemy = other.GetComponent<IEnemyBeHit>();
-
+            //判断敌人是否会被击中
+            if (enemy.CanBeHit() == false)
+            {
+                return;
+            }
             switch (melee.currentAttackType)
             {
                 case Melee.AttackType.Common:
@@ -47,7 +51,7 @@ public class MeleeHitBox : MonoBehaviour
                 case Melee.AttackType.Space:
                     //升龙,给敌人一个力
                     enemy.HitEnemy(melee.spaceDamage);
-                    other.transform.root.GetComponent<Rigidbody>().AddForce(player.rb.velocity.normalized * 1, ForceMode.Impulse);
+                    other.transform.root.GetComponent<Rigidbody>().AddForce(player.rb.velocity.normalized * 5, ForceMode.Impulse);
                     Debug.Log("升龙");
                     break;
                 case Melee.AttackType.Shift:
@@ -56,7 +60,6 @@ public class MeleeHitBox : MonoBehaviour
                     //粒子效果
                     HitPartical(other.ClosestPoint(transform.position), other.transform);
                     ScreenControl.Instance.FrameFrozen(5, 0.2f);
-                    
                     //较长顿帧
                     ScreenControl.Instance.FrameFrozen(10, 0.2f);
                     break;

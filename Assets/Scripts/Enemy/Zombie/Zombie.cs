@@ -20,9 +20,9 @@ public class Zombie : Enemy
     protected float fireCd;//射击冷却时间
 
 
-    private bool hasAttack;
-    private bool hasHit;
-    private bool hasDead;
+    protected bool hasAttack;
+    public bool hasHit;
+    protected bool hasDead;
     
     public ZombieState _state=ZombieState.Idle;
     public enum ZombieState

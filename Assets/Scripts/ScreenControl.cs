@@ -52,4 +52,18 @@ public class ScreenControl : MonoBehaviour
         yield return new WaitForSeconds(time);
         noiseModule.m_AmplitudeGain = 0f;
     }
+    
+    //粒子特效
+    public enum ParticleType
+    {
+        Once,
+        Loop,
+    }
+    public void ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,ParticleType type = ParticleType.Once)
+    {
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, dir);
+        ParticleSystem particleInstance = Instantiate(particle, position, rotation);
+        Destroy(particleInstance.gameObject,particleInstance.main.duration);
+    }
+    
 }

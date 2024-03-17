@@ -12,6 +12,10 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
         zombie = transform.root.GetComponent<Zombie>();
         damage = zombie.bodyDamage;
     }
+    public bool CanBeHit()
+    {
+        return !zombie.hasHit;
+    }
 
     public void HitEnemy(float rate)
     {

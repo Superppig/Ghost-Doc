@@ -12,6 +12,11 @@ public class ZombieHead : MonoBehaviour,IEnemyBeHit
         damage = zombie.headDamage;
     }
 
+    public bool CanBeHit()
+    {
+        return !zombie.hasHit;
+    }
+
     public void HitEnemy(float rate)
     {
         zombie.TakeDamage(damage*rate);

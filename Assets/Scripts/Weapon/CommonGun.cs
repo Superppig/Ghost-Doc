@@ -105,7 +105,6 @@ public class CommonGun : Gun
     {
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal.normalized);
         ParticleSystem fire = Instantiate(hitParticle,hit.point , rotation);
-
         Destroy(fire.gameObject,fire.main.duration);
     }
 
