@@ -151,7 +151,7 @@ MonoBehaviour:
   Guns:
   - {fileID: 4805500976334143140, guid: b3c5389fdaf05f14dbb0088522609972, type: 3}
   Melees:
-  - {fileID: 6472308630586561271, guid: 7e354bc750a597b4b9fed6d7190e992c, type: 3}
+  - {fileID: 1073996509652699942, guid: 03fadd28376b0834f9b2a3d0e703a157, type: 3}
   gunIndex: 0
   meleeIndex: 0
 --- !u!114 &6394809933492538674
@@ -239,6 +239,7 @@ MonoBehaviour:
     isBlocking: 0
     hasClimbOverTime: 0
     hasClimbOverAngel: 0
+    hasClimbEnergyOut: 0
     isHoldingMelee: 0
     isCombo: 0
   cameraTransform: {fileID: 6394809932711590825}

@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class MeleeHitBox : MonoBehaviour
 {
-    private Melee melee;
+    public CommonKnife melee;
     private ParticleSystem hitParticle;
     private Player player;
 
     private void Start()
     {
-        melee = transform.parent.GetComponent<Melee>();
         hitParticle = melee.hitParticle;
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        
+        Debug.Log(melee==null);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,7 +37,7 @@ public class MeleeHitBox : MonoBehaviour
 
                     //粒子效果
                     HitPartical(other.ClosestPoint(transform.position), other.transform);
-                    ScreenControl.Instance.FrameFrozen(5, 0.2f);
+                    ScreenControl.Instance.FrameFrozen(melee.attackFrame, melee.attackStartTimeScale);
                     break;
                 case Melee.AttackType.Ctrl:
                     //ctrl组合技
@@ -59,9 +60,8 @@ public class MeleeHitBox : MonoBehaviour
                     Debug.Log("突刺");
                     //粒子效果
                     HitPartical(other.ClosestPoint(transform.position), other.transform);
-                    ScreenControl.Instance.FrameFrozen(5, 0.2f);
                     //较长顿帧
-                    ScreenControl.Instance.FrameFrozen(10, 0.2f);
+                    ScreenControl.Instance.FrameFrozen(melee.dashAttackFrame, melee.dashAttackStartTimeScale);
                     break;
             }
         }

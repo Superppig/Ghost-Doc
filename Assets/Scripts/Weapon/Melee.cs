@@ -18,7 +18,7 @@ public class Melee : MonoBehaviour
 
 
     [Header("动画控制")]
-    protected Animator anim;
+    public Animator anim;
     protected float AttackAnimTime;
     
     protected Collider blockArea;
@@ -99,9 +99,8 @@ public class Melee : MonoBehaviour
         Combo();
         StateChange();
         StateCon();
-        
-        //debug
         Debug.Log(hitBox.enabled);
+        
     }
 
     protected virtual void StateChange()
@@ -213,7 +212,7 @@ public class Melee : MonoBehaviour
     
     
     //格挡(待用子物体)
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("EnemyBullet")||other.CompareTag("EnemyAttack"))
         {
@@ -369,7 +368,6 @@ public class Melee : MonoBehaviour
         
         player.blackboard.isCombo = false;
         hasAttack=true;
-        
     }
     
     //跳跃组合技

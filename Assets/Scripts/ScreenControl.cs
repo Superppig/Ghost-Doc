@@ -31,8 +31,8 @@ public class ScreenControl : MonoBehaviour
             .From(startTimeScale)
             .SetEase(Ease.Linear);//线性变化
     }
-    
-    
+
+
     //相机振动
     public void CamShake(float time,float impulseAmplitude)
     {
@@ -59,10 +59,11 @@ public class ScreenControl : MonoBehaviour
         Once,
         Loop,
     }
-    public void ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,ParticleType type = ParticleType.Once)
+    public void ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,Transform trans = null,ParticleType type = ParticleType.Once)
     {
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, dir);
         ParticleSystem particleInstance = Instantiate(particle, position, rotation);
+        
         Destroy(particleInstance.gameObject,particleInstance.main.duration);
     }
     
