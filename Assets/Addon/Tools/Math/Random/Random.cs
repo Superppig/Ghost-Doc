@@ -23,19 +23,19 @@ namespace Tools
         }
 
         /// <summary>
-        /// ·µ»Ø[min,max£©¼äµÄËæ»úÕûÊı
+        /// è¿”å›[min,maxï¼‰é—´çš„éšæœºæ•´æ•°
         /// </summary>
         public static int RandomInt(int min, int max, ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
             => groups[eRandomGrounp].Next(min, max);
 
         /// <summary>
-        /// ·µ»Ø[min,max£©¼äµÄËæ»ú¸¡µãÊı
+        /// è¿”å›[min,maxï¼‰é—´çš„éšæœºæµ®ç‚¹æ•°
         /// </summary>
         public static float RandomFloat(float min, float max, ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
             => (float)(groups[eRandomGrounp].NextDouble()) * (max - min) + min;
 
         /// <summary>
-        /// Éú³ÉËæ»úµ¥Î»¶şÎ¬ÏòÁ¿£¨Ê¹ÓÃ¶à¸öËæ»úÊı£©
+        /// ç”Ÿæˆéšæœºå•ä½äºŒç»´å‘é‡ï¼ˆä½¿ç”¨å¤šä¸ªéšæœºæ•°ï¼‰
         /// </summary>
         public static Vector2 RandomVector2(ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
         {
@@ -50,7 +50,7 @@ namespace Tools
         }
 
         /// <summary>
-        /// Éú³ÉËæ»úµ¥Î»ÈıÎ¬ÏòÁ¿£¨Ê¹ÓÃ¶à¸öËæ»úÊı£©
+        /// ç”Ÿæˆéšæœºå•ä½ä¸‰ç»´å‘é‡ï¼ˆä½¿ç”¨å¤šä¸ªéšæœºæ•°ï¼‰
         /// </summary>
         public static Vector3 RandomVector3(ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
         {
@@ -65,9 +65,9 @@ namespace Tools
             return new Vector2((float)x, (float)y).normalized;
         }
 
-        private static double spare;    //¶àÓàµÄÕıÌ¬·Ö²¼Ëæ»úÊı
+        private static double spare;    //å¤šä½™çš„æ­£æ€åˆ†å¸ƒéšæœºæ•°
         /// <summary>
-        /// Éú³É·ûºÏ±ê×¼ÕıÌ¬·Ö²¼µÄËæ»úÊı(Ê¹ÓÃ¶à¸öËæ»úÊı)
+        /// ç”Ÿæˆç¬¦åˆæ ‡å‡†æ­£æ€åˆ†å¸ƒçš„éšæœºæ•°(ä½¿ç”¨å¤šä¸ªéšæœºæ•°)
         /// </summary>
         /// <returns></returns>
         public static double RandomNormalDistribution(ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
@@ -88,6 +88,66 @@ namespace Tools
             r = Math.Sqrt(-2d * Math.Log(r) / r);
             spare = y * r;
             return x * r;
+        }
+
+        /// <summary>
+        /// ç”Ÿæˆåœ†å†…ç¬¦åˆå‡åŒ€åˆ†å¸ƒä¸”çš„éšæœºç‚¹(ä¸ä½¿ç”¨zåˆ†é‡)
+        /// </summary>
+        public static List<Vector3> RandomPointsInCircle(float radius,int n, ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
+        {
+            List<Vector3> points = new List<Vector3>();
+            double x, y;
+            for (int i = 0; i < n; i++)
+            {
+                do
+                {
+                    x = groups[eRandomGrounp].NextDouble() * 2 * radius - radius;
+                    y = groups[eRandomGrounp].NextDouble() * 2 * radius - radius;
+                } while (x * x + y * y > radius * radius);
+                points.Add(new Vector3((float)x, (float)y, 0));
+            }
+            return points;
+        }
+
+        /// <summary>
+        /// ç”Ÿæˆåœ†å†…ç¬¦åˆå‡åŒ€åˆ†å¸ƒä¸”ä»»æ„ä¸¤ç‚¹é—´è·å¤§äºæŸä¸ªå€¼çš„éšæœºç‚¹(ä¸ä½¿ç”¨zåˆ†é‡,æœ€å¤§å°è¯•æ¬¡æ•°ä¸ºç‚¹æ•°é‡çš„10å€)
+        /// </summary>
+        /// <param name="des">æ¥æ”¶ç»“æœ(ä¸ä¼šæ¸…ç©ºæ•°ç»„)</param>
+        public static List<Vector3> RandomPointsInCircle(float radius, int n, float minDistance, ERandomGrounp eRandomGrounp = ERandomGrounp.Default)
+        {
+            List<Vector3> points = new List<Vector3>();
+            float sqr = minDistance * minDistance;
+
+            bool Verify(Vector3 v)
+            {
+                for (int i = 0; i < points.Count; i++)
+                {
+                    if ((points[i] - v).sqrMagnitude < sqr)
+                        return false;
+                }
+                return true;
+            }
+
+            int count = 0;
+            double x, y;
+            for (int i = 0; i < n; )
+            {
+                do
+                {
+                    x = groups[eRandomGrounp].NextDouble() * 2 * radius - radius;
+                    y = groups[eRandomGrounp].NextDouble() * 2 * radius - radius;
+                } while (x * x + y * y > radius * radius);
+                Vector3 v = new Vector3((float)x, (float)y, 0);
+                if(Verify(v))
+                {
+                    points.Add(v);
+                    i++;
+                }
+                count++;
+                if (count > 10 * n)
+                    return points;
+            }
+            return points;
         }
     }
 }
