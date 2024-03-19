@@ -146,9 +146,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WaveFrequence: 35.6
-    - _WaveIntensity: 0.239
-    - _WaveSpeed: 5.81
+    - _WaveFrequence: 0
+    - _WaveIntensity: 0
+    - _WaveSpeed: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -156,5 +156,6 @@ Material:
     - _Color: {r: 3.2111173, g: 3.2111173, b: 3.2111173, a: 1}
     - _DistortSpeed: {r: 0.3, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainFlow: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
