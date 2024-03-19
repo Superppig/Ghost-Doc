@@ -306,6 +306,14 @@ public class Player : MonoBehaviour
         return Physics.Raycast(transform.position, Vector3.down, settings.airSettings.playerHeight * 0.5f + height,
             settings.otherSettings.groundLayer);
     }
+    //返回地面
+    public RaycastHit GetGround()
+    {
+        RaycastHit hit = new RaycastHit();
+        Physics.Raycast(transform.position, Vector3.down, out hit,
+            settings.airSettings.playerHeight * 0.5f + 0.5f, settings.otherSettings.groundLayer);
+        return hit;
+    }
 
     //检测墙壁
     private void WallCheck()

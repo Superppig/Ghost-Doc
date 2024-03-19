@@ -59,12 +59,30 @@ public class ScreenControl : MonoBehaviour
         Once,
         Loop,
     }
-    public void ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,Transform trans = null,ParticleType type = ParticleType.Once)
+    public ParticleSystem ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,Transform trans = null,ParticleType type = ParticleType.Once)
     {
+        if (particle == null)
+        {
+            Debug.LogError("Particle system prefab is null.");
+            return null;
+        }
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, dir);
         ParticleSystem particleInstance = Instantiate(particle, position, rotation);
-        
-        Destroy(particleInstance.gameObject,particleInstance.main.duration);
+        if (trans!=null)
+        {
+            particleInstance.transform.SetParent(trans);
+        }
+        switch (type)
+        {
+            case ParticleType.Once:
+                Destroy(particleInstance.gameObject, particleInstance.main.duration);
+                return null;
+            break;
+            case ParticleType.Loop:
+                return particleInstance;
+            break;
+            default:
+                return null;
+        }
     }
-    
 }

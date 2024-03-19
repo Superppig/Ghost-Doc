@@ -12,4 +12,9 @@ public class OtherSettings
     public float sprintChangeRate; //冲刺动量转化速率
     public float walkToSlideCovoteTime; //walk状态转化为slide的动量继承土狼时间;
     public float slideToJumpHeightRate = 0.5f; //slide到jump状态,跳跃高度的变化率
+    
+    
+    public ParticleSystem JumpParticle;
+    public ParticleSystem JumpWallParticle;
+    public ParticleSystem SlideParticle;
 }

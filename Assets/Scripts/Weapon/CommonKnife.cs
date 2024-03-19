@@ -25,6 +25,7 @@ public class CommonKnife : Melee
     [Header("粒子特效")]
     public ParticleSystem dash;
     public ParticleSystem dashSlash;
+    public ParticleSystem parryParticle;
     public Transform booster;
     
     
@@ -147,5 +148,9 @@ public class CommonKnife : Melee
     public void DashSlashParticle()
     {
         dashSlash.Play();
+    }
+    public void ParryParticle()
+    {
+        ScreenControl.Instance.ParticleRelease(parryParticle,player.cameraTransform.position+player.cameraTransform.forward*0.5f,player.cameraTransform.forward,player.cameraTransform);
     }
 }

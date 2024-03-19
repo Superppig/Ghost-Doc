@@ -65,10 +65,16 @@ public class PlayerJumpState : PlayerStateBase
             //重置参数
             player.blackboard.hasClimbOverTime = false;
             player.blackboard.hasClimbOverAngel = false;
+            
+            //墙跳的粒子效果
+            ScreenControl.Instance.ParticleRelease(settings.otherSettings.JumpParticle, wall.point+new Vector3(0,-0.5f * settings.airSettings.playerHeight ,0), wall.normal);
         }
         else
         {
             rb.velocity += new Vector3(0, jumpSpeed, 0);
+            
+            //跳跃的粒子效果
+            ScreenControl.Instance.ParticleRelease(settings.otherSettings.JumpParticle, player.GetGround().point, player.GetGround().normal);
         }
 
         blackboard.velocity = rb.velocity;//提前写入速度
