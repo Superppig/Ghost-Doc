@@ -41,6 +41,49 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-2622691753273898510
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775053a6b238a5a48981e7a275d3de68, type: 3}
+  m_Name: SphereBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  UseSceneCamera:
+    m_OverrideState: 1
+    m_Value: 1
+  DownSample:
+    m_OverrideState: 0
+    m_Value: 1
+  Radius:
+    m_OverrideState: 0
+    m_Value: 0.64
+  Loop:
+    m_OverrideState: 0
+    m_Value: 3
+  Center:
+    m_OverrideState: 0
+    m_Value: {x: 0.5, y: 0.5}
+  DistortPara:
+    m_OverrideState: 0
+    m_Value: {x: 74, y: 0.112, z: 0.01, w: 1.02}
+  FlowSpeed:
+    m_OverrideState: 0
+    m_Value: 0.1
+  TargetPos:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0, z: 0}
+  MaskPara:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 1}
+  OutputMask:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,3 +98,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   components:
   - {fileID: -8589769054384482507}
+  - {fileID: -2622691753273898510}
