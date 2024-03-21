@@ -15,6 +15,44 @@ MonoBehaviour:
   components:
   - {fileID: 7548596374223297545}
   - {fileID: 2735812113768206586}
+  - {fileID: 911875443799245236}
+--- !u!114 &911875443799245236
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa46fbe9ae26b0242a79e8eec2e4b249, type: 3}
+  m_Name: DeathDissolve
+  m_EditorClassIdentifier: 
+  active: 1
+  UseSceneCamera:
+    m_OverrideState: 1
+    m_Value: 0
+  UseThis:
+    m_OverrideState: 1
+    m_Value: 1
+  Control:
+    m_OverrideState: 1
+    m_Value: 1
+  OutEdgeColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.23839766, g: 0.2874409, b: 0.9559735, a: 1}
+  InEdgeColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.31398875, g: 0.93011117, b: 1, a: 1}
+  BackColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.03529412, g: 0.03529412, b: 0.20784315, a: 1}
+  BigEdgeWidth:
+    m_OverrideState: 1
+    m_Value: 0.03846
+  SmallEdgeWidth:
+    m_OverrideState: 1
+    m_Value: 0.1278
 --- !u!114 &2735812113768206586
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -31,6 +69,9 @@ MonoBehaviour:
   UseSceneCamera:
     m_OverrideState: 1
     m_Value: 1
+  UseThis:
+    m_OverrideState: 0
+    m_Value: 0
   DownSample:
     m_OverrideState: 1
     m_Value: 3

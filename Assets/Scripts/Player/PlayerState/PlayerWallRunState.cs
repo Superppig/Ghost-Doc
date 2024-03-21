@@ -24,7 +24,7 @@ public class PlayerWallRunState : PlayerStateBase
         rb.velocity = blackboard.velocity;
         player.blackboard.climbSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z).magnitude;//继承墙壁速度
         wallTimer=0f;
-        
+        player.blackboard.hasClimbEnergyOut = false;
         //计算角度并判断是否超过最大角度
         if(Vector3.Angle(blackboard.climbXZDir,-1*WallHit.normal)>LeaveMaxAngel)
         {

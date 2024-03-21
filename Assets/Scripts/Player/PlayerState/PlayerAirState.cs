@@ -27,6 +27,7 @@ public class PlayerAirState : PlayerStateBase
     {
         rb.velocity = blackboard.velocity;//初始化速度
         timer = 0f;
+        blackboard.hasClimbOverTime = false;//初始化
     }
 
     public override void OnExit()
@@ -41,7 +42,10 @@ public class PlayerAirState : PlayerStateBase
 
     public override void OnUpdate()
     {
-        MoveInAir();
+        if (!blackboard.isWallJump)
+        {
+            MoveInAir();
+        }
     }
     //空中转向
     private void MoveInAir()

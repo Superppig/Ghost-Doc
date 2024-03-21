@@ -35,7 +35,7 @@ public class Melee : MonoBehaviour
     public WeaponState state=WeaponState.Idle;//武器状态
     public AttackType currentAttackType=AttackType.Common;//当前攻击类型
     
-    private EStateType playerState;//玩家状态
+    protected EStateType playerState;//玩家状态
     
     
     public float timer;
@@ -62,7 +62,7 @@ public class Melee : MonoBehaviour
     public float shiftEnergyCost;//shift组合技能量消耗
     public float shiftSpeed;//shift组合技速度
     public float shiftTime;//shift组合技时间
-    private float shiftTimer;
+    protected float shiftTimer;
 
     [Header("Ctrl组合技")]
     public float ctrlDamage;
@@ -78,7 +78,7 @@ public class Melee : MonoBehaviour
     public float spaceEnergyCost;//space组合技能量消耗
     public float spaceSpeed;//space组合技速度
     public float spaceTime;//space组合技时间
-    private float spaceTimer;
+    protected float spaceTimer;
 
     
     

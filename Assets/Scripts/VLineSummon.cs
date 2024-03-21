@@ -15,8 +15,12 @@ public class VLineSummon : MonoBehaviour
     public void Summon(Transform trasform)
         => Summon(trasform.position, transform.forward.normalized);
 
-    public void Summon(Vector3 position,Vector3 dir)
+    public void Summon(Vector3 position,Vector3 dir, float time = 0)
     {
+        if (time < Mathf.Epsilon)
+        {
+            time = exitTime;
+        }
         for (int i = 0; i < count; i++)
         {
             //生成一个随机点
@@ -35,7 +39,7 @@ public class VLineSummon : MonoBehaviour
             
             aLine.SetPosition(0,point+dir.normalized*deepth);
             aLine.SetPosition(1,point-dir.normalized*deepth);
-            StartCoroutine(LineDead(aLine, exitTime));
+            StartCoroutine(LineDead(aLine, time));
         }
     }
     IEnumerator LineDead(LineRenderer line, float time)

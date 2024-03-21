@@ -7,6 +7,9 @@ public class OtherSettingsIndirectEditor : IndirectEditor
 
     [AutoProperty]
     public SerializedProperty groundLayer, wallLayer, maxSlopeAngle, sprintChangeRate, walkToSlideCovoteTime, slideToJumpHeightRate;
+    
+    [AutoProperty]
+    public SerializedProperty JumpParticle, JumpWallParticle, SlideParticle;
 
     public OtherSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
     {
@@ -20,5 +23,9 @@ public class OtherSettingsIndirectEditor : IndirectEditor
         sprintChangeRate.FloatField("sprintChangeRate");
         walkToSlideCovoteTime.FloatField("walkToSlideCovoteTime");
         slideToJumpHeightRate.FloatField("walkToSlideCovoteTime");
+        
+        JumpParticle.PropertyField("跳跃粒子");
+        JumpWallParticle.PropertyField("跳跃墙壁粒子");
+        SlideParticle.PropertyField("滑行粒子");
     }
 }

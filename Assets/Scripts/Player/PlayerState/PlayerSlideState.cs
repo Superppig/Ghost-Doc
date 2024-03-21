@@ -14,6 +14,8 @@ public class PlayerSlideState : PlayerStateBase
     private Vector3 originalScale;
 
     private float timer;
+    
+    private ParticleSystem slideParticle;
 
     public PlayerSlideState(Player player): base(player)
     {
@@ -27,6 +29,10 @@ public class PlayerSlideState : PlayerStateBase
 
         Camera.main.DOFieldOfView(63, 0.2f);
         timer = 0f;
+        
+        
+        //粒子效果
+        slideParticle = ScreenControl.Instance.ParticleRelease(settings.otherSettings.SlideParticle,player.GetGround().point, player.GetGround().normal,rbTransform,ScreenControl.ParticleType.Loop);
     }
 
     public override void OnExit()
@@ -34,6 +40,8 @@ public class PlayerSlideState : PlayerStateBase
         rbTransform.localScale = originalScale;
         Camera.main.DOFieldOfView(60, 0.2f);
 
+        //去除粒子效果
+        GameObject.Destroy(slideParticle.gameObject);
     }
 
     public override void OnUpdate()

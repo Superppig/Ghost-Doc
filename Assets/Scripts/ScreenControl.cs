@@ -19,6 +19,7 @@ public class ScreenControl : MonoBehaviour
             return instance;
         }
     }
+    private bool isFrameFrozen = false;
     //noise组件
     public CinemachineVirtualCamera camImpulse;
     private CinemachineBasicMultiChannelPerlin noiseModule;
@@ -26,10 +27,15 @@ public class ScreenControl : MonoBehaviour
     //顿帧
     public void FrameFrozen(int frame,float startTimeScale)
     {
-        float time = frame/60f;
-        DOTween.To(() => Time.timeScale, x => Time.timeScale=x, 1f, time)
-            .From(startTimeScale)
-            .SetEase(Ease.Linear);//线性变化
+        if (!isFrameFrozen)
+        {
+            isFrameFrozen = true;
+            float time = frame/60f;
+            Tween tween=DOTween.To(() => Time.timeScale, x => Time.timeScale=x, 1f, time)
+                .From(startTimeScale)
+                .SetEase(Ease.Linear);//线性变化
+            tween.OnComplete(() => { isFrameFrozen = false; });
+        }
     }
 
 
@@ -59,12 +65,30 @@ public class ScreenControl : MonoBehaviour
         Once,
         Loop,
     }
-    public void ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,Transform trans = null,ParticleType type = ParticleType.Once)
+    public ParticleSystem ParticleRelease(ParticleSystem particle,Vector3 position,Vector3 dir,Transform trans = null,ParticleType type = ParticleType.Once)
     {
+        if (particle == null)
+        {
+            Debug.LogError("Particle system prefab is null.");
+            return null;
+        }
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, dir);
         ParticleSystem particleInstance = Instantiate(particle, position, rotation);
-        
-        Destroy(particleInstance.gameObject,particleInstance.main.duration);
+        if (trans!=null)
+        {
+            particleInstance.transform.SetParent(trans);
+        }
+        switch (type)
+        {
+            case ParticleType.Once:
+                Destroy(particleInstance.gameObject, particleInstance.main.duration);
+                return null;
+            break;
+            case ParticleType.Loop:
+                return particleInstance;
+            break;
+            default:
+                return null;
+        }
     }
-    
 }

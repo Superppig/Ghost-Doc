@@ -173,9 +173,9 @@ MonoBehaviour:
       groundDrag: 0
     jumpSettings:
       height: 4
-      wallJumpSpeed: 5
-      wallUpSpeed: 0.7
-      exitWallTime: 0.5
+      wallJumpSpeed: 10
+      wallUpSpeed: 5
+      exitWallTime: 0.3
     sprintSettings:
       sprintSpeed: 30
       sprintDistance: 4
@@ -217,6 +217,9 @@ MonoBehaviour:
       sprintChangeRate: 1
       walkToSlideCovoteTime: 0.1
       slideToJumpHeightRate: 0.5
+      JumpParticle: {fileID: 1680703265322703809, guid: 3f8b95b9e5ada3e40b149dfa20c85af2, type: 3}
+      JumpWallParticle: {fileID: 5833850996440951829, guid: acfd03babea8a6845ba480aebedb70d4, type: 3}
+      SlideParticle: {fileID: 4175028999640997500, guid: fdc2006cd4b21954d89b024c04576f80, type: 3}
   blackboard:
     maxHealth: 100
     health: 0
