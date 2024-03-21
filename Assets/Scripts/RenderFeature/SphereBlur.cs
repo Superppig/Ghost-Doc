@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 public class SphereBlur : VolumeComponent, IPostProcessComponent
 {
     public BoolParameter UseSceneCamera = new BoolParameter(false);
+    public BoolParameter UseThis = new BoolParameter(false);
     public ClampedIntParameter DownSample = new ClampedIntParameter(1, 1, 10);
     public FloatParameter Radius = new ClampedFloatParameter(0.64f,0.0f,5.0f);
     public IntParameter Loop = new ClampedIntParameter(3, 1, 10);
