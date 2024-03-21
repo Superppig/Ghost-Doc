@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775053a6b238a5a48981e7a275d3de68, type: 3}
   m_Name: SphereBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   UseSceneCamera:
     m_OverrideState: 1
     m_Value: 0

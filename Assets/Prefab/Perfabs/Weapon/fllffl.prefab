@@ -355,7 +355,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 260
+  m_VersionIndex: 263
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 188
+  m_VersionIndex: 191
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 185
+  m_VersionIndex: 188
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2412,11 +2412,11 @@ MonoBehaviour:
   spaceEnergyCost: 100
   spaceSpeed: 10
   spaceTime: 0.5
-  attackFrame: 10
+  attackFrame: 3
   attackStartTimeScale: 0
-  blockFrame: 40
+  blockFrame: 20
   blockStartTimeScale: 0.1
-  dashAttackFrame: 10
+  dashAttackFrame: 3
   dashAttackStartTimeScale: 0
   dash: {fileID: 4436661340327452930}
   dashSlash: {fileID: 6724262159683079251}
