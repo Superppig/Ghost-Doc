@@ -77,6 +77,7 @@ public class SphereBlurRenderFeature : ScriptableRendererFeature
 
 
             effVolum = VolumeManager.instance.stack.GetComponent<SphereBlur>();
+            if (!effVolum.UseThis.value) return;
             if (effVolum == null) return;
             if (effVolum.UseSceneCamera.value)
             {
@@ -86,6 +87,7 @@ public class SphereBlurRenderFeature : ScriptableRendererFeature
             {
                 if (renderingData.cameraData.isSceneViewCamera) return;//不处理scene的相机
             }
+            if (!effVolum.active) return;
 
             CommandBuffer cmd = CommandBufferPool.Get(k_RenderTag);
             //设置渲染函数
@@ -104,7 +106,6 @@ public class SphereBlurRenderFeature : ScriptableRendererFeature
         //定义一个渲染函数
         void Render(CommandBuffer cmd, ref RenderingData renderingData)
         {
-            Debug.Log("1");
             //获取摄像机属性
             ref var cameraData = ref renderingData.cameraData;
             //传入摄像机描述信息
