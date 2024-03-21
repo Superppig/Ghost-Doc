@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public Transform gunTrans;
     public Rigidbody rb;
 
+    private bool canClimb;
+
     private void Awake()
     {
         rb = GetComponentInChildren<Rigidbody>();
@@ -101,6 +103,12 @@ public class Player : MonoBehaviour
         }
         else
         {
+            canClimb = !IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
+                       (blackboard.isWall
+                           ? (Vector3.Angle(blackboard.wallHit.normal , blackboard.moveDir) > 90f&& blackboard.moveDir.magnitude>0.1f)
+                           : false)
+                       && !blackboard.hasClimbEnergyOut;
+            
             //落地
             if ((blackboard.currentState == EStateType.Jumping || blackboard.currentState == EStateType.Air) &&
                 blackboard.grounded)
@@ -131,8 +139,7 @@ public class Player : MonoBehaviour
 
             //空中
             if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting &&
-                (!(!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-                  blackboard.isWall)||blackboard.hasClimbEnergyOut)) //不是墙跑状态
+                !canClimb)//不是墙跑状态
             {
                 if (CanSwitch(blackboard.currentState, EStateType.Air))
                 {
@@ -207,13 +214,12 @@ public class Player : MonoBehaviour
                 {
                     StartCoroutine(StartJump(0.2f));
                     // 墙跳逻辑
-                    StartCoroutine(WallJumping(0.3f));
+                    StartCoroutine(WallJumping(settings.jumpSettings.exitWallTime));
                 }
             }
 
             //爬墙
-            if (!IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-                blackboard.isWall&& !blackboard.hasClimbEnergyOut)
+            if (canClimb)
             {
                 if (CanSwitch(blackboard.currentState, EStateType.WallRunning))
                 {

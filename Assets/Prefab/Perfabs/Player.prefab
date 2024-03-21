@@ -173,9 +173,9 @@ MonoBehaviour:
       groundDrag: 0
     jumpSettings:
       height: 4
-      wallJumpSpeed: 5
-      wallUpSpeed: 0.7
-      exitWallTime: 0.5
+      wallJumpSpeed: 10
+      wallUpSpeed: 5
+      exitWallTime: 0.3
     sprintSettings:
       sprintSpeed: 30
       sprintDistance: 4

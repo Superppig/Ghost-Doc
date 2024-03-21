@@ -60,8 +60,12 @@ public class PlayerJumpState : PlayerStateBase
             //玩家非快速跳离，可以理解为玩家想要在墙上呆一会、判断形势。
             else
             {
-                rb.velocity += (player.orientation.forward.normalized*speed+new Vector3(0, jumpSpeed, 0));
+                rb.velocity += (wall.normal.normalized*speed+new Vector3(0, jumpSpeed, 0));
             }
+            //速度线和顿帧
+            player.vineLine.Summon(player.transform.position,
+                new Vector3(player.rb.velocity.x, 0, player.rb.velocity.z), 0.1f);
+            ScreenControl.Instance.FrameFrozen(5,0.1f);
             //重置参数
             player.blackboard.hasClimbOverTime = false;
             player.blackboard.hasClimbOverAngel = false;

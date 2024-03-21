@@ -19,6 +19,7 @@ public class ScreenControl : MonoBehaviour
             return instance;
         }
     }
+    private bool isFrameFrozen = false;
     //noise组件
     public CinemachineVirtualCamera camImpulse;
     private CinemachineBasicMultiChannelPerlin noiseModule;
@@ -26,10 +27,15 @@ public class ScreenControl : MonoBehaviour
     //顿帧
     public void FrameFrozen(int frame,float startTimeScale)
     {
-        float time = frame/60f;
-        DOTween.To(() => Time.timeScale, x => Time.timeScale=x, 1f, time)
-            .From(startTimeScale)
-            .SetEase(Ease.Linear);//线性变化
+        if (!isFrameFrozen)
+        {
+            isFrameFrozen = true;
+            float time = frame/60f;
+            Tween tween=DOTween.To(() => Time.timeScale, x => Time.timeScale=x, 1f, time)
+                .From(startTimeScale)
+                .SetEase(Ease.Linear);//线性变化
+            tween.OnComplete(() => { isFrameFrozen = false; });
+        }
     }
 
 

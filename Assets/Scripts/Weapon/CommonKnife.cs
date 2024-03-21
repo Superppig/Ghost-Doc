@@ -101,7 +101,7 @@ public class CommonKnife : Melee
         camTrans.DOLocalRotate(Vector3.zero, 0.1f);
     }
     
-    //攻击时的粒子效果
+    //攻击时的粒子效果(暂时弃用)
     private void AttackPartical()
     {
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, player.cameraTransform.forward);
@@ -110,6 +110,52 @@ public class CommonKnife : Melee
         Destroy(hit.gameObject, hit.main.duration);
     }
     
+    //重写dash
+    protected override IEnumerator StartShiftCombo()
+    {
+        //记录方向
+        Vector3 dir = camTrans.forward;
+        player.rb.velocity=Vector3.zero;
+        
+        //关闭碰撞体
+        //player.playerCollider.enabled = false;
+        
+        //攻击相关
+        state = WeaponState.Comboing;
+        currentAttackType = AttackType.Shift;
+        anim.SetBool("Shift",true);
+        hitBox.enabled=true;
+
+
+        shiftTimer = 0f;
+        
+
+        //移动
+        while (shiftTimer<=shiftTime)
+        {
+            shiftTimer += Time.deltaTime;
+            player.rb.velocity = dir * shiftSpeed;
+            //添加速度线
+            int i = 1;
+            if (shiftTimer > i * 0.2f)
+            {
+                player.vineLine.Summon(player.transform.position,new Vector3(player.rb.velocity.x,0,player.rb.velocity.z));
+                i++;
+            }
+            yield return null;
+        }
+        
+        player.blackboard.isCombo = false; 
+        
+        //攻击相关
+        anim.SetBool("Shift",false);
+        hitBox.enabled=false;
+
+        //打开碰撞体
+        player.playerCollider.enabled = true;
+        hasAttack=true;
+    }
+
     //格挡(待用子物体)
     protected override void OnTriggerEnter(Collider other)
     {
