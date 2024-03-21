@@ -355,7 +355,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 260
+  m_VersionIndex: 263
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 188
+  m_VersionIndex: 191
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 185
+  m_VersionIndex: 188
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2353,7 +2353,7 @@ Transform:
   - {fileID: 5072063388229537186}
   - {fileID: 5072063387076384268}
   - {fileID: 6357983816120493853}
-  - {fileID: 1418072448134950112}
+  - {fileID: 8170127882473064094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -179.012, y: 0, z: 0}
@@ -2414,11 +2414,11 @@ MonoBehaviour:
   spaceEnergyCost: 100
   spaceSpeed: 10
   spaceTime: 0.5
-  attackFrame: 10
+  attackFrame: 3
   attackStartTimeScale: 0
-  blockFrame: 40
+  blockFrame: 20
   blockStartTimeScale: 0.1
-  dashAttackFrame: 10
+  dashAttackFrame: 3
   dashAttackStartTimeScale: 0
   dash: {fileID: 3158835897629602611}
   dashSlash: {fileID: 6687663219689658395}
@@ -2572,6 +2572,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5072063388641096612}
     m_Modifications:
+    - target: {fileID: 2453748261243030203, guid: b898a524d567db843a39277e71748157, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4666105720281783818, guid: b898a524d567db843a39277e71748157, type: 3}
       propertyPath: looping
       value: 1
@@ -2646,9 +2650,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b898a524d567db843a39277e71748157, type: 3}
---- !u!4 &1418072448134950112 stripped
+--- !u!4 &8170127882473064094 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4666105720504574149, guid: b898a524d567db843a39277e71748157, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2453748261243030203, guid: b898a524d567db843a39277e71748157, type: 3}
   m_PrefabInstance: {fileID: 6012119747818015781}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7869122462597821073
