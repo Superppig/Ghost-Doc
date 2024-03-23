@@ -41,6 +41,21 @@ public class PlayerAttack : MonoBehaviour
     
     private void PlayerInput()
     {
+        //左键打断收刀
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (currentType == WeaponType.Melee)
+            {
+                if (currentMelee.state==Melee.WeaponState.Retracking)
+                {
+                    SwitchWeapon(WeaponType.Gun,gunIndex);
+                    player.blackboard.isHoldingMelee = false;     
+                    //同时让gun第一次射击
+                    currentGun.firstFire = true;
+                }
+            }
+        }
+        
         //右键为近战
         if (Input.GetMouseButtonDown(1))
         {

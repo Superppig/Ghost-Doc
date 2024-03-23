@@ -36,7 +36,8 @@ public class Melee : MonoBehaviour
     public AttackType currentAttackType=AttackType.Common;//当前攻击类型
     
     protected EStateType playerState;//玩家状态
-    
+    protected bool canSwitch;//是否可以切换武器
+    protected bool hasBlockedAmin=false;//是否播放过格挡动画
     
     public float timer;
     public enum WeaponState
@@ -45,7 +46,8 @@ public class Melee : MonoBehaviour
         Blocking,
         Deffending,
         Attacking,
-        Comboing
+        Comboing,
+        Retracking
     }
     
     public enum AttackType
@@ -99,13 +101,12 @@ public class Melee : MonoBehaviour
         Combo();
         StateChange();
         StateCon();
-        Debug.Log(hitBox.enabled);
-        
+        AnimCon();
     }
 
     protected virtual void StateChange()
     {
-        if (Input.GetMouseButton(1)&& state!=WeaponState.Attacking)
+        if (Input.GetMouseButton(1)&& state!=WeaponState.Attacking && state!=WeaponState.Comboing&&state!=WeaponState.Retracking)
         {
             timer+=Time.deltaTime;
             if(timer<=blockingtime)
@@ -124,22 +125,18 @@ public class Melee : MonoBehaviour
     }
     protected virtual void StateCon()
     {
-        AnimCon();
         switch (state)
         {
             case WeaponState.Idle:
                 blockArea.enabled = false;
-                hitBox.enabled = false;
                 player.blackboard.isBlocking = false;
                 break;
             case WeaponState.Blocking:
                 blockArea.enabled = true;
-                hitBox.enabled = false;
                 player.blackboard.isBlocking = true;
                 break;
             case WeaponState.Deffending:
                 blockArea.enabled = false;
-                hitBox.enabled = false;
                 player.blackboard.isBlocking = false;
                 break;
             case WeaponState.Attacking:
@@ -148,6 +145,10 @@ public class Melee : MonoBehaviour
                 player.blackboard.isBlocking = false;
                 break;
             case WeaponState.Comboing:
+                blockArea.enabled = false;
+                player.blackboard.isBlocking = false;
+                break;
+            case WeaponState.Retracking:
                 blockArea.enabled = false;
                 player.blackboard.isBlocking = false;
                 break;
@@ -179,18 +180,17 @@ public class Melee : MonoBehaviour
             case WeaponState.Idle:
                 anim.SetBool("Blocking",false);
                 anim.SetBool("Deffending",false);
-                anim.SetBool("Attacking",false);
+                EndAttackAnim();
                 break;
             case WeaponState.Blocking:
                 anim.SetBool("Blocking",true);
                 anim.SetBool("Deffending",false);
-                anim.SetBool("Attacking",false);
-
+                EndAttackAnim();
                 break;
             case WeaponState.Deffending:
                 anim.SetBool("Blocking",false);
                 anim.SetBool("Deffending",true);
-                anim.SetBool("Attacking",false);
+                EndAttackAnim();
                 break;
             case WeaponState.Attacking:
                 anim.SetBool("Blocking",false);
@@ -199,15 +199,50 @@ public class Melee : MonoBehaviour
                 break;
             
             case WeaponState.Comboing:
+                Debug.Log(hitBox.enabled);
+                if (!hitBox.enabled)
+                {
+                    Debug.Log("Comboing");
+                    hitBox.enabled= true;
+                    if (currentAttackType==AttackType.Shift)
+                    {
+                        anim.SetBool("Shift",true);
+                    }
+                    else if (currentAttackType==AttackType.Ctrl)
+                    {
+                        anim.SetBool("Ctrl",true);
+                    }
+                    else if (currentAttackType==AttackType.Space)
+                    {
+                        anim.SetBool("Space",true);
+                    }
+                }
+                break;
+            case WeaponState.Retracking:
+                EndAttackAnim();
+                break;
             default: break;
         }
+    }
+
+    protected virtual void EndAttackAnim()
+    {
+        anim.SetBool("Shift",false);
+        anim.SetBool("Ctrl",false);
+        anim.SetBool("Space",false);
+        anim.SetBool("Attacking",false);
+        anim.SetBool("Parry", false);
+        
+        //逻辑变量修改
+        hitBox.enabled = false;
+        hasBlockedAmin = false;
     }
     protected virtual IEnumerator StartAttack()
     {
         yield return new WaitForSeconds(AttackAnimTime);
         player.blackboard.isMeleeAttacking = false;
         state=WeaponState.Idle;
-        hasAttack = true;
+        RetrackMelee();
     }
     
     
@@ -229,40 +264,42 @@ public class Melee : MonoBehaviour
         if (state != WeaponState.Attacking)
         {
             //连招相关逻辑
-            
-            //左键
-            if (Input.GetMouseButton(0) && currentAttackType==AttackType.Common)
+            if (Input.GetMouseButton(1))
             {
+                //左键
+                if (Input.GetMouseButton(0) && currentAttackType==AttackType.Common)
+                {
                 
-            }
+                }
             
-            /* - shift
-                - 功能：自由视角的长冲刺，方向为角色面朝方向，冲刺过程中能穿过敌人，造成伤害。相当于正常冲刺的加强版，距离和速度加快+穿透攻击敌人。
-                - 后续改进想法：1.攻击到的敌人产生时停效果
-                - 条件：需要消耗一格能量，不到一格无法释放，正常空闲状态下应该都可以释放 */
-            if (Input.GetKeyDown(KeyCode.LeftShift) && currentAttackType==AttackType.Common)
-            {
-                ShiftCombo();
-            }
+                /* - shift
+                    - 功能：自由视角的长冲刺，方向为角色面朝方向，冲刺过程中能穿过敌人，造成伤害。相当于正常冲刺的加强版，距离和速度加快+穿透攻击敌人。
+                    - 后续改进想法：1.攻击到的敌人产生时停效果
+                    - 条件：需要消耗一格能量，不到一格无法释放，正常空闲状态下应该都可以释放 */
+                if (Input.GetKeyDown(KeyCode.LeftShift) && currentAttackType==AttackType.Common)
+                {
+                    ShiftCombo();
+                }
             
-            /*- ctrl
-                - 功能：在空中加快落地速度,落地时对落点周围范围内敌人造成伤害判定，并把敌人震飞（圆形范围内，同一块地面上才有判定，垂直击飞+震退）
-                - 后续改进想法：1.使用时将面前一定空间范围上的敌人由主角带着同步下落，类似把敌人劈砍下来的感觉 2.下落时的状态是否可以被冲刺上勾拳等取消？我想着应该是不能
-                - 条件：要求垂直方向上的距离地面上有一定高度，略高于跳起高度，消耗一格能量
-                - 参考：ultrakill里的下落砸地 视频待补充*/
+                /*- ctrl
+                    - 功能：在空中加快落地速度,落地时对落点周围范围内敌人造成伤害判定，并把敌人震飞（圆形范围内，同一块地面上才有判定，垂直击飞+震退）
+                    - 后续改进想法：1.使用时将面前一定空间范围上的敌人由主角带着同步下落，类似把敌人劈砍下来的感觉 2.下落时的状态是否可以被冲刺上勾拳等取消？我想着应该是不能
+                    - 条件：要求垂直方向上的距离地面上有一定高度，略高于跳起高度，消耗一格能量
+                    - 参考：ultrakill里的下落砸地 视频待补充*/
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) && currentAttackType==AttackType.Common)
-            {
-                CtrlCombo();
-            }
+                if (Input.GetKeyDown(KeyCode.LeftControl) && currentAttackType==AttackType.Common)
+                {
+                    CtrlCombo();
+                }
             
-            /*- 空格
-                - 功能：上劈，类似上勾拳的功能？同步垂直击飞前方空间的敌人，主角也同步跃起。
-                - 后续改进想法：加入辅助近战吸附的功能
-                - 条件：消耗一格能量，基本空闲状态下都可释放*/
-            if (Input.GetKeyDown(KeyCode.Space) && currentAttackType==AttackType.Common)
-            {
-                SpaceCombo();
+                /*- 空格
+                    - 功能：上劈，类似上勾拳的功能？同步垂直击飞前方空间的敌人，主角也同步跃起。
+                    - 后续改进想法：加入辅助近战吸附的功能
+                    - 条件：消耗一格能量，基本空闲状态下都可释放*/
+                if (Input.GetKeyDown(KeyCode.Space) && currentAttackType==AttackType.Common)
+                {
+                    SpaceCombo();
+                }
             }
         }
     }
@@ -295,8 +332,6 @@ public class Melee : MonoBehaviour
         //攻击相关
         state = WeaponState.Comboing;
         currentAttackType = AttackType.Shift;
-        anim.SetBool("Shift",true);
-        hitBox.enabled=true;
 
 
         shiftTimer = 0f;
@@ -312,14 +347,11 @@ public class Melee : MonoBehaviour
         
         player.blackboard.isCombo = false; 
         
-        //攻击相关
-        anim.SetBool("Shift",false);
-        hitBox.enabled=false;
+        currentAttackType = AttackType.Common;
 
         //打开碰撞体
         player.playerCollider.enabled = true;
-        hasAttack=true;
-        
+        RetrackMelee();
     }
     
     //ctrl组合技
@@ -340,10 +372,8 @@ public class Melee : MonoBehaviour
     }
     protected virtual IEnumerator StartCtrlCombo()
     {
-        anim.SetBool("Ctrl",true);
         state = WeaponState.Comboing;
         currentAttackType = AttackType.Ctrl;
-        hitBox.enabled=true;
 
         
         while (!player.IsGrounded(ctrlEndHeight))
@@ -361,13 +391,10 @@ public class Melee : MonoBehaviour
     }
     protected virtual void EndCrtlCombo()
     {
-        anim.SetBool("Ctrl",false);
-        
-        hitBox.enabled = false;
         currentAttackType = AttackType.Common;
-        
+
         player.blackboard.isCombo = false;
-        hasAttack=true;
+        RetrackMelee();
     }
     
     //跳跃组合技
@@ -388,14 +415,12 @@ public class Melee : MonoBehaviour
     {
         state = WeaponState.Comboing;
         currentAttackType = AttackType.Space;
-        hitBox.enabled=true;
 
         spaceTimer = 0f;
         
         //获取速度
         player.rb.velocity = Vector3.up * spaceSpeed;
 
-        anim.SetBool("Space",true);
 
         while (spaceTimer<=spaceTime)
         {
@@ -406,12 +431,23 @@ public class Melee : MonoBehaviour
             yield return null;
         }
         
-        anim.SetBool("Space",false);
         
         currentAttackType = AttackType.Common;
-        hitBox.enabled=false;
-
         player.blackboard.isCombo = false;
-        hasAttack=true;
+        RetrackMelee();
+    }
+    
+    
+    //结束近战并切换为枪械
+    protected void RetrackMelee()
+    {
+        state= WeaponState.Retracking;
+        timer = 0f;
+    }
+
+    public void EndRtrack()
+    {
+        state = WeaponState.Idle;
+        hasAttack = true;
     }
 }

@@ -15,7 +15,7 @@ public class Gun: MonoBehaviour
     //击中镜头晃动
     protected CinemachineVirtualCamera camImpulse;
 
-    
+
     protected Animator gunAnimator;
     protected Transform orientation;//摄像机的transform
     protected Rigidbody rb;
@@ -23,6 +23,8 @@ public class Gun: MonoBehaviour
 
     public Transform model;
     public Transform trans;
+
+    public bool firstFire;//切换武器时第一次射击
     
     protected virtual void Start()
     {
@@ -54,7 +56,7 @@ public class Gun: MonoBehaviour
 
     protected virtual void FireAction()
     { 
-        if (fireing && canFire)
+        if (fireing && canFire||firstFire)
         {
             Fire();
             gunAnimator.SetTrigger("fire");
@@ -64,6 +66,7 @@ public class Gun: MonoBehaviour
             
             fireTimer = 0f;
             canFire = false;
+            firstFire = false;
         }
         else
         {

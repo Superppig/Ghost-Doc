@@ -43,35 +43,7 @@ public class CommonKnife : Melee
         base.Update();
     }
 
-    protected override void AnimCon()
-    {
-        switch (state)
-        {
-            case WeaponState.Idle:
-                anim.SetBool("Blocking",false);
-                anim.SetBool("Deffending",false);
-                anim.SetBool("Slashing",false);
-                break;
-            case WeaponState.Blocking:
-                anim.SetBool("Blocking",true);
-                anim.SetBool("Deffending",false);
-                anim.SetBool("Slashing",false);
-
-                break;
-            case WeaponState.Deffending:
-                anim.SetBool("Blocking",false);
-                anim.SetBool("Deffending",true);
-                anim.SetBool("Slashing",false);
-                break;
-            case WeaponState.Attacking:
-                anim.SetBool("Blocking",false);
-                anim.SetBool("Deffending",false);
-                anim.SetBool("Slashing",true);                
-                break;
-            case WeaponState.Comboing:
-            default: break;
-        }
-    }
+    
 
     protected override void Attack()
     {
@@ -123,8 +95,6 @@ public class CommonKnife : Melee
         //攻击相关
         state = WeaponState.Comboing;
         currentAttackType = AttackType.Shift;
-        anim.SetBool("Shift",true);
-        hitBox.enabled=true;
 
 
         shiftTimer = 0f;
@@ -147,13 +117,12 @@ public class CommonKnife : Melee
         
         player.blackboard.isCombo = false; 
         
-        //攻击相关
-        anim.SetBool("Shift",false);
-        hitBox.enabled=false;
+        currentAttackType = AttackType.Common;
+        state= WeaponState.Idle;
 
         //打开碰撞体
         player.playerCollider.enabled = true;
-        hasAttack=true;
+        RetrackMelee();
     }
 
     //格挡(待用子物体)
@@ -168,15 +137,22 @@ public class CommonKnife : Melee
     //格挡动画
     private void Parry()
     {
-        state = WeaponState.Comboing;
-        anim.SetBool("Parry",true);
-        StartCoroutine(EndParry());
+        if (!hasBlockedAmin)
+        {
+            state = WeaponState.Comboing;
+            anim.SetBool("Parry",true);
+            hasBlockedAmin=true;
+            StartCoroutine(EndParry());
+            
+        }
+        
     }
 
     IEnumerator EndParry()
     {
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
-        hasAttack=true;
+        EndAttackAnim();
+        RetrackMelee();
     }
     
     
