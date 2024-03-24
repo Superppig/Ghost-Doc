@@ -75,7 +75,7 @@ public class SphereBlurRenderFeature : ScriptableRendererFeature
             
             if (!renderingData.cameraData.postProcessEnabled) return;
 
-
+            
             effVolum = VolumeManager.instance.stack.GetComponent<SphereBlur>();
             if (!effVolum.UseThis.value) return;
             if (effVolum == null) return;
