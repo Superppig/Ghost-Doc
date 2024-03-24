@@ -107,6 +107,4 @@ public class CommonGun : Gun
         ParticleSystem fire = Instantiate(hitParticle,hit.point , rotation);
         Destroy(fire.gameObject,fire.main.duration);
     }
-
-
 }

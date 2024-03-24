@@ -79,6 +79,7 @@ public class PlayerBlackboard
 
     public bool isHoldingMelee;//是否持有近战武器
     public bool isCombo;//释放组合技
+    public Melee.WeaponState meleeState;//近战状态
 
 
     public RaycastHit slopeHit; //斜坡检测

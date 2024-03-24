@@ -60,13 +60,11 @@ public class PlayerAttack : MonoBehaviour
         {
             if(currentType==WeaponType.Gun)
                 SwitchWeapon(WeaponType.Melee,meleeIndex);
-            player.blackboard.isHoldingMelee = true;
         }
         //近战攻击后切回枪械
         if (currentType == WeaponType.Melee && currentMelee.hasAttack)
         {
             SwitchWeapon(WeaponType.Gun,gunIndex);
-            player.blackboard.isHoldingMelee = false;
         }
         
         //鼠标滚轮相关

@@ -32,7 +32,7 @@ public class PlayerSlideState : PlayerStateBase
         
         
         //粒子效果
-        slideParticle = ScreenControl.Instance.ParticleRelease(settings.otherSettings.SlideParticle,player.GetGround().point, player.GetGround().normal,rbTransform,ScreenControl.ParticleType.Loop);
+        slideParticle = ScreenControl.Instance.ParticleRelease(settings.otherSettings.SlideParticle,player.GetGround().point+(player.orientation.forward*0.5f), player.GetGround().normal,rbTransform,ScreenControl.ParticleType.Loop);
     }
 
     public override void OnExit()
