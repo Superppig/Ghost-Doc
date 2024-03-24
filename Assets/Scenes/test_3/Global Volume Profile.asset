@@ -37,7 +37,7 @@ MonoBehaviour:
     m_Value: 1
   Control:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   OutEdgeColor:
     m_OverrideState: 1
     m_Value: {r: 0.23839766, g: 0.2874409, b: 0.9559735, a: 1}
@@ -68,9 +68,9 @@ MonoBehaviour:
   active: 1
   UseSceneCamera:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   UseThis:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   DownSample:
     m_OverrideState: 1
