@@ -36,7 +36,6 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         PlayerInput();
-        
     }
     
     private void PlayerInput()
@@ -68,6 +67,56 @@ public class PlayerAttack : MonoBehaviour
         {
             SwitchWeapon(WeaponType.Gun,gunIndex);
             player.blackboard.isHoldingMelee = false;
+        }
+        
+        //鼠标滚轮相关
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            if (currentType == WeaponType.Gun)
+            {
+                if (Guns.Length>1)
+                {
+                    gunIndex++;
+                    if (gunIndex >= Guns.Length)
+                    {
+                        gunIndex = 0;
+                    }
+                    SwitchWeapon(WeaponType.Gun,gunIndex);
+                }
+            }
+            else
+            {
+                if (Melees.Length>1)
+                {
+                    meleeIndex++;
+                    if (meleeIndex >= Melees.Length)
+                    {
+                        meleeIndex = 0;
+                    }
+                    SwitchWeapon(WeaponType.Melee,meleeIndex);
+                }
+            }
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            if (currentType == WeaponType.Gun)
+            {
+                gunIndex--;
+                if (gunIndex < 0)
+                {
+                    gunIndex = Guns.Length-1;
+                }
+                SwitchWeapon(WeaponType.Gun,gunIndex);
+            }
+            else
+            {
+                meleeIndex--;
+                if (meleeIndex < 0)
+                {
+                    meleeIndex = Melees.Length-1;
+                }
+                SwitchWeapon(WeaponType.Melee,meleeIndex);
+            }
         }
     }
 

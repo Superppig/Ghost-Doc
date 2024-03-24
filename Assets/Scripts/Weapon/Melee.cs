@@ -445,6 +445,11 @@ public class Melee : MonoBehaviour
         timer = 0f;
     }
 
+    protected void OnDestroy()
+    {
+        player.blackboard.isMeleeAttacking = false;
+    }
+
     public void EndRtrack()
     {
         state = WeaponState.Idle;
