@@ -130,7 +130,6 @@ Shader "XinY/Scene_Standard"
                 //ShadowMask烘焙模式或者烘焙阴影会用到shadowMask，联级阴影会用到posWS,开启联级阴影一定到在frag中计算shadowcoord
                 Light light = GetMainLight(XinY_GetShadowCoord(i.positionCS, i.positionWS), i.positionWS, 0);
 
-
                 half3x3 TBN = half3x3(i.tangentWS, i.binormalWS, i.normalWS);
                 half3 V = normalize(_WorldSpaceCameraPos - i.positionWS);
                 half3 N = mul(normalTS, TBN);
@@ -171,7 +170,7 @@ Shader "XinY/Scene_Standard"
                 half normalizationTerm = roughness * half(4.0) + half(2.0);     // roughness * 4.0 + 2.0
                 half roughness2MinusOne = roughness2 - half(1.0);;    // roughness^2 - 1.0
                 half alpha = baseMap.a * oneMinusReflectivity + reflectivity;
-                half3 emission = _EmissionColor*SAMPLE_TEXTURE2D(_EmissionMap,sampler_EmissionMap,i.uv);
+                half3 emission = _EmissionColor * SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, i.uv);
                 half occlusion = max(lerp(0, MRA.z, _AOAd), 0);
                 //AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(screenUV, occlusion);
 
@@ -200,7 +199,7 @@ Shader "XinY/Scene_Standard"
                 half LdotH2 = LdotH * LdotH;
                 half specularTerm = roughness2 / ((d * d) * max(0.1h, LdotH2) * normalizationTerm);
                 
-                mainLightColor = clamp((diffuse + specular * specularTerm * _SpecIntensity) * diffuseTerm,0,1.5);
+                mainLightColor = clamp((diffuse + specular * specularTerm * _SpecIntensity) * diffuseTerm, 0, 1.5);
 
                 //额外灯
                 uint pixelLightCount = GetAdditionalLightsCount();
@@ -339,7 +338,7 @@ Shader "XinY/Scene_Standard"
                 half3 specular = lerp(kDieletricSpec.rgb, albedo, metallic);
                 half perceptualRoughness = lerp(0, MRA.g, _RoughnessAd);
                 half roughness = max(perceptualRoughness * perceptualRoughness, HALF_MIN_SQRT);
-                half3 emission = _EmissionColor*SAMPLE_TEXTURE2D(_EmissionMap,sampler_EmissionMap,input.uv);
+                half3 emission = _EmissionColor * SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, input.uv);
 
                 UnityMetaInput metaInput;
                 metaInput.Albedo = diffuse + specular * roughness * 0.5;

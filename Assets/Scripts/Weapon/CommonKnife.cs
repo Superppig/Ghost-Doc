@@ -27,7 +27,8 @@ public class CommonKnife : Melee
     public ParticleSystem dashSlash;
     public ParticleSystem parryParticle;
     public Transform booster;
-    
+    public ParticleSystem knifeLine; 
+
     
     
     protected override void Start()
@@ -52,6 +53,7 @@ public class CommonKnife : Melee
             state=WeaponState.Attacking; 
             player.blackboard.isMeleeAttacking = true;
             AnimCon();
+            ScreenControl.Instance.CamChange(new Vector3(20,0,0),0.3f);
             StartCoroutine(StartAttack());
             //AttackPartical();
         }
@@ -60,18 +62,7 @@ public class CommonKnife : Melee
             state = WeaponState.Comboing;
         }
     }
-
-    //Attack时的相机效果
-    public void AttackCamChange()
-    {
-        camTrans.DOLocalRotate(new Vector3(30, 0, 0), 0.2f);
-        StartCoroutine(FinishCamChange());
-    }
-    IEnumerator FinishCamChange()
-    {
-        yield return new WaitForSeconds(0.1f);
-        camTrans.DOLocalRotate(Vector3.zero, 0.1f);
-    }
+    
     
     //攻击时的粒子效果(暂时弃用)
     private void AttackPartical()
@@ -80,6 +71,32 @@ public class CommonKnife : Melee
         ParticleSystem hit = Instantiate(attackParticle, transform.position, transform.rotation);
         hit.gameObject.transform.SetParent(transform);
         Destroy(hit.gameObject, hit.main.duration);
+    }
+    
+    protected override void ParticleCon()
+    {
+        switch (state)
+        {
+            case WeaponState.Idle:
+                knifeLine.Pause();
+                break;
+            case WeaponState.Blocking:
+                knifeLine.Pause();
+                break;
+            case WeaponState.Deffending:
+                knifeLine.Pause();
+                break;
+            case WeaponState.Attacking:
+                knifeLine.Play();
+                break;
+            case WeaponState.Comboing:
+                knifeLine.Play();
+                break;
+            case WeaponState.Retracking:
+                knifeLine.Pause();
+                break;
+            default: break;
+        }
     }
     
     //重写dash
@@ -151,6 +168,7 @@ public class CommonKnife : Melee
     IEnumerator EndParry()
     {
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        hasBlockedAmin = false;
         EndAttackAnim();
         RetrackMelee();
     }

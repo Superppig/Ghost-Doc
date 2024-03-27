@@ -12,13 +12,12 @@ public class Gun: MonoBehaviour
     protected bool aiming;//瞄准
     protected float fireWaitTime;
     protected float fireTimer = 0f;
-    //击中镜头晃动
-    protected CinemachineVirtualCamera camImpulse;
 
 
     protected Animator gunAnimator;
     protected Transform orientation;//摄像机的transform
     protected Rigidbody rb;
+    protected Player player;
     protected Camera _playerCam;
 
     public Transform model;
@@ -29,6 +28,11 @@ public class Gun: MonoBehaviour
     protected virtual void Start()
     {
         canFire = true;
+        gunAnimator = GetComponent<Animator>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        rb=player.GetComponent<Rigidbody>();
+        orientation = player.cameraTransform;
+        _playerCam=Camera.main;
     }
     protected virtual void Update()
     {
@@ -70,6 +74,7 @@ public class Gun: MonoBehaviour
         }
         else
         {
+            gunAnimator.ResetTrigger("fire");
             fireTimer += Time.deltaTime;
             if (fireTimer > fireWaitTime)
             {

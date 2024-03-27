@@ -119,7 +119,7 @@ public class Player : MonoBehaviour
             }
 
             //下蹲
-            if (Input.GetKey(settings.keySettings.crouchKey)&& !blackboard.isHoldingMelee)
+            if (Input.GetKey(settings.keySettings.crouchKey)&& (!blackboard.isHoldingMelee||(blackboard.meleeState==Melee.WeaponState.Retracking&&!Input.GetMouseButton(1))))
             {
                 if (CanSwitch(blackboard.currentState, EStateType.Crouching))
                 {
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
 
 
             //冲刺
-            if (Input.GetKeyDown(settings.keySettings.sprintKey)&& !blackboard.isHoldingMelee)
+            if (Input.GetKeyDown(settings.keySettings.sprintKey)&& (!blackboard.isHoldingMelee||(blackboard.meleeState==Melee.WeaponState.Retracking&&!Input.GetMouseButton(1))))
             {
                 
                 if (CanSwitch(blackboard.currentState, EStateType.Sprinting))
@@ -198,7 +198,7 @@ public class Player : MonoBehaviour
             }
 
             //跳跃
-            if (Input.GetKey(settings.keySettings.jumpkey)&& !blackboard.isHoldingMelee)
+            if (Input.GetKey(settings.keySettings.jumpkey)&& (!blackboard.isHoldingMelee||(blackboard.meleeState==Melee.WeaponState.Retracking&&!Input.GetMouseButton(1))))
             {
                 if (blackboard.grounded)
                 {

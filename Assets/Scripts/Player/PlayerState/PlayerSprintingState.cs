@@ -64,14 +64,15 @@ public class PlayerSprintingState : PlayerStateBase
     {
         next = blackboard.nextState;
         //冲刺跳
-        float rate=LeaveSpeed;//正常为冲刺前速度
+        float rate=firstSpeed;//正常为冲刺前速度
         if (next == EStateType.Jumping)
         {
             if (player.GetEnerge() > 100)
             {
                 player.UseEnerge(100);
-                rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
-                
+                //rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
+                //改为固定速度
+                rate = LeaveSpeed;
             }
             else
             {

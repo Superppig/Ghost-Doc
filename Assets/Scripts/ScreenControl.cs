@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Cinemachine;
+using Unity.VisualScripting;
 
 
 public class ScreenControl : MonoBehaviour
@@ -20,12 +21,16 @@ public class ScreenControl : MonoBehaviour
         }
     }
     private bool isFrameFrozen = false;
+    private bool isCamShaking = false;
     //noise组件
     public CinemachineVirtualCamera camImpulse;
     private CinemachineBasicMultiChannelPerlin noiseModule;
+    //camtrans
+    public Player player;
+    private Transform camTrans;
 
-    //顿帧
-    public void FrameFrozen(int frame,float startTimeScale)
+    //顿帧(改变timeScale)
+    public void FrameFrozen(int frame,float startTimeScale,Ease ease = Ease.Linear)
     {
         if (!isFrameFrozen)
         {
@@ -33,30 +38,55 @@ public class ScreenControl : MonoBehaviour
             float time = frame/60f;
             Tween tween=DOTween.To(() => Time.timeScale, x => Time.timeScale=x, 1f, time)
                 .From(startTimeScale)
-                .SetEase(Ease.Linear);//线性变化
+                .SetEase(ease);//线性变化
             tween.OnComplete(() => { isFrameFrozen = false; });
         }
+    }
+    
+    //顿帧(改变animationSpeed)
+    public void AnimationFrozen(Animator anim,int frame,float startAnimSpeed)
+    {
+        if (!isFrameFrozen)
+        {
+            isFrameFrozen = true;
+            float time = frame/60f;
+            StartCoroutine(EndAnimationForzen(anim,time,startAnimSpeed));
+        }
+    }
+    IEnumerator EndAnimationForzen(Animator anim,float time,float startAnimSpeed)
+    {
+        anim.speed = startAnimSpeed;
+        yield return new WaitForSeconds(time);
+        isFrameFrozen = false;
+        anim.speed = 1f;
     }
 
 
     //相机振动
-    public void CamShake(float time,float impulseAmplitude)
+    public void CamShake(float time,float impulseAmplitude,float impulseFrequency = 0.3f)
     {
-        noiseModule = camImpulse.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        if (noiseModule != null)
+        if (!isCamShaking)
         {
-            StartCoroutine(StartShake(time,impulseAmplitude));
-        }
-        else
-        {
-            Debug.LogWarning("未找到CinemachineBasicMultiChannelPerlin模块。");
+            noiseModule = camImpulse.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            if (noiseModule != null)
+            {
+                StartCoroutine(StartShake(time,impulseAmplitude,impulseFrequency));
+            }
+            else
+            {
+                Debug.LogWarning("未找到CinemachineBasicMultiChannelPerlin模块。");
+            }
+            isCamShaking= true;
         }
     }
-    IEnumerator StartShake(float time,float impulseAmplitude)
+    IEnumerator StartShake(float time,float impulseAmplitude,float impulseFrequency)
     {
+        float originalAmplitude = noiseModule.m_AmplitudeGain;
+        
         noiseModule.m_AmplitudeGain= impulseAmplitude;
         yield return new WaitForSeconds(time);
-        noiseModule.m_AmplitudeGain = 0f;
+        noiseModule.m_AmplitudeGain = originalAmplitude;
+        isCamShaking = false;
     }
     
     //粒子特效
@@ -90,5 +120,20 @@ public class ScreenControl : MonoBehaviour
             default:
                 return null;
         }
+    }
+    
+    //相机摆动
+    public void CamChange(Vector3 rotate,float time)
+    {
+        camTrans = player.cameraTransform;
+        camTrans.DOLocalRotate(rotate, time);
+        player.blackboard.canCamChange = false;
+        StartCoroutine(FinishCamChange(time));
+    }
+    IEnumerator FinishCamChange(float time)
+    {
+        yield return new WaitForSeconds(time);
+        camTrans.DOLocalRotate(Vector3.zero, time);
+        player.blackboard.canCamChange = true;
     }
 }

@@ -144,33 +144,6 @@ public class SphereBlurRenderFeature : ScriptableRendererFeature
 
             cmd.Blit(temp03, blurRT,radialDistortMaterial,0);
 
-            Camera camera = renderingData.cameraData.camera;
-            float height = camera.nearClipPlane * Mathf.Tan(Mathf.Deg2Rad * camera.fieldOfView * 0.5f);
-            Vector3 up = camera.transform.up * height;
-            Vector3 right = camera.transform.right * height * camera.aspect;
-            Vector3 forward = camera.transform.forward * camera.nearClipPlane;
-
-            Vector3 buttomLeft = forward - right - up;
-            float scale = buttomLeft.magnitude / camera.nearClipPlane;
-            buttomLeft.Normalize();
-            buttomLeft *= scale;
-            Vector3 buttomRight = forward + right - up;
-            buttomRight.Normalize();
-            buttomRight *= scale;
-            Vector3 topRight = forward + right + up;
-            topRight.Normalize();
-            topRight *= scale;
-            Vector3 topLeft = forward - right + up;
-            topLeft.Normalize();
-            topLeft *= scale;
-
-            Matrix4x4 transformM = new Matrix4x4();
-            transformM.SetRow(0, buttomLeft);
-            transformM.SetRow(1, buttomRight);
-            transformM.SetRow(2, topRight);
-            transformM.SetRow(3, topLeft);
-
-            sphereMaskMaterial.SetMatrix("_TransformM", transformM);
             sphereMaskMaterial.SetVector("_TargetPos", effVolum.TargetPos.value);
             sphereMaskMaterial.SetFloat("_MaskStart", effVolum.MaskPara.value.x);
             sphereMaskMaterial.SetFloat("_MaskEnd", effVolum.MaskPara.value.y);

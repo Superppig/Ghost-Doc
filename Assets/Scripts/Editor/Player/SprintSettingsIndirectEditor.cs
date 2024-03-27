@@ -15,6 +15,6 @@ public class SprintSettingsIndirectEditor : IndirectEditor
     {
         sprintSpeed.FloatField("冲刺速度");
         sprintDistance.FloatField("冲刺距离");
-        sprintLeaveSpeed.FloatField("冲刺结束速度");
+        sprintLeaveSpeed.FloatField("冲刺跳速度");
     }
 }

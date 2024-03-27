@@ -90,7 +90,7 @@ public class Melee : MonoBehaviour
         blockArea = GetComponent<Collider>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         camTrans = player.cameraTransform;
-        
+        player.blackboard.isHoldingMelee = true;
         hasAttack = false;
         blockArea.enabled = false;
         timer = 0f;
@@ -102,6 +102,7 @@ public class Melee : MonoBehaviour
         StateChange();
         StateCon();
         AnimCon();
+        ParticleCon();
     }
 
     protected virtual void StateChange()
@@ -125,6 +126,7 @@ public class Melee : MonoBehaviour
     }
     protected virtual void StateCon()
     {
+        player.blackboard.meleeState = state;
         switch (state)
         {
             case WeaponState.Idle:
@@ -224,6 +226,10 @@ public class Melee : MonoBehaviour
             default: break;
         }
     }
+    protected virtual void ParticleCon()
+    {
+
+    }
 
     protected virtual void EndAttackAnim()
     {
@@ -235,7 +241,6 @@ public class Melee : MonoBehaviour
         
         //逻辑变量修改
         hitBox.enabled = false;
-        hasBlockedAmin = false;
     }
     protected virtual IEnumerator StartAttack()
     {
@@ -443,6 +448,13 @@ public class Melee : MonoBehaviour
     {
         state= WeaponState.Retracking;
         timer = 0f;
+    }
+
+    protected void OnDestroy()
+    {
+        player.blackboard.isMeleeAttacking = false;
+        player.blackboard.isHoldingMelee = false;
+        player.blackboard.meleeState= WeaponState.Idle;
     }
 
     public void EndRtrack()

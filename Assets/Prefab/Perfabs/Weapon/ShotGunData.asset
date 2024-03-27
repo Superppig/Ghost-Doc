@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ae59f21cba40a38f2c44e76e5f8861, type: 3}
+  m_Name: ShotGunData
+  m_EditorClassIdentifier: 
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 256
+  damageRate: 0.1
+  maxShootDistance: 10
+  bulletCount: 10
+  bulletMinDistance: 0.1
+  bulletCircleRadius: 1
+  bulletCircleDistance: 5
+  bullet: {fileID: 2506413551038873761, guid: b2f2de65505f42344a6c3dad83cc3e2b, type: 3}
+  lineWindth: 0.02
+  bulletTime: 0.1
+  fireRate: 60
+  impulseTime: 0.1
+  impulseAmplitude: 5
+  hitEenemyParticle: {fileID: 620170322299365509, guid: 74db1c713baecaf4d961ec0ffc390b78, type: 3}
+  hitBuildingParticle: {fileID: 4176453105898601307, guid: 66c0eb140e6068e4d9ca453d1483853e, type: 3}
+  fireParticle: {fileID: 2090035424201745229, guid: b099199f12a521742860a403de24b168, type: 3}

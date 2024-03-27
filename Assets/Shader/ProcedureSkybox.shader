@@ -85,7 +85,7 @@ Shader "XinY/ProvedureSkybox"
         TEXTURE2D(_StarTex);SAMPLER(sampler_StarTex);
         TEXTURE2D(_FlashMask);SAMPLER(sampler_FlashMask);
 
-
+        half _Control;
 
 
         ENDHLSL
@@ -110,7 +110,11 @@ Shader "XinY/ProvedureSkybox"
                 half4 FinalCol = 1;
                 half3 skyPara = i.uv.xyz;
                 Light mainLight = GetMainLight();
-                half isDay = Remap(mainLight.direction.y, -1, 1, 0, 1);
+                half isDay = 1-abs(_Control-0.5)*2;
+                half NightMask=step(isDay,0.5);
+                isDay=pow(isDay,2);
+                
+
                 half horizonMask = abs(skyPara.y);
                 horizonMask = 1 - smoothstep(0, _HorizonRange, horizonMask);
                 half4 horizonCol = lerp(_HorizonColor_Night, _HorizonColor_Day, isDay);
@@ -121,7 +125,7 @@ Shader "XinY/ProvedureSkybox"
                 half4 StarCol=lerp(0,lerp(_StarColor_1,_StarColor_2,star),step(0.01,star))*clamp(skyPara.y,0,1);
                 
 
-                half4 SkyCol = lerp(baseCol, horizonCol, horizonMask);
+                half4 SkyCol = lerp(baseCol, baseCol+horizonCol, horizonMask);
 
 
                 half sunContrast = Remap(_SunContrast, 0, 1, 1 - _SunSize, 0);
@@ -130,9 +134,12 @@ Shader "XinY/ProvedureSkybox"
                 half4 SunCol = sunMask * _SunColor;
 
                 half moonContrast = Remap(_MoonContrast, 0, 1, 1 - _MoonSize, 0);
-                half3 moonPos = -mainLight.direction;
+                half3 moonPos = mainLight.direction;
                 half moonMask = smoothstep(1 - _MoonSize - moonContrast, 1 - _MoonSize, 1 - clamp(distance(moonPos, skyPara), 0, 1));
                 half4 MoonCol = moonMask * _MoonColor;
+
+                half4 PlanetColor=lerp(SunCol,MoonCol,NightMask);
+                half PlanetMask=lerp(sunMask,moonMask,NightMask);
 
                 float2 distortUV = skyPara.xz / skyPara.y * _CloudDistort_ST.xy + _CloudDistort_ST.zw * _Time.y;
                 half distort = SAMPLE_TEXTURE2D(_CloudNoise, sampler_CloudNoise, distortUV);
@@ -155,8 +162,8 @@ Shader "XinY/ProvedureSkybox"
                 SkyCol=lerp(SkyCol+StarCol,SkyCol,isDay);
 
 
-                FinalCol = lerp(lerp(SkyCol, SkyCol + MoonCol + SunCol, moonMask + sunMask), CloudCol, cloudNoise);
-                FinalCol = lerp(FinalCol, (SunCol + MoonCol) * CloudCol, cloudNoise * (moonMask + sunMask));
+                FinalCol = lerp(lerp(SkyCol, SkyCol + PlanetColor, PlanetMask), CloudCol, cloudNoise);
+                FinalCol = lerp(FinalCol, PlanetColor * CloudCol, cloudNoise * (PlanetMask));
                 half verticalMask = smoothstep(0, _HorizonRange, clamp(skyPara.y, 0, 1));
                 FinalCol = lerp(SkyCol, FinalCol, verticalMask);
                 return FinalCol;

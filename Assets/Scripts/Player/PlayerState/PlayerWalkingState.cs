@@ -74,7 +74,7 @@ public class PlayerWalkingState : PlayerStateBase
     private void Walk()
     {
         rb.velocity += MoveDir * (Time.deltaTime * Accelerate);
-        if (!isMeleeAttack)
+        if (!isMeleeAttack&& blackboard.canCamChange)
         {
             if (DirInput.x < 0)
             {

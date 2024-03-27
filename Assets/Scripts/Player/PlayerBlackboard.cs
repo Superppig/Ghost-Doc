@@ -72,6 +72,7 @@ public class PlayerBlackboard
 
     public bool isMeleeAttacking;
     public bool isBlocking;
+    public bool canCamChange=true;
     
     public bool hasClimbOverTime;//爬墙是否超时
     public bool hasClimbOverAngel;//爬墙是否超过攀爬最大角度
@@ -79,6 +80,7 @@ public class PlayerBlackboard
 
     public bool isHoldingMelee;//是否持有近战武器
     public bool isCombo;//释放组合技
+    public Melee.WeaponState meleeState;//近战状态
 
 
     public RaycastHit slopeHit; //斜坡检测

@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour
             currentWaypoint = 0;
         }
     }
-    protected void OnDisable()
+    protected void OnDestroy()
     {
         seeker.pathCallback -= OnPathComplete;
     }

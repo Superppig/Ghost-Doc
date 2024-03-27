@@ -23866,6 +23866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 6416822841474230943}
   trans: {fileID: 1692378024807432174}
+  firstFire: 0
   data: {fileID: 11400000, guid: 1a26a1231aa863543992e5bde7ce9b16, type: 2}
   position: {fileID: 1692378025327005795}
 --- !u!1 &1692378024807432169
