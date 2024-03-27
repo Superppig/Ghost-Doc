@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9005196607687519603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435d68d2ba4ad1f45bd4565f1325ac74, type: 3}
+  m_Name: GenerateTransformM
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  setting:
+    name: GenerateTransformM
+    passEvent: 250
 --- !u!114 &-7907838947150042311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,7 +68,8 @@ MonoBehaviour:
   - {fileID: 552604558920693799}
   - {fileID: -6797186948176253248}
   - {fileID: -7907838947150042311}
-  m_RendererFeatureMap: 27b8ba23eb3eab07c06e08d27b8aaba1396b1f0660b64192
+  - {fileID: -9005196607687519603}
+  m_RendererFeatureMap: 27b8ba23eb3eab07c06e08d27b8aaba1396b1f0660b641928d923b9a651d0783
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
