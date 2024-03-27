@@ -14,16 +14,6 @@ Shader "XinY/SphereMask"
 
         CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_TexelSize;
-            real4 _ColorX;
-            real4 _ColorY;
-            real4 _ColorZ;
-            float _Width;
-            float _Spread;
-            float4 _Speed;
-            float _EdgeSample;
-            float _DepthSensitivity;
-            float _NormalSensitivity;
-            float4 _OutLineColor;
         CBUFFER_END
         TEXTURE2D(_MainTex);
         SAMPLER(sampler_MainTex);

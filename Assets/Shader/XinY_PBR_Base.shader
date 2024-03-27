@@ -1,5 +1,4 @@
-
-Shader "XinY/Scene_Standard"
+Shader "XinY/PBR_Base"
 {
     Properties
     {
@@ -15,11 +14,9 @@ Shader "XinY/Scene_Standard"
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
     }
+
     SubShader
     {
-        Tags { "RenderPipeline" = "UniversalPipeline" "RenderType" = "Opaque" "Queue" = "Geometry" }
-        LOD 100
-        AlphaTest Off
 
         HLSLINCLUDE
         // #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -33,6 +30,7 @@ Shader "XinY/Scene_Standard"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "../Shader/Include/XinY_Include_URP.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
+        #include "../Shader/Include/XinY_PBR_Include.hlsl"
 
         struct appdata
         {
@@ -50,7 +48,6 @@ Shader "XinY/Scene_Standard"
             float3 positionWS : TEXCOORD1;
             float3 normalWS : TEXCOORD2;
             half3 tangentWS : TEXCOORD3;
-            float4 shadowCoord : TEXCOORD4;
             DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 5);
             float4 positionCS : SV_POSITION;
             float4 positionNDC : TEXCOORD6;
@@ -88,32 +85,28 @@ Shader "XinY/Scene_Standard"
             #pragma vertex vert
             #pragma fragment frag
 
-            v2f vert(appdata v)
+            v2f vert(appdata input)
             {
                 v2f output = (v2f)0;;
                 //坐标获取
-                output.positionWS = TransformObjectToWorld(v.positionOS);
-                output.positionVS = TransformWorldToView(output.positionWS);
-                output.positionCS = TransformWorldToHClip(output.positionWS);
-                float4 ndc = output.positionCS * 0.5f;
-                output.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
-                output.positionNDC.zw = output.positionCS.zw;
+                VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+                output.positionWS = vertexInput.positionWS;
+                output.positionVS = vertexInput.positionVS;
+                output.positionCS = vertexInput.positionCS;
+                output.positionNDC = vertexInput.positionNDC;
                 //法线获取
-                output.normalOS = v.normalOS;
-                real sign = real(v.tangentOS.w) * GetOddNegativeScale();
-                output.normalWS = TransformObjectToWorldNormal(v.normalOS);
-                output.tangentWS = real3(TransformObjectToWorldDir(v.tangentOS.xyz));
-                output.binormalWS = real3(cross(output.normalWS, float3(output.tangentWS))) * sign;
+                VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
+                output.normalOS = input.normalOS;
+                output.normalWS = normalInput.normalWS;;
+                output.tangentWS = normalInput.tangentWS;
+                output.binormalWS = normalInput.bitangentWS;
                 //UV相关
-                output.uv = TRANSFORM_TEX(v.texcoord, _BaseMap);
-                OUTPUT_LIGHTMAP_UV(v.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
+                output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+                OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
                 #ifdef DYNAMICLIGHTMAP_ON
-                    output.dynamicLightmapUV = v.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
+                    output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
                 #endif
                 OUTPUT_SH(output.normalWS.xyz, output.vertexSH);
-                //阴影
-                //上面的方法可以算屏幕阴影
-                output.shadowCoord = XinY_GetShadowCoord(output.positionCS, output.positionWS);
                 return output;
             }
 
@@ -123,90 +116,92 @@ Shader "XinY/Scene_Standard"
                 half3 MRA = SAMPLE_TEXTURE2D(_MRA, sampler_MRA, i.uv).rgb;
                 half3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv), _NormalScale);
                 
+                // half3x3 TBN = half3x3(i.tangentWS, i.binormalWS, i.normalWS);
+                // half3 V = normalize(_WorldSpaceCameraPos - i.positionWS);
+                // half3 N = mul(normalTS, TBN);
+                // half3 viewDirTS = XinY_GetViewDirectionTangentSpace(i.tangentWS, i.binormalWS, i.normalWS, V);
+                // half3 R = reflect(-V, N);
+                // half NdotV = saturate(dot(N, V));
+                // half fresnelTerm = Pow4(1.0 - NdotV);
+                // half NdotL = saturate(dot(N, light.direction));
+                // half3 H = SafeNormalize(light.direction + V);
+                // half NdotH = saturate(dot(N, H));
+                // half LdotH = saturate(dot(light.direction, H));
+
+                //float fogCoord = XinY_InitializeFog(float4(i.positionWS, 1.0));
+
+                //GI
+                //关于bakedGI，动态物体使用像素级别的sh，静态物体使用lightmap
+                // half3 bakedGI = 0;
+                // #if defined(DYNAMICLIGHTMAP_ON)
+                //     bakedGI = SAMPLE_GI(i.staticLightmapUV, i.dynamicLightmapUV, i.vertexSH, N);
+                // #else
+                //     bakedGI = SAMPLE_GI(i.staticLightmapUV, i.vertexSH, N);
+                // #endif
+
+                float2 screenUV = GetNormalizedScreenSpaceUV(i.positionCS);
+                
+                //BrdfData
+                BRDFData brdfData;
+                half alpha = 1;
+                half metallic = max(lerp(0.04, MRA.r, _MetallicAd), 0);
+                half roughness = lerp(0, MRA.g, _RoughnessAd);
+                half3 emission = _EmissionColor * SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, i.uv);
+                half occlusion = max(lerp(0, MRA.z, _AOAd), 0);
+                //AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(screenUV, occlusion);
+                GetBRDFData(brdfData, alpha, metallic, roughness, baseMap);
+
+                AOPara aoFactor = GetAOPara(screenUV, occlusion);
+
                 //Shadowmask的烘焙模式才会使用
                 //half4 shadowMask = SAMPLE_SHADOWMASK(i.staticLightmapUV);
                 half4 shadowMask = unity_ProbesOcclusion;
                 
                 //ShadowMask烘焙模式或者烘焙阴影会用到shadowMask，联级阴影会用到posWS,开启联级阴影一定到在frag中计算shadowcoord
-                Light light = GetMainLight(XinY_GetShadowCoord(i.positionCS, i.positionWS), i.positionWS, 0);
+                float4 shadowCoord=XinY_GetShadowCoord(i.positionCS, i.positionWS);
+                Light light = GetMainLight(shadowCoord,i.positionWS,shadowMask,aoFactor.directAO);
 
-                half3x3 TBN = half3x3(i.tangentWS, i.binormalWS, i.normalWS);
-                half3 V = normalize(_WorldSpaceCameraPos - i.positionWS);
-                half3 N = mul(normalTS, TBN);
-                half3 viewDirTS = XinY_GetViewDirectionTangentSpace(i.tangentWS, i.binormalWS, i.normalWS, V);
-                half3 R = reflect(-V, N);
-                half NdotV = saturate(dot(N, V));
-                half fresnelTerm = Pow4(1.0 - NdotV);
-                half NdotL = saturate(dot(N, light.direction));
-                half3 H = SafeNormalize(light.direction + V);
-                half NdotH = saturate(dot(N, H));
-                half LdotH = saturate(dot(light.direction, H));
-
-                float fogCoord = XinY_InitializeFog(float4(i.positionWS, 1.0));
-
-                //GI
-                //关于bakedGI，动态物体使用sh，静态物体使用lightmap
-                half3 bakedGI = 0;
-                #if defined(DYNAMICLIGHTMAP_ON)
-                    bakedGI = SAMPLE_GI(i.staticLightmapUV, i.dynamicLightmapUV, i.vertexSH, N);
-                #else
-                    bakedGI = SAMPLE_GI(i.staticLightmapUV, i.vertexSH, N);
-                #endif
-
-                half2 screenUV = GetNormalizedScreenSpaceUV(i.positionCS);
-                
-                //BrdfData
-                half metallic = max(lerp(0.04, MRA.r, _MetallicAd), 0);
-                half oneMinusReflectivity = OneMinusReflectivityMetallic(metallic);
-                half3 albedo = baseMap.rgb;
-                half3 diffuse = albedo * oneMinusReflectivity;;
-                half3 specular = lerp(kDieletricSpec.rgb, albedo, metallic);
-                half reflectivity = half(1.0) - oneMinusReflectivity;
-                half perceptualRoughness = lerp(0, MRA.g, _RoughnessAd);
-                half smoothness = 1 - perceptualRoughness;
-                half roughness = max(perceptualRoughness * perceptualRoughness, HALF_MIN_SQRT);
-                half roughness2 = max(roughness * roughness, HALF_MIN);;
-                half grazingTerm = saturate(smoothness + reflectivity);;
-                half normalizationTerm = roughness * half(4.0) + half(2.0);     // roughness * 4.0 + 2.0
-                half roughness2MinusOne = roughness2 - half(1.0);;    // roughness^2 - 1.0
-                half alpha = baseMap.a * oneMinusReflectivity + reflectivity;
-                half3 emission = _EmissionColor * SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, i.uv);
-                half occlusion = max(lerp(0, MRA.z, _AOAd), 0);
-                //AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(screenUV, occlusion);
-
-
-                MixRealtimeAndBakedGI(light, i.normalWS, bakedGI);
+                Direct_Dot_Data dataNeed;
+                GetDirDotData(dataNeed, i.tangentWS, i.binormalWS, i.normalWS, i.positionWS, normalTS, light.direction);
+                ////////////////////////////待测试
+                //MixRealtimeAndBakedGI(light, i.normalWS, bakedGI);
+                ////////////////////////////////////
 
                 //LightingData
-                half3 giColor = bakedGI;
+                half3 giColor = 0;
                 half3 mainLightColor = 0;
                 half3 additionLightColor = 0;
                 half3 emissionColor = emission;
                 
-                half3 indirectDiffuse = bakedGI * diffuse;
+                half3 indirectDiffuse = GET_INDIRECT_DIFF(light, i.staticLightmapUV, i.vertexSH, dataNeed.N, brdfData.diffuse);
                 //间接高光的实现载体是反射探针
                 //这里没有支持反射探针混合和盒投影
-                half3 indirectSpecular = 0;
-                half mip = perceptualRoughness * (1.7 - 0.7 * perceptualRoughness) * 6;
-                indirectSpecular = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);
-                float surfaceReduction = 1.0 / (roughness2 + 1.0);
-                indirectSpecular *= half3(surfaceReduction * lerp(specular, grazingTerm, fresnelTerm));
-                giColor = (indirectDiffuse + indirectSpecular) * occlusion;
+                half3 indirectSpecular = GetIndirectSpecLight(brdfData, dataNeed);
+                // half mip = perceptualRoughness * (1.7 - 0.7 * perceptualRoughness) * 6;
+                // indirectSpecular = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);
+                // float surfaceReduction = 1.0 / (roughness2 + 1.0);
+                // indirectSpecular *= half3(surfaceReduction * lerp(specular, grazingTerm, fresnelTerm));
 
-                half lightAtten = light.distanceAttenuation * light.shadowAttenuation;
-                half diffuseTerm = light.color * (lightAtten * NdotL);
-                float d = NdotH * NdotH * roughness2MinusOne + 1.00001f;
-                half LdotH2 = LdotH * LdotH;
-                half specularTerm = roughness2 / ((d * d) * max(0.1h, LdotH2) * normalizationTerm);
+                //混入indirectAO
+                giColor = GetIndirectCol(indirectSpecular, indirectDiffuse, aoFactor.indirectAO);
+
+                // half lightAtten = light.distanceAttenuation * light.shadowAttenuation;
+                // half diffuseTerm = light.color * (lightAtten * NdotL);
+                // float d = NdotH * NdotH * roughness2MinusOne + 1.00001f;
+                // half LdotH2 = LdotH * LdotH;
+                // half specularTerm = roughness2 / ((d * d) * max(0.1h, LdotH2) * normalizationTerm);
                 
-                mainLightColor = clamp((diffuse + specular * specularTerm * _SpecIntensity) * diffuseTerm, 0, 1.5);
+                // mainLightColor = clamp((diffuse + specular * specularTerm * _SpecIntensity) * diffuseTerm, 0, 1.5);
+                
+                //lightColor已经混合了ao
+                mainLightColor = GetOneLightPBRCol(light, dataNeed, brdfData, _SpecIntensity);
 
                 //额外灯
                 uint pixelLightCount = GetAdditionalLightsCount();
-                LIGHT_LOOP_BEGIN(pixelLightCount)GetMainLight(i.shadowCoord, i.positionWS, shadowMask);
+                LIGHT_LOOP_BEGIN(pixelLightCount)
                 Light addLight = GetAdditionalLight(lightIndex, i.positionWS, shadowMask);
-                half addHalfLambert = dot(N, addLight.direction) * 0.5 + 0.5;
-                additionLightColor += addHalfLambert * diffuse * addLight.color * addLight.shadowAttenuation * addLight.distanceAttenuation;
+                GetAddDirDotData(dataNeed,addLight.direction);
+                additionLightColor += GetOneLightPBRCol(addLight, dataNeed, brdfData, _SpecIntensity);
                 LIGHT_LOOP_END
 
                 half4 finalColor = 0;
@@ -217,7 +212,7 @@ Shader "XinY/Scene_Standard"
             }
             ENDHLSL
         }
-        
+
         Pass
         {
             Name "ShadowCaster"
@@ -348,4 +343,5 @@ Shader "XinY/Scene_Standard"
             ENDHLSL
         }
     }
+    FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }
