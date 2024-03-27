@@ -102,6 +102,7 @@ public class Melee : MonoBehaviour
         StateChange();
         StateCon();
         AnimCon();
+        ParticleCon();
     }
 
     protected virtual void StateChange()
@@ -224,6 +225,10 @@ public class Melee : MonoBehaviour
                 break;
             default: break;
         }
+    }
+    protected virtual void ParticleCon()
+    {
+
     }
 
     protected virtual void EndAttackAnim()

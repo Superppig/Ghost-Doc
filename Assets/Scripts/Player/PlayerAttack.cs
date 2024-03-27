@@ -99,21 +99,27 @@ public class PlayerAttack : MonoBehaviour
         {
             if (currentType == WeaponType.Gun)
             {
-                gunIndex--;
-                if (gunIndex < 0)
+                if (Guns.Length>1)
                 {
-                    gunIndex = Guns.Length-1;
+                    gunIndex--;
+                    if (gunIndex < 0)
+                    {
+                        gunIndex = Guns.Length-1;
+                    }
+                    SwitchWeapon(WeaponType.Gun,gunIndex);
                 }
-                SwitchWeapon(WeaponType.Gun,gunIndex);
             }
             else
             {
-                meleeIndex--;
-                if (meleeIndex < 0)
+                if (Melees.Length>1)
                 {
-                    meleeIndex = Melees.Length-1;
+                    meleeIndex--;
+                    if (meleeIndex < 0)
+                    {
+                        meleeIndex = Melees.Length-1;
+                    }
+                    SwitchWeapon(WeaponType.Melee,meleeIndex);
                 }
-                SwitchWeapon(WeaponType.Melee,meleeIndex);
             }
         }
     }

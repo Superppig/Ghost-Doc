@@ -72,6 +72,7 @@ public class PlayerBlackboard
 
     public bool isMeleeAttacking;
     public bool isBlocking;
+    public bool canCamChange=true;
     
     public bool hasClimbOverTime;//爬墙是否超时
     public bool hasClimbOverAngel;//爬墙是否超过攀爬最大角度

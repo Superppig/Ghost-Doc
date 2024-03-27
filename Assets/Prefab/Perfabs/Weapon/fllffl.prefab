@@ -2418,6 +2418,7 @@ MonoBehaviour:
   dashSlash: {fileID: 6724262159683079251}
   parryParticle: {fileID: 8190558755000385897, guid: e47e618b5ad78854992bd3cb5da444e5, type: 3}
   booster: {fileID: 5072063388229537186}
+  knifeLine: {fileID: 8170127882473064092}
 --- !u!135 &9088949006127073218
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2623,6 +2624,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b898a524d567db843a39277e71748157, type: 3}
+--- !u!198 &8170127882473064092 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2453748261243030201, guid: b898a524d567db843a39277e71748157, type: 3}
+  m_PrefabInstance: {fileID: 6012119747818015781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8170127882473064094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2453748261243030203, guid: b898a524d567db843a39277e71748157, type: 3}

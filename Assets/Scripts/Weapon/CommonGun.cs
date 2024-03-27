@@ -10,7 +10,6 @@ public class CommonGun : Gun
     public CommonGundata data;
     public Transform position;
 
-    private Player player;
     
 
     protected override void Start()
@@ -18,15 +17,7 @@ public class CommonGun : Gun
         base.Start();
         //初始化数据
          pos = position;
-         gunAnimator = GetComponent<Animator>();
-         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-         camImpulse = Camera.main.GetComponent<CinemachineVirtualCamera>();
-         rb=player.GetComponent<Rigidbody>();
-         orientation = player.cameraTransform;
-         _playerCam=Camera.main;
-         
          fireWaitTime = 60f / data.fireRate;
-         
     }
 
     protected override void Update()
