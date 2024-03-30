@@ -5,7 +5,7 @@ public class JumpSettingsIndirectEditor : IndirectEditor
 {
     protected override string DefaultLabel => "跳跃设置";
     [AutoProperty]
-    public SerializedProperty height, wallJumpSpeed,wallUpSpeed, exitWallTime;
+    public SerializedProperty height, wallJumpSpeed,wallUpSpeed, exitWallTime, jumpBufferTime;
 
     public JumpSettingsIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
     {
@@ -17,5 +17,6 @@ public class JumpSettingsIndirectEditor : IndirectEditor
         wallJumpSpeed.FloatField("最小墙跳速度");
         wallUpSpeed.FloatField("爬墙跳跃速度");
         exitWallTime.FloatField("蹬墙冷却");
+        jumpBufferTime.FloatField("跳跃预输入时间");
     }
 }

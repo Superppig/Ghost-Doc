@@ -94,6 +94,12 @@ public class Player : MonoBehaviour
         //斜坡判定
         SlopJudgement();
 
+        if(Input.GetKey(settings.keySettings.jumpkey))
+        {
+            //先停止原有的协程,再开启新的协程
+            StopCoroutine("JumpBuffer");
+            StartCoroutine("JumpBuffer");
+        }
         if (blackboard.isCombo)
         {
             //组合技则直接变为air状态并停止输入
@@ -198,7 +204,10 @@ public class Player : MonoBehaviour
             }
 
             //跳跃
-            if (Input.GetKey(settings.keySettings.jumpkey)&& (!blackboard.isHoldingMelee||(blackboard.meleeState==Melee.WeaponState.Retracking&&!Input.GetMouseButton(1))))
+            if ((Input.GetKey(settings.keySettings.jumpkey)|| blackboard.isJumpBuffer) && (!blackboard.isHoldingMelee ||
+                                                               (blackboard.meleeState == Melee.WeaponState.Retracking &&
+                                                                (!Input.GetMouseButton(1) || blackboard.currentState ==
+                                                                    EStateType.WallRunning))))
             {
                 if (blackboard.grounded)
                 {
@@ -359,7 +368,13 @@ public class Player : MonoBehaviour
             blackboard.hasClimbEnergyOut= false;
         }
     }
-    
+    //跳跃预输入
+    IEnumerator JumpBuffer()
+    {
+        blackboard.isJumpBuffer = true;
+        yield return new WaitForSeconds(settings.jumpSettings.jumpBufferTime);
+        blackboard.isJumpBuffer = false;
+    }
     
     public void TakeDamage(float damage)
     {

@@ -9,4 +9,6 @@ public class JumpSettings
     public float wallJumpSpeed;
     public float wallUpSpeed;
     public float exitWallTime;
+    
+    public float jumpBufferTime;
 }

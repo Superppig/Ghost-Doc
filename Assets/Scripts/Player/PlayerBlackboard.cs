@@ -69,6 +69,7 @@ public class PlayerBlackboard
     public RaycastHit wallHit;
     public bool isWall;
     public bool sprintingPause;//冲刺打断
+    public bool isJumpBuffer;//跳跃预输入
 
     public bool isMeleeAttacking;//是否近战攻击
     public bool isBlocking;//是否处于格挡状态
