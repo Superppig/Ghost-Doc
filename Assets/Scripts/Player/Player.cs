@@ -252,13 +252,21 @@ public class Player : MonoBehaviour
             yield break;
         }
 
-        if (blackboard.currentState == EStateType.Sprinting)
+        if (!blackboard.sprintingPause)
         {
-            fsm.SwitchState(EStateType.Walking);
+            if (blackboard.currentState == EStateType.Sprinting)
+            {
+            
+                fsm.SwitchState(EStateType.Walking);
+            }
+            else
+            {
+                fsm.SwitchState(blackboard.currentState);
+            }
         }
         else
         {
-            fsm.SwitchState(blackboard.currentState);
+            blackboard.sprintingPause= false;
         }
     }
 

@@ -73,12 +73,19 @@ public class PlayerSprintingState : PlayerStateBase
                 //rate = ChangeRate * ((timer / sprintTime < 1 ? timer / sprintTime : 1)*(SprintSpeed-firstSpeed)+firstSpeed);//在first和sprint速度之间线性取值
                 //改为固定速度
                 rate = LeaveSpeed;
+                
+                blackboard.sprintingPause= true;//冲刺打断
             }
             else
             {
                 //消耗失败
                 player.TakeEnergeFailAudio();
             }
+        }
+
+        if (next == EStateType.WallRunning)
+        {
+            blackboard.sprintingPause= true;//冲刺打断
         }
         
         
@@ -94,6 +101,7 @@ public class PlayerSprintingState : PlayerStateBase
     {
         rb.velocity = sprintDir * SprintSpeed;
         timer += Time.deltaTime;
+        
     }
 
     public override void OnCheck()

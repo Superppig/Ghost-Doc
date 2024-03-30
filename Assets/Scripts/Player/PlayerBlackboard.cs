@@ -68,10 +68,10 @@ public class PlayerBlackboard
 
     public RaycastHit wallHit;
     public bool isWall;
-    
+    public bool sprintingPause;//冲刺打断
 
-    public bool isMeleeAttacking;
-    public bool isBlocking;
+    public bool isMeleeAttacking;//是否近战攻击
+    public bool isBlocking;//是否处于格挡状态
     public bool canCamChange=true;
     
     public bool hasClimbOverTime;//爬墙是否超时
@@ -83,5 +83,6 @@ public class PlayerBlackboard
     public Melee.WeaponState meleeState;//近战状态
 
 
+    
     public RaycastHit slopeHit; //斜坡检测
 }
