@@ -13,6 +13,7 @@ Shader "XinY/PBR_Base"
         _SpecIntensity ("SpecIntensity", float) = 1
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
+        [Toggle(FOG_ON)]_FOG_ON("Enable Fog",int)=0
     }
 
     SubShader
@@ -22,15 +23,19 @@ Shader "XinY/PBR_Base"
         // #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
         #pragma multi_compile_fragment _ _SHADOWS_SOFT
         #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
-
         #pragma multi_compile _ LIGHTMAP_ON
         //先别用实时GI
         //#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+
+        #pragma shader_feature _ FOG_ON
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "../Shader/Include/XinY_Include_URP.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
         #include "../Shader/Include/XinY_PBR_Include.hlsl"
+
+        #include "../Shader/Include/XinY_Fog_Include.hlsl"
+
 
         struct appdata
         {
@@ -207,6 +212,9 @@ Shader "XinY/PBR_Base"
                 half4 finalColor = 0;
                 finalColor.a = alpha;
                 finalColor.rgb = giColor + mainLightColor + additionLightColor + emissionColor;
+                #ifdef FOG_ON
+                finalColor.rgb=XinY_MixFog(finalColor.rgb,i.positionWS);
+                #endif
 
                 return finalColor;
             }

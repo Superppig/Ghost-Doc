@@ -49,18 +49,18 @@ public class PlayerJumpState : PlayerStateBase
             //x > 某个角度时上墙且快速跳离，可以理解为玩家想要类似跑墙的效果，此时可以给玩家一个固定的脱离墙壁的速度方向。
             if (!blackboard.hasClimbOverTime&& blackboard.hasClimbOverAngel)
             {
-                rb.velocity += (wall.normal.normalized*speed+new Vector3(0, jumpSpeed, 0));
+                rb.velocity = (Vector3.Reflect(blackboard.climbXZDir,blackboard.wallHit.normal).normalized*speed+new Vector3(0, jumpSpeed, 0));
             }
             //x < 某个角度时上墙且快速跳离，可以理解为玩家是想要向墙上跳或是垂直于墙壁跳开
             else if (!blackboard.hasClimbOverTime&& !blackboard.hasClimbOverAngel)
             {
-                rb.velocity += (wall.normal.normalized * WallUpSpeed + new Vector3(0, jumpSpeed, 0));
+                rb.velocity = (wall.normal.normalized * WallUpSpeed + new Vector3(0, jumpSpeed, 0));
                 Debug.Log(rb.velocity);
             }
             //玩家非快速跳离，可以理解为玩家想要在墙上呆一会、判断形势。
             else
             {
-                rb.velocity += (wall.normal.normalized*speed+new Vector3(0, jumpSpeed, 0));
+                rb.velocity = (wall.normal.normalized*speed+new Vector3(0, jumpSpeed, 0));
             }
             //速度线和顿帧
             player.vineLine.Summon(player.transform.position,

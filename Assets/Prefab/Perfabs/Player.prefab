@@ -272,6 +272,7 @@ MonoBehaviour:
   - {fileID: 1073996509652699942, guid: 03fadd28376b0834f9b2a3d0e703a157, type: 3}
   gunIndex: 0
   meleeIndex: 0
+  switchTime: 0.5
 --- !u!114 &6394809933492538674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +295,7 @@ MonoBehaviour:
       wallJumpSpeed: 10
       wallUpSpeed: 5
       exitWallTime: 0.3
+      jumpBufferTime: 0.3
     sprintSettings:
       sprintSpeed: 40
       sprintDistance: 5
@@ -356,8 +358,11 @@ MonoBehaviour:
     currentState: 5
     nextState: 5
     isWall: 0
+    sprintingPause: 0
+    isJumpBuffer: 0
     isMeleeAttacking: 0
     isBlocking: 0
+    canCamChange: 1
     hasClimbOverTime: 0
     hasClimbOverAngel: 0
     hasClimbEnergyOut: 0

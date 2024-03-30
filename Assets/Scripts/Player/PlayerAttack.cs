@@ -7,6 +7,9 @@ public class PlayerAttack : MonoBehaviour
     [Header("当前武器类别")]
     public int gunIndex = 0;
     public int meleeIndex = 0;
+    [Header("切换设置")]
+    public float switchTime = 0.5f;
+    private float switchTimer;
     
     private WeaponType currentType;
     private Player player;
@@ -40,6 +43,8 @@ public class PlayerAttack : MonoBehaviour
     
     private void PlayerInput()
     {
+        switchTimer+= Time.deltaTime;
+        switchTimer = Mathf.Clamp(switchTimer, 0, switchTime);
         //左键打断收刀
         if (Input.GetMouseButtonDown(0))
         {
@@ -68,57 +73,60 @@ public class PlayerAttack : MonoBehaviour
         }
         
         //鼠标滚轮相关
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        if (switchTimer >= switchTime)
         {
-            if (currentType == WeaponType.Gun)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                if (Guns.Length>1)
+                if (currentType == WeaponType.Gun)
                 {
-                    gunIndex++;
-                    if (gunIndex >= Guns.Length)
+                    if (Guns.Length>1)
                     {
-                        gunIndex = 0;
+                        gunIndex++;
+                        if (gunIndex >= Guns.Length)
+                        {
+                            gunIndex = 0;
+                        }
+                        SwitchWeapon(WeaponType.Gun,gunIndex);
                     }
-                    SwitchWeapon(WeaponType.Gun,gunIndex);
+                }
+                else
+                {
+                    if (Melees.Length>1)
+                    {
+                        meleeIndex++;
+                        if (meleeIndex >= Melees.Length)
+                        {
+                            meleeIndex = 0;
+                        }
+                        SwitchWeapon(WeaponType.Melee,meleeIndex);
+                    }
                 }
             }
-            else
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                if (Melees.Length>1)
+                if (currentType == WeaponType.Gun)
                 {
-                    meleeIndex++;
-                    if (meleeIndex >= Melees.Length)
+                    if (Guns.Length>1)
                     {
-                        meleeIndex = 0;
+                        gunIndex--;
+                        if (gunIndex < 0)
+                        {
+                            gunIndex = Guns.Length-1;
+                        }
+                        SwitchWeapon(WeaponType.Gun,gunIndex);
                     }
-                    SwitchWeapon(WeaponType.Melee,meleeIndex);
                 }
-            }
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (currentType == WeaponType.Gun)
-            {
-                if (Guns.Length>1)
+                else
                 {
-                    gunIndex--;
-                    if (gunIndex < 0)
+                    if (Melees.Length>1)
                     {
-                        gunIndex = Guns.Length-1;
+                        meleeIndex--;
+                        if (meleeIndex < 0)
+                        {
+                            meleeIndex = Melees.Length-1;
+                        }
+                        SwitchWeapon(WeaponType.Melee,meleeIndex);
                     }
-                    SwitchWeapon(WeaponType.Gun,gunIndex);
-                }
-            }
-            else
-            {
-                if (Melees.Length>1)
-                {
-                    meleeIndex--;
-                    if (meleeIndex < 0)
-                    {
-                        meleeIndex = Melees.Length-1;
-                    }
-                    SwitchWeapon(WeaponType.Melee,meleeIndex);
                 }
             }
         }
@@ -152,5 +160,6 @@ public class PlayerAttack : MonoBehaviour
                 player.gunTrans = currentMelee.transform;
                 break;
         }
+        switchTimer = 0;
     }
 }
