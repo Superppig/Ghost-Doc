@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Baodian_03
+  m_Name: Baodian_04
   m_Shader: {fileID: 4800000, guid: cdd29985b65de8d4897190a9704da258, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f41abd9b1814e4649b1d5a8e2a0eb7bf, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9eee343529901a14982599d15bc2ec03, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:

@@ -9905,7 +9905,7 @@ GameObject:
   - component: {fileID: 3601726778294184586}
   - component: {fileID: 4448126339472361628}
   m_Layer: 0
-  m_Name: DashSlash
+  m_Name: Pull_Kinfe_Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
