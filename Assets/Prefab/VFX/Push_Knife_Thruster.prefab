@@ -54312,7 +54312,7 @@ GameObject:
   - component: {fileID: 1955879177466170691}
   - component: {fileID: 1955879177466170690}
   m_Layer: 0
-  m_Name: Dash
+  m_Name: Push_Knife_Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
