@@ -18,33 +18,6 @@ public class ShotGun : Gun
         pos = position;
         fireWaitTime = 60f / data.fireRate;
     }
-
-    protected override void FireAction()
-    {
-        if (fireing && canFire||firstFire)
-        {
-            Fire();
-            gunAnimator.SetBool("fire",true);
-            
-            //后坐力
-            //_playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
-            
-            fireTimer = 0f;
-            canFire = false;
-            firstFire = false;
-        }
-        else
-        {
-            gunAnimator.SetBool("fire",false);
-            fireTimer += Time.deltaTime;
-            if (fireTimer > fireWaitTime)
-            {
-                canFire = true;
-            }
-        }
-    }
-
-
     protected override void Fire()
     {
         //求出圆面上的点
@@ -82,27 +55,5 @@ public class ShotGun : Gun
         }
         ScreenControl.Instance.ParticleRelease(data.fireParticle,pos.position,pos.forward);
         ScreenControl.Instance.CamChange(new Vector3(-5,0,0),0.1f);
-    }
-    
-    IEnumerator BulletStart(Vector3 start,Vector3 end)
-    {
-        LineRenderer bullet= Instantiate(data.bullet);
-        bullet.SetPosition(0, start);
-        bullet.SetPosition(1, end);
-        bulletTimer = 0f;
-        float halfBulletTime = data.bulletTime / 2f;
-
-        while (bulletTimer < data.bulletTime)
-        {
-            bulletTimer += Time.deltaTime;
-            float lerpFactor = Mathf.Lerp(0f, 1f, bulletTimer / data.bulletTime);
-
-            bullet.startWidth = data.lineWindth * Mathf.Lerp(2f, 0f, lerpFactor);
-            bullet.endWidth = bullet.startWidth;
-            yield return null;
-        }
-        bullet.startWidth = 0f;
-        bullet.endWidth = 0f;
-        Destroy(bullet.gameObject);
     }
 }

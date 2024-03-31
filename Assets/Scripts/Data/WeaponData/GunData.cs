@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Data.WeaponData
-{ 
-    public class GunData : ScriptableObject
-    {
-        
-    }
+
+public abstract class GunData : ScriptableObject
+{
 }

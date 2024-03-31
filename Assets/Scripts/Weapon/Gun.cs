@@ -60,10 +60,10 @@ public class Gun: MonoBehaviour
 
     protected virtual void FireAction()
     { 
-        if (fireing && canFire||firstFire)
+        if ((fireing && canFire)||firstFire)
         {
             Fire();
-            gunAnimator.SetTrigger("fire");
+            gunAnimator.SetBool("fire",true);
             
             //后坐力
             //_playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
@@ -74,7 +74,7 @@ public class Gun: MonoBehaviour
         }
         else
         {
-            gunAnimator.ResetTrigger("fire");
+            gunAnimator.SetBool("fire",false);
             fireTimer += Time.deltaTime;
             if (fireTimer > fireWaitTime)
             {

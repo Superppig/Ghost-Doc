@@ -37,21 +37,20 @@ public class CommonGun : Gun
             {
                 //相机振动
                 ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
-                HitPartical(hit,data.hitEenemyParticle);
+                ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 enemyBeHit.HitEnemy(data.damageRate);
             }
             else
             {
-                HitPartical(hit,data.hitBuildingParticle);
+                ScreenControl.Instance.ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
             }
         }
         else
         {
             StartCoroutine(BulletStart(pos.position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
-        FirePartical();
-
+        ScreenControl.Instance.ParticleRelease(data.fireParticle,pos.position,pos.forward);
         StartCoroutine(CamChange());
     }
 
@@ -89,18 +88,5 @@ public class CommonGun : Gun
         pointLight.enabled = false;
     }
 
-    private void FirePartical()
-    {
-        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, pos.forward);
-        ParticleSystem fire = Instantiate(data.fireParticle, pos.position, rotation);
 
-        Destroy(fire.gameObject,fire.main.duration);
-    }
-
-    private void HitPartical(RaycastHit hit, ParticleSystem hitParticle)
-    {
-        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal.normalized);
-        ParticleSystem fire = Instantiate(hitParticle,hit.point , rotation);
-        Destroy(fire.gameObject,fire.main.duration);
-    }
 }
