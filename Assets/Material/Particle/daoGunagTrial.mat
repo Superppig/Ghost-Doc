@@ -160,7 +160,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 4.2870936, g: 4.2870936, b: 4.2870936, a: 1}
-    - _Color: {r: 4.237095, g: 4.237095, b: 4.237095, a: 1}
+    - _Color: {r: 9.734288, g: 9.734288, b: 9.734288, a: 1}
     - _DistortSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainFlow: {r: 0, g: 0, b: 0, a: 0}
