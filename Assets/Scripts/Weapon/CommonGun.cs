@@ -9,8 +9,9 @@ public class CommonGun : Gun
     [Header("普通左轮")] 
     public CommonGundata data;
     public Transform position;
+    public Light pointLight;
 
-    
+
 
     protected override void Start()
     {
@@ -64,6 +65,8 @@ public class CommonGun : Gun
 
     IEnumerator BulletStart(Vector3 start,Vector3 end)
     {
+        pointLight.enabled= true;
+        
         LineRenderer bullet= Instantiate(data.bullet);
         bullet.SetPosition(0, start);
         bullet.SetPosition(1, end);
@@ -82,6 +85,8 @@ public class CommonGun : Gun
         bullet.startWidth = 0f;
         bullet.endWidth = 0f;
         Destroy(bullet.gameObject);
+        
+        pointLight.enabled = false;
     }
 
     private void FirePartical()
