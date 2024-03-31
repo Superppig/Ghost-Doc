@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0020876352, g: 0.002218725, b: 0.025604988, a: 1}
+  m_IndirectSpecularColor: {r: 0.15528476, g: 0.33580983, b: 1.4151893, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9357,10 +9357,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2400941453571652568, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2400941453571652569, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -9404,18 +9400,6 @@ PrefabInstance:
     - target: {fileID: 2400941453571652569, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: settings.wallRunSettings.leaveMaxAngel
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: settings.sprintSettings.sprintLeaveSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394809933492538677, guid: e144750fce95e98449b081288bd1cacd, type: 3}
-      propertyPath: switchTime
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e144750fce95e98449b081288bd1cacd, type: 3}

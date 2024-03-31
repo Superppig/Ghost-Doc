@@ -299,7 +299,7 @@ MonoBehaviour:
     sprintSettings:
       sprintSpeed: 40
       sprintDistance: 5
-      sprintLeaveSpeed: 20
+      sprintLeaveSpeed: 25
     crouchSettings:
       crouchSpeed: 5
       crouchYScale: 0.5
@@ -319,7 +319,7 @@ MonoBehaviour:
       wallCheckDistance: 1
       wallRunMinDisTance: 0.5
       rayCount: 8
-      leaveMaxAngel: 45
+      leaveMaxAngel: 10
       energyCostPerSecond: 50
     keySettings:
       jumpkey: 32
@@ -603,6 +603,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2400941453571652569}
     m_Modifications:
+    - target: {fileID: 4661242125404138420, guid: 3471c2a17a5af3c4b829d7229a1ce0fc, type: 3}
+      propertyPath: m_Time
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4661242125404138420, guid: 3471c2a17a5af3c4b829d7229a1ce0fc, type: 3}
+      propertyPath: m_MinVertexDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7354814167774488638, guid: 3471c2a17a5af3c4b829d7229a1ce0fc, type: 3}
       propertyPath: m_Name
       value: Trail
