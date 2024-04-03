@@ -13,14 +13,20 @@ inline float3 RotateAroundY(float degree, float3 target)
     float2x2 m_rotate = float2x2(cos(rad), -sin(rad),
     sin(rad), cos(rad));
     float2 dir_rotate = mul(m_rotate, target.xz);
-    target = float3(dir_rotate.x, target.y, dir_rotate.y);
-    return target;
+    float3 o = float3(dir_rotate.x, target.y, dir_rotate.y);
+    return o;
 }
 
 inline float Remap(float x, float minOld, float maxOld, float minNew, float maxNew)
 {
     return (x - minOld) / (maxOld - minOld) * (maxNew - minNew) + minNew;
 }
+
+inline float RemapTo01(float x, float minOld, float maxOld)
+{
+    return Remap(x, minOld, maxOld, 0, 1);
+}
+
 
 //需要流动的噪声图，采样噪声图的uv，流动方向（由函数外部采样flowmap得到），流动强度，流动速度
 inline float4 Flow(sampler2D Tex, float2 UV, float2 FlowDir, float2 FlowStrength, float FlowSpeed)
