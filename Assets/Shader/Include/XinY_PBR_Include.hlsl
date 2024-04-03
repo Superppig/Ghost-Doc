@@ -17,6 +17,14 @@ struct Direct_Dot_Data
     half LdotH;
 };
 
+struct XinY_SurfaceData
+{
+    half alpha;
+    half metallic;
+    half roughness;
+    half4 baseMap;
+};
+
 void GetBRDFData(out BRDFData brdfData, inout half alpha, half metallic, half roughness, half4 baseMap)
 {
     half oneMinusReflectivity = OneMinusReflectivityMetallic(metallic);
@@ -32,6 +40,11 @@ void GetBRDFData(out BRDFData brdfData, inout half alpha, half metallic, half ro
     brdfData.normalizationTerm = roughness * half(4.0) + half(2.0);     // roughness * 4.0 + 2.0
     brdfData.roughness2MinusOne = brdfData.roughness2 - half(1.0);;    // roughness^2 - 1.0
     alpha = baseMap.a * oneMinusReflectivity + brdfData.reflectivity;
+}
+
+void GetBRDFData(out BRDFData brdfData, inout XinY_SurfaceData surfaceData)
+{
+    GetBRDFData(brdfData, surfaceData.alpha, surfaceData.metallic, surfaceData.roughness, surfaceData.baseMap);
 }
 
 half3 GetIndirectSpecLight(BRDFData brdfData, half3 R, half fresnelTerm)
