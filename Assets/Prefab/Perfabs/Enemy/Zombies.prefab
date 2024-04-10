@@ -206,9 +206,14 @@ MonoBehaviour:
   player: {fileID: 0}
   attackRate: 0.2
   bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
+  directRange: 5
   speed: 0.5
   turnTime: 0.5
   nextWaypointDistance: 3
+  enemyState: 1
+  UnbalancedTime: 0
+  RecoverySpeed: 0
+  canMove: 0
   attackRange: 2
   attackWaitTime: 0.5
   findRange: 15

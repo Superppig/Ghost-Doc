@@ -16,7 +16,6 @@ public class Zombie : Enemy
     
     public bool beBlocked;//是否被格挡
     
-    private Animator anim;
     protected float fireCd;//射击冷却时间
 
 
@@ -31,8 +30,7 @@ public class Zombie : Enemy
         Walk,
         Hit,
         Fire,
-        Attack,
-        Dead
+        Attack
     }
 
     protected override void Start()
@@ -54,8 +52,9 @@ public class Zombie : Enemy
 
     }
 
-    protected void StateControl()
+    protected override void StateControl()
     {
+        base.StateControl();
         switch (_state)
         {
             case ZombieState.Idle:
@@ -72,41 +71,36 @@ public class Zombie : Enemy
             case ZombieState.Attack:
                 Attack();
                 break;
-            case ZombieState.Dead:
-                Dead();
-                break;
             default:
                 break;
         }
     }
 
-    protected void StateChange()
+    protected override void StateChange()
     {
-        if (health<=0 && _state!=ZombieState.Dead)
+        base.StateChange();
+        if(enemyState==EnemyBaseState.Common||enemyState==EnemyBaseState.Move)
         {
-            _state=ZombieState.Dead;
-        }
-        else if(_state!=ZombieState.Dead)
-        {
-            if (_state != ZombieState.Attack && _state != ZombieState.Fire && _state != ZombieState.Dead && _state != ZombieState.Hit)
+            if (_state != ZombieState.Attack && _state != ZombieState.Fire &&
+                _state != ZombieState.Hit)
             {
-                if(DistanceToPlayer()<=findRange)
-                    _state= ZombieState.Walk;
+                if (DistanceToPlayer() <= findRange)
+                    _state = ZombieState.Walk;
                 else
-                    _state= ZombieState.Idle;
+                    _state = ZombieState.Idle;
             }
-        
-            if (DistanceToPlayer()<=attackRange && _state==ZombieState.Walk)
+
+            if (DistanceToPlayer() <= attackRange && _state == ZombieState.Walk)
             {
-                _state=ZombieState.Attack;
+                _state = ZombieState.Attack;
             }
             else if (_state == ZombieState.Walk)
             {
-                timer+=Time.deltaTime;
-                if (timer>fireCd)
+                timer += Time.deltaTime;
+                if (timer > fireCd)
                 {
                     timer = 0f;
-                    _state=ZombieState.Fire;
+                    _state = ZombieState.Fire;
                 }
             }
         }

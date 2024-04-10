@@ -241,6 +241,7 @@ public class Player : MonoBehaviour
                     fsm.SwitchState(EStateType.WallRunning);
                 }
             }
+            blackboard.isJumpBuffer = false;
         }
     }
 
