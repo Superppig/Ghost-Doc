@@ -168,7 +168,23 @@ public class Zombie : Enemy
         hasHit = false;
         _state = ZombieState.Idle;
     }
-    
+
+    public override void BeStrickToFly(Vector3 dir,float speed,float time )
+    {
+        StartCoroutine(StartStrickToFly(dir,speed,time));
+    }
+    IEnumerator StartStrickToFly(Vector3 dir,float speed,float time)
+    {
+        float timer = 0;
+        while (timer < time&&!isStrikToFly)
+        {
+            timer += Time.deltaTime;
+            rb.velocity = dir.normalized * speed;
+            yield return null;
+        }
+        isStrikToFly = false;
+    }
+
     //计算与玩家的举例
     public float DistanceToPlayer()
     {

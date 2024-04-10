@@ -32,7 +32,7 @@ public class MeleeHitBox : MonoBehaviour
                 case Melee.AttackType.Common:
 
                     //普通挥砍
-                    enemy.HitEnemy(melee.damage);
+                    enemy.HitEnemy(new HitInfo(){rate = melee.damage});
                     Debug.Log("普通挥砍");
 
                     //粒子效果
@@ -41,22 +41,20 @@ public class MeleeHitBox : MonoBehaviour
                     break;
                 case Melee.AttackType.Ctrl:
                     //ctrl组合技
-                    enemy.HitEnemy(melee.ctrlDamage);
+                    melee.ctrlHitInfo.dir = other.transform.position - player.transform.position;
+                    enemy.HitEnemy(melee.ctrlHitInfo);
                     Debug.Log("砸地");
-
                     //粒子效果
-                    //震飞
-                    Vector3 dir = other.transform.position - player.transform.position;
-                    other.transform.root.GetComponent<Rigidbody>().AddForce(dir.normalized * melee.forceToEnemy, ForceMode.Impulse);
                     break;
                 case Melee.AttackType.Space:
+                    melee.spaceHitInfo.dir = Vector3.up;
                     //升龙,给敌人一个力
-                    enemy.HitEnemy(melee.spaceDamage);
-                    other.transform.root.GetComponent<Rigidbody>().AddForce(player.rb.velocity.normalized * 5, ForceMode.Impulse);
+                    enemy.HitEnemy(melee.spaceHitInfo);
                     Debug.Log("升龙");
                     break;
                 case Melee.AttackType.Shift:
-                    enemy.HitEnemy(melee.shiftDamage);
+                    melee.shiftHitInfo.dir = other.transform.position - player.transform.position;
+                    enemy.HitEnemy(melee.shiftHitInfo);
                     Debug.Log("突刺");
                     //粒子效果
                     HitPartical(other.ClosestPoint(transform.position), other.transform);

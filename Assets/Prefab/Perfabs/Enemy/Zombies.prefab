@@ -133,7 +133,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   damage: 2
+  wallDamage: 1
   headDamage: 8
   bodyDamage: 3
   player: {fileID: 0}
@@ -212,8 +213,12 @@ MonoBehaviour:
   nextWaypointDistance: 3
   enemyState: 1
   UnbalancedTime: 0
-  RecoverySpeed: 0
+  RecoverySpeed: 0.5
   canMove: 0
+  rb: {fileID: 0}
+  hitMinSpeed: 5
+  collideDecayRate: 0.5
+  isStrikToFly: 0
   attackRange: 2
   attackWaitTime: 0.5
   findRange: 15
@@ -313,7 +318,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6346626515909951495}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -419,8 +424,8 @@ Transform:
   m_GameObject: {fileID: 7706744442249031693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.38, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7324169258639518062}
   m_RootOrder: 1

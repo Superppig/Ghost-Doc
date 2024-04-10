@@ -48,7 +48,12 @@ public class Enemy : MonoBehaviour
     protected float unbalancedTimer;
     protected bool isUnbalanced;
     
-
+    [Header("击飞效果相关")]
+    public Rigidbody rb;
+    public float hitMinSpeed;//最小受伤速度
+    public float collideDecayRate;//碰撞衰减率
+    public bool isStrikToFly;
+    
 
     protected virtual void Start()
     {
@@ -57,6 +62,7 @@ public class Enemy : MonoBehaviour
         seeker.pathCallback += OnPathComplete;
         AstarPath.active.logPathResults = PathLog.None;//关闭寻路日志
         player=GameObject.FindWithTag("Player").GetComponent<Player>();
+        rb = GetComponent<Rigidbody>();
         timer = 0f;
     }
     protected virtual void Update()
@@ -122,7 +128,14 @@ public class Enemy : MonoBehaviour
         
     }
 
+    public virtual void BeStrickToFly(Vector3 dir,float speed,float time)
+    {
+    }
     
+    
+    
+
+
     //寻路
     protected void Find()
     {
