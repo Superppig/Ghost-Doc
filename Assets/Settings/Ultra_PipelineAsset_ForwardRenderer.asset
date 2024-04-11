@@ -69,7 +69,8 @@ MonoBehaviour:
   - {fileID: -6797186948176253248}
   - {fileID: -7907838947150042311}
   - {fileID: -9005196607687519603}
-  m_RendererFeatureMap: 27b8ba23eb3eab07c06e08d27b8aaba1396b1f0660b641928d923b9a651d0783
+  - {fileID: 6563905940407016343}
+  m_RendererFeatureMap: 27b8ba23eb3eab07c06e08d27b8aaba1396b1f0660b641928d923b9a651d0783975b09fdacad175b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -126,3 +127,32 @@ MonoBehaviour:
     blurShader: {fileID: 4800000, guid: fac41b198a4b03440b73b2dd8e9502ab, type: 3}
     radialDistortShader: {fileID: 4800000, guid: d05d3bb34989e1f4ca9b476b460b6d3f, type: 3}
     sphereMaskShader: {fileID: 4800000, guid: 7397655544e37b241949363ccfde1af0, type: 3}
+--- !u!114 &6563905940407016343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d63490273ca5248b689d44b823303e, type: 3}
+  m_Name: VolumeLightRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  settings:
+    PassEvent: 550
+    VLMaterial: {fileID: 2100000, guid: 93b5e5be54004574586436572a2428c3, type: 2}
+    BlurMaterial: {fileID: 2100000, guid: 3dd577bf4dfb55943a68eb3113a6a16a, type: 2}
+    StepDis: 1.09
+    Intensity: 1.25
+    MaxDis: 50
+    MaxCount: 500
+    FeatherMax: 50
+    FeatherMin: 6.09
+    FeatherDis: 5
+    BlurLoop: 9
+    BlurDownSample: 2
+    BlurSize: 2.75
+    SpaceSigma: 2.92
+    RangeSigma: 1.85
