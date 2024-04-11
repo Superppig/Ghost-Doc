@@ -27,6 +27,11 @@ inline float RemapTo01(float x, float minOld, float maxOld)
     return Remap(x, minOld, maxOld, 0, 1);
 }
 
+inline float RemapTo10(float x, float minOld, float maxOld)
+{
+    return Remap(x, minOld, maxOld, 1, 0);
+}
+
 
 //需要流动的噪声图，采样噪声图的uv，流动方向（由函数外部采样flowmap得到），流动强度，流动速度
 inline float4 Flow(sampler2D Tex, float2 UV, float2 FlowDir, float2 FlowStrength, float FlowSpeed)
