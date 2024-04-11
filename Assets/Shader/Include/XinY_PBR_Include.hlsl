@@ -2,6 +2,8 @@
 #define XinY_INCLUDE_URP_PBR_BASE
 
 #include "./XinY_Include_URP.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
 
 struct Direct_Dot_Data
 {
