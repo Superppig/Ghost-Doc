@@ -461,4 +461,9 @@ float2 RotateUV(float2 uv, float degree)
     return float2(uv.x * cos(degree) - uv.y * sin(degree), uv.x * sin(degree) + uv.y * cos(degree));
 }
 
+float Rec_SDF(float2 pos,float2 halfWidthAndHeight){
+    float2 q = abs(pos)-halfWidthAndHeight;
+    return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);
+}
+
 #endif
