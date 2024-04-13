@@ -1,0 +1,56 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> _ReflectRT;
+RWTexture2D<float> _ReflectDepthBuffer;
+Texture2D<float4> _CameraColorRT;
+Texture2D<float4> _CameraDepthRT;
+float2 _RTSize;
+SamplerState PointClampSampler;//名称即可对应采样器属相
+SamplerState LinearClampSampler;
+float _ReflectHeight;
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    _ReflectRT[id.xy] = float4(0, 0, 0, 0);
+    //初始化深度为far
+    #ifdef UNITY_REVERSED_Z
+        _ReflectDepthBuffer[id.xy] = 0;
+    #else
+        _ReflectDepthBuffer[id.xy] = 1;
+    #endif
+
+    float2 uv = id.xy / _RTSize.xy;
+    float depth = _CameraDepthRT.SampleLevel(PointClampSampler, uv, 0).x;
+    // //uv.y=1-uv.y;
+    // float4 D=float4(uv*2-1,depth,1);
+    // D.y=-D.y;//1-2uv
+    // D=mul(UNITY_MATRIX_I_VP, D);
+    // float3 posWS=D.xyz/D.w;
+    float3 posWS = ComputeWorldSpacePosition(uv, depth, UNITY_MATRIX_I_VP);
+    if (posWS.y < _ReflectHeight) return;//高度测试
+    float3 rePosWS = posWS;
+    rePosWS.y = 2 * _ReflectHeight - rePosWS.y;
+    float4 rePosCS = mul(UNITY_MATRIX_VP, float4(rePosWS, 1));
+    //反射后的NDC
+    float3 rePosNDC = rePosCS.xyz / rePosCS.w;
+    if (abs(rePosNDC.x) > 1 || abs(rePosNDC.y) > 1) return;//视锥体裁剪
+    float2 reUV = rePosNDC.xy * 0.5 + 0.5;
+    #ifdef UNITY_UV_STARTS_AT_TOP
+        reUV.y = 1 - reUV.y;
+    #endif
+    uint2 reId = reUV * _RTSize;
+    //深度测试
+    #ifdef UNITY_REVERSED_Z
+        if (rePosNDC.z < _ReflectDepthBuffer[reId]) return;
+    #else
+        if (rePosNDC.z > _ReflectDepthBuffer[reId]) return;
+    #endif
+
+    _ReflectRT[reId] = float4(_CameraColorRT.SampleLevel(LinearClampSampler, uv, 0).xyz, 1.0);
+    _ReflectDepthBuffer[reId] = rePosNDC.z;
+}
