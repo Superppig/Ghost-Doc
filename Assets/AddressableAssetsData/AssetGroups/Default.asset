@@ -18,7 +18,11 @@ MonoBehaviour:
   m_GUID: 41b719f6999c0e8418179c801d188ab9
   m_SerializeEntries:
   - m_GUID: b898a524d567db843a39277e71748157
-    m_Address: Assets/Prefab/TrialDaoGuang.prefab
+    m_Address: TrialDaoGuang
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5330012f3f869104cb1653ff27e1e726
+    m_Address: TrackSegment
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
