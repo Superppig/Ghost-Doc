@@ -32,6 +32,8 @@ public class Zombie : Enemy
         Fire,
         Attack
     }
+    //攻击相关
+    public HitInfo lastHitInfo;
 
     protected override void Start()
     {
@@ -208,5 +210,42 @@ public class Zombie : Enemy
         base.TakeDamage(damage);
         _state= ZombieState.Hit;
         //其他效果
+    }
+    //碰撞和击飞
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("碰撞到了"+other.gameObject.name);
+        //速度大于一定值才连续碰撞和伤害
+        if (other.relativeVelocity.magnitude > hitMinSpeed)
+        {
+            //撞到其他敌人则连续碰撞,自己停止击飞状态
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("撞到另一个敌人了");
+                IEnemyBeHit enemy = other.transform.Find("Body").GetComponent<IEnemyBeHit>();
+                if (enemy.CanBeHit() == false)
+                {
+                    return;
+                }
+                //new一个hitinfo并衰减碰撞速度与伤害
+                HitInfo hitInfo = new HitInfo()
+                {
+                    isHitFly = true,
+                    dir = other.transform.position - transform.position,
+                    speed = lastHitInfo.speed * collideDecayRate,
+                    time = lastHitInfo.time * collideDecayRate,
+                    rate = lastHitInfo.rate * collideDecayRate
+                };
+                enemy.HitEnemy(hitInfo);
+                isStrikToFly = false;
+            }
+            //撞到墙
+            if (other.gameObject.CompareTag("Wall"))
+            {
+                Debug.Log("撞到墙了");
+                TakeDamage(wallDamage);
+                isStrikToFly = false;
+            }
+        }
     }
 }

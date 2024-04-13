@@ -15,6 +15,9 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 256
+  pyhsicsMask:
+    serializedVersion: 2
+    m_Bits: 8192
   damageRate: 1
   maxShootDistance: 100
   bullet: {fileID: 2506413551038873761, guid: b2f2de65505f42344a6c3dad83cc3e2b, type: 3}

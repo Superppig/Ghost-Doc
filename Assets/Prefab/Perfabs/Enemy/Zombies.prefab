@@ -97,7 +97,8 @@ GameObject:
   - component: {fileID: 8649867670766839845}
   - component: {fileID: 3390607165600771293}
   - component: {fileID: 5341825333268926567}
-  m_Layer: 8
+  - component: {fileID: 850204913851658132}
+  m_Layer: 13
   m_Name: Zombies
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -226,6 +227,26 @@ MonoBehaviour:
   beBlocked: 0
   hasHit: 0
   _state: 0
+  lastHitInfo:
+    isHitFly: 0
+    dir: {x: 0, y: 0, z: 0}
+    speed: 0
+    time: 0
+    rate: 0
+--- !u!136 &850204913851658132
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5216988099393871748}
+  m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.58
+  m_Height: 2.397005
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.2560356, z: 0}
 --- !u!1 &6346626515909951495
 GameObject:
   m_ObjectHideFlags: 0
