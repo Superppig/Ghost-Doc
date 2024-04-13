@@ -34,7 +34,7 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
     {
         Debug.Log("碰撞到了"+other.gameObject.name);
         //速度大于一定值才连续碰撞和伤害
-        if (zombie.rb.velocity.magnitude > zombie.hitMinSpeed)
+        if (other.relativeVelocity.magnitude > zombie.hitMinSpeed)
         {
             //撞到其他敌人则连续碰撞,自己停止击飞状态
             if (other.gameObject.CompareTag("Enemy"))

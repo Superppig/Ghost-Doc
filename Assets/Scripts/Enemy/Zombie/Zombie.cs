@@ -182,6 +182,7 @@ public class Zombie : Enemy
             rb.velocity = dir.normalized * speed;
             yield return null;
         }
+        yield return new WaitForSeconds(time);
         isStrikToFly = false;
     }
 
