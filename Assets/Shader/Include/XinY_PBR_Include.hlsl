@@ -58,6 +58,20 @@ half3 GetIndirectSpecLight(BRDFData brdfData, half3 R, half fresnelTerm)
     indirectSpecular *= half3(surfaceReduction * lerp(brdfData.specular, brdfData.grazingTerm, fresnelTerm));
     return indirectSpecular;
 }
+#if _REFLECTPLANE
+    TEXTURE2D(_ReflectRT);
+    SAMPLER(sampler_ReflectRT);
+    half3 GetIndirectSpecLight(half grazingTerm,half3 specular,half roughness,half reflectIntensity,half fresnel,float2 screenUV)
+    {
+        half3 reflectMap=SAMPLE_TEXTURE2D(_ReflectRT,sampler_ReflectRT,screenUV);
+        half surfaceReduction=1.0 / (roughness + 1.0);
+        half3 indirectSpecular=half3(reflectMap*surfaceReduction*lerp(specular,grazingTerm,fresnel));
+        return indirectSpecular;
+    }
+    half3 GetIndirectSpecLight(BRDFData brdfData,half reflectIntensity,half fresnel,float2 screenUV){
+        return GetIndirectSpecLight(brdfData.grazingTerm,brdfData.specular,brdfData.roughness,reflectIntensity,fresnel,screenUV);
+    }
+#endif
 
 half3 GetIndirectSpecLight(BRDFData brdfData, Direct_Dot_Data data)
 {

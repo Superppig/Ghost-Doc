@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1438846391}
-  m_IndirectSpecularColor: {r: 0.0023068585, g: 0.0025975432, b: 0.025813434, a: 1}
+  m_IndirectSpecularColor: {r: 0.091639504, g: 0.21025492, b: 0.94536996, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -283,8 +283,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315734719}
-  m_LocalRotation: {x: -0.02199933, y: 0.9729719, z: -0.20788284, w: -0.09811494}
-  m_LocalPosition: {x: 20.57, y: 13.86, z: 41.31}
+  m_LocalRotation: {x: -0.0073112966, y: -0.9556152, z: 0.04668015, w: -0.29080433}
+  m_LocalPosition: {x: -18.490616, y: 4.4411573, z: 33.11375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -636,9 +636,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainLight: {fileID: 1438846391}
-  control: 0.121
+  control: 0.598
   skyMat: {fileID: 2100000, guid: 1a0e432aefda1b44d9db7706f1a91f71, type: 2}
-  EulerAngle: {x: 133, y: 39.22, z: 0}
+  EulerAngle: {x: 125, y: 39.22, z: 0}
   HeightFogDensity: 0.64
   ButtomFogColor: {r: 0.288904, g: 0.35996136, b: 0.469, a: 1}
   DistanceFogDensity: 0.33
@@ -3072,7 +3072,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.8392157, g: 0.87812155, b: 1, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3129,7 +3129,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1438846390}
-  m_LocalRotation: {x: 0.8638696, y: 0.13382657, z: -0.30778003, w: 0.3756212}
+  m_LocalRotation: {x: 0.83556324, y: 0.15497021, z: -0.29769504, w: 0.43496668}
   m_LocalPosition: {x: 0, y: 2.2547162, z: 0.7360338}
   m_LocalScale: {x: 0.24534456, y: 0.2453446, z: 0.24534452}
   m_ConstrainProportionsScale: 0
@@ -5408,7 +5408,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e014d8e0f9f344468e5931a77453989, type: 2}
+  - {fileID: 2100000, guid: 1250c1580b188bc45991244f35bd307d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

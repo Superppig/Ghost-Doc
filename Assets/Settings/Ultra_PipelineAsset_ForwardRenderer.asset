@@ -33,6 +33,25 @@ MonoBehaviour:
     name: DeathDissolvePass
     passEvent: 550
     material: {fileID: 2100000, guid: 4309de90d39dece468c434d1ecded0ae, type: 2}
+--- !u!114 &-7184205147083530787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e22f817b4cc9e3e4fa2a41adfa8668a6, type: 3}
+  m_Name: SSPRBlurRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  setting:
+    PassEvent: 350
+    blurMat: {fileID: 2100000, guid: fe5931af91c3ba146b4d92f3d547c75a, type: 2}
+    Loop: 2
+    BlurSize: 1.04
+    BlurDownSample: 2
 --- !u!114 &-6797186948176253248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,18 +79,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: RenderObjects
+  m_Name: RenderReflectPlane
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: RenderObjects
-    Event: 300
+    passTag: RenderReflectPlane
+    Event: 350
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 1024
-      PassNames: []
+        m_Bits: 2147483647
+      PassNames:
+      - ReflectPlane
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
@@ -125,11 +145,12 @@ MonoBehaviour:
   - {fileID: -6797186948176253248}
   - {fileID: -9005196607687519603}
   - {fileID: -4360825687774050521}
+  - {fileID: -7184205147083530787}
   - {fileID: -5061983366156423715}
   - {fileID: 552604558920693799}
   - {fileID: -7907838947150042311}
   - {fileID: 6563905940407016343}
-  m_RendererFeatureMap: c06e08d27b8aaba18d923b9a651d07832747d440243c7bc3dd6d4fb1f238c0b927b8ba23eb3eab07396b1f0660b64192975b09fdacad175b
+  m_RendererFeatureMap: c06e08d27b8aaba18d923b9a651d07832747d440243c7bc3dd9d8d767b934c9cdd6d4fb1f238c0b927b8ba23eb3eab07396b1f0660b64192975b09fdacad175b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -198,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d63490273ca5248b689d44b823303e, type: 3}
   m_Name: VolumeLightRenderFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     PassEvent: 550
     VLMaterial: {fileID: 2100000, guid: 93b5e5be54004574586436572a2428c3, type: 2}

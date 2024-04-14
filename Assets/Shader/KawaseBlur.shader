@@ -7,10 +7,6 @@ Shader "XinY/KawaseBlur"
     SubShader
     {
         Tags { "RenderPipeline" = "UniversalRenderPipeline" }
-        LOD 100
-        Cull Off
-        ZWrite Off
-        ZTest Always
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         CBUFFER_START(UnityPerMaterial)

@@ -19,9 +19,9 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     _ReflectRT[id.xy] = float4(0, 0, 0, 0);
     //初始化深度为far
     #ifdef UNITY_REVERSED_Z
-        _ReflectDepthBuffer[id.xy] = 0;
+        _ReflectDepthBuffer[id.xy] = 0.0001;
     #else
-        _ReflectDepthBuffer[id.xy] = 1;
+        _ReflectDepthBuffer[id.xy] = 0.9999;
     #endif
 
     float2 uv = id.xy / _RTSize.xy;
@@ -48,7 +48,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     #ifdef UNITY_REVERSED_Z
         if (rePosNDC.z < _ReflectDepthBuffer[reId]) return;
     #else
-        if (rePosNDC.z > _ReflectDepthBuffer[reId]) return;
+        if (rePosNDC.z >= _ReflectDepthBuffer[reId]) return;
     #endif
 
     _ReflectRT[reId] = float4(_CameraColorRT.SampleLevel(LinearClampSampler, uv, 0).xyz, 1.0);
