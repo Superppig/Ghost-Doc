@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1438846391}
-  m_IndirectSpecularColor: {r: 0.0023068585, g: 0.0025975432, b: 0.025813434, a: 1}
+  m_IndirectSpecularColor: {r: 0.091639504, g: 0.21025492, b: 0.94536996, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -283,14 +283,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315734719}
-  m_LocalRotation: {x: -0.02199933, y: 0.9729719, z: -0.20788284, w: -0.09811494}
-  m_LocalPosition: {x: 20.57, y: 13.86, z: 41.31}
+  m_LocalRotation: {x: -0.005813692, y: -0.8822384, z: 0.021723771, w: -0.47026563}
+  m_LocalPosition: {x: -1.0589676, y: 2.0788527, z: -1.692894}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 183.652, y: -33.768005, z: 179.244}
 --- !u!114 &315734723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,13 +635,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4465e88d0f9cb504683c0abff73a8714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainLight: {fileID: 1438846391}
-  control: 0.121
+  MainLight: {fileID: 1438846391}
+  LightIntensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0028153844
+      value: 0.09727013
+      inSlope: -0.024962336
+      outSlope: -0.024962336
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.21408997
+    - serializedVersion: 3
+      time: 0.29566306
+      value: 0.27967995
+      inSlope: 1.9530188
+      outSlope: 1.9530188
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: -0.017845869
+      outSlope: -0.017845869
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.69768924
+      value: 0.3397368
+      inSlope: -2.3898478
+      outSlope: -2.3898478
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0056152
+      value: 0.09222412
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  LightIntensityMultiply: 2
+  control: 0.316
   skyMat: {fileID: 2100000, guid: 1a0e432aefda1b44d9db7706f1a91f71, type: 2}
-  EulerAngle: {x: 133, y: 39.22, z: 0}
-  HeightFogDensity: 0.64
+  EulerAngle: {x: 23, y: 39.22, z: 0}
+  FogIntensity: 0.23
+  HeightFogDensity: 1.15
   ButtomFogColor: {r: 0.288904, g: 0.35996136, b: 0.469, a: 1}
-  DistanceFogDensity: 0.33
+  DistanceFogDensity: 2
   FarFogColor: {r: 0.515684, g: 0.55298156, b: 0.611, a: 1}
   InscatterIntensity: 0.051
 --- !u!65 &553511522
@@ -3072,7 +3125,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.8392157, g: 0.87812155, b: 1, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 0.663807
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3129,7 +3182,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1438846390}
-  m_LocalRotation: {x: 0.8638696, y: 0.13382657, z: -0.30778003, w: 0.3756212}
+  m_LocalRotation: {x: 0.18780439, y: 0.3288784, z: -0.06691107, w: 0.92308795}
   m_LocalPosition: {x: 0, y: 2.2547162, z: 0.7360338}
   m_LocalScale: {x: 0.24534456, y: 0.2453446, z: 0.24534452}
   m_ConstrainProportionsScale: 0
@@ -5408,7 +5461,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e014d8e0f9f344468e5931a77453989, type: 2}
+  - {fileID: 2100000, guid: 1250c1580b188bc45991244f35bd307d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

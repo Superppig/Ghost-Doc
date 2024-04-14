@@ -34,6 +34,8 @@ Shader "XinY/ProvedureSkybox"
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalRenderPipeline" "IgnoreProjector" = "True" }
         LOD 100
         Cull Off
+        ZWrite Off
+        ZTest LEqual
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
