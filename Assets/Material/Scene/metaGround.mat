@@ -23,7 +23,6 @@ Material:
   m_Name: metaGround
   m_Shader: {fileID: 4800000, guid: 297b4b524bdb6d24cb4e89f0fa9f87ee, type: 3}
   m_ValidKeywords:
-  - EMISS_FLOW
   - EMISS_FLOW_Y
   - FOG_ON
   m_InvalidKeywords: []
@@ -117,7 +116,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EMISS_FLOW: 1
+    - _EMISS_FLOW: 0
     - _EMISS_FLOW_Y: 1
     - _EnvironmentReflections: 1
     - _FOG_ON: 1
@@ -145,7 +144,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 4.237095, g: 4.237095, b: 4.237095, a: 1}
+    - _EmissionColor: {r: 0.21346603, g: 0.21346603, b: 0.21346603, a: 1}
     - _FlowPara: {r: 9.7, g: 0.44, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

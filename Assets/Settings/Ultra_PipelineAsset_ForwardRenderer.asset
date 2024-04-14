@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   setting:
-    PassEvent: 350
+    PassEvent: 300
     blurMat: {fileID: 2100000, guid: fe5931af91c3ba146b4d92f3d547c75a, type: 2}
     Loop: 2
     BlurSize: 1.04
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: RenderReflectPlane
-    Event: 350
+    Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
@@ -95,7 +95,7 @@ MonoBehaviour:
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
-    depthCompareFunction: 4
+    depthCompareFunction: 2
     enableWrite: 1
     stencilSettings:
       overrideStencilState: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_DepthPrimingMode: 0
-  m_CopyDepthMode: 0
+  m_CopyDepthMode: 2
   m_AccurateGbufferNormals: 0
   m_ClusteredRendering: 0
   m_TileSize: 32

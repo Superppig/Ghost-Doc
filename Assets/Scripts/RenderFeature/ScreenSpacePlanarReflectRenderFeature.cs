@@ -70,7 +70,7 @@ public class ScreenSpacePlanarReflectRenderFeature : ScriptableRendererFeature
             //if (m_setting.blurMat == null) return;
             //blurMaterial = m_setting.blurMat;
 
-            if (renderingData.cameraData.isSceneViewCamera) return;//不处理scene的相机
+            //if (renderingData.cameraData.isSceneViewCamera) return;//不处理scene的相机
             var cmd = CommandBufferPool.Get(k_RenderTag);
             Render(cmd,ref renderingData);
             context.ExecuteCommandBuffer(cmd);
@@ -119,7 +119,7 @@ public class ScreenSpacePlanarReflectRenderFeature : ScriptableRendererFeature
     public override void Create()
     {
         m_ScriptablePass = new CustomRenderPass();
-        m_ScriptablePass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        m_ScriptablePass.renderPassEvent = setting.PassEvent;
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

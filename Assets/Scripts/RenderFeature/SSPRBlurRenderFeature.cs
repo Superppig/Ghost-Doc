@@ -26,10 +26,12 @@ public class SSPRBlurRenderFeature : ScriptableRendererFeature
 
         Setting m_setting;
         Material blurMaterial;
+        RenderTargetIdentifier cameraTarget;
 
-        public void Setup(Setting setting)
+        public void Setup(Setting setting,in RenderTargetIdentifier cameraTarget)
         {
             m_setting = setting;
+            this.cameraTarget=cameraTarget; 
         }
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
@@ -50,10 +52,11 @@ public class SSPRBlurRenderFeature : ScriptableRendererFeature
             if (m_setting.blurMat == null) return;
             blurMaterial = m_setting.blurMat;
 
-            if (renderingData.cameraData.isSceneViewCamera) return;//不处理scene的相机
+            //if (renderingData.cameraData.isSceneViewCamera) return;//不处理scene的相机
             var cmd = CommandBufferPool.Get(k_RenderTag);
             Render(cmd,ref renderingData);
             context.ExecuteCommandBuffer(cmd);
+           
             CommandBufferPool.Release(cmd);
         }
 
@@ -73,6 +76,7 @@ public class SSPRBlurRenderFeature : ScriptableRendererFeature
 
             }
             cmd.Blit(temp01, new RenderTargetIdentifier("_ReflectRT"));
+            cmd.SetRenderTarget(cameraTarget);
         }
 
         public override void OnCameraCleanup(CommandBuffer cmd)
@@ -87,12 +91,12 @@ public class SSPRBlurRenderFeature : ScriptableRendererFeature
     public override void Create()
     {
         m_ScriptablePass = new CustomRenderPass();
-        m_ScriptablePass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        m_ScriptablePass.renderPassEvent = setting.PassEvent;
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        m_ScriptablePass.Setup(setting);
+        m_ScriptablePass.Setup(setting,renderer.cameraColorTarget);
         renderer.EnqueuePass(m_ScriptablePass);
     }
 }
