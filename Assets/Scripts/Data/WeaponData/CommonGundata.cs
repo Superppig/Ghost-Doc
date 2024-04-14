@@ -5,7 +5,9 @@ using Cinemachine;
 [CreateAssetMenu(fileName = "CommonGunData", menuName = "ScriptableObject/普通左轮", order = 0)]
 public class CommonGundata : GunData
 {
-    [Header("射击属性")] public LayerMask enemyMask;
+    [Header("射击属性")] 
+    public LayerMask enemyMask;
+    public LayerMask pyhsicsMask;
     public float damageRate;
     public float maxShootDistance;
     [Header("子弹(激光)")] public LineRenderer bullet;

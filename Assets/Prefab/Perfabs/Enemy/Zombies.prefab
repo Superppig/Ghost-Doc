@@ -97,7 +97,8 @@ GameObject:
   - component: {fileID: 8649867670766839845}
   - component: {fileID: 3390607165600771293}
   - component: {fileID: 5341825333268926567}
-  m_Layer: 8
+  - component: {fileID: 850204913851658132}
+  m_Layer: 13
   m_Name: Zombies
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -133,7 +134,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -201,14 +202,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   damage: 2
+  wallDamage: 1
   headDamage: 8
   bodyDamage: 3
   player: {fileID: 0}
   attackRate: 0.2
   bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
+  directRange: 5
   speed: 0.5
   turnTime: 0.5
   nextWaypointDistance: 3
+  enemyState: 1
+  UnbalancedTime: 0
+  RecoverySpeed: 0.5
+  canMove: 0
+  rb: {fileID: 0}
+  hitMinSpeed: 5
+  collideDecayRate: 0.5
+  isStrikToFly: 0
   attackRange: 2
   attackWaitTime: 0.5
   findRange: 15
@@ -216,6 +227,26 @@ MonoBehaviour:
   beBlocked: 0
   hasHit: 0
   _state: 0
+  lastHitInfo:
+    isHitFly: 0
+    dir: {x: 0, y: 0, z: 0}
+    speed: 0
+    time: 0
+    rate: 0
+--- !u!136 &850204913851658132
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5216988099393871748}
+  m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.58
+  m_Height: 2.397005
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.2560356, z: 0}
 --- !u!1 &6346626515909951495
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +339,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6346626515909951495}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -413,9 +444,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7706744442249031693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.38, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 1.461, z: 0}
+  m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7324169258639518062}
   m_RootOrder: 1

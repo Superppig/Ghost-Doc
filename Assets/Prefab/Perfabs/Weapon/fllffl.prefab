@@ -355,7 +355,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 266
+  m_VersionIndex: 308
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 194
+  m_VersionIndex: 236
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 191
+  m_VersionIndex: 233
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2394,20 +2394,34 @@ MonoBehaviour:
   state: 0
   currentAttackType: 0
   timer: 0
-  shiftDamage: 0
   shiftEnergyCost: 100
   shiftSpeed: 60
   shiftTime: 0.3
-  ctrlDamage: 0
-  forceToEnemy: 3
+  shiftHitInfo:
+    isHitFly: 1
+    dir: {x: 0, y: 0, z: 0}
+    speed: 70
+    time: 0.2
+    rate: 10
   ctrlEnergyCost: 100
   ctrlSpeed: 30
   ctrlStartHeight: 2
   ctrlEndHeight: 0.1
-  spaceDamage: 0
+  ctrlHitInfo:
+    isHitFly: 1
+    dir: {x: 0, y: 0, z: 0}
+    speed: 70
+    time: 0.1
+    rate: 0.5
   spaceEnergyCost: 100
   spaceSpeed: 10
   spaceTime: 0.5
+  spaceHitInfo:
+    isHitFly: 1
+    dir: {x: 0, y: 0, z: 0}
+    speed: 10
+    time: 0.5
+    rate: 0.5
   attackFrame: 3
   attackStartTimeScale: 0
   blockFrame: 20

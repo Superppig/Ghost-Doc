@@ -7,6 +7,7 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
 {
     private Zombie zombie;
     private float damage;
+    private HitInfo lastHitInfo;
     private void Awake()
     {
         zombie = transform.root.GetComponent<Zombie>();
@@ -17,9 +18,17 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
         return !zombie.hasHit;
     }
 
-    public void HitEnemy(float rate)
+    public void HitEnemy(HitInfo hitInfo)
     {
-        zombie.TakeDamage(damage*rate);
+        lastHitInfo=hitInfo;
+        zombie.TakeDamage(damage*hitInfo.rate);
+        if (hitInfo.isHitFly)
+        {
+            zombie.BeStrickToFly(hitInfo.dir,hitInfo.speed,hitInfo.time);
+            zombie.lastHitInfo = hitInfo;
+        }
         Debug.Log("身体被击中");
     }
+    
+    
 }

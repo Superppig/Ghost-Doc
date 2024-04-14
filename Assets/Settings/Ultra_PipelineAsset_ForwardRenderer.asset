@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Active: 0
   settings:
     PassEvent: 550
-    VLMaterial: {fileID: 2100000, guid: 93b5e5be54004574586436572a2428c3, type: 2}
-    BlurMaterial: {fileID: 2100000, guid: 3dd577bf4dfb55943a68eb3113a6a16a, type: 2}
+    VLMaterial: {fileID: 0}
+    BlurMaterial: {fileID: 0}
     StepDis: 1.09
     Intensity: 0.24
     MaxDis: 50

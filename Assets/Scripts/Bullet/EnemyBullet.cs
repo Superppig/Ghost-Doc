@@ -51,7 +51,7 @@ public class EnemyBullet : Bullet ,IBlock
         {
             if (other.CompareTag("Enemy"))
             {
-                other.GetComponent<IEnemyBeHit>().HitEnemy(damage);
+                other.GetComponent<IEnemyBeHit>().HitEnemy(new HitInfo(){rate = damage});
                 Destroy(gameObject);
             }
         }

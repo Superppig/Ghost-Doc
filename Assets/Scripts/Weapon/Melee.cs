@@ -59,30 +59,28 @@ public class Melee : MonoBehaviour
     }
 
 
-    [Header("Shift组合技")] 
-    public float shiftDamage;
+    [Header("Shift组合技")]
     public float shiftEnergyCost;//shift组合技能量消耗
     public float shiftSpeed;//shift组合技速度
     public float shiftTime;//shift组合技时间
     protected float shiftTimer;
+    
+    public HitInfo shiftHitInfo;
 
     [Header("Ctrl组合技")]
-    public float ctrlDamage;
-    public float forceToEnemy;//ctrl组合技震飞力
-    
     public float ctrlEnergyCost;//ctrl组合技能量消耗
     public float ctrlSpeed;//ctrl组合技速度
     public float ctrlStartHeight;//ctrl组合技高度
     public float ctrlEndHeight;//ctrl组合技结束高度
     
+    public HitInfo ctrlHitInfo;
     [Header("Space组合技")]
-    public float spaceDamage;
     public float spaceEnergyCost;//space组合技能量消耗
     public float spaceSpeed;//space组合技速度
     public float spaceTime;//space组合技时间
     protected float spaceTimer;
 
-    
+    public HitInfo spaceHitInfo;
     
     protected virtual void Start()
     {

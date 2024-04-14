@@ -16,7 +16,6 @@ public class Zombie : Enemy
     
     public bool beBlocked;//是否被格挡
     
-    private Animator anim;
     protected float fireCd;//射击冷却时间
 
 
@@ -31,9 +30,10 @@ public class Zombie : Enemy
         Walk,
         Hit,
         Fire,
-        Attack,
-        Dead
+        Attack
     }
+    //攻击相关
+    public HitInfo lastHitInfo;
 
     protected override void Start()
     {
@@ -54,8 +54,9 @@ public class Zombie : Enemy
 
     }
 
-    protected void StateControl()
+    protected override void StateControl()
     {
+        base.StateControl();
         switch (_state)
         {
             case ZombieState.Idle:
@@ -72,41 +73,36 @@ public class Zombie : Enemy
             case ZombieState.Attack:
                 Attack();
                 break;
-            case ZombieState.Dead:
-                Dead();
-                break;
             default:
                 break;
         }
     }
 
-    protected void StateChange()
+    protected override void StateChange()
     {
-        if (health<=0 && _state!=ZombieState.Dead)
+        base.StateChange();
+        if(enemyState==EnemyBaseState.Common||enemyState==EnemyBaseState.Move)
         {
-            _state=ZombieState.Dead;
-        }
-        else if(_state!=ZombieState.Dead)
-        {
-            if (_state != ZombieState.Attack && _state != ZombieState.Fire && _state != ZombieState.Dead && _state != ZombieState.Hit)
+            if (_state != ZombieState.Attack && _state != ZombieState.Fire &&
+                _state != ZombieState.Hit)
             {
-                if(DistanceToPlayer()<=findRange)
-                    _state= ZombieState.Walk;
+                if (DistanceToPlayer() <= findRange)
+                    _state = ZombieState.Walk;
                 else
-                    _state= ZombieState.Idle;
+                    _state = ZombieState.Idle;
             }
-        
-            if (DistanceToPlayer()<=attackRange && _state==ZombieState.Walk)
+
+            if (DistanceToPlayer() <= attackRange && _state == ZombieState.Walk)
             {
-                _state=ZombieState.Attack;
+                _state = ZombieState.Attack;
             }
             else if (_state == ZombieState.Walk)
             {
-                timer+=Time.deltaTime;
-                if (timer>fireCd)
+                timer += Time.deltaTime;
+                if (timer > fireCd)
                 {
                     timer = 0f;
-                    _state=ZombieState.Fire;
+                    _state = ZombieState.Fire;
                 }
             }
         }
@@ -174,7 +170,24 @@ public class Zombie : Enemy
         hasHit = false;
         _state = ZombieState.Idle;
     }
-    
+
+    public override void BeStrickToFly(Vector3 dir,float speed,float time )
+    {
+        StartCoroutine(StartStrickToFly(dir,speed,time));
+    }
+    IEnumerator StartStrickToFly(Vector3 dir,float speed,float time)
+    {
+        float timer = 0;
+        while (timer < time&&!isStrikToFly)
+        {
+            timer += Time.deltaTime;
+            rb.velocity = dir.normalized * speed;
+            yield return null;
+        }
+        yield return new WaitForSeconds(time);
+        isStrikToFly = false;
+    }
+
     //计算与玩家的举例
     public float DistanceToPlayer()
     {
@@ -197,5 +210,42 @@ public class Zombie : Enemy
         base.TakeDamage(damage);
         _state= ZombieState.Hit;
         //其他效果
+    }
+    //碰撞和击飞
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("碰撞到了"+other.gameObject.name);
+        //速度大于一定值才连续碰撞和伤害
+        if (other.relativeVelocity.magnitude > hitMinSpeed)
+        {
+            //撞到其他敌人则连续碰撞,自己停止击飞状态
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("撞到另一个敌人了");
+                IEnemyBeHit enemy = other.transform.Find("Body").GetComponent<IEnemyBeHit>();
+                if (enemy.CanBeHit() == false)
+                {
+                    return;
+                }
+                //new一个hitinfo并衰减碰撞速度与伤害
+                HitInfo hitInfo = new HitInfo()
+                {
+                    isHitFly = true,
+                    dir = other.transform.position - transform.position,
+                    speed = lastHitInfo.speed * collideDecayRate,
+                    time = lastHitInfo.time * collideDecayRate,
+                    rate = lastHitInfo.rate * collideDecayRate
+                };
+                enemy.HitEnemy(hitInfo);
+                isStrikToFly = false;
+            }
+            //撞到墙
+            if (other.gameObject.CompareTag("Wall"))
+            {
+                Debug.Log("撞到墙了");
+                TakeDamage(wallDamage);
+                isStrikToFly = false;
+            }
+        }
     }
 }

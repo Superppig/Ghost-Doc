@@ -27,10 +27,11 @@ public class CommonGun : Gun
     }
 
     protected override void Fire()
-    {
+    { 
+        LayerMask mask = ~(1<<13);
         Ray fireRay = new Ray(orientation.transform.position, orientation.transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(fireRay, out hit, data.maxShootDistance))
+        if (Physics.Raycast(fireRay, out hit, data.maxShootDistance,Physics.DefaultRaycastLayers&mask))
         {
             StartCoroutine(BulletStart(pos.position, hit.point));
             if (hit.collider.CompareTag("Enemy"))
@@ -39,7 +40,7 @@ public class CommonGun : Gun
                 ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
                 ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
-                enemyBeHit.HitEnemy(data.damageRate);
+                enemyBeHit.HitEnemy(new HitInfo(){rate = data.damageRate});
             }
             else
             {

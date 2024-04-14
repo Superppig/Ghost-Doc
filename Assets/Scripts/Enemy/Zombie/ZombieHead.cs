@@ -17,9 +17,9 @@ public class ZombieHead : MonoBehaviour,IEnemyBeHit
         return !zombie.hasHit;
     }
 
-    public void HitEnemy(float rate)
+    public void HitEnemy(HitInfo hitInfo)
     {
-        zombie.TakeDamage(damage*rate);
+        zombie.TakeDamage(damage*hitInfo.rate);
         Debug.Log("头部被击中");
     }
 }
