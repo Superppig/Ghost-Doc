@@ -45,6 +45,7 @@ Material:
     - _CloudEnd: 0.608
     - _CloudStart: 0.257
     - _DistortIntensity: 0.0599
+    - _FOG_ON: 0
     - _HorizonRange: 0.142
     - _MoonBias: 0.0429
     - _MoonContrast: 0.983
