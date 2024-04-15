@@ -12,6 +12,7 @@ Shader "XinY/HorizontalPlane"
         _NormalScale ("NormalScale", Range(0, 5)) = 1
         _SpecIntensity ("SpecIntensity", float) = 1
         _ReflectDistort ("ReflectDistort", Range(0, 0.2)) = 0.1
+        _ReflectIntensity("ReflectIntensity",float)=1
         _DistortMap ("DistortMap", 2D) = "black" { }
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
@@ -87,6 +88,7 @@ Shader "XinY/HorizontalPlane"
             float4 _DistortMap_ST;
             half _ReflectDistort;
             half4 _FlowPara;
+            float _ReflectIntensity;
         CBUFFER_END
         TEXTURE2D(_BaseMap);
         SAMPLER(sampler_BaseMap);
@@ -218,7 +220,7 @@ Shader "XinY/HorizontalPlane"
                 half2 distortDir = normalize(dataNeed.V.xz) - 0.5;
                 half distort = SAMPLE_TEXTURE2D(_DistortMap, sampler_DistortMap, screenUV * _DistortMap_ST.xy + _DistortMap_ST.zw * _Time.y) * _ReflectDistort * (1 - dataNeed.fresnelTerm);
                 float2 reflectUV = screenUV + distortDir * distort;
-                half3 indirectSpecular = GetIndirectSpecLight(brdfData, 1, dataNeed.fresnelTerm, reflectUV)+GetIndirectSpecLight(brdfData,dataNeed.R,dataNeed.fresnelTerm)*0.3;
+                half3 indirectSpecular = GetIndirectSpecLight(brdfData, 1, dataNeed.fresnelTerm, reflectUV)*_ReflectIntensity+GetIndirectSpecLight(brdfData,dataNeed.R,dataNeed.fresnelTerm)*0.3;
                 //return indirectSpecular.xyzz;
                 // half mip = perceptualRoughness * (1.7 - 0.7 * perceptualRoughness) * 6;
                 // indirectSpecular = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);
