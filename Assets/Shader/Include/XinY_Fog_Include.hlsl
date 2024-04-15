@@ -7,10 +7,11 @@ half3 _ButtomFogColor;
 half3 _FarFogColor;
 half _DistanceFogDensity;
 float _InscatterIntensity;
+float _FogContrast;
 
 float GetExpFactor(float factor)
 {
-    float o = -pow(factor, 2);
+    float o = -pow(factor, _FogContrast);
     return exp(o);
 }
 

@@ -24,10 +24,11 @@ Shader "XinY/ProvedureSkybox"
         [HDR]_CloudColor_2_Day ("CloudColor_2_Day", color) = (1, 1, 1, 1)
         [HDR]_CloudColor_1_Night ("CloudColor_2_Night", color) = (1, 1, 1, 1)
         [HDR]_CloudColor_2_Night ("CloudColor_2_Night", color) = (1, 1, 1, 1)
-        _StarTex("StarTex",2D)="black"{}
-        [HDR]_StarColor_1("StarColor_1",color)=(1,1,1,1)
-        [HDR]_StarColor_2("StarColor_2",color)=(1,1,1,1)
-        _FlashMask("FlashMask",2D)="black"{}
+        _StarTex ("StarTex", 2D) = "black" { }
+        [HDR]_StarColor_1 ("StarColor_1", color) = (1, 1, 1, 1)
+        [HDR]_StarColor_2 ("StarColor_2", color) = (1, 1, 1, 1)
+        _FlashMask ("FlashMask", 2D) = "black" { }
+        [Toggle(FOG_ON)]_FOG_ON ("Enable Fog", int) = 0
     }
     SubShader
     {
@@ -37,10 +38,13 @@ Shader "XinY/ProvedureSkybox"
         ZWrite Off
         ZTest LEqual
         HLSLINCLUDE
+        #pragma shader_feature _ FOG_ON
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "../Shader/Include/XinY_Include_URP.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
+        #ifdef FOG_ON
+            #include "../Shader/Include/XinY_Fog_Include.hlsl"
+        #endif
 
         struct appdata
         {
@@ -50,6 +54,7 @@ Shader "XinY/ProvedureSkybox"
         struct v2f
         {
             float4 positionCS : SV_POSITION;
+            float3 positionWS : TEXCOORD1;
             float4 uv : TEXCOORD0;
         };
 
@@ -73,7 +78,7 @@ Shader "XinY/ProvedureSkybox"
             half _DistortIntensity;
             half4 _CloudDetail_ST;
             half4 _CloudColor_1_Day;
-            half4 _CloudColor_2_Day;            
+            half4 _CloudColor_2_Day;
             half4 _CloudColor_1_Night;
             half4 _CloudColor_2_Night;
             half4 _StarTex_ST;
@@ -103,6 +108,7 @@ Shader "XinY/ProvedureSkybox"
             {
                 v2f output = (v2f)0;;
                 output.positionCS = TransformObjectToHClip(v.positionOS.xyz);
+                output.positionWS = TransformObjectToWorld(v.positionOS);
                 output.uv = v.texcoord;
                 return output;
             }
@@ -112,9 +118,9 @@ Shader "XinY/ProvedureSkybox"
                 half4 FinalCol = 1;
                 half3 skyPara = i.uv.xyz;
                 Light mainLight = GetMainLight();
-                half isDay = 1-abs(_Control-0.5)*2;
-                half NightMask=step(isDay,0.5);
-                isDay=pow(isDay,2);
+                half isDay = 1 - abs(_Control - 0.5) * 2;
+                half NightMask = step(isDay, 0.5);
+                isDay = pow(isDay, 2);
                 
 
                 half horizonMask = abs(skyPara.y);
@@ -122,12 +128,12 @@ Shader "XinY/ProvedureSkybox"
                 half4 horizonCol = lerp(_HorizonColor_Night, _HorizonColor_Day, isDay);
                 half4 baseCol = lerp(_SkyColor_Night, _SkyColor_Day, isDay);
 
-                float2 starUV=skyPara.xz / skyPara.y * _StarTex_ST.xy + _StarTex_ST.zw * _Time.y;
-                half star=SAMPLE_TEXTURE2D(_StarTex, sampler_StarTex, starUV);
-                half4 StarCol=lerp(0,lerp(_StarColor_1,_StarColor_2,star),step(0.01,star))*clamp(skyPara.y,0,1);
+                float2 starUV = skyPara.xz / skyPara.y * _StarTex_ST.xy + _StarTex_ST.zw * _Time.y;
+                half star = SAMPLE_TEXTURE2D(_StarTex, sampler_StarTex, starUV);
+                half4 StarCol = lerp(0, lerp(_StarColor_1, _StarColor_2, star), step(0.01, star)) * clamp(skyPara.y, 0, 1);
                 
 
-                half4 SkyCol = lerp(baseCol, baseCol+horizonCol, horizonMask);
+                half4 SkyCol = lerp(baseCol, baseCol + horizonCol, horizonMask);
 
 
                 half sunContrast = Remap(_SunContrast, 0, 1, 1 - _SunSize, 0);
@@ -140,8 +146,8 @@ Shader "XinY/ProvedureSkybox"
                 half moonMask = smoothstep(1 - _MoonSize - moonContrast, 1 - _MoonSize, 1 - clamp(distance(moonPos, skyPara), 0, 1));
                 half4 MoonCol = moonMask * _MoonColor;
 
-                half4 PlanetColor=lerp(SunCol,MoonCol,NightMask);
-                half PlanetMask=lerp(sunMask,moonMask,NightMask);
+                half4 PlanetColor = lerp(SunCol, MoonCol, NightMask);
+                half PlanetMask = lerp(sunMask, moonMask, NightMask);
 
                 float2 distortUV = skyPara.xz / skyPara.y * _CloudDistort_ST.xy + _CloudDistort_ST.zw * _Time.y;
                 half distort = SAMPLE_TEXTURE2D(_CloudNoise, sampler_CloudNoise, distortUV);
@@ -149,25 +155,29 @@ Shader "XinY/ProvedureSkybox"
                 half cloudNoise = SAMPLE_TEXTURE2D(_CloudNoise, sampler_CloudNoise, cloudUV + distort * _DistortIntensity);
                 float2 detailUV = skyPara.xz / skyPara.y * _CloudDetail_ST.xy + _CloudDetail_ST.zw * _Time.y;
                 half cloudDetail = SAMPLE_TEXTURE2D(_CloudDetail, sampler_CloudDetail, detailUV);
-                half start=clamp(lerp(_CloudStart*1.5,_CloudStart,isDay),0,1);
-                half end=clamp(lerp(_CloudEnd*1.5,_CloudEnd,isDay),0,1);
+                half start = clamp(lerp(_CloudStart * 1.5, _CloudStart, isDay), 0, 1);
+                half end = clamp(lerp(_CloudEnd * 1.5, _CloudEnd, isDay), 0, 1);
                 cloudNoise = smoothstep(start, end, cloudNoise * cloudDetail);
                 half cloud = step(0.001, cloudNoise);
-                half4 cloud_day=lerp(_CloudColor_1_Day, _CloudColor_2_Day, cloudNoise);
-                half4 cloud_night=lerp(_CloudColor_1_Night, _CloudColor_2_Night, cloudNoise);
+                half4 cloud_day = lerp(_CloudColor_1_Day, _CloudColor_2_Day, cloudNoise);
+                half4 cloud_night = lerp(_CloudColor_1_Night, _CloudColor_2_Night, cloudNoise);
                 half4 CloudCol = lerp(0, lerp(cloud_night, cloud_day, isDay), cloud);
 
-                float2 flashUV=skyPara.xz / skyPara.y * _FlashMask_ST.xy + _FlashMask_ST.zw * _Time.y;
-                half flash=SAMPLE_TEXTURE2D(_FlashMask, sampler_FlashMask, flashUV+distort*_DistortIntensity*0.5);
-                flash=flash*abs(frac(_Time.y*0.5)-0.5)*2;
-                StarCol*=flash;
-                SkyCol=lerp(SkyCol+StarCol,SkyCol,isDay);
+                float2 flashUV = skyPara.xz / skyPara.y * _FlashMask_ST.xy + _FlashMask_ST.zw * _Time.y;
+                half flash = SAMPLE_TEXTURE2D(_FlashMask, sampler_FlashMask, flashUV + distort * _DistortIntensity * 0.5);
+                flash = flash * abs(frac(_Time.y * 0.5) - 0.5) * 2;
+                StarCol *= flash;
+                SkyCol = lerp(SkyCol + StarCol, SkyCol, isDay);
 
 
                 FinalCol = lerp(lerp(SkyCol, SkyCol + PlanetColor, PlanetMask), CloudCol, cloudNoise);
                 FinalCol = lerp(FinalCol, PlanetColor * CloudCol, cloudNoise * (PlanetMask));
                 half verticalMask = smoothstep(0, _HorizonRange, clamp(skyPara.y, 0, 1));
                 FinalCol = lerp(SkyCol, FinalCol, verticalMask);
+                #ifdef FOG_ON
+                    FinalCol.rgb = XinY_MixFog(FinalCol.rgb, i.positionWS);
+                #endif
+
                 return FinalCol;
             }
             ENDHLSL
