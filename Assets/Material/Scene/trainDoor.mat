@@ -100,6 +100,7 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FOG_ON: 1
+    - _GIIntensity: 0.206
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
