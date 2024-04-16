@@ -81,7 +81,7 @@ public class Zombie : Enemy
     protected override void StateChange()
     {
         base.StateChange();
-        if(enemyState==EnemyBaseState.Common||enemyState==EnemyBaseState.Move)
+        if(enemyState==EnemyBaseState.Move)
         {
             if (_state != ZombieState.Attack && _state != ZombieState.Fire &&
                 _state != ZombieState.Hit)
@@ -210,11 +210,42 @@ public class Zombie : Enemy
         base.TakeDamage(damage);
         _state= ZombieState.Hit;
         //其他效果
+        if (shield > 0)
+        {
+            
+        }
+    }
+
+    protected int Pop(float minDistance)
+    {
+        //屏幕震动
+        ScreenControl.Instance.CamShake(0.2f,10f,0.01f);
+        //按照其他敌人与自己的距离进行排序
+        enemyList.Sort((a, b) =>
+        {
+            if (Vector3.Distance(a.position, transform.position) < Vector3.Distance(b.position, transform.position))
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
+        });
+        //找到范围之内的敌人并给一个力
+        for (int i = 0; i < enemyList.Count; i++)
+        {
+            if (Vector3.Distance(transform.position, enemyList[i].position) > minDistance)
+            {
+                return i;
+            }
+        }
+
+        return enemyList.Count;
     }
     //碰撞和击飞
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("碰撞到了"+other.gameObject.name);
         //速度大于一定值才连续碰撞和伤害
         if (other.relativeVelocity.magnitude > hitMinSpeed)
         {
@@ -222,22 +253,45 @@ public class Zombie : Enemy
             if (other.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("撞到另一个敌人了");
-                IEnemyBeHit enemy = other.transform.Find("Body").GetComponent<IEnemyBeHit>();
-                if (enemy.CanBeHit() == false)
+                if (enemyState == EnemyBaseState.Unbalanced)
                 {
-                    return;
+                    //爆炸效果
+                    int pop =  Pop(popMinDistance);
+                    for (int i = 1; i < pop; i++)
+                    {
+                        enemyList[i].GetComponent<Enemy>().TakeDamage(popDamage);
+                        enemyList[i].GetComponent<Rigidbody>().AddForce((enemyList[i].position - transform.position+10*Vector3.up).normalized * popForce, ForceMode.Impulse);
+                    }
+                    //屏幕震动
+                    ScreenControl.Instance.CamShake(5f,50f,0.01f);
+                    
+                    TakeDamage(wallDamage);
+                    isStrikToFly = false;
                 }
-                //new一个hitinfo并衰减碰撞速度与伤害
-                HitInfo hitInfo = new HitInfo()
+                else if(enemyState == EnemyBaseState.Move)
                 {
-                    isHitFly = true,
-                    dir = other.transform.position - transform.position,
-                    speed = lastHitInfo.speed * collideDecayRate,
-                    time = lastHitInfo.time * collideDecayRate,
-                    rate = lastHitInfo.rate * collideDecayRate
-                };
-                enemy.HitEnemy(hitInfo);
-                isStrikToFly = false;
+                    IEnemyBeHit enemy = other.transform.Find("Body").GetComponent<IEnemyBeHit>();
+                    if (enemy.CanBeHit() == false)
+                    {
+                        return;
+                    }
+                    //new一个hitinfo并衰减碰撞速度与伤害
+                    HitInfo hitInfo = new HitInfo()
+                    {
+                        isHitFly = true,
+                        dir = other.transform.position - transform.position,
+                        speed = lastHitInfo.speed * collideDecayRate,
+                        time = lastHitInfo.time * collideDecayRate,
+                        rate = lastHitInfo.rate * collideDecayRate
+                    };
+                    if (FindNextEnemy(hitInfo.speed*hitInfo.time*10,findAngle,hitInfo.dir))
+                    {
+                        hitInfo.dir = nextEnemy.transform.position - transform.position;
+                    }
+                
+                    enemy.HitEnemy(hitInfo);
+                    isStrikToFly = false;
+                }
             }
             //撞到墙
             if (other.gameObject.CompareTag("Wall"))

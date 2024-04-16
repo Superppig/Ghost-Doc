@@ -22,6 +22,10 @@ public class MeleeHitBox : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             IEnemyBeHit enemy = other.GetComponent<IEnemyBeHit>();
+            if(enemy== null)
+            {
+                return;
+            }
             //判断敌人是否会被击中
             if (enemy.CanBeHit() == false)
             {

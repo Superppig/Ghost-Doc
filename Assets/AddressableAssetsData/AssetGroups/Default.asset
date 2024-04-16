@@ -25,6 +25,10 @@ MonoBehaviour:
     m_Address: TrackSegment
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ff191f9568e4631408b188a20313acec
+    m_Address: Assets/Prefab/SceneObject/track.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3e529fcc779eae248a67795ce43bf27b, type: 2}
   m_SchemaSet:

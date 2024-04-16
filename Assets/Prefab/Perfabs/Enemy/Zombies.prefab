@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be10307151e4f841af9f2ea597a43aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shield: 0
   health: 10
   damage: 2
   wallDamage: 1
@@ -217,9 +218,13 @@ MonoBehaviour:
   RecoverySpeed: 0.5
   canMove: 0
   rb: {fileID: 0}
-  hitMinSpeed: 5
-  collideDecayRate: 0.5
+  hitMinSpeed: 3
+  collideDecayRate: 1
   isStrikToFly: 0
+  findAngle: 30
+  nextEnemy: {fileID: 0}
+  popMinDistance: 4
+  popForce: 10
   attackRange: 2
   attackWaitTime: 0.5
   findRange: 15

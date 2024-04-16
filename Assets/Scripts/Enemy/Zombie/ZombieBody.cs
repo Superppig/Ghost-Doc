@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ZombieBody : MonoBehaviour,IEnemyBeHit
@@ -20,6 +21,10 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
 
     public void HitEnemy(HitInfo hitInfo)
     {
+        if (zombie.FindNextEnemy(hitInfo.speed*hitInfo.time*10,zombie.findAngle,hitInfo.dir))
+        {
+            hitInfo.dir = zombie.nextEnemy.transform.position - transform.position;
+        }
         lastHitInfo=hitInfo;
         zombie.TakeDamage(damage*hitInfo.rate);
         if (hitInfo.isHitFly)
