@@ -113,6 +113,7 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FOG_ON: 1
+    - _GIIntensity: 0.367
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -135,6 +136,6 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 89.45409, g: 89.45409, b: 89.45409, a: 1}
+    - _EmissionColor: {r: 18.379171, g: 18.379171, b: 18.379171, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

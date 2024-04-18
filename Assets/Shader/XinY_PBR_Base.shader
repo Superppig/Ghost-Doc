@@ -13,6 +13,7 @@ Shader "XinY/PBR_Base"
         _SpecIntensity ("SpecIntensity", float) = 1
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
+        _GIIntensity("GIIntensity",Range(0,1))=1
         [Toggle(FOG_ON)]_FOG_ON("Enable Fog",int)=0
     }
 
@@ -74,6 +75,7 @@ Shader "XinY/PBR_Base"
             half _NormalScale;
             half _FlowSpeed;
             half _SpecIntensity;
+            half _GIIntensity;
         CBUFFER_END
         TEXTURE2D(_BaseMap);
         SAMPLER(sampler_BaseMap);
@@ -190,8 +192,8 @@ Shader "XinY/PBR_Base"
                 // indirectSpecular *= half3(surfaceReduction * lerp(specular, grazingTerm, fresnelTerm));
 
                 //混入indirectAO
-                giColor = GetIndirectCol(indirectSpecular, indirectDiffuse, aoFactor.indirectAO);
-
+                giColor = GetIndirectCol(indirectSpecular, indirectDiffuse, aoFactor.indirectAO)*_GIIntensity;
+                //return giColor.xyzz;
                 // half lightAtten = light.distanceAttenuation * light.shadowAttenuation;
                 // half diffuseTerm = light.color * (lightAtten * NdotL);
                 // float d = NdotH * NdotH * roughness2MinusOne + 1.00001f;

@@ -213,6 +213,7 @@ Shader "XinY/HorizontalPlane"
                 #endif
                 
                 half3 indirectDiffuse = GET_INDIRECT_DIFF(light, i.staticLightmapUV, i.vertexSH, dataNeed.N, brdfData.diffuse);
+                return indirectDiffuse.xyzz*100;
                 //return indirectDiffuse.xyzz;
                 //间接高光的实现载体是反射探针
                 //这里没有支持反射探针混合和盒投影
