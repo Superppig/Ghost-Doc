@@ -146,9 +146,14 @@ public class DualWieldGun : Gun
             //判断击中物体
             if (hit.collider.CompareTag("Enemy"))
             {
+                if (hit.collider.GetComponent<IEnemyBeHit>() == null)
+                {
+                    return;
+                }
                 //相机振动
                 ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
+                
                 enemyBeHit.HitEnemy(new HitInfo(){rate = data.damageRate});
             }
             else

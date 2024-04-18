@@ -38,6 +38,7 @@ public class Melee : MonoBehaviour
     protected EStateType playerState;//玩家状态
     protected bool canSwitch;//是否可以切换武器
     protected bool hasBlockedAmin=false;//是否播放过格挡动画
+    protected bool hasRleaseBeforeMouse1Up;//右键松开前是否释放过攻击
     
     public float timer;
     public enum WeaponState
@@ -115,12 +116,19 @@ public class Melee : MonoBehaviour
                 state=WeaponState.Deffending;
             }
         }
-        else if (Input.GetMouseButtonUp(1) && state!=WeaponState.Attacking && state!=WeaponState.Comboing)
+        else if (Input.GetMouseButtonUp(1) )
         {
-            timer=0f;
-            Attack();
+            if (state != WeaponState.Attacking && state != WeaponState.Comboing && !hasRleaseBeforeMouse1Up)
+            {
+                timer=0f;
+                Attack();
+            }
+            else
+            {
+                hasRleaseBeforeMouse1Up = false;
+            }
         }
-    
+
     }
     protected virtual void StateCon()
     {
@@ -444,6 +452,7 @@ public class Melee : MonoBehaviour
     //结束近战并切换为枪械
     protected void RetrackMelee()
     {
+        hasRleaseBeforeMouse1Up= true;
         state= WeaponState.Retracking;
         timer = 0f;
     }
