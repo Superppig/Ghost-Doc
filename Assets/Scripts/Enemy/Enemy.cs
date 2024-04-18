@@ -253,7 +253,7 @@ public class Enemy : MonoBehaviour
         //删去enemylist中的对应敌人
         enemyList.Remove(transform);
         
-        seeker.pathCallback -= OnPathComplete;
+        //seeker.pathCallback -= OnPathComplete;
     }
     
     

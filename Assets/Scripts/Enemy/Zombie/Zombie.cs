@@ -218,8 +218,6 @@ public class Zombie : Enemy
 
     protected int Pop(float minDistance)
     {
-        //屏幕震动
-        ScreenControl.Instance.CamShake(0.2f,10f,0.01f);
         //按照其他敌人与自己的距离进行排序
         enemyList.Sort((a, b) =>
         {
@@ -260,10 +258,10 @@ public class Zombie : Enemy
                     for (int i = 1; i < pop; i++)
                     {
                         enemyList[i].GetComponent<Enemy>().TakeDamage(popDamage);
-                        enemyList[i].GetComponent<Rigidbody>().AddForce((enemyList[i].position - transform.position+10*Vector3.up).normalized * popForce, ForceMode.Impulse);
+                        enemyList[i].GetComponent<Rigidbody>().AddForce((enemyList[i].position - transform.position+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
                     }
                     //屏幕震动
-                    ScreenControl.Instance.CamShake(5f,50f,0.01f);
+                    ScreenControl.Instance.CamShake(0.2f,50f);
                     
                     TakeDamage(wallDamage);
                     isStrikToFly = false;
