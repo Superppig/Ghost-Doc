@@ -1,5 +1,5 @@
 ﻿/*
-* Copyright (c) <2018> Side Effects Software Inc.
+* Copyright (c) <2020> Side Effects Software Inc.
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -24,9 +24,14 @@
 * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#if (UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_STANDALONE_LINUX)
+#define HOUDINIENGINEUNITY_ENABLED
+#endif
+
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using HoudiniEngineUnity;
 
@@ -35,43 +40,69 @@ using HoudiniEngineUnity;
 /// </summary>
 public class HEU_ScriptParameterExample : MonoBehaviour
 {
-	// Instance the Evergreen HDA in the scene, and set its gameobject to here
-	public GameObject _evergreenGameObject;
+    // Instance the Evergreen HDA in the scene, and set its gameobject to here
+    public GameObject _evergreenGameObject;
 
-	// Reference to the actual HEU_HoduiniAsset
-	private HEU_HoudiniAsset _evergreenAsset;
+    // Reference to the actual HEU_HoduiniAsset
+    private HEU_HoudiniAsset _evergreenAsset;
 
-	public float _updateRate = 0.1f;
+    public float _updateRate = 0.1f;
 
-	public float _scale = 20f;
+    public float _scale = 20f;
 
 
+#if HOUDINIENGINEUNITY_ENABLED
+    public void Start()
+    {
+	// Grab the HEU_HoduiniAsset
+	_evergreenAsset = _evergreenGameObject.GetComponent<HEU_HoudiniAssetRoot>() != null ? _evergreenGameObject.GetComponent<HEU_HoudiniAssetRoot>().HoudiniAsset : null;
 
-	public void Start()
+	// Always get the latest parms after each cook
+	List<HEU_ParameterData> parms = _evergreenAsset.Parameters.GetParameters();
+
+	foreach (HEU_ParameterData parmData in parms)
 	{
-		// Grab the HEU_HoduiniAsset
-		_evergreenAsset = _evergreenGameObject.GetComponent<HEU_HoudiniAssetRoot>() != null ? _evergreenGameObject.GetComponent<HEU_HoudiniAssetRoot>()._houdiniAsset : null;
+	    HEU_Logger.Log(parmData._labelName);
 
-		// Start a repeating updater
-		InvokeRepeating("UpdateGravity", _updateRate, _updateRate);
+	    if (parmData._parmInfo.type == HAPI_ParmType.HAPI_PARMTYPE_BUTTON)
+	    {
+		// Display a button: parmData._intValues[0];
+
+	    }
+	    else if (parmData._parmInfo.type == HAPI_ParmType.HAPI_PARMTYPE_FLOAT)
+	    {
+		// Display a float: parmData._floatValues[0];
+
+		// You can set a float this way
+		HEU_ParameterUtility.SetFloat(_evergreenAsset, parmData._name, 1f);
+
+		// Or this way (the index is 0, unless its for array of floats)
+		parmData._floatValues[0] = 1;
+	    }
 	}
+	// Make sure to cook after changing
+	_evergreenAsset.RequestCook(true, false, true, true);
+
+	// Start a repeating updater
+	InvokeRepeating("UpdateGravity", _updateRate, _updateRate);
+    }
 
 
-	private void UpdateGravity()
+    private void UpdateGravity()
+    {
+	if (_evergreenAsset != null)
 	{
-		if (_evergreenAsset != null)
-		{
-			float g = (1.0f + Mathf.Sin(Time.realtimeSinceStartup)) * _scale;
+	    float g = (1.0f + Mathf.Sin(Time.realtimeSinceStartup)) * _scale;
 
-			// Use helper to set float parameter with name
-			HEU_ParameterUtility.SetFloat(_evergreenAsset, "gravity", g);
+	    // Use helper to set float parameter with name
+	    HEU_ParameterUtility.SetFloat(_evergreenAsset, "gravity", g);
 
-			// Use helper to set random color
-			HEU_ParameterUtility.SetColor(_evergreenAsset, "branch_vtx_color_color", Random.ColorHSV());
+	    // Use helper to set random color
+	    HEU_ParameterUtility.SetColor(_evergreenAsset, "branch_vtx_color_color", Random.ColorHSV());
 
-			// Cook synchronously to guarantee geometry generated in this update.
-			_evergreenAsset.RequestCook(true, false, true, true);
-		}
+	    // Cook synchronously to guarantee geometry generated in this update.
+	    _evergreenAsset.RequestCook(true, false, true, true);
 	}
-	
+    }
+#endif
 }

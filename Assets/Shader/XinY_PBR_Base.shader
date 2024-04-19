@@ -13,8 +13,8 @@ Shader "XinY/PBR_Base"
         _SpecIntensity ("SpecIntensity", float) = 1
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
-        _GIIntensity("GIIntensity",Range(0,1))=1
-        [Toggle(FOG_ON)]_FOG_ON("Enable Fog",int)=0
+        _GIIntensity ("GIIntensity", Range(0, 1)) = 1
+        [Toggle(FOG_ON)]_FOG_ON ("Enable Fog", int) = 0
     }
 
     SubShader
@@ -26,7 +26,7 @@ Shader "XinY/PBR_Base"
         #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
         #pragma multi_compile _ LIGHTMAP_ON
         //聚光灯阴影
-        #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS  
+        #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
         //先别用实时GI
         //#pragma multi_compile _ DYNAMICLIGHTMAP_ON
 
@@ -167,8 +167,8 @@ Shader "XinY/PBR_Base"
                 half4 shadowMask = unity_ProbesOcclusion;
                 
                 //ShadowMask烘焙模式或者烘焙阴影会用到shadowMask，联级阴影会用到posWS,开启联级阴影一定到在frag中计算shadowcoord
-                float4 shadowCoord=XinY_GetShadowCoord(i.positionCS, i.positionWS);
-                Light light = GetMainLight(shadowCoord,i.positionWS,shadowMask,aoFactor.directAO);
+                float4 shadowCoord = XinY_GetShadowCoord(i.positionCS, i.positionWS);
+                Light light = GetMainLight(shadowCoord, i.positionWS, shadowMask, aoFactor.directAO);
                 //return light.shadowAttenuation;
                 Direct_Dot_Data dataNeed;
                 GetDirDotData(dataNeed, i.tangentWS, i.binormalWS, i.normalWS, i.positionWS, normalTS, light.direction);
@@ -192,7 +192,7 @@ Shader "XinY/PBR_Base"
                 // indirectSpecular *= half3(surfaceReduction * lerp(specular, grazingTerm, fresnelTerm));
 
                 //混入indirectAO
-                giColor = GetIndirectCol(indirectSpecular, indirectDiffuse, aoFactor.indirectAO)*_GIIntensity;
+                giColor = GetIndirectCol(indirectSpecular, indirectDiffuse, aoFactor.indirectAO) * _GIIntensity;
                 //return giColor.xyzz;
                 // half lightAtten = light.distanceAttenuation * light.shadowAttenuation;
                 // half diffuseTerm = light.color * (lightAtten * NdotL);
@@ -209,7 +209,7 @@ Shader "XinY/PBR_Base"
                 uint pixelLightCount = GetAdditionalLightsCount();
                 LIGHT_LOOP_BEGIN(pixelLightCount)
                 Light addLight = GetAdditionalLight(lightIndex, i.positionWS, shadowMask);
-                GetAddDirDotData(dataNeed,addLight.direction);
+                GetAddDirDotData(dataNeed, addLight.direction);
                 additionLightColor += GetOneLightPBRCol(addLight, dataNeed, brdfData, _SpecIntensity);
                 LIGHT_LOOP_END
 
@@ -217,10 +217,10 @@ Shader "XinY/PBR_Base"
                 finalColor.a = alpha;
                 finalColor.rgb = giColor + mainLightColor + additionLightColor + emissionColor;
                 #ifdef FOG_ON
-                finalColor.rgb=XinY_MixFog(finalColor.rgb,i.positionWS);
+                    finalColor.rgb = XinY_MixFog(finalColor.rgb, i.positionWS);
                 #endif
                 #ifdef _CASTING_PUNCTUAL_LIGHT_SHADOW
-                //return 1;
+                    //return 1;
                 #endif
                 return finalColor;
             }
