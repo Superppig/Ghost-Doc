@@ -16,7 +16,7 @@ public class Enviroment : MonoBehaviour
     public Color ButtomFogColor;
     [Range(0.01f, 5.0f)] public float DistanceFogDensity;
     public Color FarFogColor;
-    [Range(0.01f,20.0f)]public float FogContrast;
+    [Range(0.01f, 20.0f)] public float FogContrast = 1.0f;
     [Range(0,1)]public float InscatterIntensity;
     void Start()
     {

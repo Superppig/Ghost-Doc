@@ -24,38 +24,32 @@
 * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using System;
-
 
 namespace HoudiniEngineUnity
 {
-	/// <summary>
-	/// Houdini Engine base error class.
-	/// </summary>
-	public class HEU_HoudiniEngineError : System.Exception
+    /// <summary>
+    /// Houdini Engine base error class.
+    /// </summary>
+    public class HEU_HoudiniEngineError : System.Exception
+    {
+	protected string _errorMsg = "Unknown Error";
+
+
+	public HEU_HoudiniEngineError()
 	{
-		protected string _errorMsg = "Unknown Error";
 
-
-		public HEU_HoudiniEngineError()
-		{
-			
-		}
-
-		public HEU_HoudiniEngineError(string errorMsg)
-		{
-			_errorMsg = errorMsg;
-		}
-
-		public override string ToString()
-		{
-			return _errorMsg;
-		}
 	}
+
+	internal HEU_HoudiniEngineError(string errorMsg)
+	{
+	    _errorMsg = errorMsg;
+	}
+
+	public override string ToString()
+	{
+	    return _errorMsg;
+	}
+    }
 
 
 }   // HoudiniEngineUnity

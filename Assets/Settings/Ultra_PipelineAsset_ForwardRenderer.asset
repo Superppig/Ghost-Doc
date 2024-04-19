@@ -126,7 +126,7 @@ MonoBehaviour:
     PassEvent: 300
     shader: {fileID: 7200000, guid: 5e7704c3411ffd446b7ad5e0bab1f5aa, type: 3}
     RTSize: 512
-    ReflectHeight: 0.38
+    ReflectHeight: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 7991
+    m_Bits: 2147483647
   m_TransparentLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
