@@ -113,10 +113,8 @@ public class ScreenControl : MonoBehaviour
             case ParticleType.Once:
                 Destroy(particleInstance.gameObject, particleInstance.main.duration);
                 return null;
-            break;
             case ParticleType.Loop:
                 return particleInstance;
-            break;
             default:
                 return null;
         }

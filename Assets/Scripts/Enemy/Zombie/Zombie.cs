@@ -1,8 +1,6 @@
 using System.Collections;
-using DG.Tweening;
 using UnityEngine;
-using Pathfinding;
-using UnityEngine.UI;
+using Services;
 
 public class Zombie : Enemy
 {
@@ -34,7 +32,11 @@ public class Zombie : Enemy
     }
     //攻击相关
     public HitInfo lastHitInfo;
-
+    [Header("Debug")]
+    public MeshRenderer meshRenderer;
+    public Material Material0;
+    public Material Material1;
+    
     protected override void Start()
     {
         base.Start();
@@ -205,9 +207,9 @@ public class Zombie : Enemy
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage,bool isBomb = false)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage,isBomb);
         _state= ZombieState.Hit;
         //其他效果
         if (shield > 0)
@@ -241,6 +243,53 @@ public class Zombie : Enemy
 
         return enemyList.Count;
     }
+    
+    //重写爆炸状态
+    protected override void BombState(float time)
+    {
+        StartCoroutine(StartBomb(popWaitTime));
+    }
+    
+    IEnumerator StartBomb(float time)
+    {
+        float timer = 0;
+        float shineTime = 0.2f;
+        bool isBomb = true;
+        int cot = 0;
+
+        while (timer < time||enemyState==EnemyBaseState.Dead)
+        {
+            timer += Time.deltaTime;
+            if (timer > shineTime * cot)
+            {
+                isBomb = !isBomb;
+                cot++;
+            }
+            if(isBomb)
+                meshRenderer.material = Material1;
+            else
+                meshRenderer.material = Material0;
+            yield return null;
+        }
+        
+        meshRenderer.material = Material0;
+        if(enemyState==EnemyBaseState.Bomb)
+        {
+            Debug.Log("产生爆炸");
+            //爆炸效果
+            int pop =  Pop(popMinDistance);
+            for (int i = 1; i < pop; i++)
+            {
+                enemyList[i].GetComponent<Enemy>().TakeDamage(popDamage);
+                enemyList[i].GetComponent<Rigidbody>().AddForce((enemyList[i].position - transform.position+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
+            }
+            //屏幕震动
+            ScreenControl.Instance.CamShake(0.2f,50f);
+            isStrikToFly = false;
+        }
+        enemyState = EnemyBaseState.Dead;
+    }
+
     //碰撞和击飞
     void OnCollisionEnter(Collision other)
     {
@@ -251,8 +300,9 @@ public class Zombie : Enemy
             if (other.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("撞到另一个敌人了");
-                if (enemyState == EnemyBaseState.Unbalanced)
+                if (enemyState == EnemyBaseState.Bomb)
                 {
+                    Debug.Log("产生爆炸");
                     //爆炸效果
                     int pop =  Pop(popMinDistance);
                     for (int i = 1; i < pop; i++)
@@ -262,11 +312,10 @@ public class Zombie : Enemy
                     }
                     //屏幕震动
                     ScreenControl.Instance.CamShake(0.2f,50f);
-                    
-                    TakeDamage(wallDamage);
                     isStrikToFly = false;
+                    enemyState = EnemyBaseState.Dead;
                 }
-                else if(enemyState == EnemyBaseState.Move)
+                else if(enemyState == EnemyBaseState.Move||enemyState == EnemyBaseState.Unbalanced)
                 {
                     IEnemyBeHit enemy = other.transform.Find("Body").GetComponent<IEnemyBeHit>();
                     if (enemy.CanBeHit() == false)
@@ -280,13 +329,13 @@ public class Zombie : Enemy
                         dir = other.transform.position - transform.position,
                         speed = lastHitInfo.speed * collideDecayRate,
                         time = lastHitInfo.time * collideDecayRate,
-                        rate = lastHitInfo.rate * collideDecayRate
+                        rate = lastHitInfo.rate * collideDecayRate,
+                        isBomb = false
                     };
                     if (FindNextEnemy(hitInfo.speed*hitInfo.time*10,findAngle,hitInfo.dir))
                     {
                         hitInfo.dir = nextEnemy.transform.position - transform.position;
                     }
-                
                     enemy.HitEnemy(hitInfo);
                     isStrikToFly = false;
                 }
