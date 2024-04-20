@@ -225,6 +225,8 @@ MonoBehaviour:
   nextEnemy: {fileID: 0}
   popMinDistance: 4
   popForce: 10
+  popDamage: 0
+  popWaitTime: 5
   attackRange: 2
   attackWaitTime: 0.5
   findRange: 15
@@ -238,6 +240,9 @@ MonoBehaviour:
     speed: 0
     time: 0
     rate: 0
+  meshRenderer: {fileID: 5016867400159237830}
+  Material0: {fileID: 2100000, guid: 8df3c4590fcc60e499124a42274a0223, type: 2}
+  Material1: {fileID: 2100000, guid: 39f50cbb06625e747b52e6ef54805ac5, type: 2}
 --- !u!136 &850204913851658132
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using DG.Tweening;
 using Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
         Common,
         Move,
         Unbalanced,
+        Bomb,
         Dead
     }
     public float UnbalancedTime;
@@ -57,10 +59,12 @@ public class Enemy : MonoBehaviour
     public float collideDecayRate;//碰撞衰减率
     public bool isStrikToFly;
     public float findAngle;
-    [HideInInspector]public Transform nextEnemy;
+    [HideInInspector]
+    public Transform nextEnemy;
     public float popMinDistance;//爆炸距离
     public float popForce;//爆炸力
     public float popDamage;//爆炸伤害   
+    public float popWaitTime;//爆炸等待时间
 
     protected static List<Transform> enemyList=new List<Transform>();
 
@@ -106,17 +110,17 @@ public class Enemy : MonoBehaviour
 
     protected virtual void StateChange()
     {
-        if(health<=0&& enemyState!=EnemyBaseState.Dead)
+        if(health<=0&& enemyState!=EnemyBaseState.Dead&&enemyState!=EnemyBaseState.Bomb)
         {
             enemyState = EnemyBaseState.Unbalanced;
         }
-        
     }
 
 
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage,bool isBomb = false)
     {
+        Debug.Log(isBomb);
         if (enemyState == EnemyBaseState.Common)
         {
             shield -= damage;
@@ -131,8 +135,24 @@ public class Enemy : MonoBehaviour
             health -= damage;
         }
         else if (enemyState == EnemyBaseState.Unbalanced)
-            enemyState = EnemyBaseState.Dead;
+        {
+            if (isBomb)
+            {
+                enemyState = EnemyBaseState.Bomb;
+                BombState(popWaitTime);
+            }
+            else
+            {
+                enemyState = EnemyBaseState.Dead;
+            }
+        }
     }
+    //爆炸状态,用于爆炸敌人
+    protected virtual void BombState(float time)
+    {
+        
+    }
+    
     protected virtual void Unbalanced()
     {
         if (!isUnbalanced)
@@ -189,8 +209,6 @@ public class Enemy : MonoBehaviour
         return false;
     }
     
-
-
     //寻路
     protected void Find()
     {
