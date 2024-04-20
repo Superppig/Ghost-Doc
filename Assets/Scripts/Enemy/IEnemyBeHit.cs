@@ -9,6 +9,8 @@ public struct HitInfo
     [HideInInspector]public Vector3 dir;
     public float speed;
     public float time;
+    //爆炸
+    public bool isBomb;
     //基本信息
     public float rate;
 }

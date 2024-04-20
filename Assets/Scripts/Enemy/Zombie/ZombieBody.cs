@@ -26,7 +26,8 @@ public class ZombieBody : MonoBehaviour,IEnemyBeHit
             hitInfo.dir = zombie.nextEnemy.transform.position - transform.position;
         }
         lastHitInfo=hitInfo;
-        zombie.TakeDamage(damage*hitInfo.rate);
+        zombie.TakeDamage(damage*hitInfo.rate,hitInfo.isBomb);
+        Debug.Log("hitinfo"+hitInfo.isHitFly);
         if (hitInfo.isHitFly)
         {
             zombie.BeStrickToFly(hitInfo.dir,hitInfo.speed,hitInfo.time);

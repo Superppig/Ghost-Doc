@@ -19,7 +19,7 @@ public class ZombieHead : MonoBehaviour,IEnemyBeHit
 
     public void HitEnemy(HitInfo hitInfo)
     {
-        zombie.TakeDamage(damage*hitInfo.rate);
+        zombie.TakeDamage(damage * hitInfo.rate, hitInfo.isBomb);
         Debug.Log("头部被击中");
     }
 }
