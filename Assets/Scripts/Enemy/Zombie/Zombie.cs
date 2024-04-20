@@ -186,7 +186,6 @@ public class Zombie : Enemy
             rb.velocity = dir.normalized * speed;
             yield return null;
         }
-        yield return new WaitForSeconds(time);
         isStrikToFly = false;
     }
 
@@ -281,11 +280,11 @@ public class Zombie : Enemy
             for (int i = 1; i < pop; i++)
             {
                 enemyList[i].GetComponent<Enemy>().TakeDamage(popDamage);
-                enemyList[i].GetComponent<Rigidbody>().AddForce((enemyList[i].position - transform.position+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
+                enemyList[i].GetComponent<Rigidbody>().AddForce(((enemyList[i].position - transform.position)*20+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
             }
             //屏幕震动
             ScreenControl.Instance.CamShake(0.2f,50f);
-            isStrikToFly = false;
+            isStrikToFly = true;
         }
         enemyState = EnemyBaseState.Dead;
     }
@@ -308,11 +307,12 @@ public class Zombie : Enemy
                     for (int i = 1; i < pop; i++)
                     {
                         enemyList[i].GetComponent<Enemy>().TakeDamage(popDamage);
-                        enemyList[i].GetComponent<Rigidbody>().AddForce((enemyList[i].position - transform.position+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
+                        enemyList[i].GetComponent<Rigidbody>().AddForce(((enemyList[i].position - transform.position)*20+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
                     }
                     //屏幕震动
                     ScreenControl.Instance.CamShake(0.2f,50f);
-                    isStrikToFly = false;
+                    isStrikToFly = true;
+                    rb.velocity=Vector3.zero;
                     enemyState = EnemyBaseState.Dead;
                 }
                 else if(enemyState == EnemyBaseState.Move||enemyState == EnemyBaseState.Unbalanced)
@@ -337,7 +337,8 @@ public class Zombie : Enemy
                         hitInfo.dir = nextEnemy.transform.position - transform.position;
                     }
                     enemy.HitEnemy(hitInfo);
-                    isStrikToFly = false;
+                    isStrikToFly = true;
+                    rb.velocity=Vector3.zero;
                 }
             }
             //撞到墙
@@ -345,7 +346,7 @@ public class Zombie : Enemy
             {
                 Debug.Log("撞到墙了");
                 TakeDamage(wallDamage);
-                isStrikToFly = false;
+                isStrikToFly = true;
             }
         }
     }
