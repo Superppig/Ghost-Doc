@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
     public float popDamage;//爆炸伤害   
     public float popWaitTime;//爆炸等待时间
 
-    protected static List<Transform> enemyList=new List<Transform>();
+    protected static List<Transform> enemyList = new List<Transform>();
 
 
     protected void Awake()
