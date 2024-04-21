@@ -348,4 +348,5 @@ Shader "XinY/Scene_Standard"
             ENDHLSL
         }
     }
+    CustomEditor "TestShaderGUI"
 }
