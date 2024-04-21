@@ -357,5 +357,7 @@ Shader "XinY/PBR_Base"
             ENDHLSL
         }
     }
+    CustomEditor "TestShaderGUI"
+
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

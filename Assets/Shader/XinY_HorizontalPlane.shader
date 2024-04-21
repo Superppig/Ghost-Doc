@@ -391,5 +391,7 @@ Shader "XinY/HorizontalPlane"
             ENDHLSL
         }
     }
+    CustomEditor "TestShaderGUI"
+
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }
