@@ -5,7 +5,6 @@ using DG.Tweening;
 using Cinemachine;
 using Unity.VisualScripting;
 
-
 public class ScreenControl : MonoBehaviour
 {
     private static ScreenControl instance;
@@ -133,5 +132,11 @@ public class ScreenControl : MonoBehaviour
         yield return new WaitForSeconds(time);
         camTrans.DOLocalRotate(Vector3.zero, time);
         player.blackboard.canCamChange = true;
+    }
+    
+    //音效播放
+    public void PlaySound(AudioClip clip,Vector3 position)
+    {
+        AudioSource.PlayClipAtPoint(clip, position);
     }
 }
