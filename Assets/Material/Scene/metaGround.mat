@@ -131,7 +131,7 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReflectDistort: 0.019
+    - _ReflectDistort: 0.006
     - _ReflectIntensity: 1
     - _RoughnessAd: 1
     - _Smoothness: 0.5
