@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ProvedureSkybox_StartMenu
+  m_Name: ProvedureSkybox_Fog
   m_Shader: {fileID: 4800000, guid: a0b4663c6e6502e48a4016a8a6530abc, type: 3}
   m_ValidKeywords:
   - FOG_ON

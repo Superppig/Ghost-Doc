@@ -1,6 +1,28 @@
 #ifndef XinY_INCLUDE_URP
 #define XinY_INCLUDE_URP
+#define XINY_PI 3.1415926
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+float Divide(float a, float b)
+{
+    float buttom = abs(b) < 0.001 ? 0.001 : b;
+    return a / buttom;
+}
+float2 Divide(float2 a, float2 b)
+{
+    float2 buttom = abs(b) < 0.001 ? float2(0.001, 0.001) : b;
+    return a / buttom;
+}
+float3 Divide(float3 a, float3 b)
+{
+    float3 buttom = abs(b) < 0.001 ? float3(0.001, 0.001, 0.001) : b;
+    return a / buttom;
+}
+float4 Divide(float4 a, float4 b)
+{
+    float4 buttom = abs(b) < 0.001 ? float4(0.001, 0.001, 0.001, 0.001) : b;
+    return a / buttom;
+}
 
 inline float3 GetWorldViewDir(float3 posWS)
 {
@@ -461,8 +483,9 @@ float2 RotateUV(float2 uv, float degree)
     return float2(uv.x * cos(degree) - uv.y * sin(degree), uv.x * sin(degree) + uv.y * cos(degree));
 }
 
-float Rec_SDF(float2 pos,float2 halfWidthAndHeight){
-    float2 q = abs(pos)-halfWidthAndHeight;
+float Rec_SDF(float2 pos, float2 halfWidthAndHeight)
+{
+    float2 q = abs(pos) - halfWidthAndHeight;
     return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);
 }
 
