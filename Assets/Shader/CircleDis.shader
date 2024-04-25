@@ -22,8 +22,8 @@ Shader "XinY/Par/CircleDis"
         struct appdata
         {
             float4 posOS : POSITION;
-            float4 uv0 : TEXCOORD0;
-            float2 uv1 : TEXCOORD1;
+            float4 uv0 : TEXCOORD0;//xy:uv zw:custom
+            float2 uv1 : TEXCOORD1;//uv
             float4 color : COLOR;
         };
 

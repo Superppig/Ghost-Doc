@@ -29,8 +29,8 @@ Shader "XinY/Par/AlphaBlendUVMove"
         struct appdata
         {
             half4 posOS : POSITION;
-            float4 uv0 : TEXCOORD0;
-            float2 uv1 : TEXCOORD1;
+            float4 uv0 : TEXCOORD0;//xy:uv  zw:custom
+            float2 uv1 : TEXCOORD1;//custom
             half4 color : COLOR;
         };
 
