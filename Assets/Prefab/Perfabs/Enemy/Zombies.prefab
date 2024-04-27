@@ -239,10 +239,12 @@ MonoBehaviour:
     dir: {x: 0, y: 0, z: 0}
     speed: 0
     time: 0
+    isBomb: 0
     rate: 0
   meshRenderer: {fileID: 5016867400159237830}
   Material0: {fileID: 2100000, guid: 8df3c4590fcc60e499124a42274a0223, type: 2}
   Material1: {fileID: 2100000, guid: 39f50cbb06625e747b52e6ef54805ac5, type: 2}
+  BombParticle: {fileID: 8445824011612109456, guid: efb2d4efb73f3a04a82ca6f477cde873, type: 3}
 --- !u!136 &850204913851658132
 CapsuleCollider:
   m_ObjectHideFlags: 0

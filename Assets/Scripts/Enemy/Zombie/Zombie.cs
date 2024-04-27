@@ -37,6 +37,9 @@ public class Zombie : Enemy
     public Material Material0;
     public Material Material1;
     
+    [Header("特效")]
+    public ParticleSystem BombParticle;
+    
     protected override void Start()
     {
         base.Start();
@@ -283,10 +286,16 @@ public class Zombie : Enemy
                 enemyList[i].GetComponent<Rigidbody>().AddForce(((enemyList[i].position - transform.position)*20+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
             }
             //屏幕震动
-            ScreenControl.Instance.CamShake(0.2f,50f);
+            ScreenControl.Instance.CamShake(0.2f,50f);//振幅待修改
+            //特效
+            ScreenControl.Instance.ParticleRelease(BombParticle,transform.position,Vector3.zero);
+            
             isStrikToFly = true;
         }
         enemyState = EnemyBaseState.Dead;
+        
+        //爆炸直接结束
+        Destroy(gameObject);
     }
 
     //碰撞和击飞
@@ -310,10 +319,15 @@ public class Zombie : Enemy
                         enemyList[i].GetComponent<Rigidbody>().AddForce(((enemyList[i].position - transform.position)*20+30*Vector3.up).normalized * popForce, ForceMode.Impulse);
                     }
                     //屏幕震动
-                    ScreenControl.Instance.CamShake(0.2f,50f);
+                    ScreenControl.Instance.CamShake(0.2f,50f);//振幅待修改
+                    //特效
+                    ScreenControl.Instance.ParticleRelease(BombParticle,transform.position,Vector3.zero);
+                    
                     isStrikToFly = true;
                     rb.velocity=Vector3.zero;
                     enemyState = EnemyBaseState.Dead;
+                    //爆炸直接结束
+                    Destroy(gameObject);
                 }
                 else if(enemyState == EnemyBaseState.Move||enemyState == EnemyBaseState.Unbalanced)
                 {
