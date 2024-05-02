@@ -9,7 +9,8 @@ public class AirBlower : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<BlowableObject>(out var obj))
+        BlowableObject obj  = other.GetComponentInParent<BlowableObject>();
+        if (obj != null)
         {
             obj.Blow(impulse * Orientation);
         }
