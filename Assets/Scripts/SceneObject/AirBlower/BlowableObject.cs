@@ -13,6 +13,8 @@ public class BlowableObject : MonoBehaviour
     public virtual void Blow(Vector3 impulse)
     {
         _rigidbody.velocity = Vector3.zero;
-        _rigidbody.AddForce(impulse, ForceMode.Impulse);
+        //_rigidbody.AddForce(impulse, ForceMode.Impulse);
+        _rigidbody.velocity = impulse / _rigidbody.mass;
+        Debug.Log(_rigidbody.velocity);
     }
 }
