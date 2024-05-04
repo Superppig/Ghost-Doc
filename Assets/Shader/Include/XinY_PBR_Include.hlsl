@@ -415,7 +415,7 @@ half3 GetOneLightPBRColor(half3 baseColor, float2 staticuv, half3 N, half NdotV,
     half3 direct = GetDirectLightPBRColor(NdotH, roughness2, NdotL, NdotV, roughness, LdotH, baseColor, metallic, lightColor, F0);
     half3 indirect = GetIndirectLightPBRColor(baseColor, staticuv, N, NdotV, F0, roughness, R, metallic);
     half3 output = direct*directAO + indirect*indirectAO;
-    return output;
+    return direct;
 }
 
 half3 GetOneLightPBRColor(DataNeeded data, SurfaceAttrib attrib,AOPara ao)
