@@ -128,7 +128,7 @@ Shader "XinY/PBR_Base"
                 SurfaceAttrib attrib;
                 attrib.baseColor = baseMap;
                 attrib.metallic = lerp(0, MRA.x, _MetallicAd);
-                attrib.roughness = lerp(1, MRA.y, _RoughnessAd);
+                attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd),2);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
 
@@ -158,7 +158,7 @@ Shader "XinY/PBR_Base"
                 LIGHT_LOOP_BEGIN(pixelLightCount)
                 Light addLight = GetAdditionalLight(lightIndex, i.positionWS, shadowMask);
                 SetAddLightData(data, addLight, i.positionWS);
-                additionLightColor += GetOneLightPBRColor(data, attrib, aoFactor);
+                additionLightColor += GetDirectLightPBRColor(data, attrib, aoFactor);
                 LIGHT_LOOP_END
 
                 half4 finalColor = 0;
