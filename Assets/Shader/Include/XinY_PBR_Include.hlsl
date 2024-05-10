@@ -397,11 +397,6 @@ half3 GetDirectLightPBRColor(half NdotH, half roughness2, half NdotL, half NdotV
     half3 output = NdotL * lightColor * (diffuse + spec);
     return output;
 }
-half3 GetDirectLightPBRColor(DataNeeded data, SurfaceAttrib attrib, AOPara ao)
-{
-    half3 F0 = GetF0(attrib.baseColor, attrib.metallic);
-    return GetDirectLightPBRColor(data.NdotH, data.roughness2, data.NdotL, data.NdotV, attrib.roughness, data.LdotH, attrib.baseColor, attrib.metallic, data.lightColor, F0);
-}
 
 //间接光部分
 half3 GetIndirectLightPBRColor(half3 baseColor, float2 staticuv, half3 N, half NdotV, half3 F0, half3 roughness, half3 R, half metallic)
@@ -414,18 +409,18 @@ half3 GetIndirectLightPBRColor(half3 baseColor, float2 staticuv, half3 N, half N
     return output;
 }
 
-half3 GetOneLightPBRColor(half3 baseColor, float2 staticuv, half3 N, half NdotV, half3 roughness, half3 R, half metallic, half NdotH, half roughness2, half NdotL, half LdotH, half3 lightColor, half directAO, half indirectAO)
+half3 GetOneLightPBRColor(half3 baseColor, float2 staticuv, half3 N, half NdotV, half3 roughness, half3 R, half metallic, half NdotH, half roughness2, half NdotL, half LdotH, half3 lightColor,half directAO,half indirectAO)
 {
     half3 F0 = GetF0(baseColor, metallic);
     half3 direct = GetDirectLightPBRColor(NdotH, roughness2, NdotL, NdotV, roughness, LdotH, baseColor, metallic, lightColor, F0);
     half3 indirect = GetIndirectLightPBRColor(baseColor, staticuv, N, NdotV, F0, roughness, R, metallic);
-    half3 output = direct * directAO + indirect * indirectAO;
-    return output;
+    half3 output = direct*directAO + indirect*indirectAO;
+    return direct;
 }
 
-half3 GetOneLightPBRColor(DataNeeded data, SurfaceAttrib attrib, AOPara ao)
+half3 GetOneLightPBRColor(DataNeeded data, SurfaceAttrib attrib,AOPara ao)
 {
-    return GetOneLightPBRColor(attrib.baseColor, data.staticuv, data.N, data.NdotV, attrib.roughness, data.R, attrib.metallic, data.NdotH, data.roughness2, data.NdotL, data.LdotH, data.lightColor, ao.directAO, ao.indirectAO);
+    return GetOneLightPBRColor(attrib.baseColor, data.staticuv, data.N, data.NdotV, attrib.roughness, data.R, attrib.metallic, data.NdotH, data.roughness2, data.NdotL, data.LdotH, data.lightColor,ao.directAO,ao.indirectAO);
 }
 
 #endif
