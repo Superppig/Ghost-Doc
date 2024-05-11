@@ -21,16 +21,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LEB_green
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ValidKeywords:
+  m_Shader: {fileID: 4800000, guid: b1f23d8566176f8468acdcf728e15b2c, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _EMISSION
-  m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -104,6 +103,8 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FlowCycleNum: 1
+    - _FlowSpeed: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -123,5 +124,7 @@ Material:
     - _BaseColor: {r: 0.6627451, g: 1, b: 0.8620996, a: 1}
     - _Color: {r: 0.6627451, g: 1, b: 0.8620996, a: 1}
     - _EmissionColor: {r: 0, g: 0.8603976, b: 0.18018799, a: 1}
+    - _FlowColor: {r: 0.378273, g: 1.6812134, b: 0.38667908, a: 1}
+    - _FlowSmooth: {r: -0.95, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

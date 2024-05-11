@@ -16,6 +16,7 @@ float _ReflectHeight;
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
+    float height=_WorldSpaceCameraPos.y-_ReflectHeight;
     _ReflectRT[id.xy] = float4(0, 0, 0, 0);
     //初始化深度为far
     #ifdef UNITY_REVERSED_Z
@@ -34,9 +35,9 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     // D=mul(UNITY_MATRIX_I_VP, D);
     // float3 posWS=D.xyz/D.w;
     float3 posWS = ComputeWorldSpacePosition(uv, depth, UNITY_MATRIX_I_VP);
-    if (posWS.y < _ReflectHeight) return;//高度测试
+    if (posWS.y < height) return;//高度测试
     float3 rePosWS = posWS;
-    rePosWS.y = 2 * _ReflectHeight - rePosWS.y;
+    rePosWS.y = 2 * height - rePosWS.y;
     float4 rePosCS = mul(UNITY_MATRIX_VP, float4(rePosWS, 1));
     //反射后的NDC
     float3 rePosNDC = rePosCS.xyz / rePosCS.w;

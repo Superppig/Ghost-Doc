@@ -94,7 +94,7 @@ Shader "XinY/VolumeLight"
                     half feather = VL_DepthFeather(depth);
                     half lum = VL_GetVolumeLightIntensity(startPos, ray, depth);
                     output = half4(lum.xxx, 1);
-                    //output=VL_GetShadowFactor(posWS);
+                    output=VL_GetShadowFactor(posWS);
                     //output=frac(posWS.xyzz);
                     //output=feather;
                 #endif
