@@ -87,7 +87,7 @@ public class Melee : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         blockArea = GetComponent<Collider>();
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindObjectOfType<Player>();
         camTrans = player.cameraTransform;
         player.blackboard.isHoldingMelee = true;
         hasAttack = false;

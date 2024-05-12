@@ -24,7 +24,7 @@ public class DWGunUI : MonoBehaviour
     void Start()
     {
         _canvas = GetComponent<Canvas>();
-        _player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        _player = GameObject.FindObjectOfType<Player>();
         _canvas.worldCamera = Camera.main;
         _temperatureMax = gun.data.temperatureMax;
         fill = temperatureSlider.fillRect.GetComponent<Image>();

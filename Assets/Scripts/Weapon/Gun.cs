@@ -29,8 +29,8 @@ public class Gun: MonoBehaviour
     {
         canFire = true;
         gunAnimator = GetComponent<Animator>();
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        rb=player.GetComponent<Rigidbody>();
+        player = GameObject.FindObjectOfType<Player>();
+        rb = player.rb;
         orientation = player.cameraTransform;
         _playerCam=Camera.main;
     }

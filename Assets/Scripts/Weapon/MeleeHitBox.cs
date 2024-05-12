@@ -12,7 +12,7 @@ public class MeleeHitBox : MonoBehaviour
     private void Start()
     {
         hitParticle = melee.hitParticle;
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindObjectOfType<Player>();
         
         Debug.Log(melee==null);
     }

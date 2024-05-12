@@ -21,7 +21,7 @@ public class PlayerBaseUI : MonoBehaviour
     private void Awake()
     {
         eventSystem = ServiceLocator.Get<IEventSystem>();
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindObjectOfType<Player>();
         Slider[] sliders = GetComponentsInChildren<Slider>();
         healthSlider = sliders[0];
         for (int i = 1; i < sliders.Length; i++)

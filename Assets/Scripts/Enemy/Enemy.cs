@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
         //注册回调函数，在Astar Path完成后调用此函数
         seeker.pathCallback += OnPathComplete;
         AstarPath.active.logPathResults = PathLog.None;//关闭寻路日志
-        player=GameObject.FindWithTag("Player").GetComponent<Player>();
+        player=GameObject.FindObjectOfType<Player>();
         rb = GetComponent<Rigidbody>();
         timer = 0f;
     }
@@ -273,6 +273,4 @@ public class Enemy : MonoBehaviour
         
         //seeker.pathCallback -= OnPathComplete;
     }
-    
-    
 }
