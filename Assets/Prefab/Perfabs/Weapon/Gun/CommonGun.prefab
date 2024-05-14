@@ -23809,6 +23809,7 @@ GameObject:
   - component: {fileID: 1692378024100621636}
   - component: {fileID: 1692378024100621639}
   - component: {fileID: 4805500976334143140}
+  - component: {fileID: 6837051687211252879}
   m_Layer: 0
   m_Name: CommonGun
   m_TagString: Untagged
@@ -23870,6 +23871,19 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 1a26a1231aa863543992e5bde7ce9b16, type: 2}
   position: {fileID: 1692378025327005795}
   pointLight: {fileID: 9183772815441703732}
+--- !u!114 &6837051687211252879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692378024100621633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1a8126a6c408b479598d2bb41f943d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
 --- !u!1 &1692378024807432169
 GameObject:
   m_ObjectHideFlags: 0

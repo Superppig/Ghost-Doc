@@ -1,7 +1,6 @@
+using System;
+using Services.ObjectPools;
 using System.Collections;
-using System.ComponentModel;
-using Data.WeaponData;
-using Unity.Collections;
 using UnityEngine;
 
 public class DualWieldGun : Gun
@@ -16,6 +15,10 @@ public class DualWieldGun : Gun
     public bool isReachMax;
     private float frozenTimer;
     
+    
+    //记录世界时间
+    private float worldTimer;
+
     //温度状态
     public enum DualWieldGunState
     {
@@ -27,11 +30,20 @@ public class DualWieldGun : Gun
     
     public  DualWieldGunState state = DualWieldGunState.Idle;
     
+    [Header("对象池")] protected MyObject selfMyObject;
+
+    
     protected override void Start()
     {
         base.Start();
         //初始化数据
         fireWaitTime = 60f / data.fireRate;
+        
+        //注册方法
+        selfMyObject = GetComponent<MyObject>();
+        selfMyObject.OnActivate+= SelfActivate;
+        selfMyObject.OnRecycle += SelfRecycle;
+
     }
 
     protected override void Update()
@@ -195,5 +207,19 @@ public class DualWieldGun : Gun
         bullet.startWidth = 0f;
         bullet.endWidth = 0f;
         Destroy(bullet.gameObject);
+    }
+
+    
+    //在后台冷却
+    public void SelfRecycle()
+    {
+        worldTimer = Time.time;
+    }
+
+    public void SelfActivate()
+    {
+        float time = Time.time - worldTimer;
+        currentTemperature -= time;
+        currentTemperature = Mathf.Clamp(currentTemperature, 0, data.temperatureMax);
     }
 }

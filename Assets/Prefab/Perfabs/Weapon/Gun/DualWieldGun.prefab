@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 8272072511286898088}
   - component: {fileID: -2602943498770472338}
   - component: {fileID: 1641753793943603697}
+  - component: {fileID: -1319489150565415553}
   m_Layer: 0
   m_Name: DualWieldGun
   m_TagString: Untagged
@@ -159,6 +160,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-1319489150565415553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734592816450323406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1a8126a6c408b479598d2bb41f943d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
 --- !u!1 &2192523695661456579
 GameObject:
   m_ObjectHideFlags: 0

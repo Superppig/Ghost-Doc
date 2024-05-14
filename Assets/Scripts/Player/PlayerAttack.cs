@@ -1,9 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum WeaponType
+{
+    Gun,//枪械
+    Melee//近战
+}
 public class PlayerAttack : MonoBehaviour
 {
-    public Gun[] Guns;
-    public Melee[] Melees;
+    public List<string> gunNames;
+    public List<string> meleeNames;
     [Header("当前武器类别")]
     public int gunIndex = 0;
     public int meleeIndex = 0;
@@ -11,30 +18,31 @@ public class PlayerAttack : MonoBehaviour
     public float switchTime = 0.5f;
     private float switchTimer;
     
+    [SerializeField]
     private WeaponType currentType;
     private Player player;
     private Transform weaponParent;
     
+    [SerializeField]
     private Melee currentMelee;
+    [SerializeField]
     private Gun currentGun;
- 
     
-    private enum WeaponType
-    {
-        Gun,//枪械
-        Melee//近战
-    }
-    
-    //逻辑变量
-    private GameObject currentWeapon;
+    public WeaponManager weaponManager;
 
-    private void Start()
+
+    public void Start()
     {
         player = GetComponent<Player>();
         weaponParent = Camera.main.transform;
-        //初始化
-        SwitchWeapon(WeaponType.Gun,gunIndex);
+        weaponManager  = Instantiate(weaponManager,weaponParent);
+        weaponManager.transform.localPosition = Vector3.zero;
+        weaponManager.transform.localRotation = Quaternion.Euler(0,0,0);
+        weaponManager.WeaponInit(gunNames,meleeNames,currentType,gunIndex);
+        if(weaponManager==null)
+            Debug.LogWarning("weaponManager is null");
     }
+    
 
     private void Update()
     {
@@ -79,10 +87,10 @@ public class PlayerAttack : MonoBehaviour
             {
                 if (currentType == WeaponType.Gun)
                 {
-                    if (Guns.Length>1)
+                    if (gunNames.Count>1)
                     {
                         gunIndex++;
-                        if (gunIndex >= Guns.Length)
+                        if (gunIndex >= gunNames.Count)
                         {
                             gunIndex = 0;
                         }
@@ -91,10 +99,10 @@ public class PlayerAttack : MonoBehaviour
                 }
                 else
                 {
-                    if (Melees.Length>1)
+                    if (meleeNames.Count>1)
                     {
                         meleeIndex++;
-                        if (meleeIndex >= Melees.Length)
+                        if (meleeIndex >= meleeNames.Count)
                         {
                             meleeIndex = 0;
                         }
@@ -106,24 +114,24 @@ public class PlayerAttack : MonoBehaviour
             {
                 if (currentType == WeaponType.Gun)
                 {
-                    if (Guns.Length>1)
+                    if (gunNames.Count>1)
                     {
                         gunIndex--;
                         if (gunIndex < 0)
                         {
-                            gunIndex = Guns.Length-1;
+                            gunIndex =gunNames.Count-1;
                         }
                         SwitchWeapon(WeaponType.Gun,gunIndex);
                     }
                 }
                 else
                 {
-                    if (Melees.Length>1)
+                    if (meleeNames.Count>1)
                     {
                         meleeIndex--;
                         if (meleeIndex < 0)
                         {
-                            meleeIndex = Melees.Length-1;
+                            meleeIndex = meleeNames.Count-1;
                         }
                         SwitchWeapon(WeaponType.Melee,meleeIndex);
                     }
@@ -132,15 +140,14 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void SwitchWeapon(WeaponType type,int index)
+    private void SwitchWeapon(WeaponType type, int index)
     {
-        currentType= type;
-        Destroy(currentWeapon);
+        currentType = type;
+        weaponManager.WeaoponSwitch(type,index);
         switch (type)
         {
             case WeaponType.Gun:
-                currentGun = Instantiate(Guns[index],weaponParent,false);
-                currentWeapon=currentGun.gameObject;
+                currentGun = weaponParent.GetComponentInChildren<Gun>();
                 player.gunModel = currentGun.model;
                 player.gunTrans = currentGun.trans;
                 //安全措施
@@ -154,8 +161,7 @@ public class PlayerAttack : MonoBehaviour
                 }
                 break;
             case WeaponType.Melee:
-                currentMelee = Instantiate(Melees[index],weaponParent,false);
-                currentWeapon=currentMelee.gameObject;
+                currentMelee = weaponParent.GetComponentInChildren<Melee>();
                 player.gunModel = currentMelee.transform;
                 player.gunTrans = currentMelee.transform;
                 break;

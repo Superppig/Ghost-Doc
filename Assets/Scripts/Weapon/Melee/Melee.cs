@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Timers;
+﻿using System.Collections;
 using Player_FSM;
-using Unity.VisualScripting;
+using Services.ObjectPools;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Melee : MonoBehaviour
 {
@@ -82,7 +79,8 @@ public class Melee : MonoBehaviour
     protected float spaceTimer;
 
     public HitInfo spaceHitInfo;
-    
+
+    [Header("对象池")] protected MyObject selfMyObject;
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
@@ -93,6 +91,9 @@ public class Melee : MonoBehaviour
         hasAttack = false;
         blockArea.enabled = false;
         timer = 0f;
+        
+        selfMyObject = GetComponent<MyObject>();
+        selfMyObject.OnActivate+=MeleeActivate;
     }
     
     protected virtual void Update()
@@ -468,5 +469,17 @@ public class Melee : MonoBehaviour
     {
         state = WeaponState.Idle;
         hasAttack = true;
+    }
+
+    public void MeleeActivate()
+    {
+        //初始化数据
+        currentAttackType=AttackType.Common;//当前攻击类型
+        state=WeaponState.Idle;//武器状态
+        hasAttack = false;
+        blockArea.enabled = false;
+        player.blackboard.isHoldingMelee = true;
+        timer = 0f;
+        hasRleaseBeforeMouse1Up = false;
     }
 }
