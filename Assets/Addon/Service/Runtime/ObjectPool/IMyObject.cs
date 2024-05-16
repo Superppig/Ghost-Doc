@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 由ObjectPool管理的游戏物体必须实现此接口
+/// 鐢監bjectPool绠＄悊鐨勬父鎴忕墿浣撳繀椤诲疄鐜版鎺ュ彛
 /// </summary>
 namespace Services.ObjectPools
 {

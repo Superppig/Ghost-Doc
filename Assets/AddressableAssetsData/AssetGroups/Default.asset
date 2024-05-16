@@ -29,6 +29,22 @@ MonoBehaviour:
     m_Address: Assets/Prefab/SceneObject/track.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b3c5389fdaf05f14dbb0088522609972
+    m_Address: CommonGun
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 60148326679954f4c8eeb03a981d4a98
+    m_Address: DualWieldGun
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 160f6af8f8dcfb64db6df2f3e480b58d
+    m_Address: ShotGun
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 03fadd28376b0834f9b2a3d0e703a157
+    m_Address: CommonKnife
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3e529fcc779eae248a67795ce43bf27b, type: 2}
   m_SchemaSet:

@@ -266,15 +266,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c386176c1e8064693e596f9477f781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guns:
-  - {fileID: 4805500976334143140, guid: b3c5389fdaf05f14dbb0088522609972, type: 3}
-  - {fileID: 2842567168877355290, guid: 160f6af8f8dcfb64db6df2f3e480b58d, type: 3}
-  - {fileID: -2602943498770472338, guid: 60148326679954f4c8eeb03a981d4a98, type: 3}
-  Melees:
-  - {fileID: 1073996509652699942, guid: 03fadd28376b0834f9b2a3d0e703a157, type: 3}
+  gunNames:
+  - CommonGun
+  - ShotGun
+  - DualWieldGun
+  meleeNames:
+  - CommonKnife
   gunIndex: 0
   meleeIndex: 0
   switchTime: 0.5
+  weaponManager: {fileID: 5449780716305394832, guid: aa5d3bfd44933e942b5a5c4626050f8a, type: 3}
 --- !u!114 &6394809933492538674
 MonoBehaviour:
   m_ObjectHideFlags: 0
