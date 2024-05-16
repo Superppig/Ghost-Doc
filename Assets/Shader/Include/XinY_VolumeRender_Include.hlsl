@@ -60,6 +60,15 @@ half VL_GetShadowFactor(float4 positionCS, float3 positionWS)
     return shadowFactor;
 }
 
+half VL_GetAddLightShadowFactor()
+{
+    uint pixelLightCount = GetAdditionalLightsCount();
+    LIGHT_LOOP_BEGIN(pixelLightCount)
+    Light addLight = GetAdditionalLight(lightIndex, i.positionWS, shadowMask);
+
+    LIGHT_LOOP_END
+}
+
 half VL_GetShadowFactor(float3 positionWS)
 {
     float4 shadowCoord = TransformWorldToShadowCoord(positionWS);
@@ -82,7 +91,8 @@ half VL_GetVolumeLightIntensity(float3 startPos, half3 rayDir, float pixelDepth)
     int shadowCounts = 0;
     float stepDis = _VL_StepDis;
     half curLum = 0;
-    for (int iteration = 0; iteration < _VL_MaxCount; iteration++)
+    int iteration = 0;
+    for (iteration = 0; iteration < _VL_MaxCount; iteration++)
     {
         if (shadowCounts > 2)
         {
@@ -109,6 +119,9 @@ half VL_GetVolumeLightIntensity(float3 startPos, half3 rayDir, float pixelDepth)
         }
         totalLum += curLum;
     }
+    // float check1 = dis > _VL_MaxDis ? 0 : 1;
+    // float check2 = iteration == _VL_MaxCount ? 0 : 1;
+    // totalLum = totalLum * check1 * check2;
     return totalLum;
 }
 

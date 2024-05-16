@@ -54,10 +54,10 @@ Shader "XinY/PaintInteract"
         {
             half prev = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + _MoveDir.xz * _InvEquivalentTexSize).r;
             half factor = (1 / _InvEquivalentTexSize) / _EquivalentRange;
-            half data = clamp(distance((i.uv - 0.5) * factor + 0.5, half2(0.5, 0.5)) * 2, 0, 1);
+            half data = clamp(distance((i.uv - 0.5) * factor, 0) * 2, 0, 1);
             half cur = clamp(1 - data, 0, 1);
             cur=smoothstep(0,0.5,cur);
-            cur=cur+prev;
+            cur=max(cur,prev);
             float cond = step(abs(i.uv.x - 0.5), 0.499) * step(abs(i.uv.y - 0.5), 0.499);
             cur = clamp(cur*cond-_FadeSpeed,0,1);
 
@@ -67,9 +67,6 @@ Shader "XinY/PaintInteract"
         ENDHLSL
         Pass
         {
-            ZTest Always
-            Cull Off
-            ZWrite Off
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag

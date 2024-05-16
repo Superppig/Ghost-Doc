@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FloatingBridge
-  m_Shader: {fileID: 4800000, guid: efd08b208aac7054c97b7db32abbd2e2, type: 3}
+  m_Shader: {fileID: 4800000, guid: ed7ca51d35ccc8a4d8e9f7af1fdeed2a, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -89,11 +89,12 @@ Material:
     - _FlowSpeed1: {r: 0, g: 0.34, b: 0, a: 0}
     - _FlowTilling: {r: 0.96, g: 0.43, b: 0, a: 0}
     - _Glitch: {r: 0.4, g: 0.8, b: 3.5, a: 0.95}
+    - _HitColor: {r: 0.8627451, g: 2.9960785, b: 1.3803922, a: 1}
     - _NoiseTilling: {r: 1.62, g: 0.95, b: 0, a: 0}
     - _NoiseTilling1: {r: 0, g: 0, b: 0, a: 0}
     - _ScanAndBlockTilling: {r: 1, g: 2.42, b: 1, a: 1}
     - _ScanLineColor: {r: 0, g: 0, b: 0, a: 0}
-    - _ShapeColor: {r: 3.0588763, g: 13.000224, b: 20.865906, a: 1}
-    - _ShapeTilling: {r: 15, g: 42, b: 0, a: 0}
+    - _ShapeColor: {r: 0.40980273, g: 1.7416615, b: 2.79544, a: 1}
+    - _ShapeTilling: {r: 80, g: 80, b: 0, a: 0}
     - _TransformSpeedMinAndMax: {r: 0.1, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []
