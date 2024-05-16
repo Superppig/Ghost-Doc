@@ -74,6 +74,24 @@ MonoBehaviour:
     shader: {fileID: 7200000, guid: 5e7704c3411ffd446b7ad5e0bab1f5aa, type: 3}
     RTSize: 512
     ReflectHeight: 1.5
+--- !u!114 &-3421895740856608431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d25316505470804aa232484a0407fdf, type: 3}
+  m_Name: InteractRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  setting:
+    passEvent: 0
+    texSize: 1024
+    PaintMat: {fileID: 2100000, guid: 9eec591c6de384447afcece0ee42b0de, type: 2}
+    InteractRT: {fileID: 8400000, guid: 0d844f9fa2e109a43ba82b83a4f8debe, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,11 +107,12 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
+  - {fileID: -3421895740856608431}
   - {fileID: -7407574634605477667}
   - {fileID: -3519926183982311696}
   - {fileID: 7631303694886900025}
   - {fileID: -9011455789539456348}
-  m_RendererFeatureMap: dd8025e91d023399f05623f8c8b526cf3911dc3247d6e769a40a5d43b4e0f082
+  m_RendererFeatureMap: 51d9d123f4fb82d0dd8025e91d023399f05623f8c8b526cf3911dc3247d6e769a40a5d43b4e0f082
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

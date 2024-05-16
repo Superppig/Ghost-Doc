@@ -25,8 +25,8 @@ Material:
     - _FresnelBias: 0
     - _FresnelPower: 4.6
     - _FresnelScale: 1
-    - _JunctionRange: 0.48
+    - _JunctionRange: 1
     m_Colors:
-    - _BaseColor: {r: 0.9245283, g: 0.85982716, b: 0.65763617, a: 1}
-    - _HeightMinMax: {r: -0.86, g: 0.58, b: 0, a: 0}
+    - _BaseColor: {r: 0.9245283, g: 0.85982716, b: 0.65763617, a: 0.35686275}
+    - _HeightMinMax: {r: 9, g: -0.61, b: 0, a: 0}
   m_BuildTextureStacks: []

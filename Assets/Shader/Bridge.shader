@@ -12,6 +12,7 @@ Shader "XinY/Bridge"
         _ShapeRadius ("ShapeRadius", float) = 0
         _TransformSpeedMinAndMax ("TransformSpeedMinAndMax", vector) = (0, 0, 0, 0)
         [HDR]_ShapeColor ("ShapeColor", color) = (0, 0, 0, 0)
+        [HDR]_HitColor ("HitColor", color) = (0, 0, 0, 0)
     }
     SubShader
     {
@@ -45,6 +46,7 @@ Shader "XinY/Bridge"
             float _ShapeRadius;
             float2 _TransformSpeedMinAndMax;
             float4 _ShapeColor;
+            float4 _HitColor;
         CBUFFER_END
         TEXTURE2D(_NoiseTex);
         SAMPLER(sampler_NoiseTex);
@@ -106,11 +108,14 @@ Shader "XinY/Bridge"
                 //交互
                 float2 interactUV=_InvEquivalentTexSize*(i.positionWS.xz-_HitPos.xz)+0.5;
                 float interact=SAMPLE_TEXTURE2D(_InteractRT, sampler_InteractRT, interactUV).r;
+                //return float4(interact.xxx,1);
 
                 //颜色
                 float2 flowUV=i.uv*_FlowTilling+_Time.y*_FlowSpeed*0.5;
                 float noise=SAMPLE_TEXTURE2D(_NoiseTex,sampler_NoiseTex,flowUV).r;
                 finalColor.rgb=noise*_FlowColor+shape*_ShapeColor;
+                float interactMask=shape*interact;
+                finalColor.rgb=lerp(finalColor.rgb,_HitColor.rgb,interactMask);
 
                 //alpha
                 float2 alphaUV=i.uv*_AlphaTilling+_Time.y*_AlphaFlowSpeed;

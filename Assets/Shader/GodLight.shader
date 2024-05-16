@@ -71,7 +71,7 @@ Shader "XinY/Fresnel"
             half fresnelMask = abs(dot(N, V));
             fresnelMask = clamp(pow(fresnelMask + _FresnelBias, _FresnelPower) * _FresnelScale, 0, 1);
             
-            half heightMask = smoothstep(_HeightMinMax.x, _HeightMinMax.y, i.positionOS.y);
+            half heightMask = smoothstep(_HeightMinMax.x, _HeightMinMax.y, i.positionOS.z);
 
             half alpha = fresnelMask * junctionMask * heightMask*_BaseColor.a;
             half3 color=_BaseColor.rgb;
@@ -83,7 +83,8 @@ Shader "XinY/Fresnel"
         Pass
         {
             ZWrite Off
-            Blend SrcAlpha OneMinusSrcAlpha
+            Cull Off
+            Blend SrcAlpha One
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag

@@ -69,6 +69,7 @@ MonoBehaviour:
     passEvent: 0
     texSize: 1024
     PaintMat: {fileID: 2100000, guid: 9eec591c6de384447afcece0ee42b0de, type: 2}
+    InteractRT: {fileID: 0}
 --- !u!114 &-5061983366156423715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +143,6 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
-  - {fileID: -6797186948176253248}
   - {fileID: -9005196607687519603}
   - {fileID: -4360825687774050521}
   - {fileID: -7184205147083530787}
@@ -150,7 +150,7 @@ MonoBehaviour:
   - {fileID: 552604558920693799}
   - {fileID: -7907838947150042311}
   - {fileID: 6563905940407016343}
-  m_RendererFeatureMap: c06e08d27b8aaba18d923b9a651d07832747d440243c7bc3dd9d8d767b934c9cdd6d4fb1f238c0b927b8ba23eb3eab07396b1f0660b64192975b09fdacad175b
+  m_RendererFeatureMap: 8d923b9a651d07832747d440243c7bc3dd9d8d767b934c9cdd6d4fb1f238c0b927b8ba23eb3eab07396b1f0660b64192975b09fdacad175b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
