@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: 0
-  health: 10
+  health: 30
   damage: 2
   wallDamage: 1
   headDamage: 8
@@ -221,15 +221,15 @@ MonoBehaviour:
   hitMinSpeed: 3
   collideDecayRate: 1
   isStrikToFly: 0
-  findAngle: 30
+  findAngle: 360
   nextEnemy: {fileID: 0}
   popMinDistance: 4
   popForce: 10
   popDamage: 0
-  popWaitTime: 5
+  popWaitTime: 0.3
   attackRange: 2
-  attackWaitTime: 0.5
-  findRange: 15
+  attackWaitTime: 0.1
+  findRange: 100
   hitTime: 0.2
   beBlocked: 0
   hasHit: 0
