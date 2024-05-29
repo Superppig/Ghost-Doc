@@ -28,9 +28,9 @@ MonoBehaviour:
   verOffMax: 5
   horOff: 1
   impulseTime: 0.1
-  impulseAmplitude: 5
+  impulseAmplitude: 7
   hitEenemyParticle: {fileID: 620170322299365509, guid: 74db1c713baecaf4d961ec0ffc390b78, type: 3}
   hitBuildingParticle: {fileID: 4176453105898601307, guid: 66c0eb140e6068e4d9ca453d1483853e, type: 3}
   fireParticle: {fileID: 2090035424201745229, guid: b099199f12a521742860a403de24b168, type: 3}
-  hitScale: 0.2
+  hitScale: 1
   fireScale: 0.2

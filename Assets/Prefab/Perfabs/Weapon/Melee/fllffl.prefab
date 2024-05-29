@@ -2406,7 +2406,7 @@ MonoBehaviour:
     isBomb: 1
     rate: 10
   ctrlEnergyCost: 100
-  ctrlSpeed: 30
+  ctrlSpeed: 50
   ctrlStartHeight: 2
   ctrlEndHeight: 0.1
   ctrlHitInfo:
@@ -2426,9 +2426,9 @@ MonoBehaviour:
     time: 0.5
     isBomb: 1
     rate: 0.5
-  attackFrame: 3
+  attackFrame: 2
   attackStartTimeScale: 0
-  blockFrame: 20
+  blockFrame: 10
   blockStartTimeScale: 0.1
   dashAttackFrame: 3
   dashAttackStartTimeScale: 0

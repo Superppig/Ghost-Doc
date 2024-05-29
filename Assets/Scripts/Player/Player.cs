@@ -376,7 +376,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(settings.jumpSettings.jumpBufferTime);
         blackboard.isJumpBuffer = false;
     }
-    
+
+
     public void TakeDamage(float damage)
     {
         blackboard.Health -= damage;

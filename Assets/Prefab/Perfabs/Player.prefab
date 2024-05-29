@@ -275,6 +275,9 @@ MonoBehaviour:
   gunIndex: 0
   meleeIndex: 0
   switchTime: 0.5
+  currentType: 0
+  currentMelee: {fileID: 0}
+  currentGun: {fileID: 0}
   weaponManager: {fileID: 5449780716305394832, guid: aa5d3bfd44933e942b5a5c4626050f8a, type: 3}
 --- !u!114 &6394809933492538674
 MonoBehaviour:
@@ -294,7 +297,7 @@ MonoBehaviour:
       accelerate: 1000
       groundDrag: 0
     jumpSettings:
-      height: 4
+      height: 5
       wallJumpSpeed: 10
       wallUpSpeed: 5
       exitWallTime: 0.3
