@@ -293,11 +293,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     walkSettings:
-      walkSpeed: 7
-      accelerate: 1000
+      walkSpeed: 10
+      accelerate: 200
       groundDrag: 0
     jumpSettings:
-      height: 5
+      height: 3.6
       wallJumpSpeed: 10
       wallUpSpeed: 5
       exitWallTime: 0.3
@@ -316,7 +316,7 @@ MonoBehaviour:
       slideAccelerate: 6.5
       startSlideSpeed: 1
     airSettings:
-      airTransformAccelerate: 100
+      airTransformAccelerate: 200
       playerHeight: 2
     wallRunSettings:
       wallRunSpeed: 15
