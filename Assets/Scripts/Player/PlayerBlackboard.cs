@@ -52,6 +52,8 @@ public class PlayerBlackboard
     public bool grounded;
     public bool jumping;
     public bool isWallJump;
+    
+    public bool doubleJump;
 
     public Vector3 dirInput;
     public Vector3 moveDir;

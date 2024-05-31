@@ -1,5 +1,6 @@
 using Player_FSM;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,13 +19,13 @@ public class Player : MonoBehaviour
     private FSM fsm;
     public bool[,] changeMatrix =
     {
-        { false, true, true, true, true, true, false },
+        { false, true, true, true, false, true, false },
         { false, true, false, false, false, true, false },
-        { true, true, false, false, false, true, true },
+        { true, false, false, false, false, true, false },
         { true, false, false, false, false, false, false },
+        { false, false, false, false, false, false, false },
         { true, true, true, false, false, false, false },
-        { true, false, true, false, false, false, true },
-        { true, true, false, false, false, true, false }
+        { false, false, false, false, false, false, false }
     }; //状态机转移邻接矩阵
 
 
@@ -94,7 +95,7 @@ public class Player : MonoBehaviour
         //斜坡判定
         SlopJudgement();
 
-        if(Input.GetKey(settings.keySettings.jumpkey))
+        if(Input.GetKeyDown(settings.keySettings.jumpkey))
         {
             //先停止原有的协程,再开启新的协程
             StopCoroutine("JumpBuffer");
@@ -109,15 +110,15 @@ public class Player : MonoBehaviour
         }
         else
         {
-            canClimb = !IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
+            /*canClimb = !IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
                        (blackboard.isWall
                            ? (Vector3.Angle(blackboard.wallHit.normal , blackboard.moveDir) > 90f&& blackboard.moveDir.magnitude>0.1f)
                            : false)
-                       && !blackboard.hasClimbEnergyOut;
+                       && !blackboard.hasClimbEnergyOut;*/
             
             //落地
             if ((blackboard.currentState == EStateType.Jumping || blackboard.currentState == EStateType.Air) &&
-                blackboard.grounded)
+                blackboard.grounded&&!blackboard.jumping)
             {
                 blackboard.lastState = blackboard.currentState;
                 blackboard.nextState = EStateType.Walking;
@@ -144,8 +145,8 @@ public class Player : MonoBehaviour
 
 
             //空中
-            if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting &&
-                !canClimb)//不是墙跑状态
+            if (!blackboard.grounded && blackboard.currentState != EStateType.Sprinting)/*&&
+                !canClimb*///不是墙跑状态
             {
                 if (CanSwitch(blackboard.currentState, EStateType.Air))
                 {
@@ -181,7 +182,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            //滑行
+            /*//滑行
             if (Input.GetKey(settings.keySettings.slideKey) && blackboard.grounded &&
                 blackboard.dirInput.magnitude > 0 &&
                 blackboard.speed > settings.slideSettings.startSlideSpeed)
@@ -201,15 +202,12 @@ public class Player : MonoBehaviour
                     fsm.SwitchState(blackboard.lastState);
                     blackboard.lastState = EStateType.Sliding;
                 }
-            }
+            }*/
 
             //跳跃
-            if ((Input.GetKey(settings.keySettings.jumpkey)|| blackboard.isJumpBuffer) && (!blackboard.isHoldingMelee ||
-                                                               (blackboard.meleeState == Melee.WeaponState.Retracking &&
-                                                                (!Input.GetMouseButton(1) || blackboard.currentState ==
-                                                                    EStateType.WallRunning))))
+            if (Input.GetKeyDown(settings.keySettings.jumpkey)|| blackboard.isJumpBuffer)
             {
-                if (blackboard.grounded)
+                if (blackboard.grounded||blackboard.doubleJump)
                 {
                     if (CanSwitch(blackboard.currentState, EStateType.Jumping))
                     {
@@ -218,16 +216,17 @@ public class Player : MonoBehaviour
                         blackboard.nextState = EStateType.Jumping;
                         fsm.SwitchState(EStateType.Jumping);
                     }
+                    blackboard.doubleJump = !blackboard.doubleJump;
                 }
-                else if (blackboard.currentState == EStateType.WallRunning)
+                /*else if (blackboard.currentState == EStateType.WallRunning)
                 {
                     StartCoroutine(StartJump(0.2f));
                     // 墙跳逻辑
                     StartCoroutine(WallJumping(settings.jumpSettings.exitWallTime));
-                }
+                }*/
             }
 
-            //爬墙
+            /*//爬墙
             if (canClimb)
             {
                 if (CanSwitch(blackboard.currentState, EStateType.WallRunning))
@@ -240,7 +239,7 @@ public class Player : MonoBehaviour
 
                     fsm.SwitchState(EStateType.WallRunning);
                 }
-            }
+            }*/
             blackboard.isJumpBuffer = false;
         }
     }
@@ -280,7 +279,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    //墙跳中
+    /*//墙跳中
     IEnumerator WallJumping(float time)
     {
         blackboard.isWallJump = true;
@@ -291,7 +290,7 @@ public class Player : MonoBehaviour
         fsm.SwitchState(EStateType.Jumping);
         yield return new WaitForSeconds(time);
         blackboard.isWallJump = false;
-    }
+    }*/
 
     IEnumerator StartJump(float time)
     {

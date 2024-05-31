@@ -10,7 +10,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
     public SerializedProperty health, energy, maxHealth, maxEnergy;
 
     [AutoProperty] 
-    public SerializedProperty isWallJump, dirInput, moveDir, velocity, speed, climbXZDir, climbSpeed;
+    public SerializedProperty isWallJump, doubleJump,dirInput, moveDir, velocity, speed, climbXZDir, climbSpeed;
     [AutoProperty]
     public SerializedProperty lastState, currentState, nextState;
     [AutoProperty]
@@ -28,6 +28,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
         energy.FloatField("当前能量");
         EditorGUI.BeginDisabledGroup(true);
         isWallJump.BoolField("isWallJump");
+        doubleJump.BoolField("二段跳");
         dirInput.Vector3Field("输入方向");
         moveDir.Vector3Field("移动方向");
         velocity.Vector3Field("当前速度");
