@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: baseCube_2_2_2
+  m_Name: baseCube_2_2_2_1
   m_Shader: {fileID: 4800000, guid: 309ef4341355203419f43bdfd112d624, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 1e60756dc32f19e4eb2eb2947971e57a, type: 3}
+        m_Texture: {fileID: 2800000, guid: f853057b913024644bf321ca179cb6ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -54,11 +54,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 3d79b487d8dc4164ea113d2248ef4606, type: 3}
+        m_Texture: {fileID: 2800000, guid: 560e0a6addc481f459ccda14fe519cef, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MRA:
-        m_Texture: {fileID: 2800000, guid: 836adbdd6dfe04648b9968c66e5b88c5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 449055b58f201c341b8b19c5a3ffa2b7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -70,7 +70,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 30a2f5e00f454e04d9ab37c28c701e26, type: 3}
+        m_Texture: {fileID: 2800000, guid: 285c02b34d571c449acfc1b301e3f137, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
