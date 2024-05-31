@@ -29,8 +29,9 @@ public class PlayerWalkingState : PlayerStateBase
         isOverCovote = false;
         firstSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
         
-        //AudioManager.Instance.PlaySound(player.transform,AudioType.Foot,0,1,false,true);
         blackboard.doubleJump = false;
+        
+        AudioManager.Instance.PlaySound(player.transform,AudioType.Foot,0,1,true,false);
     }
     public override void OnExit()
     {

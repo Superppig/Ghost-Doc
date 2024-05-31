@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BGMList: []
   FootList:
-  - {fileID: 8300000, guid: 66fbeacef3edc4549aadfe373cf7c989, type: 3}
-  GunList: []
+  - {fileID: 8300000, guid: 766b92b4bda26414d9b6937fb7cb425c, type: 3}
+  GunList:
+  - {fileID: 8300000, guid: e66c751f9d4b31d4f9a2b36abceb3761, type: 3}
   KnifeList: []
   UIList: []
   OtherList: []

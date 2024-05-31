@@ -52,6 +52,7 @@ public class CommonGun : Gun
             StartCoroutine(BulletStart(pos.position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
         ScreenControl.Instance.ParticleRelease(data.fireParticle,pos.position,pos.forward);
+        AudioManager.Instance.PlaySound(transform,AudioType.Gun,0,1,true,false);
         StartCoroutine(CamChange());
     }
 
