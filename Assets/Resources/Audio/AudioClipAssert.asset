@@ -16,7 +16,6 @@ MonoBehaviour:
   FootList:
   - {fileID: 8300000, guid: 766b92b4bda26414d9b6937fb7cb425c, type: 3}
   GunList:
-  - {fileID: 8300000, guid: e66c751f9d4b31d4f9a2b36abceb3761, type: 3}
   - {fileID: 8300000, guid: cf43aa583248c2a4fa69de0143b82a7d, type: 3}
   - {fileID: 8300000, guid: e387fc51d6ce33249aace921ff4684ba, type: 3}
   KnifeList: []
