@@ -28,8 +28,6 @@ public class PlayerWalkingState : PlayerStateBase
         timer = 0f;
         isOverCovote = false;
         firstSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
-        
-        //AudioManager.Instance.PlaySound(player.transform,AudioType.Foot,0,1,false,true);
     }
     public override void OnExit()
     {
