@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: baseCube_4_4_4_1
-  m_Shader: {fileID: 4800000, guid: 309ef4341355203419f43bdfd112d624, type: 3}
+  m_Shader: {fileID: 4800000, guid: b860709989c17bc489f58b33cf998a19, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 8455ed6b352e3de46aeeeebb0a1f3383, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6cfe81fe27cdc6846b136e2613801a47, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -57,8 +57,12 @@ Material:
         m_Texture: {fileID: 2800000, guid: 756fec1cf5b563347999096c7ff893c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 2800000, guid: c6460b03878ee91498c07f6ccfb47c15, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MRA:
-        m_Texture: {fileID: 2800000, guid: b243fef6c5b7dd74391a689f517fc072, type: 3}
+        m_Texture: {fileID: 2800000, guid: a5f9954062cfa4845bfa3b0288d263f0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -70,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 3d9c1e56645ca7d48be4ddf57a230204, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4f31da3bf706ea544ab7d72473db6a53, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -135,5 +139,9 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 2.828427, g: 2.828427, b: 2.828427, a: 1}
+    - _EmissionColor_Layer1: {r: 2.240558, g: 0.5324098, b: 0.24402116, a: 1}
+    - _EmissionColor_Layer2: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer3: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer4: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

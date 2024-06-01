@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: baseCube_2_2_2_0
-  m_Shader: {fileID: 4800000, guid: 309ef4341355203419f43bdfd112d624, type: 3}
+  m_Shader: {fileID: 4800000, guid: b860709989c17bc489f58b33cf998a19, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -55,6 +55,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 8bf4954a555021146b1c0881060a164e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 2800000, guid: 7cbb094165960a94282678bcb73a93e4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MRA:
@@ -134,6 +138,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1.9766746, g: 1.9766746, b: 1.9766746, a: 1}
+    - _EmissionColor: {r: 2.828427, g: 2.828427, b: 2.828427, a: 1}
+    - _EmissionColor_Layer1: {r: 2.7906554, g: 0.5254762, b: 0.16849223, a: 1}
+    - _EmissionColor_Layer2: {r: 2.7906554, g: 0.5254762, b: 0.16849223, a: 1}
+    - _EmissionColor_Layer3: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer4: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
