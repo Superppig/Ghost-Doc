@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     public Rigidbody rb;
 
     private bool canClimb;
+    
+    private bool lastGrounded;
 
     private void Awake()
     {
@@ -326,8 +328,16 @@ public class Player : MonoBehaviour
     //检测人物是否离地面一定高度
     public bool IsGrounded(float height)
     {
-        return Physics.Raycast(transform.position, Vector3.down, settings.airSettings.playerHeight * 0.5f + height,
+        bool cur = Physics.Raycast(transform.position, Vector3.down, settings.airSettings.playerHeight * 0.5f + height,
             settings.otherSettings.groundLayer);
+        if (cur&&cur != lastGrounded)
+        {
+            AudioManager.Instance.PlaySound(transform,AudioType.Foot,0,1,true,false);
+            
+            blackboard.doubleJump = false;
+        }
+        lastGrounded = cur;
+        return cur;
     }
     //返回地面
     public RaycastHit GetGround()
