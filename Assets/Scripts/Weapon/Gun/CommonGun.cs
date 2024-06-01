@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using Cinemachine;
-using Data.WeaponData;
-using UnityEngine;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Services;
 using Services.Audio;
+using System.Collections;
+using UnityEngine;
 
 public class CommonGun : Gun
 {
