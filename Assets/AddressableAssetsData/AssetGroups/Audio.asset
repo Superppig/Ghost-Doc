@@ -16,7 +16,43 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 075de0d074cc6a84db66140e08f44cb2
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 1832f080055b53440b585351d2444eb9
+    m_Address: Battle_Theme1_Synthwave1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 680031308c9df704b8e1e372cb58643f
+    m_Address: Battle_Theme2_Synthwave2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bef2d40a3f114eb458fcdc6688e7b770
+    m_Address: StartMenu_BGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1f6586e2884735749aa9c0e8bb9ed166
+    m_Address: Battle_Theme3_ Metal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 78bb15ea91cd85349b5e82195e0295a2
+    m_Address: Fire_Magnum_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c34c6cb561c9e6b4ba94625e72cdb78d
+    m_Address: Fire_Magnum_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 05dd9eec4a4606c4898f4be9c692a391
+    m_Address: Landing_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2a57f13297c503b43ba31a82c99e319e
+    m_Address: Fire_Magnum
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 326be7e70e9478a4cb5de7543fc6f0ec
+    m_Address: Landing
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3e529fcc779eae248a67795ce43bf27b, type: 2}
   m_SchemaSet:
