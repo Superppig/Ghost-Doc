@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using Cinemachine;
-using Data.WeaponData;
+﻿using DG.Tweening;
+using Services;
+using Services.Audio;
+using System.Collections;
 using UnityEngine;
-using DG.Tweening;
 
 public class CommonGun : Gun
 {
@@ -10,8 +10,12 @@ public class CommonGun : Gun
     public CommonGundata data;
     public Transform position;
     public Light pointLight;
+    private IAudioPlayer audioPlayer;
 
-
+    private void Awake()
+    {
+        audioPlayer = ServiceLocator.Get<IAudioPlayer>();
+    }
 
     protected override void Start()
     {
@@ -51,8 +55,8 @@ public class CommonGun : Gun
         {
             StartCoroutine(BulletStart(pos.position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
-        ScreenControl.Instance.ParticleRelease(data.fireParticle,pos.position,pos.forward);
-        AudioManager.Instance.PlaySound(transform,AudioType.Gun,Random.Range(1,3),1,true,false);//随机音效
+        ScreenControl.Instance.ParticleRelease(data.fireParticle, pos.position, pos.forward);
+        audioPlayer.CreateAudioByGroup("Fire_Magnum", transform.position, -1, transform);
         StartCoroutine(CamChange());
     }
 

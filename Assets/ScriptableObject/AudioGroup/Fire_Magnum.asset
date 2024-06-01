@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89074a2fd5eab134d8a5d2380d46ea7f, type: 3}
+  m_Name: Fire_Magnum
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 174822447271845143, guid: 78bb15ea91cd85349b5e82195e0295a2, type: 3}
+  - {fileID: 1107240861081007217, guid: c34c6cb561c9e6b4ba94625e72cdb78d, type: 3}

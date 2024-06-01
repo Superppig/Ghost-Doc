@@ -17,12 +17,12 @@ namespace Services.Audio
             core = new AudioPlayerCore();
         }
 
-        public AudioSource CreateAudioByPrefab(string identifier, Vector3 position, Transform parent = null, EControlOption option = EControlOption.SelfDestructive, float lifeSpan = 0f)
+        public AudioSource CreateAudioByPrefab(string identifier, Vector3 position, Transform parent = null, EControlOption option = EControlOption.LifeSpan, float lifeSpan = 0f)
         {
             if (parent == null)
                 parent = transform;
-            GameObject asset = assetLoader.Load<GameObject>(identifier);
-            AudioSource audioSource = core.CreateAudioByPrefab(asset, position, parent, option, lifeSpan);
+            GameObject prefab = assetLoader.Load<GameObject>(identifier);
+            AudioSource audioSource = core.CreateAudioByPrefab(prefab, position, parent, option, lifeSpan);
             if (audioSource != null)
                 audioSource.Play();
             else
@@ -30,7 +30,7 @@ namespace Services.Audio
             return audioSource;
         }
 
-        public AudioSource CreateAudioByClip(string identifier, Vector3 position, Transform parent = null, EControlOption option = EControlOption.SelfDestructive, float lifeSpan = 0f)
+        public AudioSource CreateAudioByClip(string identifier, Vector3 position, Transform parent = null, EControlOption option = EControlOption.LifeSpan, float lifeSpan = 0f)
         {
             if (parent == null)
                 parent = transform;
@@ -40,6 +40,18 @@ namespace Services.Audio
                 audioSource.Play();
             else
                 Debugger.LogError($"无法创建AudioClip的标识符为{identifier}的音频");
+            return audioSource;
+        }
+
+        public AudioSource CreateAudioByGroup(string identifier, Vector3 position, int index = -1, Transform parent = null, EControlOption option = EControlOption.LifeSpan, float lifeSpan = 0)
+        {
+            AudioGroup group = assetLoader.Load<AudioGroup>(identifier);
+            GameObject prefab = group.GetPrefab(index);
+            AudioSource audioSource = core.CreateAudioByPrefab(prefab, position, parent, option, lifeSpan);
+            if (audioSource != null)
+                audioSource.Play();
+            else
+                Debugger.LogError($"无法创建prefab的标识符为{identifier}的音频");
             return audioSource;
         }
 

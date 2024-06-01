@@ -1,6 +1,7 @@
 using Player_FSM;
+using Services;
+using Services.Audio;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -28,7 +29,6 @@ public class Player : MonoBehaviour
         { false, false, false, false, false, false, false }
     }; //状态机转移邻接矩阵
 
-
     public Transform gunModel;
     public Transform gunTrans;
     public Rigidbody rb;
@@ -37,8 +37,11 @@ public class Player : MonoBehaviour
     
     private bool lastGrounded;
 
+    private IAudioPlayer audioPlayer;
+
     private void Awake()
     {
+        audioPlayer = ServiceLocator.Get<IAudioPlayer>();
         rb = GetComponentInChildren<Rigidbody>();
         fsm = new FSM(this);
         fsm.AddState(EStateType.Walking, new PlayerWalkingState(this));
@@ -332,7 +335,7 @@ public class Player : MonoBehaviour
             settings.otherSettings.groundLayer);
         if (cur&&cur != lastGrounded)
         {
-            AudioManager.Instance.PlaySound(transform,AudioType.Foot,0,1,true,false);
+            audioPlayer.CreateAudioByGroup("Landing",transform.position,-1);
             
             blackboard.doubleJump = false;
         }
