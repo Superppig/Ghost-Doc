@@ -35381,6 +35381,78 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: gunModel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: gunTrans
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: vineLine
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: orientation
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: playerCollider
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.speed
+      value: 2.101519e-11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.health
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.grounded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.lastState
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.nextState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.meleeState
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.velocity.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.velocity.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.velocity.z
+      value: 2.101519e-11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: blackboard.currentState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: settings.jumpSettings.height
       value: 4
       objectReference: {fileID: 0}
@@ -35390,7 +35462,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
       propertyPath: settings.walkSettings.accelerate
-      value: 10000
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394809933492538674, guid: e144750fce95e98449b081288bd1cacd, type: 3}
+      propertyPath: settings.airSettings.airTransformAccelerate
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2595162340309334502, guid: e144750fce95e98449b081288bd1cacd, type: 3}
