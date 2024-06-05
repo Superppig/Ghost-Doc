@@ -822,8 +822,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315734719}
-  m_LocalRotation: {x: 0.36120796, y: 0.012735725, z: -0.0050952737, w: 0.93238443}
-  m_LocalPosition: {x: 86.84426, y: 12.856611, z: -74.810295}
+  m_LocalRotation: {x: -0.18045178, y: 0.1485332, z: -0.025746798, w: -0.9719631}
+  m_LocalPosition: {x: -16.306282, y: 11.929874, z: -7.47863}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2318,7 +2318,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.8392157, g: 0.87812155, b: 1, a: 1}
-  m_Intensity: 2.9942727
+  m_Intensity: 0.3025369
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2375,7 +2375,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1438846390}
-  m_LocalRotation: {x: 0.34193787, y: -0.6295492, z: 0.59741986, w: 0.36032736}
+  m_LocalRotation: {x: 0.44260457, y: -0.39401636, z: 0.7733006, w: 0.2255183}
   m_LocalPosition: {x: 0, y: 2.2547162, z: 0.7360338}
   m_LocalScale: {x: 0.24534456, y: 0.2453446, z: 0.24534452}
   m_ConstrainProportionsScale: 0
@@ -4283,6 +4283,10 @@ PrefabInstance:
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 453545075774602774, guid: 68e3152935f8a3047b46571a6e1a8f0e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 453545075774602774, guid: 68e3152935f8a3047b46571a6e1a8f0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.41
       objectReference: {fileID: 0}
@@ -4292,7 +4296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 453545075774602774, guid: 68e3152935f8a3047b46571a6e1a8f0e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 34.34
+      value: 36.8
       objectReference: {fileID: 0}
     - target: {fileID: 453545075774602774, guid: 68e3152935f8a3047b46571a6e1a8f0e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4326,6 +4330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ad_10_12
       objectReference: {fileID: 0}
+    - target: {fileID: 1231175613120257636, guid: 68e3152935f8a3047b46571a6e1a8f0e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 42ce85d6096519b4c96b78ceae76cd8e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e3152935f8a3047b46571a6e1a8f0e, type: 3}
 --- !u!1001 &1792753542833884608
@@ -5271,9 +5279,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   LightIntensityMultiply: 3
-  control: 0.493
+  control: 0.1
   skyMat: {fileID: 2100000, guid: 1a0e432aefda1b44d9db7706f1a91f71, type: 2}
-  EulerAngle: {x: 87, y: -120.43, z: 0}
+  EulerAngle: {x: 126, y: -120.43, z: 0}
   FogIntensity: 0.01
   HeightFogDensity: 1.15
   ButtomFogColor: {r: 0.288904, g: 0.35996136, b: 0.469, a: 1}
