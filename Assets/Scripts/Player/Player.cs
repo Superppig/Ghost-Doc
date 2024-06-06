@@ -217,7 +217,7 @@ public class Player : MonoBehaviour
                     if (CanSwitch(blackboard.currentState, EStateType.Jumping))
                     {
                         blackboard.lastState = blackboard.currentState;
-                        StartCoroutine(StartJump(0.2f));
+                        StartCoroutine(StartJump(0.3f));
                         blackboard.nextState = EStateType.Jumping;
                         fsm.SwitchState(EStateType.Jumping);
                     }
@@ -318,13 +318,22 @@ public class Player : MonoBehaviour
     private bool OnSlope()
     {
         //射线检测
-        if (Physics.Raycast(transform.position, Vector3.down, out blackboard.slopeHit,
-                settings.airSettings.playerHeight * 0.5f + 0.5f))
-        {
-            float angle = Vector3.Angle(Vector3.up, blackboard.slopeHit.normal);
-            return angle < settings.otherSettings.maxSlopeAngle && angle != 0;
-        }
+        blackboard.isSlope = false;
 
+        float angleStep = 360f/ settings.wallRunSettings.rayCount;
+        for (int i = 0; i < settings.wallRunSettings.rayCount; i++)
+        {
+            Vector3 dir = Quaternion.Euler(0,angleStep * i, 0) * orientation.forward + Vector3.down;
+            if (Physics.Raycast(transform.position, dir,
+                    out blackboard.slopeHit, dir.magnitude,
+                    settings.otherSettings.groundLayer))
+            {
+                float angle = Vector3.Angle(Vector3.up, blackboard.slopeHit.normal);
+                blackboard.isSlope= angle < settings.otherSettings.maxSlopeAngle && angle != 0;
+                return blackboard.isSlope;
+            }
+        }
+        blackboard.isSlope= false;
         return false;
     }
 
@@ -332,11 +341,10 @@ public class Player : MonoBehaviour
     public bool IsGrounded(float height)
     {
         bool cur = Physics.Raycast(transform.position, Vector3.down, settings.airSettings.playerHeight * 0.5f + height,
-            settings.otherSettings.groundLayer);
+            settings.otherSettings.groundLayer)||blackboard.isSlope;
         if (cur&&cur != lastGrounded)
         {
-            audioPlayer.CreateAudioByGroup("Landing",transform.position,-1);
-            
+            audioPlayer.CreateAudioByGroup("Landing", transform.position, -1);
             blackboard.doubleJump = false;
         }
         lastGrounded = cur;
@@ -347,7 +355,7 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit = new RaycastHit();
         Physics.Raycast(transform.position, Vector3.down, out hit,
-            settings.airSettings.playerHeight * 0.5f + 0.5f, settings.otherSettings.groundLayer);
+            settings.airSettings.playerHeight * 0.5f + 5f, settings.otherSettings.groundLayer);
         return hit;
     }
 

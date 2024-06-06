@@ -88,4 +88,5 @@ public class PlayerBlackboard
 
     
     public RaycastHit slopeHit; //斜坡检测
+    public bool isSlope;//是否在斜坡上
 }

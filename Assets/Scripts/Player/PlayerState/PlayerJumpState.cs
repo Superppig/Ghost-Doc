@@ -24,9 +24,10 @@ public class PlayerJumpState : PlayerStateBase
         //获取速度
         rb.velocity = blackboard.velocity;
         
-        if (blackboard.lastState == EStateType.Sliding)
+        /*if (blackboard.lastState == EStateType.Sliding)
             height *= settings.otherSettings.slideToJumpHeightRate;
-        else if(blackboard.lastState != EStateType.Sprinting && blackboard.lastState != EStateType.WallRunning)
+        else */
+        if(blackboard.lastState != EStateType.Sprinting && blackboard.lastState != EStateType.WallRunning)
         {
             //修正速度
             Vector3 XZSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z);
@@ -34,7 +35,7 @@ public class PlayerJumpState : PlayerStateBase
         }
         
         jumpSpeed = Speed(height);
-        if (IsWallJump)
+        /*if (IsWallJump)
         {
             wall = blackboard.wallHit;
             //判断墙跳类型
@@ -74,12 +75,13 @@ public class PlayerJumpState : PlayerStateBase
             ScreenControl.Instance.ParticleRelease(settings.otherSettings.JumpParticle, wall.point+new Vector3(0,-0.5f * settings.airSettings.playerHeight ,0), wall.normal);
         }
         else
-        {
+        {*/
             rb.velocity += new Vector3(0, jumpSpeed, 0);
             
             //跳跃的粒子效果
             ScreenControl.Instance.ParticleRelease(settings.otherSettings.JumpParticle, player.GetGround().point, player.GetGround().normal);
-        }
+            
+        /*}*/
 
         blackboard.velocity = rb.velocity;//提前写入速度
     }

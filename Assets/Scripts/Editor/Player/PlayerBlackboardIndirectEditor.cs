@@ -14,7 +14,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
     [AutoProperty]
     public SerializedProperty lastState, currentState, nextState;
     [AutoProperty]
-    public SerializedProperty isWall,isMeleeAttacking, isBlocking,hasClimbOverTime,isCombo, isHoldingMelee,meleeState;
+    public SerializedProperty isWall,isMeleeAttacking, isBlocking,hasClimbOverTime,isCombo, isHoldingMelee,meleeState,isSlope;
 
     public PlayerBlackboardIndirectEditor(SerializedProperty serializedProperty, string label = null) : base(serializedProperty, label)
     {
@@ -45,6 +45,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
         isCombo.BoolField("释放组合技");
         isHoldingMelee.BoolField("是否持有近战武器");
         meleeState.EnumField<Melee.WeaponState>("近战状态");
+        isSlope.BoolField("是否在斜坡上");
         EditorGUI.EndDisabledGroup();
     }
 }

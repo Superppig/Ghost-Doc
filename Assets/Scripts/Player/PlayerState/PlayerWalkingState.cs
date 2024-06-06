@@ -15,8 +15,9 @@ public class PlayerWalkingState : PlayerStateBase
 
     //逻辑变量
     private float timer;
-    private bool isOverCovote;
     private float firstSpeed;
+    
+    private Tween velocityTween;
 
     public PlayerWalkingState(Player player) : base(player)
     {
@@ -26,8 +27,9 @@ public class PlayerWalkingState : PlayerStateBase
     {
         //初始化逻辑变量
         timer = 0f;
-        isOverCovote = false;
         firstSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+
+        velocityTween = null;
     }
     public override void OnExit()
     {
@@ -40,16 +42,12 @@ public class PlayerWalkingState : PlayerStateBase
         //动量继承
         //next = _playerBlackboard.next;
         //AudioManager.Instance.StopSound(player.transform);
+        
+        velocityTween?.Kill();
     }
     public override void OnUpdate()
     {
         Walk();
-            //土狼时间
-        if (!isOverCovote)
-            timer += Time.deltaTime;
-
-        if (timer >= CovoteTime)
-            isOverCovote = true;
 
         if (DirInput.magnitude>0)
         {
@@ -92,26 +90,24 @@ public class PlayerWalkingState : PlayerStateBase
     }
     private void SpeedCon()
     {
-        if (isOverCovote)
+
+        if (rb.velocity.magnitude>WalkSpeed)
         {
-            if (rb.velocity.magnitude>WalkSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * WalkSpeed;
-            }
-        }
-        else
-        {
-            if (rb.velocity.magnitude>firstSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * firstSpeed;
-            }
+            rb.velocity = rb.velocity.normalized * WalkSpeed;
         }
 
         if (MoveDir.magnitude<0.1f&&rb.velocity.magnitude>0.1f)
         {
-            // 使用 DOVirtual.Float 插值当前速度到0
-            DOTween.To(() => rb.velocity, x => rb.velocity = x, Vector3.zero, 0.05f)
-                .SetEase(Ease.InOutQuad);
+            if (velocityTween == null)
+            {
+                velocityTween = DOTween.To(() => rb.velocity, x => rb.velocity = x, Vector3.zero, 0.05f)
+                    .SetEase(Ease.InOutQuad);
+            }
+        }
+        else
+        {
+            velocityTween?.Kill();
+            velocityTween = null;
         }
     }
 }
