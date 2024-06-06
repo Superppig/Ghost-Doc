@@ -12,6 +12,10 @@ public class PlayerGrab : MonoBehaviour
     public Vector3 localGrabPos;//抓取位置
     
     public float throwSpeed = 10f;//扔出力
+
+    [Header("图层属性")] 
+    public string holdLayer;
+    public string defaultLayer;
     
     
     private Transform camTrans;
@@ -47,6 +51,8 @@ public class PlayerGrab : MonoBehaviour
                 grabbedObject.transform.DOLocalMove(localGrabPos, grabTime);
                 grabbedObject.transform.DOLocalRotate(Vector3.zero, grabTime);
                 grabbedObject.Grabbed();
+                
+                ChangeLayer(grabbedObject.transform, holdLayer);
 
                 isGrabbing= true;
             }
@@ -56,6 +62,8 @@ public class PlayerGrab : MonoBehaviour
                 Vector3 pos = grabbedObject.transform.position;
                 grabbedObject.transform.SetParent(null);
                 grabbedObject.transform.position = pos;
+                
+                ChangeLayer(grabbedObject.transform, defaultLayer);
                 grabbedObject.Released();
     
                 grabbedObject.Fly(camTrans.forward.normalized*throwSpeed);
@@ -103,6 +111,22 @@ public class PlayerGrab : MonoBehaviour
             {
                 grabbedObject.CancelHighlight();
             }
+        }
+    }
+
+    void ChangeLayer(Transform trans, string targetLayer)
+    {
+        if (LayerMask.NameToLayer(targetLayer) == -1)
+        {
+            Debug.LogWarning("Layer中不存在,请手动添加LayerName");
+            return;
+        }
+
+        //遍历更改所有子物体layer
+        trans.gameObject.layer = LayerMask.NameToLayer(targetLayer);
+        foreach (Transform child in trans)
+        {
+            ChangeLayer(child, targetLayer);
         }
     }
 }
