@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5647328577370049395}
   - component: {fileID: 7167087193373572515}
   - component: {fileID: 8041350507890513277}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: -2602943498770472338}
   - component: {fileID: 1641753793943603697}
   - component: {fileID: -1319489150565415553}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: DualWieldGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 7574191164128606898}
   - component: {fileID: 8785919005481934595}
   - component: {fileID: 6131595148178569580}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1344409525928037360}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Pos0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4369653891406044447}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8654430311184914793}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: RightGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 6354891151171616051}
   - component: {fileID: 4775373221100491742}
   - component: {fileID: 678752005535611401}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5982815524813840720}
   - component: {fileID: 2538426430088008083}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4107762912389027718}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LeftGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 3589461091901271317}
   - component: {fileID: 2214517372084337642}
   - component: {fileID: 5411186601613666119}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4927741630360551610}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Pos1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2294921367550401494}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Trans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -737,7 +737,7 @@ GameObject:
   - component: {fileID: 6266332918825217399}
   - component: {fileID: 676477810277114995}
   - component: {fileID: 1835117518451925413}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
