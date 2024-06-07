@@ -34400,7 +34400,7 @@ MonoBehaviour:
   grabScale: 1
   grabTime: 0.5
   localGrabPos: {x: -1, y: 0, z: 3}
-  throwSpeed: 10
+  throwForce: 20
   holdLayer: HoldLayer
   defaultLayer: Default
   grabbedObject: {fileID: 0}

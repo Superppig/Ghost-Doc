@@ -11,7 +11,7 @@ public class PlayerGrab : MonoBehaviour
     public float grabTime = 0.5f;//抓取时间
     public Vector3 localGrabPos;//抓取位置
     
-    public float throwSpeed = 10f;//扔出力
+    public float throwForce= 20f;//扔出力
 
     [Header("图层属性")] 
     public string holdLayer;
@@ -66,7 +66,7 @@ public class PlayerGrab : MonoBehaviour
                 ChangeLayer(grabbedObject.transform, defaultLayer);
                 grabbedObject.Released();
     
-                grabbedObject.Fly(camTrans.forward.normalized*throwSpeed);
+                grabbedObject.Fly(camTrans.forward.normalized*throwForce);
                 
                 isGrabbing= false;
             }

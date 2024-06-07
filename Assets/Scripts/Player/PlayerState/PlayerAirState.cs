@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAirState : PlayerStateBase
@@ -53,9 +54,16 @@ public class PlayerAirState : PlayerStateBase
         Vector3 XZSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z);
         rb.velocity += MoveDir * (AirTransformAccelerate * Time.deltaTime);
         Vector3 dir = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
-        //保持水平动量
-        if ((MoveDir.normalized + XZSpeed.normalized).magnitude > 0.1f&& XZSpeed.magnitude > MaxAirSpeed)
-            rb.velocity = new Vector3(0, rb.velocity.y, 0) + XZSpeed.magnitude * dir;
+        if (blackboard.isWall&&Vector3.Angle(-1*blackboard.wallHit.normal,XZSpeed)<30f)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        }
+        else
+        {
+            //保持水平动量
+            if ((MoveDir.normalized + XZSpeed.normalized).magnitude > 0.1f&& XZSpeed.magnitude > MaxAirSpeed)
+                rb.velocity = new Vector3(0, rb.velocity.y, 0) + XZSpeed.magnitude * dir;
+        }
     }
     //FOV变化
     private void FovChange()
