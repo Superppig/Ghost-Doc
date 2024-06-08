@@ -134,7 +134,7 @@ Shader "XinY/PBR_LayerEmiss"
                 SurfaceAttrib attrib;
                 attrib.baseColor = baseMap;
                 attrib.metallic = lerp(0, MRA.x, _MetallicAd);
-                attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd), 2);
+                attrib.roughness = lerp(1, MRA.y, _RoughnessAd);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
 

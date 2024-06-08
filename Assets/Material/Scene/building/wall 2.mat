@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7339271839230960172
+--- !u!114 &-8784245880283708722
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rockWall
+  m_Name: wall 2
   m_Shader: {fileID: 4800000, guid: 309ef4341355203419f43bdfd112d624, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -34,8 +34,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f9e36221725f6234e99b0f6b36996972, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: f28238cf5a3146f418abf9f6547add7f, type: 3}
+        m_Scale: {x: 0.35, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -58,7 +58,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MRA:
-        m_Texture: {fileID: 2800000, guid: 38867ecf48d01f940a3725d71c599784, type: 3}
+        m_Texture: {fileID: 2800000, guid: 60677d52920800241adf2685990ec896, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -70,7 +70,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 92f2c6c6d74c3b148be481a162a68dac, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6b1d7551a7aeb8d4fb47150b65fcaf5b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -133,7 +133,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9848661, g: 0.60754716, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

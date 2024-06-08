@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8667520816155649598
+--- !u!1 &6317209405459071715
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8287442373633555588}
-  - component: {fileID: 4948668170517721889}
-  - component: {fileID: 7154465205117601771}
+  - component: {fileID: 6692609456088635481}
+  - component: {fileID: 7732459842439895036}
+  - component: {fileID: 5524720524842410806}
+  - component: {fileID: 2921168000835738963}
   m_Layer: 0
-  m_Name: baseBuilding4
+  m_Name: baseBuilding5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &8287442373633555588
+--- !u!4 &6692609456088635481
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8667520816155649598}
+  m_GameObject: {fileID: 6317209405459071715}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -225, y: 0, z: -34}
+  m_LocalPosition: {x: -130, y: 0, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4948668170517721889
+--- !u!33 &7732459842439895036
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8667520816155649598}
-  m_Mesh: {fileID: -3647052958532574651, guid: 41ba5eb9107242b4887a8f39623612ac, type: 3}
---- !u!23 &7154465205117601771
+  m_GameObject: {fileID: 6317209405459071715}
+  m_Mesh: {fileID: -3647052958532574651, guid: e8e96b9977e853b458bfbc9b14eee8ca, type: 3}
+--- !u!23 &5524720524842410806
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8667520816155649598}
+  m_GameObject: {fileID: 6317209405459071715}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,11 +62,11 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: f9afd0de276d8eb49b98b67f73423ae9, type: 2}
   - {fileID: 2100000, guid: d31a00b7b1fd3ca4585159d9ae7bd4e9, type: 2}
-  - {fileID: 2100000, guid: 875c2ecd68dfda4449cb5e9bfeb85ad2, type: 2}
   - {fileID: 2100000, guid: 7b75e5a90b150ff4f88ac70dc48dcd3d, type: 2}
+  - {fileID: 2100000, guid: d31a00b7b1fd3ca4585159d9ae7bd4e9, type: 2}
   - {fileID: 2100000, guid: d9ecdda42b68e6a48bed62c60caf85b2, type: 2}
-  - {fileID: 2100000, guid: 875c2ecd68dfda4449cb5e9bfeb85ad2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,3 +88,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2921168000835738963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6317209405459071715}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 43, y: 113.66, z: 33}
+  m_Center: {x: 0, y: 56.83, z: 0}
