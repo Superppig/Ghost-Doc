@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: player
-  m_Shader: {fileID: 4800000, guid: b860709989c17bc489f58b33cf998a19, type: 3}
+  m_Shader: {fileID: 4800000, guid: 464efc5c1569d974ebbd9feec8b24e74, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -43,6 +43,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMap:
+        m_Texture: {fileID: 2800000, guid: ef748b54c16e0204fb764948d73fb37f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
@@ -112,6 +116,7 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
+    - _DetailControl: 0.575
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
@@ -140,7 +145,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor_Layer1: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissionColor_Layer2: {r: 1.1126608, g: 0.13514099, b: 0.013514099, a: 1}
+    - _EmissionColor_Layer2: {r: 0.2282681, g: 1.1126608, b: 0.017476315, a: 1}
     - _EmissionColor_Layer3: {r: 0.21960784, g: 0.9411765, b: 0.19607843, a: 1}
     - _EmissionColor_Layer4: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

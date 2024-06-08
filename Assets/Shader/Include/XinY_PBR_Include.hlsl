@@ -239,7 +239,7 @@ struct DataNeeded
 
 
 
-DataNeeded CalculateDataNeeded(half3 N, float3 posWS, float2 staticuv, Light light, SurfaceAttrib attrib)
+DataNeeded CalculateDataNeeded(half3 N, float3 posWS, float2 staticuv, Light light, SurfaceAttrib attrib, bool acceptShadow=true)
 {
     DataNeeded data;
     half3 L = normalize(light.direction);
@@ -254,7 +254,14 @@ DataNeeded CalculateDataNeeded(half3 N, float3 posWS, float2 staticuv, Light lig
     data.roughness2 = attrib.roughness * attrib.roughness;
     data.staticuv = staticuv;
     data.N = N;
-    data.lightColor = light.color * light.distanceAttenuation * light.shadowAttenuation;
+    if (acceptShadow)
+    {
+        data.lightColor = light.color * light.distanceAttenuation * light.shadowAttenuation;
+    }
+    else
+    {
+        data.lightColor = light.color;
+    }
     return data;
 }
 
