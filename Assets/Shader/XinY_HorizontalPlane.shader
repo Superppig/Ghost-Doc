@@ -157,9 +157,9 @@ Shader "XinY/HorizontalPlane"
 
                 DataNeeded data;
                 #ifdef LIGHTMAP_ON
-                    data = CalculateDataNeeded(N, i.positionWS, i.staticLightmapUV, light, attrib);
+                    data = CalculateDataNeeded(N, i.positionWS, i.staticLightmapUV, light, attrib,true);
                 #else
-                    data = CalculateDataNeeded(N, i.positionWS, 0, light, attrib);
+                    data = CalculateDataNeeded(N, i.positionWS, 0, light, attrib,true);
                 #endif
                 half3 V = normalize(_WorldSpaceCameraPos - i.positionWS);
                 half2 distortDir = normalize(V.x) - 0.5;

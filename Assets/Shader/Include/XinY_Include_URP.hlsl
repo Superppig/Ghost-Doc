@@ -489,4 +489,8 @@ float Rec_SDF(float2 pos, float2 halfWidthAndHeight)
     return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);
 }
 
+float LinearStep(float minStep,float maxStep,float input){
+    return saturate((input-minStep)/(maxStep-minStep));
+}
+
 #endif

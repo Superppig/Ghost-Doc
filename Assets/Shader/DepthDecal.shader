@@ -14,7 +14,14 @@ Shader "Unlit/DepthDecal"
         Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
         
         HLSLINCLUDE
+        #pragma multi_compile_fragment _ _SHADOWS_SOFT
+        #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+        //聚光灯阴影
+        #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "../Shader/Include/XinY_Include_URP.hlsl"
+
         #define smp sampler_Clamp_Linear
         
         CBUFFER_START(UnityPerMaterial)
@@ -60,13 +67,18 @@ Shader "Unlit/DepthDecal"
             rPositionVS.z = depth;
             rPositionVS.xy = -i.positionVS.xy * depth / i.positionVS.z;
             float3 rPositionWS = mul(unity_CameraToWorld, rPositionVS);
+            float4 rPositionCS = TransformWorldToHClip(rPositionWS);
             float3 rPositionOS = mul(unity_WorldToObject, float4(rPositionWS, 1));
-            float2 uv = rPositionOS.xz + 0.5;
-            float mask = SAMPLE_TEXTURE2D(_MainTex, smp, uv);
-            finalcolor *= mask;
-            alpha *= mask;
+            float2 uv = rPositionOS.xz+0.5;
 
-            
+            float4 baseColor = SAMPLE_TEXTURE2D(_MainTex, smp, uv);
+            finalcolor *= baseColor.xyz;
+            alpha *= baseColor.a;
+            float4 shadowCoord = XinY_GetShadowCoord(rPositionCS, rPositionWS);
+            Light light = GetMainLight(shadowCoord);
+            float shadow=max(0.3,light.shadowAttenuation);
+            finalcolor*=light.color*light.distanceAttenuation*shadow;
+            //return frac(uv.xyxx);
             return half4(finalcolor, alpha);
         }
         

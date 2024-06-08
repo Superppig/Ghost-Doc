@@ -128,7 +128,7 @@ Shader "XinY/PBR_Base"
                 SurfaceAttrib attrib;
                 attrib.baseColor = baseMap;
                 attrib.metallic = lerp(0, MRA.x, _MetallicAd);
-                attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd),2);
+                attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd), 2);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
 
@@ -138,12 +138,11 @@ Shader "XinY/PBR_Base"
                 
                 float4 shadowCoord = XinY_GetShadowCoord(i.positionCS, i.positionWS);
                 Light light = GetMainLight(shadowCoord, i.positionWS, shadowMask, aoFactor.directAO);
-
                 DataNeeded data;
                 #ifdef LIGHTMAP_ON
-                    data = CalculateDataNeeded(N, i.positionWS, i.staticLightmapUV, light, attrib);
+                    data = CalculateDataNeeded(N, i.positionWS, i.staticLightmapUV, light, attrib, true);
                 #else
-                    data = CalculateDataNeeded(N, i.positionWS, 0, light, attrib);
+                    data = CalculateDataNeeded(N, i.positionWS, 0, light, attrib, true);
                 #endif
 
                 half3 mainLightColor = 0;
