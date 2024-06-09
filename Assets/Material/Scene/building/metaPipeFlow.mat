@@ -36,22 +36,22 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
-    - _GradientFlow: -0.5
+    - _GradientFlow: 1
     - _GradientRange: 0.09542184
     - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Roughness: 1
-    - _ShapeEnd: 1
+    - _Roughness: 0.412
+    - _ShapeEnd: 0.987
     - _ShapeFlow: 0.5
-    - _ShapeMaxSize: 1
-    - _ShapeStart: 0.653
+    - _ShapeMaxSize: 0.93
+    - _ShapeStart: 0.395
     - _SpecularHighlights: 1
     m_Colors:
-    - _BaseColor: {r: 0.061480958, g: 0.047383413, b: 0.103773594, a: 0}
+    - _BaseColor: {r: 0.2735849, g: 0.24881528, b: 0.21525453, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Gradient_1: {r: 1.1486983, g: 1.0135573, b: 0.42794645, a: 0}
-    - _Gradient_2: {r: 1.3490196, g: 1.9215686, b: 0.9490196, a: 0}
-    - _ShapeTilling: {r: 8, g: 8, b: 0, a: 0}
+    - _Gradient_1: {r: 2.2613592, g: 0.9189588, b: 0.47749817, a: 0}
+    - _Gradient_2: {r: 11.921569, g: 4.0156865, b: 11.984314, a: 0}
+    - _ShapeTilling: {r: 4, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []
