@@ -493,4 +493,10 @@ float LinearStep(float minStep,float maxStep,float input){
     return saturate((input-minStep)/(maxStep-minStep));
 }
 
+float GetScaleTime(float scale){
+    return _Time.y*scale;
+}
+float GetLinearTimeWave(float timeScale){
+    return 2*abs(frac(GetScaleTime(timeScale))-0.5);
+}
 #endif

@@ -30,22 +30,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _CloudNoise:
         m_Texture: {fileID: 2800000, guid: 319d0f75ad9d58e4e90851198a0490f1, type: 3}
-        m_Scale: {x: 0.66, y: 0.38}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0.04, y: -0.04}
     m_Ints: []
     m_Floats:
-    - _CloudEnd: 0.894
-    - _CloudEnd2: 0.875
-    - _CloudStart: 0.581
-    - _CloudStart2: 0.418
-    - _DistortIntensity: 0.0161
+    - _CloudEnd: 0.887
+    - _CloudEnd2: 0.769
+    - _CloudStart: 0.171
+    - _CloudStart2: 0.286
+    - _DistortIntensity: 0.0386
     - _FresnelBias: 0
-    - _FresnelPower: 0.66
+    - _FresnelPower: 1
     - _FresnelScale: 2.26
+    - _JunctionRange: 0.716
     m_Colors:
     - _CloudColor_1_Day: {r: 1, g: 1, b: 1, a: 1}
     - _CloudColor_1_Night: {r: 1, g: 1, b: 1, a: 1}
     - _CloudColor_2_Day: {r: 1, g: 1, b: 1, a: 1}
     - _CloudColor_2_Night: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 0.14117648}
+    - _Color: {r: 0.9245283, g: 0.6401407, b: 0.48319682, a: 0.14117648}
   m_BuildTextureStacks: []

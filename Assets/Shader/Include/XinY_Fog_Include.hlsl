@@ -34,7 +34,8 @@ float CalculateInscatterFactor(float3 posWS, half inscatterIntensity, float disF
     Light light = GetMainLight();
     half3 L = normalize(light.direction);
     half3 V = normalize(posWS - _WorldSpaceCameraPos);
-    half inscatterFactor = smoothstep(inscatterIntensity, 1, saturate(dot(L, V)));
+    half LdotV = pow(saturate(dot(L, V)), 8);
+    half inscatterFactor = smoothstep(inscatterIntensity, 1, LdotV);
     inscatterFactor = 1 - exp(-inscatterFactor);
     inscatterFactor *= (1 - disFactor);
     return inscatterFactor;

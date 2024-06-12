@@ -22,7 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: LEB_orange
   m_Shader: {fileID: 4800000, guid: b1f23d8566176f8468acdcf728e15b2c, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - FOG_ON
   m_InvalidKeywords:
   - _EMISSION
   m_LightmapFlags: 2
@@ -103,6 +104,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FOG_ON: 1
     - _FlowCycleNum: 1
     - _FlowSpeed: 0
     - _GlossMapScale: 0

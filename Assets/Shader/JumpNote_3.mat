@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: JumpNote
+  m_Name: JumpNote_3
   m_Shader: {fileID: 4800000, guid: 8aaccac596d51db4e901540c71c0f2a9, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -35,11 +35,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BasePow: 16.7
+    - _BasePow: 3.5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RandomScale: 0.66
-    - _RandomSeed: 6.5
+    - _RandomSeed: 9.42
     - _ReceiveShadows: 1
     - _Scale: 0
     - _SinPow: 2
