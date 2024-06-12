@@ -239,7 +239,7 @@ struct DataNeeded
 
 
 
-DataNeeded CalculateDataNeeded(half3 N, float3 posWS, float2 staticuv, Light light, SurfaceAttrib attrib, bool acceptShadow=true)
+DataNeeded CalculateDataNeeded(half3 N, float3 posWS, float2 staticuv, Light light, SurfaceAttrib attrib, bool acceptShadow = true)
 {
     DataNeeded data;
     half3 L = normalize(light.direction);
@@ -364,7 +364,11 @@ half3 GetIndirectSpecPartOne(half3 R, half roughness)
     half3 indirectSpecular = 0;
     #if _REFLECTPLANE
         half2 uv = R.xy;
-        indirectSpecular = SAMPLE_TEXTURE2D(_ReflectRT, sampler_ReflectRT, uv) * (1 - roughness);
+        float ins=pow(1-roughness,4);
+        float3 indirectSpecular0 = SAMPLE_TEXTURE2D(_ReflectRT, sampler_ReflectRT, uv) * ins;
+        half mip = roughness * (1.7 - 0.7 * roughness) * 6;
+        float3 indirectSpecular1 = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);
+        indirectSpecular=lerp(indirectSpecular0,indirectSpecular1,roughness);
     #else
         half mip = roughness * (1.7 - 0.7 * roughness) * 6;
         indirectSpecular = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);

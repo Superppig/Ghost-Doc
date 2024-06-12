@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8784245880283708722
+--- !u!114 &-2608984554230691913
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,10 +20,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: roof
-  m_Shader: {fileID: 4800000, guid: 297b4b524bdb6d24cb4e89f0fa9f87ee, type: 3}
-  m_ValidKeywords:
-  - FOG_ON
+  m_Name: baseCube_2_2_2_top
+  m_Shader: {fileID: 4800000, guid: 3edaf36df13818f49a911d9a0396b4d0, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -35,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b00d6b08731d0e94f998636db1174e21, type: 3}
+        m_Texture: {fileID: 2800000, guid: f853057b913024644bf321ca179cb6ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -62,8 +61,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 2800000, guid: 7cbb094165960a94282678bcb73a93e4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MRA:
-        m_Texture: {fileID: 2800000, guid: c5fe4812b1c3d124cb0ed8e1bb0326ca, type: 3}
+        m_Texture: {fileID: 2800000, guid: 449055b58f201c341b8b19c5a3ffa2b7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -75,7 +78,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 30529c7d7bbe1a94ebbccfc6a5631569, type: 3}
+        m_Texture: {fileID: 2800000, guid: 285c02b34d571c449acfc1b301e3f137, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -118,8 +121,7 @@ Material:
     - _EMISS_FLOW: 0
     - _EMISS_FLOW_Y: 0
     - _EnvironmentReflections: 1
-    - _FOG_ON: 1
-    - _GIIntensity: 1
+    - _FOG_ON: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -130,7 +132,7 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReflectDistort: 0.049
+    - _ReflectDistort: 0
     - _ReflectIntensity: 1
     - _RoughnessAd: 1
     - _Smoothness: 0.5
@@ -142,8 +144,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.9622641, g: 0.83843535, b: 0.7752581, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer1: {r: 2.240558, g: 0.5324098, b: 0.24402116, a: 1}
+    - _EmissionColor_Layer2: {r: 2.240558, g: 0.5324098, b: 0.24402116, a: 1}
+    - _EmissionColor_Layer3: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer4: {r: 0, g: 0, b: 0, a: 1}
     - _FlowPara: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
