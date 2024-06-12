@@ -22,7 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: startWall
   m_Shader: {fileID: 4800000, guid: 309ef4341355203419f43bdfd112d624, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - FOG_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -116,7 +117,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FOG_ON: 0
+    - _FOG_ON: 1
     - _Float0: -0.04
     - _Float1: 6.91
     - _GIIntensity: 1

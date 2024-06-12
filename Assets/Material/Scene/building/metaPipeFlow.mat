@@ -8,8 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metaPipeFlow
-  m_Shader: {fileID: 4800000, guid: 39035df593a3de445b8ee7ef9153e694, type: 3}
-  m_ValidKeywords: []
+  m_Shader: {fileID: 4800000, guid: a3a9ceb29051ae14a9f4eece8a08c9cd, type: 3}
+  m_ValidKeywords:
+  - FOG_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -34,24 +35,36 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AOAd: 1
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
+    - _FOG_ON: 1
+    - _FlowSpeed: 1
     - _GradientFlow: 1
+    - _GradientFlowSpeed: 0.25
     - _GradientRange: 0.09542184
     - _Metallic: 0
+    - _MetallicAd: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Roughness: 0.412
+    - _RoughnessAd: 1
     - _ShapeEnd: 0.987
     - _ShapeFlow: 0.5
     - _ShapeMaxSize: 0.93
+    - _ShapeSize: 0.89
     - _ShapeStart: 0.395
+    - _ShapeTilling: 6.9
     - _SpecularHighlights: 1
     m_Colors:
+    - _BackgroundColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
     - _BaseColor: {r: 0.2735849, g: 0.24881528, b: 0.21525453, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Gradient_1: {r: 2.2613592, g: 0.9189588, b: 0.47749817, a: 0}
     - _Gradient_2: {r: 11.921569, g: 4.0156865, b: 11.984314, a: 0}
+    - _ShapeColor1: {r: 20.831373, g: 19.07451, b: 3.137255, a: 1}
+    - _ShapeColor2: {r: 6.4888563, g: 29.508846, b: 4.634897, a: 1}
+    - _ShapeStartAndEnd: {r: 0.24, g: 1, b: 0, a: 0}
     - _ShapeTilling: {r: 4, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []

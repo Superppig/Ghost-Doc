@@ -15,6 +15,7 @@ Shader "XinY/Cloud"
         _FresnelBias ("FresnelBias", Range(-1, 1)) = 0
         _FresnelScale ("FresnelScale", float) = 1
         _FresnelPower ("FresnelPower", float) = 1
+        _JunctionRange ("JunctionRange", Range(0, 1)) = 1
     }
     SubShader
     {
@@ -40,6 +41,7 @@ Shader "XinY/Cloud"
             float4 positionCS : SV_POSITION;
             float3 positionWS : TEXCOORD1;
             half3 normalWS : TEXCOORD2;
+            float3 positionVS : TEXCOORD3;
             float4 uv : TEXCOORD0;
         };
 
@@ -57,10 +59,13 @@ Shader "XinY/Cloud"
             half _FresnelPower;
             half _FresnelScale;
             half4 _Color;
+            float _JunctionRange;
         CBUFFER_END
         TEXTURE2D(_CloudNoise);SAMPLER(sampler_CloudNoise);
         TEXTURE2D(_CloudDistort);SAMPLER(sampler_CloudDistort);
         TEXTURE2D(_CloudDetail);SAMPLER(sampler_CloudDetail);
+        TEXTURE2D(_CameraDepthTexture);
+        SAMPLER(sampler_CameraDepthTexture);
 
 
         ENDHLSL
@@ -78,6 +83,7 @@ Shader "XinY/Cloud"
                 output.positionCS = TransformObjectToHClip(v.positionOS.xyz);
                 output.positionWS = TransformObjectToWorld(v.positionOS);
                 output.normalWS = TransformObjectToWorldNormal(v.normal);
+                output.positionVS=TransformWorldToView(output.positionWS);
                 output.uv = v.texcoord;
                 return output;
             }
@@ -110,7 +116,13 @@ Shader "XinY/Cloud"
                 float distanceMask = distance(i.positionWS, _WorldSpaceCameraPos);
                 distanceMask = smoothstep(0, 200, distanceMask);
 
-                return cloud * _Color * boxMask * distanceMask;
+                float2 screenUV = GetNormalizedScreenSpaceUV(i.positionCS);
+                float depth = LinearEyeDepth(SAMPLE_TEXTURE2D(_CameraDepthTexture, sampler_CameraDepthTexture, screenUV).x, _ZBufferParams);
+                //注意，VS坐标z值为负
+                float depthFade = depth + i.positionVS.z;
+                float junctionMask = smoothstep(0, _JunctionRange * 50, depthFade);
+                
+                return cloud * _Color * boxMask * distanceMask * junctionMask;
             }
             ENDHLSL
         }

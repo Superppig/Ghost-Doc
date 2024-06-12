@@ -34,9 +34,9 @@ public class Enviroment : MonoBehaviour
         MainLight.transform.rotation = Quaternion.Euler(EulerAngle);
         skyMat.SetFloat("_Control",control);
        
-        Shader.SetGlobalColor("_ButtomFogColor", ButtomFogColor);
+        Shader.SetGlobalColor("_ButtomFogColor", ButtomFogColor.linear);
         Shader.SetGlobalFloat("_HeightFogDensity", HeightFogDensity*0.01f*FogIntensity);
-        Shader.SetGlobalColor("_FarFogColor", FarFogColor);
+        Shader.SetGlobalColor("_FarFogColor", FarFogColor.linear);
         Shader.SetGlobalFloat("_DistanceFogDensity", DistanceFogDensity * 0.01f*FogIntensity);
         Shader.SetGlobalFloat("_InscatterIntensity", 1-InscatterIntensity);
         Shader.SetGlobalFloat("_FogContrast", FogContrast);

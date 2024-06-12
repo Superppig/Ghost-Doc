@@ -2,36 +2,40 @@ Shader "XinY/FlowLED"
 {
     Properties
     {
-        _FlowSpeed("FlowSpeed",float)=1.0
-        _FlowCycleNum("FlowCycleNum",float)=1.0
-        _FlowSmooth("FlowSmooth Min Max",vector)=(0,1,0,0)
-        [HDR]_FlowColor("LEDColor",color)=(1,1,1,1)
+        _FlowSpeed ("FlowSpeed", float) = 1.0
+        _FlowCycleNum ("FlowCycleNum", float) = 1.0
+        _FlowSmooth ("FlowSmooth Min Max", vector) = (0, 1, 0, 0)
+        [HDR]_FlowColor ("LEDColor", color) = (1, 1, 1, 1)
+        [Toggle(FOG_ON)]_FOG_ON ("Enable Fog", int) = 0
+
     }
     SubShader
     {
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
         LOD 100
         HLSLINCLUDE
+        #pragma shader_feature _ FOG_ON
+        #include "../Shader/Include/XinY_Fog_Include.hlsl"
         #include "../Shader/Include/XinY_Include_URP.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
         CBUFFER_START(UnityPerMaterial)
-        half _FlowSpeed;
-        half _FlowCycleNum;
-        half2 _FlowSmooth;
-        half4 _FlowColor;
+            half _FlowSpeed;
+            half _FlowCycleNum;
+            half2 _FlowSmooth;
+            half4 _FlowColor;
         CBUFFER_END
-    
+        
         struct appdata
         {
-            float3 positionOS:POSITION;
+            float3 positionOS : POSITION;
             float2 texcoord : TEXCOORD0;
-            half3 normalOS:NORMAL;
+            half3 normalOS : NORMAL;
         };
         struct v2f
         {
             float2 uv : TEXCOORD0;
             float4 positionCS : SV_POSITION;
-
+            float3 positionWS:TEXCOORD1;
         };
 
         ENDHLSL
@@ -46,16 +50,20 @@ Shader "XinY/FlowLED"
             {
                 v2f output = (v2f)0;;
                 //坐标获取
-                output.positionCS=TransformObjectToHClip(v.positionOS);
-                output.uv=v.texcoord;
+                output.positionCS = TransformObjectToHClip(v.positionOS);
+                output.positionWS=TransformObjectToWorld(v.positionOS);
+                output.uv = v.texcoord;
                 return output;
             }
             float4 frag(v2f i) : SV_TARGET
             {
-                float stepValue=frac(i.uv.x*_FlowCycleNum+_Time.y*_FlowSpeed);
-                float flow=1-2*distance(0.5,stepValue);
-                flow=smoothstep(_FlowSmooth.x,_FlowSmooth.y,flow);
-                float4 color=flow*_FlowColor;
+                float stepValue = frac(i.uv.x * _FlowCycleNum + _Time.y * _FlowSpeed);
+                float flow = 1 - 2 * distance(0.5, stepValue);
+                flow = smoothstep(_FlowSmooth.x, _FlowSmooth.y, flow);
+                float4 color = flow * _FlowColor;
+                #ifdef FOG_ON
+                    color.rgb = XinY_MixFog(color.rgb, i.positionWS);
+                #endif
                 return color;
             };
             ENDHLSL
@@ -125,6 +133,5 @@ Shader "XinY/FlowLED"
             }
             ENDHLSL
         }
-
     }
 }

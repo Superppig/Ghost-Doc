@@ -1,4 +1,4 @@
-Shader "XinY/BuildingWindow_Scan"
+Shader "XinY/BuildingWindow_LineScan"
 {
     Properties
     {
