@@ -96,9 +96,10 @@ GameObject:
   - component: {fileID: 8499740734477853070}
   - component: {fileID: 8649867670766839845}
   - component: {fileID: 3390607165600771293}
-  - component: {fileID: 5341825333268926567}
-  m_Layer: 8
-  m_Name: Zombies 1
+  - component: {fileID: 850204913851658132}
+  - component: {fileID: 9160842209524331084}
+  m_Layer: 13
+  m_Name: RemoteEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +134,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -187,7 +188,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5341825333268926567
+--- !u!136 &850204913851658132
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5216988099393871748}
+  m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.58
+  m_Height: 2.397005
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.2560356, z: 0}
+--- !u!114 &9160842209524331084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,26 +211,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 5216988099393871748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8be10307151e4f841af9f2ea597a43aa, type: 3}
+  m_Script: {fileID: 11500000, guid: ac9ce1196c994574bc46b34a56bda5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  damage: 2
-  headDamage: 8
-  bodyDamage: 3
-  player: {fileID: 0}
-  attackRate: 0.2
-  bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
-  speed: 0.5
-  turnTime: 0.5
+  blackboard:
+    current: 0
+    distanceToPlayer: 0
+    dirToPlayer: {x: 0, y: 0, z: 0}
+    commonHealth: 70
+    weakHealth: 30
+    damage: 30
+    commonHitRate: 1
+    criticalStrikeRate: 2
+    speed: 7
+    trunTime: 0.5
+    hitTime: 0.5
+    directRange: 10
+    attackRange: 2
+    attackTime: 1
+    MaxFireRange: 15
+    MinFireRange: 10
+    fireTime: 1
+    bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
+    isAttack: 0
+    hasAttack: 0
+    isHit: 0
+    player: {fileID: 0}
+  anim: {fileID: 0}
+  rb: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
-  attackRange: 2
-  attackWaitTime: 0.5
-  findRange: 15
-  hitTime: 0.2
-  beBlocked: 0
-  hasHit: 0
-  _state: 0
+  enemyType: 1
 --- !u!1 &6346626515909951495
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +305,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8df3c4590fcc60e499124a42274a0223, type: 2}
+  - {fileID: -3661639628750336703, guid: 7e0223e1d3e1733499accfa5ebffb67e, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -308,7 +334,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6346626515909951495}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -413,9 +439,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7706744442249031693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.38, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 1.461, z: 0}
+  m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7324169258639518062}
   m_RootOrder: 1
@@ -448,7 +474,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8df3c4590fcc60e499124a42274a0223, type: 2}
+  - {fileID: -3661639628750336703, guid: 7e0223e1d3e1733499accfa5ebffb67e, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

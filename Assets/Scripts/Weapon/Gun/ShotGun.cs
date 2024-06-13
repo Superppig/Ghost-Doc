@@ -41,7 +41,7 @@ public class ShotGun : Gun
                     //粒子效果
                     ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                     IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
-                    enemyBeHit.HitEnemy(new HitInfo(){rate = data.damageRate});
+                    enemyBeHit.HitEnemy(new HitInfo(){damage = data.damage});
                 }
                 else
                 {

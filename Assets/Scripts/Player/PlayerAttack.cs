@@ -69,7 +69,7 @@ public class PlayerAttack : MonoBehaviour
         }
         
         //右键为近战
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)&& meleeNames.Count>0)
         {
             if(currentType==WeaponType.Gun)
                 SwitchWeapon(WeaponType.Melee,meleeIndex);

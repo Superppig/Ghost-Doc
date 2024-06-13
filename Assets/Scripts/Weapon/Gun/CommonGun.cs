@@ -44,7 +44,7 @@ public class CommonGun : Gun
                 ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
                 ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
-                enemyBeHit.HitEnemy(new HitInfo(){rate = data.damageRate});
+                enemyBeHit.HitEnemy(new HitInfo(){damage = data.damage});
             }
             else
             {

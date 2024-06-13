@@ -8,7 +8,7 @@ public class CommonGundata : GunData
     [Header("射击属性")] 
     public LayerMask enemyMask;
     public LayerMask pyhsicsMask;
-    public float damageRate;
+    public float damage;
     public float maxShootDistance;
     [Header("子弹(激光)")] public LineRenderer bullet;
 

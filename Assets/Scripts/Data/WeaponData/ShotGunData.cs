@@ -8,7 +8,7 @@ namespace Data.WeaponData
     {
         [Header("射击属性")]
         public LayerMask enemyMask;
-        public float damageRate;
+        public float damage;
         public float maxShootDistance;//最大射程
         public int bulletCount;//子弹数量
         public float bulletMinDistance;//子弹最小距离

@@ -52,7 +52,7 @@ public class EnemyBullet : Bullet ,IBlock
             if (other.CompareTag("Enemy"))
             {
                 if(other.GetComponent<IEnemyBeHit>() == null) return;
-                other.GetComponent<IEnemyBeHit>().HitEnemy(new HitInfo(){rate = damage});
+                other.GetComponent<IEnemyBeHit>().HitEnemy(new HitInfo(){damage = damage});
                 Destroy(gameObject);
             }
         }

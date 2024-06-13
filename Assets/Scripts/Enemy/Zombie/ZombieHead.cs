@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class ZombieHead : MonoBehaviour,IEnemyBeHit
 {
-    private Zombie zombie;
-    private float damage;
+    private Enemy enemy;
+    private float rate;
     private void Awake()
     {
-        zombie = transform.root.GetComponent<Zombie>();
-        damage = zombie.headDamage;
+        enemy = transform.root.GetComponent<Enemy>();
+        rate = enemy.blackboard.criticalStrikeRate;
     }
 
     public bool CanBeHit()
     {
-        return !zombie.hasHit;
+        return false; //!zombie.hasHit;
     }
 
     public void HitEnemy(HitInfo hitInfo)
     {
-        zombie.TakeDamage(damage * hitInfo.rate, hitInfo.isBomb);
+        enemy.TakeDamage(rate*hitInfo.damage);
         Debug.Log("头部被击中");
     }
 }

@@ -12,7 +12,7 @@ public struct HitInfo
     //爆炸
     public bool isBomb;
     //基本信息
-    public float rate;
+    public float damage;
 }
 
 public interface IEnemyBeHit

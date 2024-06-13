@@ -36,7 +36,7 @@ public class MeleeHitBox : MonoBehaviour
                 case Melee.AttackType.Common:
 
                     //普通挥砍
-                    enemy.HitEnemy(new HitInfo(){rate = melee.damage});
+                    enemy.HitEnemy(new HitInfo(){damage = melee.damage});
                     Debug.Log("普通挥砍");
 
                     //粒子效果

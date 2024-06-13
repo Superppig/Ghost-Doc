@@ -2,35 +2,22 @@ using UnityEngine;
 
 public class ZombieBody : MonoBehaviour,IEnemyBeHit
 {
-    private Zombie zombie;
-    private float damage;
+    private Enemy enemy;
+    private float rate;
     private HitInfo lastHitInfo;
     private void Awake()
     {
-        zombie = transform.root.GetComponent<Zombie>();
-        damage = zombie.bodyDamage;
+        enemy = transform.root.GetComponent<Enemy>();
+        rate = enemy.blackboard.commonHitRate;
     }
     public bool CanBeHit()
     {
-        return !zombie.hasHit;
+        return !enemy.blackboard.isHit;
     }
 
     public void HitEnemy(HitInfo hitInfo)
     {
-        if (zombie.FindNextEnemy(hitInfo.speed*hitInfo.time*10,zombie.findAngle,hitInfo.dir))
-        {
-            hitInfo.dir = zombie.nextEnemy.transform.position - transform.position;
-        }
-        lastHitInfo=hitInfo;
-        zombie.TakeDamage(damage*hitInfo.rate,hitInfo.isBomb);
-        Debug.Log("hitinfo"+hitInfo.isHitFly);
-        if (hitInfo.isHitFly)
-        {
-            zombie.BeStrickToFly(hitInfo.dir,hitInfo.speed,hitInfo.time);
-            zombie.lastHitInfo = hitInfo;
-        }
+        enemy.TakeDamage(rate*hitInfo.damage);
         Debug.Log("身体被击中");
     }
-    
-    
 }

@@ -5,7 +5,7 @@
 public class DualWieldGunData : GunData
 {
     [Header("射击属性")] public LayerMask enemyMask;
-    public float damageRate;
+    public float damage;
     public float maxShootDistance;
     public float fireRate = 700f; //射速
 

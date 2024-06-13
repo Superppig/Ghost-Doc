@@ -166,7 +166,7 @@ public class DualWieldGun : Gun
                 ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 
-                enemyBeHit.HitEnemy(new HitInfo(){rate = data.damageRate});
+                enemyBeHit.HitEnemy(new HitInfo(){damage = data.damage});
             }
             else
             {

@@ -200,51 +200,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be10307151e4f841af9f2ea597a43aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shield: 0
-  health: 30
-  damage: 2
-  wallDamage: 1
-  headDamage: 8
-  bodyDamage: 3
-  player: {fileID: 0}
-  attackRate: 0.2
-  bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
-  directRange: 5
-  speed: 0.5
-  turnTime: 0.5
-  nextWaypointDistance: 3
-  enemyState: 1
-  UnbalancedTime: 0
-  RecoverySpeed: 0.5
-  canMove: 0
+  blackboard:
+    current: 0
+    distanceToPlayer: 0
+    dirToPlayer: {x: 0, y: 0, z: 0}
+    commonHealth: 70
+    weakHealth: 30
+    damage: 30
+    commonHitRate: 1
+    criticalStrikeRate: 2
+    speed: 5
+    trunTime: 0.5
+    hitTime: 0.5
+    directRange: 10
+    attackRange: 2
+    attackTime: 1
+    MaxFireRange: 15
+    MinFireRange: 10
+    fireTime: 1
+    bullet: {fileID: 0}
+    isAttack: 0
+    hasAttack: 0
+    isHit: 0
+    player: {fileID: 0}
+  anim: {fileID: 0}
   rb: {fileID: 0}
-  hitMinSpeed: 3
-  collideDecayRate: 1
-  isStrikToFly: 0
-  findAngle: 360
-  nextEnemy: {fileID: 0}
-  popMinDistance: 4
-  popForce: 10
-  popDamage: 0
-  popWaitTime: 0.3
-  attackRange: 2
-  attackWaitTime: 0.1
-  findRange: 100
-  hitTime: 0.2
-  beBlocked: 0
-  hasHit: 0
-  _state: 0
-  lastHitInfo:
-    isHitFly: 0
-    dir: {x: 0, y: 0, z: 0}
-    speed: 0
-    time: 0
-    isBomb: 0
-    rate: 0
-  meshRenderer: {fileID: 5016867400159237830}
-  Material0: {fileID: 2100000, guid: 8df3c4590fcc60e499124a42274a0223, type: 2}
-  Material1: {fileID: 2100000, guid: 39f50cbb06625e747b52e6ef54805ac5, type: 2}
-  BombParticle: {fileID: 8445824011612109456, guid: efb2d4efb73f3a04a82ca6f477cde873, type: 3}
+  targetPosition: {x: 0, y: 0, z: 0}
+  nextWaypointDistance: 3
+  enemyType: 0
 --- !u!136 &850204913851658132
 CapsuleCollider:
   m_ObjectHideFlags: 0

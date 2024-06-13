@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class ZombieArm : MonoBehaviour,IBlock
 {
-    private Zombie zombie;
+    private Enemy enemy;
     private float damage;
     private void Awake()
     {
-        zombie = transform.root.GetComponent<Zombie>();
-        damage = zombie.bodyDamage;
+        enemy = transform.root.GetComponent<Enemy>();
+        damage = enemy.blackboard.damage;
     }
 
     public void BeBlocked()
     {
-        zombie.beBlocked=true;
+        //zombie.beBlocked=true;
     }
 
     private void OnTriggerEnter(Collider other)
