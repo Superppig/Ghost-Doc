@@ -47,7 +47,7 @@ public class RemoteEnemy:Enemy
     void StateChange()
     {
         //在这里编写逻辑
-        if (!blackboard.isHit && blackboard.weakHealth > 0)
+        if (!blackboard.isHit && blackboard.currentHealth> 0f)
         {
             if (blackboard.current == IEnemyState.Hit)
             {
@@ -63,7 +63,7 @@ public class RemoteEnemy:Enemy
                 }
             }
             //切换到Stagger
-            if (blackboard.commonHealth <= 0&&blackboard.weakHealth>0)
+            if (blackboard.currentHealth<= blackboard.weakHealth&&blackboard.currentHealth>0)
             {
                 fsm.SwitchState(IEnemyState.Stagger);
             }
@@ -89,7 +89,7 @@ public class RemoteEnemy:Enemy
             }
         }
         //死亡
-        else if(blackboard.weakHealth<= 0)
+        else if(blackboard.currentHealth<= 0f)
         {
             fsm.SwitchState(IEnemyState.Dead);
         }
@@ -101,11 +101,7 @@ public class RemoteEnemy:Enemy
     }
     public override void TakeDamage(float damage)
     {
-        blackboard.commonHealth -= damage;
-        if(blackboard.commonHealth<=0)
-        {
-            blackboard.weakHealth += blackboard.commonHealth;
-        }
+        blackboard.currentHealth -= damage;
         
         blackboard.isHit = true;
     }

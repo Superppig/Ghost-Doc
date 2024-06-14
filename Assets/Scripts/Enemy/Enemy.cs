@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using DG.Tweening;
 using Newtonsoft.Json;
 using Pathfinding;
+using Services.ObjectPools;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody rb;
 
     protected EnemyFSM fsm;
+    public MyObject selfMyObject;
 
     [Header("寻路相关")]
     public Vector3 targetPosition;
@@ -35,6 +37,12 @@ public class Enemy : MonoBehaviour
         fsm = new EnemyFSM(this);
         
         blackboard.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        
+        //注册对象池回调函数
+        selfMyObject = GetComponent<MyObject>();
+        selfMyObject.OnRecycle += EnemyOnDisable;
+        selfMyObject.OnActivate += EnemyOnInable;
+        selfMyObject.OnActivate+= ReBorn;
     }
 
     protected virtual void Start()
@@ -125,5 +133,28 @@ public class Enemy : MonoBehaviour
         return new Vector3(blackboard.player.transform.position.x - transform.position.x, 
             0,
             blackboard.player.transform.position.z - transform.position.z).normalized;
+    }
+    
+    
+    /// <summary>
+    /// 对象池相关实现
+    /// </summary>
+    void EnemyOnDisable()
+    {
+        WaveManager.Instance.currentWave.currentEnemyCount--;
+        WaveManager.Instance.currentWave.currentEnemyHealth-=(blackboard.commonHealth+blackboard.weakHealth);
+        Debug.Log("敌人死亡");
+    }
+    void EnemyOnInable()
+    {
+        WaveManager.Instance.currentWave.currentEnemyCount++;
+        WaveManager.Instance.currentWave.currentEnemyMaxHealth+=(blackboard.commonHealth+blackboard.weakHealth);
+        WaveManager.Instance.currentWave.currentEnemyHealth+=(blackboard.commonHealth+blackboard.weakHealth);
+        Debug.Log("敌人生成");
+    }
+    
+    void ReBorn()
+    {
+        blackboard.currentHealth = blackboard.commonHealth+ blackboard.weakHealth;
     }
 }

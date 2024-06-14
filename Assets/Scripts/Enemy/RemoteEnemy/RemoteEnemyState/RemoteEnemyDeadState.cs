@@ -7,7 +7,7 @@ public class RemoteEnemyDeadState:EnemyStateBase
 
     public override void OnEnter()
     {
-        GameObject.Destroy(enemy.gameObject);
+        enemy.selfMyObject.Recycle();
     }
 
     public override void OnExit()

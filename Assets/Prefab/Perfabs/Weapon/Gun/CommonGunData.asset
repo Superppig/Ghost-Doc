@@ -18,7 +18,7 @@ MonoBehaviour:
   pyhsicsMask:
     serializedVersion: 2
     m_Bits: 8192
-  damageRate: 1
+  damage: 40
   maxShootDistance: 100
   bullet: {fileID: 2506413551038873761, guid: b2f2de65505f42344a6c3dad83cc3e2b, type: 3}
   lineWindth: 0.05

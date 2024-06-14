@@ -45,6 +45,14 @@ MonoBehaviour:
     m_Address: CommonKnife
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 80be0916ede58c64782adc854f3fcab4
+    m_Address: Zombie
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: edf29259a17ff304f9beedbcd1072e2b
+    m_Address: RemoteEnemy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3e529fcc779eae248a67795ce43bf27b, type: 2}
   m_SchemaSet:

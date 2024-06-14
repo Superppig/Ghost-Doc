@@ -21,6 +21,7 @@ public class EnemyBlackboard
     public IEnemyState current=IEnemyState.Idle;
     public float distanceToPlayer;
     public Vector3 dirToPlayer;
+    public float currentHealth = 100f;
 
 
     public float commonHealth = 70f;//正常血槽

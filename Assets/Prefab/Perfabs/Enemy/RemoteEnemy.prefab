@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3390607165600771293}
   - component: {fileID: 850204913851658132}
   - component: {fileID: 9160842209524331084}
+  - component: {fileID: -2669771171200353402}
   m_Layer: 13
   m_Name: RemoteEnemy
   m_TagString: Enemy
@@ -218,6 +219,7 @@ MonoBehaviour:
     current: 0
     distanceToPlayer: 0
     dirToPlayer: {x: 0, y: 0, z: 0}
+    currentHealth: 100
     commonHealth: 70
     weakHealth: 30
     damage: 30
@@ -239,9 +241,23 @@ MonoBehaviour:
     player: {fileID: 0}
   anim: {fileID: 0}
   rb: {fileID: 0}
+  selfMyObject: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
   enemyType: 1
+--- !u!114 &-2669771171200353402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5216988099393871748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1a8126a6c408b479598d2bb41f943d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
 --- !u!1 &6346626515909951495
 GameObject:
   m_ObjectHideFlags: 0
