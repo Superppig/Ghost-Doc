@@ -24,6 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 297b4b524bdb6d24cb4e89f0fa9f87ee, type: 3}
   m_ValidKeywords:
   - FOG_ON
+  - RECEIEVE_DECAL_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -63,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MRA:
-        m_Texture: {fileID: 2800000, guid: c5fe4812b1c3d124cb0ed8e1bb0326ca, type: 3}
+        m_Texture: {fileID: 2800000, guid: 75f7e4beb13dac44aab3043b11ee9a74, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -129,9 +130,10 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
+    - _RECEIEVE_DECAL_ON: 1
     - _ReceiveShadows: 1
     - _ReflectDistort: 0.049
-    - _ReflectIntensity: 1
+    - _ReflectIntensity: 0.1
     - _RoughnessAd: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0

@@ -3,7 +3,7 @@
 
 #include "./XinY_Include_URP.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
 
 struct Direct_Dot_Data
 {
@@ -364,11 +364,9 @@ half3 GetIndirectSpecPartOne(half3 R, half roughness)
     half3 indirectSpecular = 0;
     #if _REFLECTPLANE
         half2 uv = R.xy;
-        float ins=pow(1-roughness,4);
+        float ins = pow(1 - roughness, 4) * R.z;
         float3 indirectSpecular0 = SAMPLE_TEXTURE2D(_ReflectRT, sampler_ReflectRT, uv) * ins;
-        half mip = roughness * (1.7 - 0.7 * roughness) * 6;
-        float3 indirectSpecular1 = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);
-        indirectSpecular=lerp(indirectSpecular0,indirectSpecular1,roughness);
+        indirectSpecular = indirectSpecular0;
     #else
         half mip = roughness * (1.7 - 0.7 * roughness) * 6;
         indirectSpecular = DecodeHDREnvironment(half4(SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, R, mip)), unity_SpecCube0_HDR);
@@ -438,5 +436,32 @@ half3 GetOneLightPBRColor(DataNeeded data, SurfaceAttrib attrib, AOPara ao)
 {
     return GetOneLightPBRColor(attrib.baseColor, data.staticuv, data.N, data.NdotV, attrib.roughness, data.R, attrib.metallic, data.NdotH, data.roughness2, data.NdotL, data.LdotH, data.lightColor, ao.directAO, ao.indirectAO);
 }
+
+void ApplyDecalToSurfaceAttrib(float4 positionCS, inout float occlusion, inout float3 normalWS, inout SurfaceAttrib attrib)
+{
+    //声明变量，采用DBuffer到变量中
+    FETCH_DBUFFER(DBuffer, _DBufferTexture, int2(positionCS.xy));
+    //将Debuffer中的内容集合到DecalSurfaceData中
+    DecalSurfaceData decalSurfaceData;
+    DECODE_FROM_DBUFFER(DBuffer, decalSurfaceData);
+    attrib.baseColor = lerp(decalSurfaceData.baseColor.xyz, attrib.baseColor, decalSurfaceData.baseColor.w);
+
+    #if defined(_DBUFFER_MRT2) || defined(_DBUFFER_MRT3)
+        // Always test the normal as we can have decompression artifact
+        if (decalSurfaceData.normalWS.w < 1.0)
+        {
+            normalWS.xyz = normalize(lerp(decalSurfaceData.normalWS.xyz, normalWS, decalSurfaceData.normalWS.w));
+        }
+    #endif
+
+    #if defined(_DBUFFER_MRT3)
+        attrib.metallic = lerp(decalSurfaceData.metallic, attrib.metallic, decalSurfaceData.MAOSAlpha);
+
+        occlusion = lerp(decalSurfaceData.occlusion, occlusion, decalSurfaceData.MAOSAlpha);
+
+        attrib.roughness = lerp(1 - decalSurfaceData.smoothness, attrib.roughness, decalSurfaceData.MAOSAlpha);
+    #endif
+}
+
 
 #endif

@@ -11,7 +11,7 @@ Shader "XinY/HorizontalPlane"
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
         _ReflectDistort ("ReflectDistort", Range(0, 0.2)) = 0.1
-        _ReflectIntensity ("ReflectIntensity", float) = 1
+        _ReflectIntensity ("ReflectIntensity", Range(0,2)) = 1
         _DistortMap ("DistortMap", 2D) = "black" { }
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
@@ -19,6 +19,7 @@ Shader "XinY/HorizontalPlane"
         [Toggle(EMISS_FLOW_Y)]_EMISS_FLOW_Y ("Y Flow", int) = 0
         _FlowPara ("FlowWidth Contrast SpeedXY", vector) = (0, 1, 0, 0)
         [Toggle(FOG_ON)]_FOG_ON ("Enable Fog", int) = 0
+        [Toggle(RECEIEVE_DECAL_ON)]_RECEIEVE_DECAL_ON ("Receieve Decal", int) = 0
     }
 
     SubShader
@@ -34,10 +35,12 @@ Shader "XinY/HorizontalPlane"
         #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
         //先别用实时GI
         //#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-
+        #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+        
         #pragma shader_feature _ FOG_ON
         #pragma shader_feature _ EMISS_FLOW
         #pragma shader_feature _ EMISS_FLOW_Y
+        #pragma shader_feature _ RECEIEVE_DECAL_ON
         #define _REFLECTPLANE 1
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -147,6 +150,9 @@ Shader "XinY/HorizontalPlane"
                 attrib.roughness = lerp(1, MRA.y, _RoughnessAd);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
+                #ifdef RECEIEVE_DECAL_ON
+                    ApplyDecalToSurfaceAttrib(i.positionCS, occlusion, N, attrib);
+                #endif
 
                 AOPara aoFactor = GetAOPara(screenUV, occlusion);
 
@@ -157,15 +163,16 @@ Shader "XinY/HorizontalPlane"
 
                 DataNeeded data;
                 #ifdef LIGHTMAP_ON
-                    data = CalculateDataNeeded(N, i.positionWS, i.staticLightmapUV, light, attrib,true);
+                    data = CalculateDataNeeded(N, i.positionWS, i.staticLightmapUV, light, attrib, true);
                 #else
-                    data = CalculateDataNeeded(N, i.positionWS, 0, light, attrib,true);
+                    data = CalculateDataNeeded(N, i.positionWS, 0, light, attrib, true);
                 #endif
                 half3 V = normalize(_WorldSpaceCameraPos - i.positionWS);
                 half2 distortDir = normalize(V.x) - 0.5;
                 half distort = SAMPLE_TEXTURE2D(_DistortMap, sampler_DistortMap, screenUV * _DistortMap_ST.xy + _DistortMap_ST.zw * _Time.y) * _ReflectDistort;
                 float2 reflectUV = screenUV + distortDir * distort;
                 data.R.xy = reflectUV;
+                data.R.z=_ReflectIntensity;
 
                 half3 mainLightColor = 0;
                 half3 additionLightColor = 0;
@@ -185,14 +192,14 @@ Shader "XinY/HorizontalPlane"
                     half flowMask = 1;
                 #endif
                 
-                mainLightColor = GetOneLightPBRColor(data, attrib,aoFactor);
+                mainLightColor = GetOneLightPBRColor(data, attrib, aoFactor);
 
                 //额外灯
                 uint pixelLightCount = GetAdditionalLightsCount();
                 LIGHT_LOOP_BEGIN(pixelLightCount)
                 Light addLight = GetAdditionalLight(lightIndex, i.positionWS, shadowMask);
                 SetAddLightData(data, addLight, i.positionWS);
-                additionLightColor += GetOneLightPBRColor(data, attrib,aoFactor);
+                additionLightColor += GetOneLightPBRColor(data, attrib, aoFactor);
                 LIGHT_LOOP_END
 
                 half4 finalColor = 0;
@@ -203,7 +210,6 @@ Shader "XinY/HorizontalPlane"
                 #endif
 
                 return finalColor;
-               
             }
             ENDHLSL
         }
@@ -272,6 +278,19 @@ Shader "XinY/HorizontalPlane"
             {
                 return 0;
             }
+            ENDHLSL
+        }
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormals" }
+
+            ZWrite On
+
+            HLSLPROGRAM
+            #pragma vertex DN_vert
+            #pragma fragment DN_frag
+            #include "./Include/XinY_DepthNormalPass.hlsl"
             ENDHLSL
         }
         Pass

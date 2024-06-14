@@ -10,6 +10,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
         _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
+        _ReflectIntensity("ReflectIntensity",Range(0,2))=1
         _ReflectDistort ("ReflectDistort", Range(0, 0.2)) = 0.1
         _DistortMap ("DistortMap", 2D) = "black" { }
         _EmissionMask ("EmissionMask", 2D) = "black" { }
@@ -83,6 +84,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
             half _NormalScale;
             float4 _DistortMap_ST;
             half _ReflectDistort;
+            float _ReflectIntensity;
         CBUFFER_END
         TEXTURE2D(_BaseMap);
         SAMPLER(sampler_BaseMap);
@@ -161,7 +163,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
                 half distort = SAMPLE_TEXTURE2D(_DistortMap, sampler_DistortMap, screenUV * _DistortMap_ST.xy + _DistortMap_ST.zw * _Time.y) * _ReflectDistort;
                 float2 reflectUV = screenUV + distortDir * distort;
                 data.R.xy = reflectUV;
-
+                data.R.z=_ReflectIntensity;
                 half3 mainLightColor = 0;
                 half3 additionLightColor = 0;
                 float emissionMask = SAMPLE_TEXTURE2D(_EmissionMask, sampler_EmissionMask, i.uv);

@@ -25,6 +25,7 @@ Material:
   m_ValidKeywords:
   - EMISS_FLOW_Y
   - FOG_ON
+  - RECEIEVE_DECAL_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -130,9 +131,10 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
+    - _RECEIEVE_DECAL_ON: 1
     - _ReceiveShadows: 1
     - _ReflectDistort: 0.006
-    - _ReflectIntensity: 1
+    - _ReflectIntensity: 2
     - _RoughnessAd: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
