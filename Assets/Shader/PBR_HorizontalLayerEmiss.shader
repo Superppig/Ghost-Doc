@@ -1,4 +1,4 @@
-Shader "XinY/HorizontalPlane"
+Shader "XinY/PBR_HorizontalLayerEmiss"
 {
     Properties
     {
@@ -10,21 +10,19 @@ Shader "XinY/HorizontalPlane"
         _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
+        _ReflectIntensity("ReflectIntensity",Range(0,2))=1
         _ReflectDistort ("ReflectDistort", Range(0, 0.2)) = 0.1
-        _ReflectIntensity ("ReflectIntensity", Range(0,2)) = 1
         _DistortMap ("DistortMap", 2D) = "black" { }
-        _EmissionMap ("EmissionMap", 2D) = "black" { }
-        [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
-        [Toggle(EMISS_FLOW)]_EMISS_FLOW ("EmissFlow", int) = 0
-        [Toggle(EMISS_FLOW_Y)]_EMISS_FLOW_Y ("Y Flow", int) = 0
-        _FlowPara ("FlowWidth Contrast SpeedXY", vector) = (0, 1, 0, 0)
+        _EmissionMask ("EmissionMask", 2D) = "black" { }
+        [HDR]_EmissionColor_Layer1 ("_EmissionColor_Layer1", color) = (0, 0, 0, 1)
+        [HDR]_EmissionColor_Layer2 ("_EmissionColor_Layer2", color) = (0, 0, 0, 1)
+        [HDR]_EmissionColor_Layer3 ("_EmissionColor_Layer3", color) = (0, 0, 0, 1)
+        [HDR]_EmissionColor_Layer4 ("_EmissionColor_Layer4", color) = (0, 0, 0, 1)
         [Toggle(FOG_ON)]_FOG_ON ("Enable Fog", int) = 0
-        [Toggle(RECEIEVE_DECAL_ON)]_RECEIEVE_DECAL_ON ("Receieve Decal", int) = 0
     }
 
     SubShader
     {
-        Tags { "RenderPipeline" = "UniversalPipeline" }
 
         HLSLINCLUDE
         // #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -35,13 +33,9 @@ Shader "XinY/HorizontalPlane"
         #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
         //先别用实时GI
         //#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-        #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-        
-        #pragma shader_feature _ FOG_ON
-        #pragma shader_feature _ EMISS_FLOW
-        #pragma shader_feature _ EMISS_FLOW_Y
-        #pragma shader_feature _ RECEIEVE_DECAL_ON
         #define _REFLECTPLANE 1
+
+        #pragma shader_feature _ FOG_ON
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "../Shader/Include/XinY_Include_URP.hlsl"
@@ -83,12 +77,13 @@ Shader "XinY/HorizontalPlane"
             half _MetallicAd;
             half _AOAd;
             half _RoughnessAd;
-            half4 _EmissionColor;
+            float4 _EmissionColor_Layer1;
+            float4 _EmissionColor_Layer2;
+            float4 _EmissionColor_Layer3;
+            float4 _EmissionColor_Layer4;
             half _NormalScale;
-            half _FlowSpeed;
             float4 _DistortMap_ST;
             half _ReflectDistort;
-            half4 _FlowPara;
             float _ReflectIntensity;
         CBUFFER_END
         TEXTURE2D(_BaseMap);
@@ -97,8 +92,8 @@ Shader "XinY/HorizontalPlane"
         SAMPLER(sampler_MRA);
         TEXTURE2D(_NormalMap);
         SAMPLER(sampler_NormalMap);
-        TEXTURE2D(_EmissionMap);
-        SAMPLER(sampler_EmissionMap);
+        TEXTURE2D(_EmissionMask);
+        SAMPLER(sampler_EmissionMask);
         TEXTURE2D(_DistortMap);
         SAMPLER(sampler_DistortMap);
         ENDHLSL
@@ -108,7 +103,6 @@ Shader "XinY/HorizontalPlane"
             Name "ReflectPlane"
             Tags { "LightMode" = "ReflectPlane" }
             HLSLPROGRAM
-            
             #pragma vertex vert
             #pragma fragment frag
 
@@ -150,9 +144,6 @@ Shader "XinY/HorizontalPlane"
                 attrib.roughness = lerp(1, MRA.y, _RoughnessAd);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
-                #ifdef RECEIEVE_DECAL_ON
-                    ApplyDecalToSurfaceAttrib(i.positionCS, occlusion, N, attrib);
-                #endif
 
                 AOPara aoFactor = GetAOPara(screenUV, occlusion);
 
@@ -173,24 +164,16 @@ Shader "XinY/HorizontalPlane"
                 float2 reflectUV = screenUV + distortDir * distort;
                 data.R.xy = reflectUV;
                 data.R.z=_ReflectIntensity;
-
                 half3 mainLightColor = 0;
                 half3 additionLightColor = 0;
-                half3 emission = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, i.uv) * _EmissionColor;
-                half3 emissionColor = emission;
-                #ifdef EMISS_FLOW
-                    float2 flowUV = frac(i.ori_uv + _FlowPara.zw * _Time.y / _BaseMap_ST.xy);
-                    #ifdef EMISS_FLOW_Y
-                        half flowMask = 1 - 2 * abs(flowUV.y - 0.5);
-                    #else
-                        half flowMask = 1 - 2 * abs(flowUV.x - 0.5);
-                    #endif
-                    half2 m_para = half2(_FlowPara.x / max(_BaseMap_ST.x, _BaseMap_ST.y), _FlowPara.y);
-                    m_para.y = Remap(m_para.y, 0, 1, 0, 1 - m_para.x);
-                    flowMask = smoothstep(m_para.x, 1 - m_para.y, flowMask);
-                #else
-                    half flowMask = 1;
-                #endif
+                float emissionMask = SAMPLE_TEXTURE2D(_EmissionMask, sampler_EmissionMask, i.uv);
+                
+                float4 layers = step(emissionMask, 0.3);
+                layers.y = step(emissionMask, 0.5) - layers.x;
+                layers.z = step(emissionMask, 0.7) - layers.x - layers.y;
+                layers.w = step(emissionMask, 0.9) - layers.x - layers.y - layers.z;
+                
+                float3 emissionColor = _EmissionColor_Layer1 * layers.x + _EmissionColor_Layer2 * layers.y + _EmissionColor_Layer3 * layers.z + _EmissionColor_Layer4 * layers.w;
                 
                 mainLightColor = GetOneLightPBRColor(data, attrib, aoFactor);
 
@@ -199,12 +182,12 @@ Shader "XinY/HorizontalPlane"
                 LIGHT_LOOP_BEGIN(pixelLightCount)
                 Light addLight = GetAdditionalLight(lightIndex, i.positionWS, shadowMask);
                 SetAddLightData(data, addLight, i.positionWS);
-                additionLightColor += GetOneLightPBRColor(data, attrib, aoFactor);
+                additionLightColor += GetDirectLightPBRColor(data, attrib, aoFactor);
                 LIGHT_LOOP_END
 
                 half4 finalColor = 0;
                 finalColor.a = attrib.alpha;
-                finalColor.rgb = mainLightColor + additionLightColor + emissionColor * flowMask;
+                finalColor.rgb = mainLightColor + additionLightColor + emissionColor ;
                 #ifdef FOG_ON
                     finalColor.rgb = XinY_MixFog(finalColor.rgb, i.positionWS);
                 #endif
@@ -282,19 +265,6 @@ Shader "XinY/HorizontalPlane"
         }
         Pass
         {
-            Name "DepthNormals"
-            Tags { "LightMode" = "DepthNormals" }
-
-            ZWrite On
-
-            HLSLPROGRAM
-            #pragma vertex DN_vert
-            #pragma fragment DN_frag
-            #include "./Include/XinY_DepthNormalPass.hlsl"
-            ENDHLSL
-        }
-        Pass
-        {
             Name "Meta"
             Tags { "LightMode" = "Meta" }
 
@@ -347,7 +317,7 @@ Shader "XinY/HorizontalPlane"
                 half3 specular = lerp(kDieletricSpec.rgb, albedo, metallic);
                 half perceptualRoughness = lerp(0, MRA.g, _RoughnessAd);
                 half roughness = max(perceptualRoughness * perceptualRoughness, HALF_MIN_SQRT);
-                half3 emission = _EmissionColor * SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, input.uv);
+                half3 emission = 0;
 
                 UnityMetaInput metaInput;
                 metaInput.Albedo = diffuse + specular * roughness * 0.5;

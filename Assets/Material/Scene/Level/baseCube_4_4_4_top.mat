@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8784245880283708722
+--- !u!114 &-2608984554230691913
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,11 +20,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: roof
-  m_Shader: {fileID: 4800000, guid: 297b4b524bdb6d24cb4e89f0fa9f87ee, type: 3}
-  m_ValidKeywords:
-  - FOG_ON
-  - RECEIEVE_DECAL_ON
+  m_Name: baseCube_4_4_4_top
+  m_Shader: {fileID: 4800000, guid: 3edaf36df13818f49a911d9a0396b4d0, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -36,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b00d6b08731d0e94f998636db1174e21, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6cfe81fe27cdc6846b136e2613801a47, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -57,14 +55,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DistortMap:
         m_Texture: {fileID: 2800000, guid: 2856590a9fb4b044b9216862c326c060, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0.01, y: -0.2}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 2800000, guid: c6460b03878ee91498c07f6ccfb47c15, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MRA:
-        m_Texture: {fileID: 2800000, guid: 75f7e4beb13dac44aab3043b11ee9a74, type: 3}
+        m_Texture: {fileID: 2800000, guid: a5f9954062cfa4845bfa3b0288d263f0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -76,7 +78,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 30529c7d7bbe1a94ebbccfc6a5631569, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4f31da3bf706ea544ab7d72473db6a53, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -119,8 +121,7 @@ Material:
     - _EMISS_FLOW: 0
     - _EMISS_FLOW_Y: 0
     - _EnvironmentReflections: 1
-    - _FOG_ON: 1
-    - _GIIntensity: 1
+    - _FOG_ON: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -130,10 +131,9 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
-    - _RECEIEVE_DECAL_ON: 1
     - _ReceiveShadows: 1
-    - _ReflectDistort: 0.049
-    - _ReflectIntensity: 0.1
+    - _ReflectDistort: 0.006
+    - _ReflectIntensity: 1
     - _RoughnessAd: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -144,8 +144,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.9622641, g: 0.83843535, b: 0.7752581, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer1: {r: 2.240558, g: 0.5324098, b: 0.24402116, a: 1}
+    - _EmissionColor_Layer2: {r: 2.240558, g: 0.5324098, b: 0.24402116, a: 1}
+    - _EmissionColor_Layer3: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor_Layer4: {r: 0, g: 0, b: 0, a: 1}
     - _FlowPara: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
