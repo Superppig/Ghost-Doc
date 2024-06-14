@@ -17,7 +17,7 @@ public class AirBlowerEditor : AutoEditor
             EditorGUI.indentLevel++;
             mockTarget.PropertyField("起点");
             mass.Slider("质量(kg)", 0.1f, 10f);
-            mockTime.FloatField("时间(s)");
+            mockTime.Slider("时间(s)", 0.1f, 10f);
             EditorGUI.indentLevel--;
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
