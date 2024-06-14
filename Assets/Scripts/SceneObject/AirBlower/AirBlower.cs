@@ -5,7 +5,7 @@ public class AirBlower : MonoBehaviour
     [SerializeField]
     private float impulse;
 
-    private Vector3 Orientation => transform.TransformVector(Vector3.up);
+    private Vector3 Orientation => transform.TransformVector(Vector3.up).normalized;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +24,9 @@ public class AirBlower : MonoBehaviour
     private Transform mockTarget;
     [SerializeField]
     private float mass;
+    [SerializeField]
+    private float pointRadius = 1f;
+
     private Vector3 locked = Vector3.zero;
 
     private void OnDrawGizmosSelected()
@@ -36,11 +39,13 @@ public class AirBlower : MonoBehaviour
         Vector3 deltaV = deltaTime * Physics.gravity;
         Vector3 v = impulse / mass * Orientation;
         Vector3 p = locked;
+        Vector3 deltaP;
         for (float t = 0; t < mockTime; t += deltaTime)
         {
             v += deltaV;
-            p += v * deltaTime;
-            Gizmos.DrawSphere(p, 0.1f);
+            deltaP = v * deltaTime;
+            p += deltaP;
+            Gizmos.DrawSphere(p, 0.2f * deltaP.magnitude);
         }
     }
 #endif
