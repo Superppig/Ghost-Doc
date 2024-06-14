@@ -5,9 +5,12 @@ using UnityEngine;
 public class PlayerAirState : PlayerStateBase
 {
     private float AirTransformAccelerate => settings.airSettings.airTransformAccelerate;
+    private float AirStopAccelerate => settings.airSettings.airStopAccelerate;
     private float MaxAirSpeed => settings.walkSettings.walkSpeed;
 
     private Vector3 MoveDir => blackboard.moveDir;
+
+    private float speed;
 
     //视角变化
     private float currentFov = 60f;
@@ -52,17 +55,27 @@ public class PlayerAirState : PlayerStateBase
     private void MoveInAir()
     {
         Vector3 XZSpeed = new Vector3(rb.velocity.x,0,rb.velocity.z);
-        rb.velocity += MoveDir * (AirTransformAccelerate * Time.deltaTime);
-        Vector3 dir = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
-        if (blackboard.isWall&&Vector3.Angle(-1*blackboard.wallHit.normal,XZSpeed)<30f)
+
+        if (blackboard.dirInput.magnitude > 0)
         {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            rb.velocity += MoveDir * (AirTransformAccelerate * Time.deltaTime);
+            Vector3 dir = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
+            if (blackboard.isWall&&Vector3.Angle(-1*blackboard.wallHit.normal,XZSpeed)<30f)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
+            else
+            {
+                //保持水平动量
+                if ((MoveDir.normalized + XZSpeed.normalized).magnitude > 0.1f&& XZSpeed.magnitude > MaxAirSpeed)
+                    rb.velocity = new Vector3(0, rb.velocity.y, 0) + XZSpeed.magnitude * dir;
+            }
         }
         else
         {
-            //保持水平动量
-            if ((MoveDir.normalized + XZSpeed.normalized).magnitude > 0.1f&& XZSpeed.magnitude > MaxAirSpeed)
-                rb.velocity = new Vector3(0, rb.velocity.y, 0) + XZSpeed.magnitude * dir;
+            speed = XZSpeed.magnitude;
+            speed -= AirStopAccelerate * Time.deltaTime;
+            rb.velocity = new Vector3(0, rb.velocity.y, 0) + speed * XZSpeed.normalized;
         }
     }
     //FOV变化

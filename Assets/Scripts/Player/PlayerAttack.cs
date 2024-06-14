@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
     public void Start()
     {
         player = GetComponent<Player>();
-        weaponParent = Camera.main.transform;
+        weaponParent = Camera.main.transform.Find("ArmPivotParent").Find("ArmShakeParent");
         weaponManager  = Instantiate(weaponManager,weaponParent);
         weaponManager.transform.localPosition = Vector3.zero;
         weaponManager.transform.localRotation = Quaternion.Euler(0,0,0);
