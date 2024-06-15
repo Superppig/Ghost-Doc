@@ -1,6 +1,46 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9005196607687519603
+--- !u!114 &-9011455789539456348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: RenderRelfectionPlane
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: RenderRelfectionPlane
+    Event: 300
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 2147483647
+      PassNames:
+      - ReflectPlane
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &-7407574634605477667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16,84 +56,7 @@ MonoBehaviour:
   setting:
     name: GenerateTransformM
     passEvent: 250
---- !u!114 &-7184205147083530787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e22f817b4cc9e3e4fa2a41adfa8668a6, type: 3}
-  m_Name: SSPRBlurRenderFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  setting:
-    PassEvent: 300
-    blurMat: {fileID: 2100000, guid: fe5931af91c3ba146b4d92f3d547c75a, type: 2}
-    Loop: 5
-    BlurSize: 0.36
-    BlurDownSample: 1
---- !u!114 &-6797186948176253248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0662474bfa5a5f849bef6f063ddf4e0c, type: 3}
-  m_Name: Interact
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  setting:
-    passEvent: 0
-    texSize: 1024
-    PaintMat: {fileID: 2100000, guid: 9eec591c6de384447afcece0ee42b0de, type: 2}
-    InteractRT: {fileID: 0}
---- !u!114 &-5061983366156423715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: RenderReflectPlane
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  settings:
-    passTag: RenderReflectPlane
-    Event: 300
-    filterSettings:
-      RenderQueueType: 0
-      LayerMask:
-        serializedVersion: 2
-        m_Bits: 2147483647
-      PassNames:
-      - ReflectPlane
-    overrideMaterial: {fileID: 0}
-    overrideMaterialPassIndex: 0
-    overrideDepthState: 1
-    depthCompareFunction: 2
-    enableWrite: 1
-    stencilSettings:
-      overrideStencilState: 0
-      stencilReference: 0
-      stencilCompareFunction: 8
-      passOperation: 0
-      failOperation: 0
-      zFailOperation: 0
-    cameraSettings:
-      overrideCamera: 0
-      restoreCamera: 1
-      offset: {x: 0, y: 0, z: 0, w: 0}
-      cameraFieldOfView: 60
---- !u!114 &-4360825687774050521
+--- !u!114 &-3519926183982311696
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,7 +73,7 @@ MonoBehaviour:
     PassEvent: 300
     shader: {fileID: 7200000, guid: 5e7704c3411ffd446b7ad5e0bab1f5aa, type: 3}
     RTSize: 512
-    ReflectHeight: 0.44
+    ReflectHeight: 1.5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,16 +84,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: Ultra_PipelineAsset_ForwardRenderer
+  m_Name: BaseRenderer
   m_EditorClassIdentifier: 
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
-  - {fileID: -9005196607687519603}
-  - {fileID: -4360825687774050521}
-  - {fileID: -7184205147083530787}
-  - {fileID: -5061983366156423715}
-  m_RendererFeatureMap: 8d923b9a651d07832747d440243c7bc3dd9d8d767b934c9cdd6d4fb1f238c0b9
+  - {fileID: 1456258603749848407}
+  - {fileID: -7407574634605477667}
+  - {fileID: -3519926183982311696}
+  - {fileID: 7631303694886900025}
+  - {fileID: -9011455789539456348}
+  - {fileID: 2742640453109577842}
+  m_RendererFeatureMap: 57b59d097cab3514dd8025e91d023399f05623f8c8b526cf3911dc3247d6e769a40a5d43b4e0f08272783602f6d00f26
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -149,14 +114,14 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 16183
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16183
   m_DefaultStencilState:
-    overrideStencilState: 0
+    overrideStencilState: 1
     stencilReference: 0
-    stencilCompareFunction: 8
+    stencilCompareFunction: 3
     passOperation: 2
     failOperation: 0
     zFailOperation: 0
@@ -168,3 +133,84 @@ MonoBehaviour:
   m_ClusteredRendering: 0
   m_TileSize: 32
   m_IntermediateTextureMode: 1
+--- !u!114 &1456258603749848407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1614fc811f8f184697d9bee70ab9fe5, type: 3}
+  m_Name: DecalRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Settings:
+    technique: 1
+    maxDrawDistance: 1000
+    dBufferSettings:
+      surfaceData: 2
+    screenSpaceSettings:
+      normalBlend: 0
+      useGBuffer: 0
+  m_CopyDepthPS: {fileID: 4800000, guid: d6dae50ee9e1bfa4db75f19f99355220, type: 3}
+  m_DBufferClear: {fileID: 4800000, guid: f056d8bd2a1c7e44e9729144b4c70395, type: 3}
+--- !u!114 &2742640453109577842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: RenderPlayer
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: RenderPlayer
+    Event: 250
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 16384
+      PassNames: []
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 1
+    depthCompareFunction: 2
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 1
+      stencilReference: 1
+      stencilCompareFunction: 8
+      passOperation: 2
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 1
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 40
+--- !u!114 &7631303694886900025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e22f817b4cc9e3e4fa2a41adfa8668a6, type: 3}
+  m_Name: SSPRBlurRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  setting:
+    PassEvent: 300
+    blurMat: {fileID: 2100000, guid: fe5931af91c3ba146b4d92f3d547c75a, type: 2}
+    Loop: 5
+    BlurSize: 0.23
+    BlurDownSample: 1
