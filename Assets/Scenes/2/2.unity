@@ -14700,6 +14700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightArm_WithGun
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c12da0e9ed1bd234e8a49b50bd377f86, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c12da0e9ed1bd234e8a49b50bd377f86, type: 3}
 --- !u!1001 &804980768
@@ -40007,6 +40011,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2128754887903796514, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128754887903796514, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
       propertyPath: m_Cameras.Array.data[0]
       value: 
       objectReference: {fileID: 276124068}
@@ -40058,13 +40066,21 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 5138734935625425585, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6780751669179923858, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
       propertyPath: m_CameraType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6780751669179923858, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
       propertyPath: m_ClearDepth
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780751669179923858, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
+      propertyPath: m_RenderShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6780751669179923858, guid: d5f873bc7defc5d4fb45ea15e3bce9ec, type: 3}
       propertyPath: m_RenderPostProcessing

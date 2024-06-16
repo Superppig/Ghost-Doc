@@ -1,9 +1,7 @@
 ﻿using Services;
 using Services.Event;
 using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class EnemyBlackboard

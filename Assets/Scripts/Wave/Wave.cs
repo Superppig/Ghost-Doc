@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AmplifyShaderEditor;
-using MyTimer;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Wave : MonoBehaviour
 {
