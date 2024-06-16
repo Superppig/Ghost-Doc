@@ -49,8 +49,8 @@ public class ScreenSpacePlanarReflectRenderFeature : ScriptableRendererFeature
             cmd.GetTemporaryRT(ReflectRT, desc);
             desc.colorFormat = RenderTextureFormat.R8;
             cmd.GetTemporaryRT(ReflectDepthBuffer, desc);
-            ConfigureTarget(ReflectRT, ReflectDepthBuffer);
-            ConfigureClear(ClearFlag.All, Color.clear);
+            //ConfigureTarget(ReflectRT, ReflectDepthBuffer);
+            //ConfigureClear(ClearFlag.All, Color.clear);
         }
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {

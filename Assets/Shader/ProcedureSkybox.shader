@@ -35,8 +35,8 @@ Shader "XinY/ProvedureSkybox"
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalRenderPipeline" "IgnoreProjector" = "True" }
         LOD 100
         Cull Off
-        ZWrite Off
-        ZTest LEqual
+        ZWrite On
+        ZTest Less
         HLSLINCLUDE
         #pragma shader_feature _ FOG_ON
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
