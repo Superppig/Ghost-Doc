@@ -29,9 +29,13 @@ public class WaveManager : MonoBehaviour
     public List<Wave> Waves;
 
     private bool started;
+    private bool ended;
     
     public int currentWaveIndex;
     public Wave currentWave;
+    //传送门
+    public GameObject portal;
+    public Vector3 portalPosition;
     
     //当前状态
     public WaveState waveState=WaveState.Start;
@@ -71,7 +75,12 @@ public class WaveManager : MonoBehaviour
         
         else if (waveState == WaveState.End)
         {
-            //游戏结束
+            //生成一个传送门
+            if (!ended)
+            {
+                Instantiate(portal, portalPosition, Quaternion.identity);
+                ended = true;
+            }
         }
     }
 

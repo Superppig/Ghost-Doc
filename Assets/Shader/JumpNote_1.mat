@@ -41,8 +41,8 @@ Material:
     - _RandomScale: 0.66
     - _RandomSeed: 7.35
     - _ReceiveShadows: 1
-    - _Scale: 0.114
-    - _SinPow: 3.75
+    - _Scale: 0.082
+    - _SinPow: 2.55
     - _T: 1
     - _TransSpeed: 0.74
     - _X_Num: 100
