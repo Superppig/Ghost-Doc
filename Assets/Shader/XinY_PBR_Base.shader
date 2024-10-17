@@ -5,7 +5,7 @@ Shader "XinY/PBR_Base"
         _BaseMap ("BaseMap", 2D) = "white" { }
         _BaseColor ("BaseColor", color) = (1, 1, 1, 1)
         _MRA ("M(Metallic)R(Roughness)A(AO)", 2D) = "white" { }
-        _MetallicAd ("MetallicAd", Range(0, 2)) = 1
+        _MetallicAd ("MetallicAd", Range(-1, 1)) = 1
         _RoughnessAd ("RoughnessAd", Range(0, 2)) = 1
         _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
@@ -127,7 +127,7 @@ Shader "XinY/PBR_Base"
                 
                 SurfaceAttrib attrib;
                 attrib.baseColor = baseMap;
-                attrib.metallic = lerp(0, MRA.x, _MetallicAd);
+                attrib.metallic = saturate(MRA.x + _MetallicAd);
                 attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd), 2);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);

@@ -10,11 +10,11 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
         _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
-        _ReflectIntensity("ReflectIntensity",Range(0,2))=1
+        _ReflectIntensity ("ReflectIntensity", Range(0, 2)) = 1
         _ReflectDistort ("ReflectDistort", Range(0, 0.2)) = 0.1
         _DistortMap ("DistortMap", 2D) = "black" { }
         _EmissionMask ("EmissionMask", 2D) = "black" { }
-        [HDR]_EmissionColor_Layer1 ("_EmissionColor_Layer1", color) = (0, 0, 0, 1)
+        _Layer1Intensity ("Layer1Intensity", float) = 3
         [HDR]_EmissionColor_Layer2 ("_EmissionColor_Layer2", color) = (0, 0, 0, 1)
         [HDR]_EmissionColor_Layer3 ("_EmissionColor_Layer3", color) = (0, 0, 0, 1)
         [HDR]_EmissionColor_Layer4 ("_EmissionColor_Layer4", color) = (0, 0, 0, 1)
@@ -77,7 +77,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
             half _MetallicAd;
             half _AOAd;
             half _RoughnessAd;
-            float4 _EmissionColor_Layer1;
+            float _Layer1Intensity;
             float4 _EmissionColor_Layer2;
             float4 _EmissionColor_Layer3;
             float4 _EmissionColor_Layer4;
@@ -86,6 +86,9 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
             half _ReflectDistort;
             float _ReflectIntensity;
         CBUFFER_END
+
+        float4 _MoodLightColor;
+
         TEXTURE2D(_BaseMap);
         SAMPLER(sampler_BaseMap);
         TEXTURE2D(_MRA);
@@ -163,7 +166,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
                 half distort = SAMPLE_TEXTURE2D(_DistortMap, sampler_DistortMap, screenUV * _DistortMap_ST.xy + _DistortMap_ST.zw * _Time.y) * _ReflectDistort;
                 float2 reflectUV = screenUV + distortDir * distort;
                 data.R.xy = reflectUV;
-                data.R.z=_ReflectIntensity;
+                data.R.z = _ReflectIntensity;
                 half3 mainLightColor = 0;
                 half3 additionLightColor = 0;
                 float emissionMask = SAMPLE_TEXTURE2D(_EmissionMask, sampler_EmissionMask, i.uv);
@@ -173,7 +176,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
                 layers.z = step(emissionMask, 0.7) - layers.x - layers.y;
                 layers.w = step(emissionMask, 0.9) - layers.x - layers.y - layers.z;
                 
-                float3 emissionColor = _EmissionColor_Layer1 * layers.x + _EmissionColor_Layer2 * layers.y + _EmissionColor_Layer3 * layers.z + _EmissionColor_Layer4 * layers.w;
+                float3 emissionColor = _MoodLightColor * _Layer1Intensity * layers.x + _EmissionColor_Layer2 * layers.y + _EmissionColor_Layer3 * layers.z + _EmissionColor_Layer4 * layers.w;
                 
                 mainLightColor = GetOneLightPBRColor(data, attrib, aoFactor);
 

@@ -110,6 +110,7 @@ Material:
     - _AOAd: 1
     - _AlphaClip: 0
     - _Blend: 0
+    - _BloodDirty: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -130,6 +131,7 @@ Material:
     - _NormalScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _PlayerHP: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RoughnessAd: 1
