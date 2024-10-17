@@ -97,6 +97,7 @@ Material:
     - _AOAd: 1
     - _AlphaClip: 0
     - _Blend: 0
+    - _BloodDirty: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -133,8 +134,8 @@ Material:
     - _Color: {r: 0.9685765, g: 0.9685765, b: 0.9685765, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor_Layer1: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissionColor_Layer2: {r: 0.2282681, g: 1.1126608, b: 0.017476315, a: 1}
-    - _EmissionColor_Layer3: {r: 0.21960784, g: 0.9411765, b: 0.19607843, a: 1}
+    - _EmissionColor_Layer2: {r: 0.23775947, g: 1.1353015, b: 0.01783196, a: 1}
+    - _EmissionColor_Layer3: {r: 0.015686275, g: 0.07058824, b: 0.015686275, a: 1}
     - _EmissionColor_Layer4: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

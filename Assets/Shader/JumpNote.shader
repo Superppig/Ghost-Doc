@@ -15,7 +15,6 @@ Shader "JumpNote"
 		_BasePow("BasePow", Range( 0 , 20)) = 2
 		_TransSpeed("TransSpeed", Range( 0 , 5)) = 1.3
 		[HDR]_TopColor("TopColor", Color) = (0.8018868,0.4452573,0.245105,0)
-		[HDR]_BackgroundColor5("BackgroundColor5", Color) = (0,0,0,0)
 		[HDR]_ButtomColor("ButtomColor", Color) = (0.1509434,0.0611527,0.02050551,0)
 
 
@@ -236,7 +235,6 @@ Shader "JumpNote"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BackgroundColor5;
 			float4 _ButtomColor;
 			float4 _TopColor;
 			float _X_Num;
@@ -257,7 +255,8 @@ Shader "JumpNote"
 			#endif
 			CBUFFER_END
 
-			
+			float4 _MoodLightColor;
+
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -432,7 +431,7 @@ Shader "JumpNote"
 				float mulTime81 = _TimeParameters.x * _TransSpeed;
 				float lerpResult49 = lerp( lerpResult10_g2 , lerpResult10_g3 , ( abs( ( frac( mulTime81 ) - 0.5 ) ) / 0.5 ));
 				float Random_X36 = ( ( lerpResult49 - 0.5 ) * _RandomScale * (0.3 + (GlobalScale79 - 0.0) * (1.0 - 0.3) / (1.0 - 0.0)) );
-				float4 lerpResult107 = lerp( _BackgroundColor5 , lerpResult106 , step( pixelY26 , ( lerpResult75 + Random_X36 ) ));
+				float4 lerpResult107 = lerp( ( _MoodLightColor * 0.05 ) , lerpResult106 , step( pixelY26 , ( lerpResult75 + Random_X36 ) ));
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
@@ -521,7 +520,6 @@ Shader "JumpNote"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BackgroundColor5;
 			float4 _ButtomColor;
 			float4 _TopColor;
 			float _X_Num;
@@ -778,7 +776,6 @@ Shader "JumpNote"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BackgroundColor5;
 			float4 _ButtomColor;
 			float4 _TopColor;
 			float _X_Num;
@@ -1008,7 +1005,6 @@ Shader "JumpNote"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BackgroundColor5;
 			float4 _ButtomColor;
 			float4 _TopColor;
 			float _X_Num;
@@ -1226,7 +1222,6 @@ Shader "JumpNote"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BackgroundColor5;
 			float4 _ButtomColor;
 			float4 _TopColor;
 			float _X_Num;
@@ -1448,7 +1443,6 @@ Shader "JumpNote"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BackgroundColor5;
 			float4 _ButtomColor;
 			float4 _TopColor;
 			float _X_Num;
@@ -1696,13 +1690,15 @@ Node;AmplifyShaderEditor.RangedFloatNode;33;-1901.42,700.695;Inherit;False;Prope
 Node;AmplifyShaderEditor.RangedFloatNode;82;-2797.857,1971.83;Inherit;False;Property;_TransSpeed;TransSpeed;7;0;Create;True;0;0;0;False;0;False;1.3;1.3;0;5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;41;-1606.3,2171.186;Inherit;False;Property;_RandomScale;RandomScale;3;0;Create;True;0;0;0;False;0;False;0.7830068;0.7830068;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;48;-2365.487,1656.949;Inherit;False;Property;_RandomSeed;RandomSeed;4;0;Create;True;0;0;0;False;0;False;1.55;1.55;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;102;435.7035,-187.2903;Inherit;False;Property;_BackgroundColor5;BackgroundColor5;9;1;[HDR];Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;106;1179.657,-167.3671;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;105;774.1096,-64.14432;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;103;861.3398,-251.3429;Inherit;False;Property;_TopColor;TopColor;8;1;[HDR];Create;True;0;0;0;False;0;False;0.8018868,0.4452573,0.245105,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;104;898.3468,-450.5766;Inherit;False;Property;_ButtomColor;ButtomColor;10;1;[HDR];Create;True;0;0;0;False;0;False;0.1509434,0.0611527,0.02050551,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;104;898.3468,-450.5766;Inherit;False;Property;_ButtomColor;ButtomColor;9;1;[HDR];Create;True;0;0;0;False;0;False;0.1509434,0.0611527,0.02050551,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;107;681.6764,251.1225;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;1287.288,166.0878;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;JumpNote;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;22;Surface;0;0;  Blend;0;0;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;638531741739525070;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;0;638531741692514681;Built-in Fog;0;638531741677196449;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
+Node;AmplifyShaderEditor.RangedFloatNode;110;314.3197,38.53339;Inherit;False;Constant;_Float1;Float 1;10;0;Create;True;0;0;0;False;0;False;0.05;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;109;508.3197,64.53339;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;108;135.3197,-279.4666;Inherit;False;Global;_MoodLightColor;_MoodLightColor;10;0;Create;True;0;0;0;False;0;False;0,0,0,0;0.1579458,0.3022875,0.2617124,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;14;0;28;0
 WireConnection;14;1;23;0
 WireConnection;25;0;54;0
@@ -1765,9 +1761,11 @@ WireConnection;39;1;37;0
 WireConnection;106;0;104;0
 WireConnection;106;1;103;0
 WireConnection;106;2;105;2
-WireConnection;107;0;102;0
+WireConnection;107;0;109;0
 WireConnection;107;1;106;0
 WireConnection;107;2;77;0
 WireConnection;1;2;107;0
+WireConnection;109;0;108;0
+WireConnection;109;1;110;0
 ASEEND*/
-//CHKSM=9C8CC1CD8DCC1C1532FF7EA4C8F50710AFDC02EF
+//CHKSM=F3AD23E8CF7D16ED113D198A7E8D136D913C46B5

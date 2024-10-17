@@ -26,7 +26,6 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         _ReflectDepthBuffer[id.xy] = 0.9999;
         //if(_CameraDepthRT[id.xy].x>=0.9999) return;
     #endif
-
     float2 uv = id.xy / _RTSize.xy;
     float depth = _CameraDepthRT.SampleLevel(PointClampSampler, uv, 0).x;
     // //uv.y=1-uv.y;
