@@ -238,6 +238,20 @@ Shader "XinY/PBR_Base"
             }
             ENDHLSL
         }
+
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormals" }
+
+            ZWrite On
+
+            HLSLPROGRAM
+            #pragma vertex DN_vert
+            #pragma fragment DN_frag
+            #include "./Include/XinY_DepthNormalPass.hlsl"
+            ENDHLSL
+        }
         Pass
         {
             Name "Meta"

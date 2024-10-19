@@ -6,7 +6,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
         _BaseColor ("BaseColor", color) = (1, 1, 1, 1)
         _MRA ("M(Metallic)R(Roughness)A(AO)", 2D) = "white" { }
         _MetallicAd ("MetallicAd", Range(0, 2)) = 1
-        _RoughnessAd ("RoughnessAd", Range(0, 2)) = 1
+        _RoughnessAd ("RoughnessAd", Range(-1, 1)) = 1
         _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
@@ -144,7 +144,7 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
                 SurfaceAttrib attrib;
                 attrib.baseColor = baseMap;
                 attrib.metallic = lerp(0, MRA.x, _MetallicAd);
-                attrib.roughness = lerp(1, MRA.y, _RoughnessAd);
+                attrib.roughness = saturate(MRA.y+ _RoughnessAd);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
 
@@ -266,6 +266,21 @@ Shader "XinY/PBR_HorizontalLayerEmiss"
             }
             ENDHLSL
         }
+
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormals" }
+
+            ZWrite On
+
+            HLSLPROGRAM
+            #pragma vertex DN_vert
+            #pragma fragment DN_frag
+            #include "./Include/XinY_DepthNormalPass.hlsl"
+            ENDHLSL
+        }
+
         Pass
         {
             Name "Meta"
