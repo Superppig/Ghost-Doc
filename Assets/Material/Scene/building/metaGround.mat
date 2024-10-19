@@ -126,7 +126,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _MetallicAd: 1
+    - _MetallicAd: 0
     - _NormalScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -135,7 +135,7 @@ Material:
     - _ReceiveShadows: 1
     - _ReflectDistort: 0.006
     - _ReflectIntensity: 2
-    - _RoughnessAd: 1
+    - _RoughnessAd: -1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecIntensity: 1

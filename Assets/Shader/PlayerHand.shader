@@ -11,7 +11,6 @@ Shader "XinY/PlayerHand"
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
         _DetailMap ("DetailMap", 2D) = "black" { }
-        _DetailControl ("DetailControl", Range(0, 1)) = 0
         _EmissionMask ("EmissionMask", 2D) = "black" { }
         [HDR]_EmissionColor_Layer1 ("_EmissionColor_Layer1", color) = (0, 0, 0, 1)
         [HDR]_EmissionColor_Layer2 ("_EmissionColor_Layer2", color) = (0, 0, 0, 1)
@@ -70,7 +69,6 @@ Shader "XinY/PlayerHand"
             float4 _EmissionColor_Layer3;
             float4 _EmissionColor_Layer4;
             half _NormalScale;
-            float _DetailControl;
         CBUFFER_END
         TEXTURE2D(_BaseMap);
         SAMPLER(sampler_BaseMap);
@@ -82,6 +80,8 @@ Shader "XinY/PlayerHand"
         SAMPLER(sampler_EmissionMask);
         TEXTURE2D(_DetailMap);
         SAMPLER(sampler_DetailMap);
+        float _BloodDirty;
+
         ENDHLSL
 
         Pass
@@ -118,16 +118,16 @@ Shader "XinY/PlayerHand"
                 half3 MRA = SAMPLE_TEXTURE2D(_MRA, sampler_MRA, i.uv).rgb;
                 half3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv), _NormalScale);
                 float4 detail = SAMPLE_TEXTURE2D(_DetailMap, sampler_DetailMap, i.uv);
-                float detailMask=step(Remap(detail.a,0,1,0.05,0.95),_DetailControl);
+                float detailMask = step(Remap(detail.a, 0, 1, 0.05, 0.95), _BloodDirty);
                 
                 half3x3 TBN = half3x3(i.tangentWS, i.binormalWS, i.normalWS);
                 half3 N = mul(normalTS, TBN);
                 float2 screenUV = GetNormalizedScreenSpaceUV(i.positionCS);
                 
                 SurfaceAttrib attrib;
-                attrib.baseColor = baseMap*lerp(1,detail.rgb,detailMask);
-                attrib.metallic = lerp(0, MRA.x, _MetallicAd)*lerp(1,0.2,detailMask);
-                attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd), 2)*lerp(1,0.3,detailMask);
+                attrib.baseColor = baseMap * lerp(1, detail.rgb, detailMask);
+                attrib.metallic = lerp(0, MRA.x, _MetallicAd) * lerp(1, 0.2, detailMask);
+                attrib.roughness = pow(lerp(1, MRA.y, _RoughnessAd), 2) * lerp(1, 0.3, detailMask);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
 

@@ -364,8 +364,9 @@ half3 GetIndirectSpecPartOne(half3 R, half roughness)
     half3 indirectSpecular = 0;
     #if _REFLECTPLANE
         half2 uv = R.xy;
-        float ins = pow(1 - roughness, 4) * R.z;
+        float ins = pow(1 - roughness, 2) * R.z;
         float3 indirectSpecular0 = SAMPLE_TEXTURE2D(_ReflectRT, sampler_ReflectRT, uv) * ins;
+        //float3 indirectSpecular0 = SAMPLE_TEXTURE2D(_ReflectRT, sampler_ReflectRT, uv);
         indirectSpecular = indirectSpecular0;
     #else
         half mip = roughness * (1.7 - 0.7 * roughness) * 6;

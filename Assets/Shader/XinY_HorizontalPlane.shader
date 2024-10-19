@@ -5,13 +5,13 @@ Shader "XinY/HorizontalPlane"
         _BaseMap ("BaseMap", 2D) = "white" { }
         _BaseColor ("BaseColor", color) = (1, 1, 1, 1)
         _MRA ("M(Metallic)R(Roughness)A(AO)", 2D) = "white" { }
-        _MetallicAd ("MetallicAd", Range(0, 2)) = 1
-        _RoughnessAd ("RoughnessAd", Range(0, 2)) = 1
+        _MetallicAd ("MetallicAd", Range(-1, 1)) = 1
+        _RoughnessAd ("RoughnessAd", Range(-1, 1)) = 1
         _AOAd ("AOAd", Range(0, 2)) = 1
         _NormalMap ("NormalMap", 2D) = "bump" { }
         _NormalScale ("NormalScale", Range(0, 5)) = 1
         _ReflectDistort ("ReflectDistort", Range(0, 0.2)) = 0.1
-        _ReflectIntensity ("ReflectIntensity", Range(0,2)) = 1
+        _ReflectIntensity ("ReflectIntensity", Range(0, 2)) = 1
         _DistortMap ("DistortMap", 2D) = "black" { }
         _EmissionMap ("EmissionMap", 2D) = "black" { }
         [HDR]_EmissionColor ("Emission", color) = (0, 0, 0, 1)
@@ -146,8 +146,8 @@ Shader "XinY/HorizontalPlane"
                 
                 SurfaceAttrib attrib;
                 attrib.baseColor = baseMap;
-                attrib.metallic = lerp(0, MRA.x, _MetallicAd);
-                attrib.roughness = lerp(1, MRA.y, _RoughnessAd);
+                attrib.metallic = saturate(MRA.x + _MetallicAd);
+                attrib.roughness = saturate(MRA.y+ _RoughnessAd);
                 attrib.alpha = baseMap.a;
                 half occlusion = lerp(1, MRA.z, _AOAd);
                 #ifdef RECEIEVE_DECAL_ON
@@ -172,7 +172,7 @@ Shader "XinY/HorizontalPlane"
                 half distort = SAMPLE_TEXTURE2D(_DistortMap, sampler_DistortMap, screenUV * _DistortMap_ST.xy + _DistortMap_ST.zw * _Time.y) * _ReflectDistort;
                 float2 reflectUV = screenUV + distortDir * distort;
                 data.R.xy = reflectUV;
-                data.R.z=_ReflectIntensity;
+                data.R.z = _ReflectIntensity;
 
                 half3 mainLightColor = 0;
                 half3 additionLightColor = 0;

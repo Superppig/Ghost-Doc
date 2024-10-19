@@ -69,11 +69,11 @@ MonoBehaviour:
   m_Name: ScreenSpacePlanarReflectRenderFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  setting:
-    PassEvent: 300
-    shader: {fileID: 7200000, guid: 5e7704c3411ffd446b7ad5e0bab1f5aa, type: 3}
-    RTSize: 1024
-    ReflectHeight: 1.5
+  m_settings:
+    RenderPassEvent: 300
+    shader: {fileID: 0}
+    RTSize: 512
+    ReflectHeight: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
