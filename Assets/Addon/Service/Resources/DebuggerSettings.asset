@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DebuggerSettings
   m_EditorClassIdentifier: 
   settings:
-    flags: 0101010101010101
+    flags: 0100010101010101

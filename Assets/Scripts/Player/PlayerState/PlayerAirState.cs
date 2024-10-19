@@ -6,7 +6,7 @@ public class PlayerAirState : PlayerStateBase
 {
     private float AirTransformAccelerate => settings.airSettings.airTransformAccelerate;
     private float AirStopAccelerate => settings.airSettings.airStopAccelerate;
-    private float MaxAirSpeed => settings.walkSettings.walkSpeed;
+    private float MaxAirSpeed => BuffSystem.Instance.GetBuffedSpeed(settings.walkSettings.walkSpeed);
 
     private Vector3 MoveDir => blackboard.moveDir;
 

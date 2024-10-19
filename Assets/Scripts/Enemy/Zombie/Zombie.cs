@@ -1,7 +1,8 @@
+using System;
 using Mono.CompilerServices.SymbolWriter;
 using UnityEngine;
 
-public class Zombie : Enemy
+public class Zombie : Enemy,IGrabObject
 {
     public EnemyType enemyType = EnemyType.Zombie;
     private float attackTimer;
@@ -63,7 +64,7 @@ public class Zombie : Enemy
                 }
             }
             //切换到Stagger
-            if (blackboard.currentHealth<= blackboard.weakHealth&&blackboard.currentHealth>0)
+            if (blackboard.currentHealth<= blackboard.weakHealth&&blackboard.currentHealth>0 && blackboard.current != IEnemyState.BeThorwn)
             {
                 fsm.SwitchState(IEnemyState.Stagger);
             }
@@ -100,8 +101,65 @@ public class Zombie : Enemy
     }
     public override void TakeDamage(float damage)
     {
-        blackboard.currentHealth -= damage;
-        
+        if(blackboard.currentHealth>blackboard.weakHealth&& blackboard.currentHealth-damage<=blackboard.weakHealth)
+        {
+            blackboard.currentHealth = blackboard.weakHealth;
+        }
+        else
+        {
+            blackboard.currentHealth -= damage;
+        }
         blackboard.isHit = true;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
+    public void Grabbed()
+    {
+        rb.isKinematic = true;
+        col.enabled = false;
+    }
+
+    public void Released()
+    {
+        rb.isKinematic = false;
+        col.enabled = true;
+        rb.constraints = RigidbodyConstraints.None;
+    }
+
+    public void Fly(Vector3 dir, float force)
+    {
+        fsm.SwitchState(IEnemyState.BeThorwn);
+        rb.AddForce(dir * force, ForceMode.Impulse);
+        blackboard.current = IEnemyState.BeThorwn;
+    }
+
+    public bool CanGrab()
+    {
+        return blackboard.current == IEnemyState.Stagger;
+    }
+
+    public bool CanUse()
+    {
+        return true;
+    }
+
+    public void Use()
+    {
+        BuffSystem.Instance.ActivateBuff(BuffType.Zombie);
+        fsm.SwitchState(IEnemyState.Dead);
+    }
+
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if(blackboard.current==IEnemyState.BeThorwn)
+        {
+            ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
+            fsm.SwitchState(IEnemyState.Dead);
+        }
     }
 }

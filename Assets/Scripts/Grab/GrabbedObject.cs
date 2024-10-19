@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GrabbedObject : MonoBehaviour
+public class GrabbedObject : MonoBehaviour,IGrabObject
 {
     private Rigidbody rb;
     private Collider col;
@@ -10,14 +10,13 @@ public class GrabbedObject : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
         outline = GetComponent<QuickOutline>();
-        CancelHighlight();
+        
+        //CancelHighlight();
     }
-
     void Update()
     {
         
     }
-    
     public void Highlight()
     {
         outline.enabled = true;
@@ -26,7 +25,12 @@ public class GrabbedObject : MonoBehaviour
     {
         outline.enabled = false;
     }
-    
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
     public void Grabbed()
     {
         rb.isKinematic = true;
@@ -37,9 +41,24 @@ public class GrabbedObject : MonoBehaviour
         rb.isKinematic = false;
         col.enabled = true;
     }
-    
-    public void Fly(Vector3 speed)
+
+    public void Fly(Vector3 dir, float force)
     {
-        rb.velocity = speed;
+        rb.AddForce(dir * force, ForceMode.Impulse);
+    }
+
+    public bool CanGrab()
+    {
+        return true;
+    }
+
+    public bool CanUse()
+    {
+        return false;
+    }
+
+    public void Use()
+    {
+        throw new System.NotImplementedException();
     }
 }

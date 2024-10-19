@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 
     public Animator anim;
     public Rigidbody rb;
+    public Collider col;
 
     protected EnemyFSM fsm;
     public MyObject selfMyObject;
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        col = GetComponent<Collider>();
         fsm = new EnemyFSM(this);
         
         blackboard.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -156,5 +158,7 @@ public class Enemy : MonoBehaviour
     void ReBorn()
     {
         blackboard.currentHealth = blackboard.commonHealth+ blackboard.weakHealth;
+        fsm.SwitchState(IEnemyState.Idle);
+        blackboard.current = IEnemyState.Idle;
     }
 }

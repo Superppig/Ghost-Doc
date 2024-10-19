@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerWalkingState : PlayerStateBase
 {
-    private float WalkSpeed => settings.walkSettings.walkSpeed;
+    private float WalkSpeed => BuffSystem.Instance.GetBuffedSpeed(settings.walkSettings.walkSpeed);
     private float Accelerate => settings.walkSettings.accelerate;
     private Vector3 MoveDir => blackboard.moveDir;
     private Vector3 DirInput => blackboard.dirInput;

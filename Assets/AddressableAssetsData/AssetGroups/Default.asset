@@ -53,6 +53,10 @@ MonoBehaviour:
     m_Address: RemoteEnemy
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 2b7636660470284439880d13e72f8db4
+    m_Address: Blood
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3e529fcc779eae248a67795ce43bf27b, type: 2}
   m_SchemaSet:

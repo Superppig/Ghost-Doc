@@ -225,8 +225,13 @@ MonoBehaviour:
     hasAttack: 0
     isHit: 0
     player: {fileID: 0}
+    groundLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    boom: {fileID: 8445824011612109456, guid: efb2d4efb73f3a04a82ca6f477cde873, type: 3}
   anim: {fileID: 0}
   rb: {fileID: 0}
+  col: {fileID: 0}
   selfMyObject: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
@@ -242,9 +247,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.58
-  m_Height: 2.397005
+  m_Height: 2.4547915
   m_Direction: 1
-  m_Center: {x: 0, y: 0.2560356, z: 0}
+  m_Center: {x: 0, y: 0.22714233, z: 0}
 --- !u!114 &-220993895176224745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +356,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6346626515909951495}
   m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -520,7 +525,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7706744442249031693}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

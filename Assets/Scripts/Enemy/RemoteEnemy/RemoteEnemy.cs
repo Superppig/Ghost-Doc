@@ -1,6 +1,6 @@
 ﻿
 using UnityEngine;
-public class RemoteEnemy:Enemy
+public class RemoteEnemy:Enemy ,IGrabObject
 {
     public EnemyType enemyType = EnemyType.RemoteEnemy;
 
@@ -112,5 +112,54 @@ public class RemoteEnemy:Enemy
         EnemyBullet bullet1 = Instantiate(blackboard.bullet, transform.position, Quaternion.identity);
         bullet1.dir = (blackboard.player.transform.position - transform.position).normalized;
         bullet1.damage = blackboard.damage;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+    public void Grabbed()
+    {
+        rb.isKinematic = true;
+        col.enabled = false;
+    }
+    public void Released()
+    {
+        rb.isKinematic = false;
+        col.enabled = true;
+        rb.constraints = RigidbodyConstraints.None;
+    }
+    public void Fly(Vector3 dir, float force)
+    {
+        fsm.SwitchState(IEnemyState.BeThorwn);
+        rb.AddForce(dir * force, ForceMode.Impulse);
+        blackboard.current = IEnemyState.BeThorwn;
+    }
+    public bool CanGrab()
+    {
+        return blackboard.current == IEnemyState.Stagger;
+    }
+    public bool CanUse()
+    {
+        return true;
+    }
+
+    public void Use()
+    {
+        BuffSystem.Instance.ActivateBuff(BuffType.Remote);
+        
+        //TODO:机关炮
+
+
+        fsm.SwitchState(IEnemyState.Dead);
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        if(blackboard.current==IEnemyState.BeThorwn)
+        {
+            ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
+            fsm.SwitchState(IEnemyState.Dead);
+        }
     }
 }

@@ -52,4 +52,8 @@ public class EnemyBlackboard
     public bool isHit;
     
     public Player player;
+    
+    
+    public LayerMask groundLayer;
+    public ParticleSystem boom;
 }

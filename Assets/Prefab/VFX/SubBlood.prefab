@@ -4965,3 +4965,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Blood: {fileID: 729783019843443523, guid: 2b7636660470284439880d13e72f8db4, type: 3}
+  bloodPerfabName: Blood
+  bloodRecycleTime: 0

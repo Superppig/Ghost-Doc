@@ -428,4 +428,9 @@ public class Player : MonoBehaviour
     {
         return blackboard.velocity;
     }
+    
+    public void RecoverHealth(float health)
+    {
+        blackboard.Health = Mathf.Clamp(blackboard.Health + health, 0, blackboard.maxHealth);
+    }
 }

@@ -6,7 +6,7 @@ public class PlayerJumpState : PlayerStateBase
     private float jumpSpeed;
 
     private float WallJumpSpeed => settings.jumpSettings.wallJumpSpeed;
-    private float WalkSpeed => settings.walkSettings.walkSpeed;
+    private float WalkSpeed => BuffSystem.Instance.GetBuffedSpeed(settings.walkSettings.walkSpeed);
     private float WallUpSpeed => settings.jumpSettings.wallUpSpeed;
     private RaycastHit wall;
 

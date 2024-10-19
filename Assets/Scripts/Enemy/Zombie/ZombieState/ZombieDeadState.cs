@@ -7,6 +7,7 @@ public class ZombieDeadState:EnemyStateBase
 
     public override void OnEnter()
     {
+        enemy.rb.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         enemy.selfMyObject.Recycle();
     }
 
