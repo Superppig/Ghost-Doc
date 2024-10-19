@@ -69,11 +69,11 @@ MonoBehaviour:
   m_Name: ScreenSpacePlanarReflectRenderFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  setting:
-    PassEvent: 300
+  m_settings:
+    RenderPassEvent: 300
     shader: {fileID: 7200000, guid: 5e7704c3411ffd446b7ad5e0bab1f5aa, type: 3}
     RTSize: 512
-    ReflectHeight: 1.5
+    ReflectHeight: 0.5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +211,6 @@ MonoBehaviour:
   setting:
     PassEvent: 300
     blurMat: {fileID: 2100000, guid: fe5931af91c3ba146b4d92f3d547c75a, type: 2}
-    Loop: 5
-    BlurSize: 0.23
-    BlurDownSample: 1
+    Loop: 3
+    BlurSize: 0.22
+    BlurDownSample: 2

@@ -16,7 +16,7 @@ float _ReflectHeight;
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
-    float height=_WorldSpaceCameraPos.y-_ReflectHeight;
+    float height=_WorldSpaceCameraPos.y - _ReflectHeight;
     _ReflectRT[id.xy] = float4(0, 0, 0, 0);
     //初始化深度为far
     #ifdef UNITY_REVERSED_Z
