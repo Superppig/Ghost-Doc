@@ -7,6 +7,9 @@ public class RemoteEnemyDeadState:EnemyStateBase
 
     public override void OnEnter()
     {
+        enemy.rb.constraints = RigidbodyConstraints.FreezeRotationX
+                               | RigidbodyConstraints.FreezeRotationZ;
+        
         enemy.selfMyObject.Recycle();
     }
 

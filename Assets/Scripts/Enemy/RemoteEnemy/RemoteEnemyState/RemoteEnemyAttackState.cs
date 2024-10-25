@@ -4,6 +4,7 @@ public enum EnemyType
 {
     Zombie,
     RemoteEnemy,
+    CrazyBiteEnemy,
 }
 
 public class RemoteEnemyAttackState:EnemyStateBase

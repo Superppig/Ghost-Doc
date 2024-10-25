@@ -369,6 +369,12 @@ public class Player : MonoBehaviour
             blackboard.isWall = Physics.Raycast(transform.position, dir,
                 out blackboard.wallHit, settings.wallRunSettings.wallCheckDistance,
                 settings.otherSettings.wallLayer);
+            if (!blackboard.isWall)
+            {
+                blackboard.isWall = Physics.Raycast(transform.position, dir,
+                    out blackboard.wallHit, settings.wallRunSettings.wallCheckDistance,
+                    settings.otherSettings.groundLayer);
+            }
             if (blackboard.isWall)
             {
                 break;

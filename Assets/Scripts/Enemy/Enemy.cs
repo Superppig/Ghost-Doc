@@ -18,6 +18,11 @@ public class Enemy : MonoBehaviour
     public Collider col;
 
     protected EnemyFSM fsm;
+    public EnemyFSM FSM
+    {
+        get { return fsm; }
+    }
+    
     public MyObject selfMyObject;
 
     [Header("寻路相关")]
@@ -29,6 +34,7 @@ public class Enemy : MonoBehaviour
     public float nextWaypointDistance = 3;
     //对当前的航点进行编号
     protected int currentWaypoint = 0;
+    public float minDistance = 1f;
     
 
     protected virtual void Awake()
@@ -97,10 +103,10 @@ public class Enemy : MonoBehaviour
             dir = new Vector3(dir.x, 0, dir.z).normalized;
         }
 
-        //玩家转向
+        //移动
         transform.position += dir * (Time.fixedDeltaTime * blackboard.speed);
 
-        //玩家当前位置与当前的航向点距离小于一个给定值后，转向下一个航向点
+        //当前位置与当前的航向点距离小于一个给定值后，转向下一个航向点
         if (Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]) < nextWaypointDistance)
         {
             Vector3 rotation = new Vector3(0,

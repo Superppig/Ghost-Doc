@@ -1,24 +1,24 @@
-using System;
-using Mono.CompilerServices.SymbolWriter;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Zombie : Enemy,IGrabObject
+public class CrazyBiteEnemy : Enemy,IGrabObject
 {
-    public EnemyType enemyType = EnemyType.Zombie;
+    public EnemyType enemyType = EnemyType.CrazyBiteEnemy;
     private float attackTimer;
+    
     
     protected override void Awake()
     {
         base.Awake();
         
-        fsm.AddState(IEnemyState.Idle, new ZombieIdelState(this));
-        fsm.AddState(IEnemyState.Attack, new ZombieAttackState(this));
-        fsm.AddState(IEnemyState.BeThorwn, new ZombieBeTrownState(this));
-        fsm.AddState(IEnemyState.Chase, new ZombieChaseState(this));
-        fsm.AddState(IEnemyState.Dead, new ZombieDeadState(this));
-        fsm.AddState(IEnemyState.Stagger, new ZombieStaggerState(this));
-        fsm.AddState(IEnemyState.Hit, new ZombieHitState(this));
+        fsm.AddState(IEnemyState.Idle, new CrazyBiteEnemyIdelState(this));
+        fsm.AddState(IEnemyState.Attack, new CrazyBiteEnemyAttackState(this));
+        fsm.AddState(IEnemyState.BeThorwn, new CrazyBiteEnemyBeTrownState(this));
+        fsm.AddState(IEnemyState.Chase, new CrazyBiteEnemyChaseState(this));
+        fsm.AddState(IEnemyState.Dead, new CrazyBiteEnemyDeadState(this));
+        fsm.AddState(IEnemyState.Stagger, new CrazyBiteEnemyStaggerState(this));
+        fsm.AddState(IEnemyState.Hit, new CrazyBiteEnemyHitState(this));
     }
+    
     protected override void Start()
     {
         base.Start();
@@ -81,7 +81,7 @@ public class Zombie : Enemy,IGrabObject
             }
             if (blackboard.current == IEnemyState.Chase)
             {
-                if(blackboard.distanceToPlayer<blackboard.attackRange)
+                if(blackboard.distanceToPlayer<blackboard.biteRange)
                 {
                     blackboard.isAttack= true;
                 }

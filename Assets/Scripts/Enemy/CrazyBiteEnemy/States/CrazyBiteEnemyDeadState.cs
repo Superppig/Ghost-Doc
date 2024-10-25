@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-public class ZombieDeadState:EnemyStateBase
+
+public class CrazyBiteEnemyDeadState : EnemyStateBase
 {
-    public ZombieDeadState(Enemy enemy) : base(enemy)
+    public CrazyBiteEnemyDeadState(Enemy enemy) : base(enemy)
     {
     }
 
@@ -22,7 +23,6 @@ public class ZombieDeadState:EnemyStateBase
 
     public override void OnCheck()
     {
-        
     }
 
     public override void OnFixUpdate()

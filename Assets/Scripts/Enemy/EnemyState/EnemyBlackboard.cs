@@ -46,6 +46,12 @@ public class EnemyBlackboard
     public float fireTime = 1f;//攻击间隔
     public EnemyBullet bullet;//子弹
     
+    //CrazyBiteEnemy
+    public float biteSpeed =10f; //撕咬速度
+    public float biteReadyTime = 0.25f;//撕咬准备时间
+    public float biteRange = 3f;//撕咬范围
+    public float biteTime = 0.25f;//撕咬时间
+    
     //逻辑变量
     public bool isAttack;
     public bool hasAttack;
