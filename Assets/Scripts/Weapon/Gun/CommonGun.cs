@@ -2,6 +2,7 @@
 using Services;
 using Services.Audio;
 using System.Collections;
+using Services.ObjectPools;
 using UnityEngine;
 
 public class CommonGun : Gun
@@ -12,9 +13,14 @@ public class CommonGun : Gun
     public Light pointLight;
     private IAudioPlayer audioPlayer;
 
+    public MyObject m_MyObject;
+
     private void Awake()
     {
         audioPlayer = ServiceLocator.Get<IAudioPlayer>();
+        m_MyObject = GetComponent<MyObject>();
+
+        m_MyObject.OnActivate += SwitchAnim;
     }
 
     protected override void Start()
@@ -23,6 +29,9 @@ public class CommonGun : Gun
         //初始化数据
          pos = position;
          fireWaitTime = 60f / data.fireRate;
+         gunAnimator = model.Find("GunModel").GetComponent<Animator>();
+
+
     }
 
     protected override void Update()
@@ -95,4 +104,15 @@ public class CommonGun : Gun
     }
 
 
+
+    void SwitchAnim()
+    {
+        StartCoroutine(switchAnimIEnumerator(0.5f));
+    }
+    IEnumerator switchAnimIEnumerator(float timer)
+    {
+        gunAnimator.SetBool("exit",true);
+        yield return new WaitForSeconds(timer);
+        gunAnimator.SetBool("exit",false);
+    }
 }
