@@ -47,13 +47,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _Distortintensity: 0.18
-    - _Fade: 0.5
+    - _Fade: 0.49
     - _PolarCoord: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color1: {r: 0.5375578, g: 0.7395428, b: 0.9433962, a: 0}
-    - _Color2: {r: 0.09512281, g: 0.1095853, b: 0.3018868, a: 0}
+    - _Color1: {r: 1.0870034, g: 0.23044465, b: 0.2808305, a: 0}
+    - _Color2: {r: 0.42352942, g: 0.09411764, b: 0.3150868, a: 0}
     - _DistortFlowSpeed: {r: 1, g: 0, b: 0, a: 0}
     - _FlowSpeed: {r: 0.5, g: 0, b: 0, a: 0}
     - _NoiseFlowSpeed: {r: 0.64, g: 0.06, b: 0, a: 0}
