@@ -1,16 +1,25 @@
 ﻿using UnityEngine;
 
-public class CrazyBiteEnemyIdelState : EnemyStateBase
+public class CrazyBiteEnemyIdelState : CrazyBiteStateBase
 {
     public CrazyBiteEnemyIdelState(Enemy enemy) : base(enemy)
     {
     }
 
-    public override void OnEnter()
+    public override void OnInit()
     {
     }
 
+    public override void OnEnter()
+    {
+        CurrentFsm.ChangeState<CrazyBiteEnemyChaseState>();
+    }
+
     public override void OnExit()
+    {
+    }
+
+    public override void OnShutdown()
     {
     }
 
@@ -22,7 +31,7 @@ public class CrazyBiteEnemyIdelState : EnemyStateBase
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
 }

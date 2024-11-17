@@ -1,12 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using DG.Tweening;
-using Newtonsoft.Json;
 using Pathfinding;
+using Services;
 using Services.ObjectPools;
-using Unity.VisualScripting;
 using UnityEngine;
+
+public enum EnemyType
+{
+    Zombie,
+    RemoteEnemy,
+    CrazyBiteEnemy,
+}
 
 public class Enemy : MonoBehaviour
 {
@@ -16,15 +19,14 @@ public class Enemy : MonoBehaviour
     public Animator anim;
     public Rigidbody rb;
     public Collider col;
-
-    protected EnemyFSM fsm;
-    public EnemyFSM FSM
-    {
-        get { return fsm; }
-    }
-    
     public MyObject selfMyObject;
 
+    public bool canGrab;
+    
+    //wave
+    public Wave wave;
+    private WaveManager waveManager;
+    
     [Header("寻路相关")]
     public Vector3 targetPosition;
     protected Seeker seeker;
@@ -42,10 +44,8 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         col = GetComponent<Collider>();
-        fsm = new EnemyFSM(this);
         
-        blackboard.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        
+        waveManager = ServiceLocator.Get<WaveManager>();
         //注册对象池回调函数
         selfMyObject = GetComponent<MyObject>();
         selfMyObject.OnRecycle += EnemyOnDisable;
@@ -144,27 +144,48 @@ public class Enemy : MonoBehaviour
     }
     
     
-    /// <summary>
-    /// 对象池相关实现
-    /// </summary>
-    void EnemyOnDisable()
+    
+    protected virtual void EnemyOnDisable()
     {
-        WaveManager.Instance.currentWave.currentEnemyCount--;
-        WaveManager.Instance.currentWave.currentEnemyHealth-=(blackboard.commonHealth+blackboard.weakHealth);
+        wave.currentEnemyCount--;
+        wave.currentEnemyHealth-=(blackboard.commonHealth+blackboard.weakHealth);
         Debug.Log("敌人死亡");
     }
-    void EnemyOnInable()
+    protected virtual void EnemyOnInable()
     {
-        WaveManager.Instance.currentWave.currentEnemyCount++;
-        WaveManager.Instance.currentWave.currentEnemyMaxHealth+=(blackboard.commonHealth+blackboard.weakHealth);
-        WaveManager.Instance.currentWave.currentEnemyHealth+=(blackboard.commonHealth+blackboard.weakHealth);
+        wave = waveManager.GetCurrentWave();
+        blackboard.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        wave.currentEnemyCount++;
+        wave.currentEnemyMaxHealth+=(blackboard.commonHealth+blackboard.weakHealth);
+        wave.currentEnemyHealth+=(blackboard.commonHealth+blackboard.weakHealth);
+        
+        
         Debug.Log("敌人生成");
     }
     
     void ReBorn()
     {
         blackboard.currentHealth = blackboard.commonHealth+ blackboard.weakHealth;
-        fsm.SwitchState(IEnemyState.Idle);
-        blackboard.current = IEnemyState.Idle;
+    }
+    
+    
+    protected void Boom()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, blackboard.boomRange);
+        if(colliders.Length==0)
+            return;
+        foreach (var collider in colliders)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                collider.transform.root.GetComponent<Player>().BoomJump(transform.position, blackboard.boomForce);
+            }
+            else if(collider.CompareTag("Enemy"))
+            {
+                Enemy enemy = collider.transform.root.GetComponent<Enemy>();
+                TakeDamage(blackboard.boomDamage);
+                enemy.rb.AddForce((enemy.transform.position - transform.position).normalized * blackboard.boomForce, ForceMode.Impulse);
+            }
+        }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Services;
 using UnityEngine;
 
-public class Wave : MonoBehaviour
+[Serializable]
+public class Wave
 {
-    public bool isEnd;
+    [HideInInspector]public bool isStart;
+    [HideInInspector]public bool isEnd;
     public List<EnemySpawnPoint> enemySpawnPoints;
     public SwitchWaveType switchWaveType;
     
@@ -12,32 +15,36 @@ public class Wave : MonoBehaviour
     public int switchEnemyCount;//切换波时的敌人数量
     
     
-    public float currentEnemyHealth;
-    public float currentEnemyMaxHealth;
-    public int currentEnemyCount;
+    [HideInInspector]public float currentEnemyHealth;
+    [HideInInspector]public float currentEnemyMaxHealth;
+    [HideInInspector]public int currentEnemyCount;
 
-    private void Start()
+    public void WaveInit()
     {
-        isEnd = false;
-        //生成敌人
+        WaveManager waveManager = ServiceLocator.Get<WaveManager>();
         foreach (var enemySpawnPoint in enemySpawnPoints)
         {
-            List<Vector3> points = Tools.RandomTool.RandomPointsInCircle(enemySpawnPoint.spawnRange, enemySpawnPoint.enemyCount);
-            foreach (var point in points)
+            for (int i = 0; i < enemySpawnPoint.enemyCount; i++)
             {
-                WaveManager.Instance.EnemySpawn(enemySpawnPoint.enemyType, point+enemySpawnPoint.spawnPoint);
+                //获取随机点
+                Vector3 randomPoint = Tools.RandomTool.RandomVector2();
+                waveManager.EnemySpawn(enemySpawnPoint.enemyType,
+                    new Vector3(randomPoint.x, 0, randomPoint.y) * enemySpawnPoint.spawnRange + enemySpawnPoint.spawnPoint);
             }
         }
     }
     
-    private void Update()
+    public void WaveRun()
     {
         switch (switchWaveType)
         {
             case SwitchWaveType.HealthPercentage:
-                if (currentEnemyHealth / currentEnemyMaxHealth <= switchValue)
+                if (currentEnemyMaxHealth > 0f)
                 {
-                    isEnd = true;
+                    if (currentEnemyHealth / currentEnemyMaxHealth <= switchValue)
+                    {
+                        isEnd = true;
+                    }
                 }
                 break;
             case SwitchWaveType.EnemyCount:

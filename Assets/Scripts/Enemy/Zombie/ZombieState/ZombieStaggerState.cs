@@ -1,15 +1,24 @@
-﻿public class ZombieStaggerState:EnemyStateBase
+﻿public class ZombieStaggerState:ZombieStateBase
 {
     public ZombieStaggerState(Enemy enemy) : base(enemy)
     {
     }
 
+    public override void OnInit()
+    {
+    }
+
     public override void OnEnter()
     {
-        
+        enemy.canGrab = true;
     }
 
     public override void OnExit()
+    {
+        enemy.canGrab = false;
+    }
+
+    public override void OnShutdown()
     {
     }
 
@@ -21,7 +30,7 @@
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
 }

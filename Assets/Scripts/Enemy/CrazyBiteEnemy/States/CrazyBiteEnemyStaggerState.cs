@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
 
-public class CrazyBiteEnemyStaggerState : EnemyStateBase
+public class CrazyBiteEnemyStaggerState : CrazyBiteStateBase
 {
     public CrazyBiteEnemyStaggerState(Enemy enemy) : base(enemy)
     {
     }
 
-    public override void OnEnter()
+    public override void OnInit()
     {
     }
 
+    public override void OnEnter()
+    {
+        enemy.canGrab = true;
+    }
+
     public override void OnExit()
+    {
+        enemy.canGrab = false;
+    }
+
+    public override void OnShutdown()
     {
     }
 
@@ -22,7 +32,7 @@ public class CrazyBiteEnemyStaggerState : EnemyStateBase
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
 }

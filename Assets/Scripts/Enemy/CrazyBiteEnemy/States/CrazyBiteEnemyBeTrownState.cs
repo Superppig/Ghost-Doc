@@ -1,27 +1,36 @@
-﻿
-    public class CrazyBiteEnemyBeTrownState: EnemyStateBase
+﻿public class CrazyBiteEnemyBeTrownState : CrazyBiteStateBase
+{
+    public CrazyBiteEnemyBeTrownState(Enemy enemy) : base(enemy)
     {
-        public CrazyBiteEnemyBeTrownState(Enemy enemy) : base(enemy)
-        {
-        }
-
-        public override void OnEnter()
-        {
-        }
-
-        public override void OnExit()
-        {
-        }
-
-        public override void OnUpdate()
-        {
-        }
-
-        public override void OnCheck()
-        {
-        }
-
-        public override void OnFixUpdate()
-        {
-        }
     }
+
+    public override void OnInit()
+    {
+    }
+
+    public override void OnEnter()
+    {
+    }
+
+    public override void OnExit()
+    {
+        CurrentFsm.Owner.isThrown = false;
+    }
+
+    public override void OnShutdown()
+    {
+    }
+
+    public override void OnUpdate()
+    {
+        CurrentFsm.Owner.isThrown = true;
+    }
+
+    public override void OnCheck()
+    {
+    }
+
+    public override void OnFixedUpdate()
+    {
+    }
+}

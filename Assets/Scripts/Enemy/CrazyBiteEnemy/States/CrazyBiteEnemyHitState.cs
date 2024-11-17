@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 
-public class CrazyBiteEnemyHitState : EnemyStateBase
+public class CrazyBiteEnemyHitState : CrazyBiteStateBase
 {
     private float HitTime => blackboard.hitTime;
     private float hitTimer;
 
     public CrazyBiteEnemyHitState(Enemy enemy) : base(enemy)
+    {
+    }
+
+    public override void OnInit()
     {
     }
 
@@ -16,9 +20,16 @@ public class CrazyBiteEnemyHitState : EnemyStateBase
         enemy.anim.SetBool("Hit", true);
     }
 
+
+
     public override void OnExit()
     {
         enemy.anim.SetBool("Hit", false);
+    }
+
+    public override void OnShutdown()
+    {
+        throw new System.NotImplementedException();
     }
 
     public override void OnUpdate()
@@ -29,12 +40,13 @@ public class CrazyBiteEnemyHitState : EnemyStateBase
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
         hitTimer += Time.fixedDeltaTime;
         if (hitTimer > HitTime)
         {
             blackboard.isHit = false;
+            CurrentFsm.ChangeState<CrazyBiteEnemyIdelState>();
         }
     }
 }

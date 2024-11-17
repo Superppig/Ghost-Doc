@@ -1,102 +1,69 @@
-﻿
+﻿using System.Collections.Generic;
+using Services;
 using UnityEngine;
+
+
 public class RemoteEnemy:Enemy ,IGrabObject
 {
     public EnemyType enemyType = EnemyType.RemoteEnemy;
+    
+    public bool isThrown;
 
-    private float attackTimer;
+    //RemoteEnemy
+    public float MaxFireRange = 15f;//最大射程
+    public float MinFireRange = 10f;//逃离范围
+    public float fireTime = 1f;//攻击间隔
+    public EnemyBullet bullet;//子弹
+    public float attackTime = 1f;//攻击间隔
+
+    
+    
+    //状态机
+    private FsmManager fsmManager;
+    private Fsm<RemoteEnemy> fsm;
 
     protected override void Awake()
     {
         base.Awake();
         
-        fsm.AddState(IEnemyState.Idle, new RemoteEnemyIdelState(this));
-        fsm.AddState(IEnemyState.Attack, new RemoteEnemyAttackState(this));
-        fsm.AddState(IEnemyState.BeThorwn, new RemoteEnemyBeTrownState(this));
-        fsm.AddState(IEnemyState.Chase, new RemoteEnemyChaseState(this));
-        fsm.AddState(IEnemyState.Dead, new RemoteEnemyDeadState(this));
-        fsm.AddState(IEnemyState.Stagger, new RemoteEnemyStaggerState(this));
-        fsm.AddState(IEnemyState.Hit, new RemoteEnemyHitState(this));
+        fsmManager = ServiceLocator.Get<FsmManager>();
+        List<FsmState<RemoteEnemy>> states = new List<FsmState<RemoteEnemy>>()
+        {
+            new RemoteEnemyIdelState(this),
+            new RemoteEnemyChaseState(this),
+            new RemoteEnemyAttackState(this),
+            new RemoteEnemyStaggerState(this),
+            new RemoteEnemyBeTrownState(this),
+            new RemoteEnemyHitState(this),
+            new RemoteEnemyDeadState(this)
+        };
+        fsm = fsmManager.CreateFsm(this, states.ToArray());
+        fsm.Start<RemoteEnemyIdelState>();
+    }
 
-    }
-    protected override void Start()
+    protected override void EnemyOnInable()
     {
-        base.Start();
-        fsm.SwitchState(IEnemyState.Idle);
+        base.EnemyOnInable();
+        fsm.ChangeState<RemoteEnemyIdelState>();
     }
-    
+
     protected override void Update()
     {
         StateChange();
         
         fsm.OnCheck();
         fsm.OnUpdate();
-        blackboard.current = fsm.current;
         blackboard.distanceToPlayer = DistanceToPlayer();
         blackboard.dirToPlayer = DirToPlayer();
     }
+
     protected override void FixedUpdate()
     {
-        fsm.OnFixUpdate();
-        if (blackboard.current!=IEnemyState.Attack)
-        {
-            attackTimer += Time.fixedDeltaTime;
-        }
+        fsm.OnFixedUpdate();
     }
 
     void StateChange()
     {
-        //在这里编写逻辑
-        if (!blackboard.isHit && blackboard.currentHealth> 0f)
-        {
-            if (blackboard.current == IEnemyState.Hit)
-            {
-                fsm.SwitchState(IEnemyState.Idle);
-            }
-            //Idle
-            if (blackboard.current == IEnemyState.Idle)
-            {
-                //Idel->Attack
-                if (attackTimer > blackboard.attackTime)
-                {
-                    fsm.SwitchState(IEnemyState.Chase);
-                }
-            }
-            //切换到Stagger
-            if (blackboard.currentHealth<= blackboard.weakHealth&&blackboard.currentHealth>0)
-            {
-                fsm.SwitchState(IEnemyState.Stagger);
-            }
-            //Chase和Attack之间的切换
-            if(blackboard.isAttack)
-            {
-                fsm.SwitchState(IEnemyState.Attack);
-                attackTimer = 0f;
-            }
-        
-            if(blackboard.current==IEnemyState.Attack&&blackboard.hasAttack)
-            {
-                fsm.SwitchState(IEnemyState.Idle);
-                blackboard.hasAttack = false;
-            }
-            if (blackboard.current == IEnemyState.Chase)
-            {
-                if(blackboard.distanceToPlayer<blackboard.MaxFireRange
-                   && blackboard.distanceToPlayer>blackboard.MinFireRange)
-                {
-                    blackboard.isAttack= true;
-                }
-            }
-        }
-        //死亡
-        else if(blackboard.currentHealth<= 0f)
-        {
-            fsm.SwitchState(IEnemyState.Dead);
-        }
-        else if(blackboard.current!=IEnemyState.Hit&&blackboard.isHit)
-        {
-            fsm.SwitchState(IEnemyState.Hit);
-        }
         
     }
     public override void TakeDamage(float damage)
@@ -109,7 +76,7 @@ public class RemoteEnemy:Enemy ,IGrabObject
 
     public void Fire()
     {
-        EnemyBullet bullet1 = Instantiate(blackboard.bullet, transform.position, Quaternion.identity);
+        EnemyBullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
         bullet1.dir = (blackboard.player.transform.position - transform.position).normalized;
         bullet1.damage = blackboard.damage;
     }
@@ -131,13 +98,12 @@ public class RemoteEnemy:Enemy ,IGrabObject
     }
     public void Fly(Vector3 dir, float force)
     {
-        fsm.SwitchState(IEnemyState.BeThorwn);
+        fsm.ChangeState<RemoteEnemyBeTrownState>();
         rb.AddForce(dir * force, ForceMode.Impulse);
-        blackboard.current = IEnemyState.BeThorwn;
     }
     public bool CanGrab()
     {
-        return blackboard.current == IEnemyState.Stagger;
+        return canGrab;
     }
     public bool CanUse()
     {
@@ -150,16 +116,16 @@ public class RemoteEnemy:Enemy ,IGrabObject
         
         //TODO:机关炮
 
-
-        fsm.SwitchState(IEnemyState.Dead);
+        fsm.ChangeState<RemoteEnemyDeadState>();
     }
     
     private void OnCollisionEnter(Collision other)
     {
-        if(blackboard.current==IEnemyState.BeThorwn)
+        if(isThrown)
         {
             ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
-            fsm.SwitchState(IEnemyState.Dead);
+            Boom();
+            fsm.ChangeState<RemoteEnemyDeadState>();
         }
     }
 }

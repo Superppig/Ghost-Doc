@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8964381911869543057}
   m_Layer: 13
   m_Name: CrazyBiteEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackboard:
-    current: 0
     distanceToPlayer: 0
     dirToPlayer: {x: 0, y: 0, z: 0}
     currentHealth: 100
@@ -124,16 +123,6 @@ MonoBehaviour:
     trunTime: 0.5
     hitTime: 0.5
     directRange: 10
-    attackRange: 2
-    attackTime: 1
-    MaxFireRange: 15
-    MinFireRange: 10
-    fireTime: 1
-    bullet: {fileID: 0}
-    biteSpeed: 10
-    biteReadyTime: 0.25
-    biteRange: 2
-    biteTime: 0.25
     isAttack: 0
     hasAttack: 0
     isHit: 0
@@ -141,15 +130,25 @@ MonoBehaviour:
     groundLayer:
       serializedVersion: 2
       m_Bits: 0
-    boom: {fileID: 0}
+    boomForce: 10
+    boomDamage: 5
+    boomRange: 4
+    boom: {fileID: 8445824011612109456, guid: efb2d4efb73f3a04a82ca6f477cde873, type: 3}
   anim: {fileID: 0}
   rb: {fileID: 0}
   col: {fileID: 0}
   selfMyObject: {fileID: 0}
+  canGrab: 0
   targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
   minDistance: 1
   enemyType: 2
+  biteSpeed: 10
+  biteReadyTime: 0.25
+  biteRange: 3
+  biteTime: 0.25
+  attackTime: 1
+  isThrown: 0
 --- !u!95 &4309913532745272641
 Animator:
   serializedVersion: 4
@@ -198,7 +197,7 @@ GameObject:
   - component: {fileID: 2866635092915133847}
   m_Layer: 8
   m_Name: Head
-  m_TagString: Enemy
+  m_TagString: EnemyHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -521,7 +520,7 @@ GameObject:
   - component: {fileID: 6332518079507137134}
   m_Layer: 8
   m_Name: Body
-  m_TagString: Enemy
+  m_TagString: EnemyHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

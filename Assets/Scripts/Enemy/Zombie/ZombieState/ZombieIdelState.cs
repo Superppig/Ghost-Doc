@@ -1,15 +1,23 @@
-﻿public class ZombieIdelState:EnemyStateBase
+﻿public class ZombieIdelState:ZombieStateBase
 {
     public ZombieIdelState(Enemy enemy) : base(enemy)
     {
     }
 
+    public override void OnInit()
+    {
+    }
+
     public override void OnEnter()
     {
-        
+        CurrentFsm.ChangeState<ZombieChaseState>();
     }
 
     public override void OnExit()
+    {
+    }
+
+    public override void OnShutdown()
     {
     }
 
@@ -21,7 +29,7 @@
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Services.ObjectPools;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ public class Melee : MonoBehaviour
     public WeaponState state=WeaponState.Idle;//武器状态
     public AttackType currentAttackType=AttackType.Common;//当前攻击类型
     
-    protected EStateType playerState;//玩家状态
+    protected Type playerState;//玩家状态
     protected bool canSwitch;//是否可以切换武器
     protected bool hasBlockedAmin=false;//是否播放过格挡动画
     protected bool hasRleaseBeforeMouse1Up;//右键松开前是否释放过攻击
@@ -321,7 +322,7 @@ public class Melee : MonoBehaviour
     protected virtual void ShiftCombo()
     {
         player.blackboard.isCombo= true;
-        if (player.GetEnerge() >= shiftEnergyCost && player.blackboard.currentState!=EStateType.Sprinting)
+        if (player.GetEnerge() >= shiftEnergyCost && !(player.blackboard.currentState is PlayerSprintingState))
         {
             player.UseEnerge(shiftEnergyCost);
             StartCoroutine(StartShiftCombo());
@@ -369,7 +370,7 @@ public class Melee : MonoBehaviour
     protected virtual void CtrlCombo()
     {
         player.blackboard.isCombo= true;
-        if (player.GetEnerge()>=ctrlEnergyCost && player.blackboard.currentState==EStateType.Air && !player.IsGrounded(ctrlStartHeight))
+        if (player.GetEnerge()>=ctrlEnergyCost && player.blackboard.currentState is PlayerAirState && !player.IsGrounded(ctrlStartHeight))
         {
             player.UseEnerge(ctrlEnergyCost);
             

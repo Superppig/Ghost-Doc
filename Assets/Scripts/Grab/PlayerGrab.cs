@@ -84,7 +84,6 @@ public class PlayerGrab : MonoBehaviour
             ChangeLayer(grabbedObject.GetTransform(), holdLayer);
             isGrabbing = true;
         }
-        
     }
 
     void UsePartical(Vector3 position)

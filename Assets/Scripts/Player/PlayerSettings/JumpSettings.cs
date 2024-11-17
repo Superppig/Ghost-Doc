@@ -11,4 +11,7 @@ public class JumpSettings
     public float exitWallTime;
     
     public float jumpBufferTime;
+
+
+    public float jumpTime = 0.2f;
 }

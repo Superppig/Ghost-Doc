@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
 
 public enum BuffType
 {
@@ -26,6 +25,11 @@ public class BuffSystem : MonoBehaviour
         BuffType.Remote,
     };
     private Player m_Player;
+    private PlayerAttack m_PlayerAttack;
+
+    private BuffType currentGun;
+    private float gunTimer;
+    private bool isOrigin = true;
     
     private float  totalSpeedAddition = 0f;
     private float totalSpeedMultiplication = 1f;
@@ -37,17 +41,26 @@ public class BuffSystem : MonoBehaviour
         
         m_BuffDict.Add(BuffType.KenKen, new Buff(1,0,1,0,0,1));
         m_BuffDict.Add(BuffType.Zombie, new Buff(5,0,2,100,0,2));
-        m_BuffDict.Add(BuffType.Remote, new Buff(1,0,1,0,0,1));
+        m_BuffDict.Add(BuffType.Remote, new Buff(10,0,1,100,0,1.5f));
     }
 
     private void Start()
     {
         m_Player = FindObjectOfType<Player>();
+        m_PlayerAttack = m_Player.GetComponent<PlayerAttack>();
     }
 
     private void Update()
     {
         BuffUpdate();
+        
+        gunTimer -= Time.deltaTime;
+        gunTimer = Mathf.Clamp(gunTimer, 0, 100);
+        if (gunTimer<=0f &&!isOrigin)
+        {
+            m_PlayerAttack.SwitchWeapon(WeaponType.Gun, 0);
+            isOrigin = true;
+        }
     }
 
     private void BuffUpdate()
@@ -86,6 +99,23 @@ public class BuffSystem : MonoBehaviour
     {
         m_BuffDict[buffType].currentTime = m_BuffDict[buffType].buffTime;
         m_Player.RecoverHealth(m_BuffDict[buffType].healthRecovery);
+        UpdateGun(buffType);
     }
-    
+
+    private void UpdateGun(BuffType buffType)
+    {
+        gunTimer = m_BuffDict[buffType].buffTime;
+        switch (buffType)
+        {
+            case BuffType.KenKen:
+                break;
+            case BuffType.Zombie:
+                break;
+            case BuffType.Remote:
+                m_PlayerAttack.gunIndex = 1;
+                m_PlayerAttack.SwitchWeapon(WeaponType.Gun, 1);
+                isOrigin = false;
+                break;
+        }
+    }
 }

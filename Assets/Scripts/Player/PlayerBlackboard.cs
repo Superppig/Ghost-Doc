@@ -63,9 +63,9 @@ public class PlayerBlackboard
     public float climbSpeed;        //爬墙继承速度
     
 
-    public EStateType lastState;
-    public EStateType currentState;
-    public EStateType nextState;
+    public Type lastState;
+    public Type currentState;
+    public Type nextState;
 
     public RaycastHit wallHit;
     public bool isWall;

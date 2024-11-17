@@ -1,101 +1,68 @@
-﻿using UnityEngine;
-
+﻿using System.Collections.Generic;
+using Services;
+using UnityEngine;
 public class CrazyBiteEnemy : Enemy,IGrabObject
 {
     public EnemyType enemyType = EnemyType.CrazyBiteEnemy;
-    private float attackTimer;
     
+    
+    //CrazyBiteEnemy
+    public float biteSpeed =10f; //撕咬速度
+    public float biteReadyTime = 0.25f;//撕咬准备时间
+    public float biteRange = 3f;//撕咬范围
+    public float biteTime = 0.25f;//撕咬时间
+    public float attackTime = 1f;//攻击间隔
+
+    //状态机
+    private FsmManager fsmManager;
+    private Fsm<CrazyBiteEnemy> fsm;
+
+    //投掷
+    public bool isThrown;
     
     protected override void Awake()
     {
         base.Awake();
-        
-        fsm.AddState(IEnemyState.Idle, new CrazyBiteEnemyIdelState(this));
-        fsm.AddState(IEnemyState.Attack, new CrazyBiteEnemyAttackState(this));
-        fsm.AddState(IEnemyState.BeThorwn, new CrazyBiteEnemyBeTrownState(this));
-        fsm.AddState(IEnemyState.Chase, new CrazyBiteEnemyChaseState(this));
-        fsm.AddState(IEnemyState.Dead, new CrazyBiteEnemyDeadState(this));
-        fsm.AddState(IEnemyState.Stagger, new CrazyBiteEnemyStaggerState(this));
-        fsm.AddState(IEnemyState.Hit, new CrazyBiteEnemyHitState(this));
+        fsmManager = ServiceLocator.Get<FsmManager>();
+        List<FsmState<CrazyBiteEnemy>> states = new List<FsmState<CrazyBiteEnemy>>()
+        {
+            new CrazyBiteEnemyIdelState(this),
+            new CrazyBiteEnemyChaseState(this),
+            new CrazyBiteEnemyAttackState(this),
+            new CrazyBiteEnemyStaggerState(this),
+            new CrazyBiteEnemyBeTrownState(this),
+            new CrazyBiteEnemyHitState(this), 
+            new CrazyBiteEnemyDeadState(this),
+        };
+
+        fsm =  fsmManager.CreateFsm(this, states.ToArray());
+        fsm.Start<CrazyBiteEnemyIdelState>();
     }
-    
-    protected override void Start()
+
+    protected override void EnemyOnInable()
     {
-        base.Start();
-        fsm.SwitchState(IEnemyState.Idle);
+        base.EnemyOnInable();
+        fsm.ChangeState<CrazyBiteEnemyIdelState>();
     }
-    
+
     protected override void Update()
     {
         StateChange();
         
         fsm.OnCheck();
         fsm.OnUpdate();
-        blackboard.current = fsm.current;
         blackboard.distanceToPlayer = DistanceToPlayer();
         blackboard.dirToPlayer = DirToPlayer();
     }
+
     protected override void FixedUpdate()
     {
-        fsm.OnFixUpdate();
-        if (blackboard.current!=IEnemyState.Attack)
-        {
-            attackTimer += Time.fixedDeltaTime;
-        }
+        fsm.OnFixedUpdate();
+        
     }
 
     void StateChange()
     {
-        //在这里编写逻辑
-        if (!blackboard.isHit && blackboard.currentHealth> 0f)
-        {
-            if (blackboard.current == IEnemyState.Hit)
-            {
-                fsm.SwitchState(IEnemyState.Idle);
-            }
-            //Idle
-            if (blackboard.current == IEnemyState.Idle)
-            {
-                //Idel->Attack
-                if (attackTimer > blackboard.attackTime)
-                {
-                    fsm.SwitchState(IEnemyState.Chase);
-                }
-            }
-            //切换到Stagger
-            if (blackboard.currentHealth<= blackboard.weakHealth&&blackboard.currentHealth>0 && blackboard.current != IEnemyState.BeThorwn)
-            {
-                fsm.SwitchState(IEnemyState.Stagger);
-            }
-            //Chase和Attack之间的切换
-            if(blackboard.isAttack)
-            {
-                fsm.SwitchState(IEnemyState.Attack);
-                attackTimer = 0f;
-            }
-        
-            if(blackboard.current==IEnemyState.Attack&&blackboard.hasAttack)
-            {
-                fsm.SwitchState(IEnemyState.Idle);
-                blackboard.hasAttack = false;
-            }
-            if (blackboard.current == IEnemyState.Chase)
-            {
-                if(blackboard.distanceToPlayer<blackboard.biteRange)
-                {
-                    blackboard.isAttack= true;
-                }
-            }
-        }
-        //死亡
-        else if(blackboard.currentHealth<= 0f)
-        {
-            fsm.SwitchState(IEnemyState.Dead);
-        }
-        else if(blackboard.current!=IEnemyState.Hit&&blackboard.isHit)
-        {
-            fsm.SwitchState(IEnemyState.Hit);
-        }
         
     }
     public override void TakeDamage(float damage)
@@ -131,14 +98,13 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
 
     public void Fly(Vector3 dir, float force)
     {
-        fsm.SwitchState(IEnemyState.BeThorwn);
+        fsm.ChangeState<CrazyBiteEnemyBeTrownState>();
         rb.AddForce(dir * force, ForceMode.Impulse);
-        blackboard.current = IEnemyState.BeThorwn;
     }
 
     public bool CanGrab()
     {
-        return blackboard.current == IEnemyState.Stagger;
+        return canGrab;
     }
 
     public bool CanUse()
@@ -148,17 +114,18 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
 
     public void Use()
     {
-        BuffSystem.Instance.ActivateBuff(BuffType.Zombie);
-        fsm.SwitchState(IEnemyState.Dead);
+        BuffSystem.Instance.ActivateBuff(BuffType.KenKen);
+        fsm.ChangeState<CrazyBiteEnemyDeadState>();
     }
 
 
     private void OnCollisionEnter(Collision other)
     {
-        if(blackboard.current==IEnemyState.BeThorwn)
+        if(isThrown)
         {
             ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
-            fsm.SwitchState(IEnemyState.Dead);
+            Boom();
+            fsm.ChangeState<CrazyBiteEnemyDeadState>();
         }
     }
 }

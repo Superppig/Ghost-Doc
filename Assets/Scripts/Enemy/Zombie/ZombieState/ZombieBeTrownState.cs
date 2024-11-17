@@ -1,27 +1,29 @@
-﻿public class ZombieBeTrownState:EnemyStateBase
+﻿public class ZombieBeTrownState:ZombieStateBase
 {
     public ZombieBeTrownState(Enemy enemy) : base(enemy)
     {
     }
+    public override void OnInit()
+    {
+    }
     public override void OnEnter()
     {
-        
     }
-
     public override void OnExit()
     {
+        CurrentFsm.Owner.isThrown = false;
     }
-
-    public override void OnUpdate()
+    public override void OnShutdown()
     {
     }
-
+    public override void OnUpdate()
+    {
+        CurrentFsm.Owner.isThrown = true;
+    }
     public override void OnCheck()
     {
     }
-
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
-    
 }

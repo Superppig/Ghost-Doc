@@ -10,8 +10,7 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
 
     [AutoProperty] 
     public SerializedProperty isWallJump, doubleJump,dirInput, moveDir, velocity, speed, climbXZDir, climbSpeed;
-    [AutoProperty]
-    public SerializedProperty lastState, currentState, nextState;
+
     [AutoProperty]
     public SerializedProperty isWall,isMeleeAttacking, isBlocking,hasClimbOverTime,isCombo, isHoldingMelee,meleeState,isSlope;
 
@@ -34,9 +33,6 @@ public class PlayerBlackboardIndirectEditor : IndirectEditor
         speed.FloatField("当前速率");
         climbXZDir.Vector3Field("爬墙水平方向");
         climbSpeed.FloatField("爬墙继承速度");
-        lastState.EnumField<EStateType>("上一个状态");
-        currentState.EnumField<EStateType>("当前状态");
-        nextState.EnumField<EStateType>("下一个状态");
         isWall.BoolField("检测到墙壁");
         isMeleeAttacking.BoolField("正在进行近战攻击");
         isBlocking.BoolField("正在进行格挡");

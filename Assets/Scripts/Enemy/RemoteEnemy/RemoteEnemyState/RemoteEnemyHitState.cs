@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 
-public class RemoteEnemyHitState:EnemyStateBase
+public class RemoteEnemyHitState:RemoteEnemyStateBase
 {
     private float HitTime => blackboard.hitTime;
     private float hitTimer;
     public RemoteEnemyHitState(Enemy enemy) : base(enemy)
+    {
+    }
+
+    public override void OnInit()
     {
     }
 
@@ -20,6 +24,10 @@ public class RemoteEnemyHitState:EnemyStateBase
         enemy.anim.SetBool("Hit",false);
     }
 
+    public override void OnShutdown()
+    {
+    }
+
     public override void OnUpdate()
     {
     }
@@ -28,11 +36,12 @@ public class RemoteEnemyHitState:EnemyStateBase
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
         hitTimer+= Time.fixedDeltaTime;
         if(hitTimer>HitTime)
         {
+            CurrentFsm.ChangeState<RemoteEnemyIdelState>();
             blackboard.isHit = false;
         }
     }

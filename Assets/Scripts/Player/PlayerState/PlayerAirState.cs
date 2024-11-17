@@ -22,7 +22,16 @@ public class PlayerAirState : PlayerStateBase
     {
     }
 
+    public override void OnShutdown()
+    {
+    }
+
     public override void OnCheck()
+    {
+        
+    }
+
+    public override void OnInit()
     {
         
     }
@@ -32,6 +41,7 @@ public class PlayerAirState : PlayerStateBase
         rb.velocity = blackboard.velocity;//初始化速度
         timer = 0f;
         blackboard.hasClimbOverTime = false;//初始化
+        
     }
 
     public override void OnExit()
@@ -39,7 +49,7 @@ public class PlayerAirState : PlayerStateBase
         Camera.main.DOFieldOfView(currentFov, 0.2f);
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
         FovChange();
     }
@@ -50,6 +60,23 @@ public class PlayerAirState : PlayerStateBase
         {
             MoveInAir();
         }
+
+        if(Input.GetKeyDown(settings.keySettings.sprintKey))
+        {
+            if (player.UseEnerge(100))
+            {
+                CurrentFsm.ChangeState<PlayerSprintingState>();
+            }
+        }
+        else if (blackboard.grounded)
+        {
+            CurrentFsm.ChangeState<PlayerWalkingState>();
+        }
+        else if (Input.GetKeyDown(settings.keySettings.jumpkey)&&blackboard.doubleJump)
+        {
+            CurrentFsm.ChangeState<PlayerJumpState>();
+        }
+        
     }
     //空中转向
     private void MoveInAir()

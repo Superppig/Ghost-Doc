@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class PlayerStateBase : IState
+public abstract class PlayerStateBase : FsmState<Player>
 {
     protected Player player;
     protected PlayerBlackboard blackboard;
@@ -16,10 +16,4 @@ public abstract class PlayerStateBase : IState
         rb = player.rb;
         rbTransform = rb.transform;
     }
-
-    public abstract void OnCheck();
-    public abstract void OnEnter();
-    public abstract void OnExit();
-    public abstract void OnFixUpdate();
-    public abstract void OnUpdate();
 }

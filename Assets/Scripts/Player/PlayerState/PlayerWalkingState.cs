@@ -23,6 +23,11 @@ public class PlayerWalkingState : PlayerStateBase
     {
     }
 
+    public override void OnInit()
+    {
+        
+    }
+
     public override void OnEnter()
     {
         //初始化逻辑变量
@@ -31,6 +36,11 @@ public class PlayerWalkingState : PlayerStateBase
 
         velocityTween = null;
     }
+
+    public override void OnFixedUpdate()
+    {
+    }
+
     public override void OnExit()
     {
         //退出时复原视角
@@ -45,6 +55,11 @@ public class PlayerWalkingState : PlayerStateBase
         
         velocityTween?.Kill();
     }
+
+    public override void OnShutdown()
+    {
+    }
+
     public override void OnUpdate()
     {
         Walk();
@@ -57,16 +72,37 @@ public class PlayerWalkingState : PlayerStateBase
         {
             player.playerCam.isWalk = false;
         }
+        
+        
+        if (DirInput.magnitude <= 0.1f)
+        {
+            CurrentFsm.ChangeState<PlayerIdelState>();
+        }
+        
+        else if(Input.GetKeyDown(settings.keySettings.jumpkey))
+        {
+            CurrentFsm.ChangeState<PlayerJumpState>();
+        }
+        else if(Input.GetKeyDown(settings.keySettings.sprintKey))
+        {
+            if (player.UseEnerge(100))
+            {
+                CurrentFsm.ChangeState<PlayerSprintingState>();
+            }
+        }
+        else if(!blackboard.grounded)
+        {
+            blackboard.doubleJump = !blackboard.doubleJump;
+            CurrentFsm.ChangeState<PlayerAirState>();
+        }
+        
         SpeedCon();
     }
     public override void OnCheck()
     {
         
     }
-    public override void OnFixUpdate()
-    {
-        
-    }
+
     
     private void Walk()
     {

@@ -46,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        PlayerInput();
+        //PlayerInput();
     }
     
     private void PlayerInput()
@@ -140,7 +140,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void SwitchWeapon(WeaponType type, int index)
+    public void SwitchWeapon(WeaponType type, int index)
     {
         currentType = type;
         weaponManager.WeaoponSwitch(type,index);

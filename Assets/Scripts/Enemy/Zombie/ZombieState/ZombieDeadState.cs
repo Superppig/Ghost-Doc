@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
-public class ZombieDeadState:EnemyStateBase
+public class ZombieDeadState:ZombieStateBase
 {
     public ZombieDeadState(Enemy enemy) : base(enemy)
+    {
+    }
+
+    public override void OnInit()
     {
     }
 
@@ -16,16 +20,19 @@ public class ZombieDeadState:EnemyStateBase
     {
     }
 
+    public override void OnShutdown()
+    {
+    }
+
     public override void OnUpdate()
     {
     }
 
     public override void OnCheck()
     {
-        
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
 }

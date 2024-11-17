@@ -20,6 +20,12 @@ public class PlayerSlideState : PlayerStateBase
     public PlayerSlideState(Player player): base(player)
     {
     }
+
+    public override void OnInit()
+    {
+        
+    }
+
     public override void OnEnter()
     {
         rb.velocity = blackboard.velocity;
@@ -35,6 +41,10 @@ public class PlayerSlideState : PlayerStateBase
         slideParticle = ScreenControl.Instance.ParticleRelease(settings.otherSettings.SlideParticle,player.GetGround().point+Vector3.up*1f, player.GetGround().normal,rbTransform,ScreenControl.ParticleType.Loop);
     }
 
+    public override void OnFixedUpdate()
+    {
+    }
+
     public override void OnExit()
     {
         rbTransform.localScale = originalScale;
@@ -42,6 +52,10 @@ public class PlayerSlideState : PlayerStateBase
 
         //去除粒子效果
         GameObject.Destroy(slideParticle.gameObject);
+    }
+
+    public override void OnShutdown()
+    {
     }
 
     public override void OnUpdate()
@@ -60,9 +74,7 @@ public class PlayerSlideState : PlayerStateBase
     {
     }
 
-    public override void OnFixUpdate()
-    {
-    }
+
 
     private void StartSlide()
     {

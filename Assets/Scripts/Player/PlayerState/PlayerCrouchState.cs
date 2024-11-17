@@ -13,16 +13,29 @@ public class PlayerCrouchState : PlayerStateBase
     public PlayerCrouchState(Player player) : base(player)
     {
     }
-    
+
+    public override void OnInit()
+    {
+        
+    }
+
     public override void OnEnter()
     {
         originalScale = rbTransform.localScale;
         Crouch();
     }
 
+    public override void OnFixedUpdate()
+    {
+    }
+
     public override void OnExit()
     {
         rbTransform.localScale = originalScale;
+    }
+
+    public override void OnShutdown()
+    {
     }
 
     public override void OnUpdate()
@@ -35,12 +48,6 @@ public class PlayerCrouchState : PlayerStateBase
     {
         
     }
-
-    public override void OnFixUpdate()
-    {
-        
-    }
-
     void Crouch()
     {
         rbTransform.localScale = new Vector3(rbTransform.localScale.x, YScale, rbTransform.localScale.z);

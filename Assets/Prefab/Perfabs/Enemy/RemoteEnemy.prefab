@@ -216,7 +216,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackboard:
-    current: 0
     distanceToPlayer: 0
     dirToPlayer: {x: 0, y: 0, z: 0}
     currentHealth: 100
@@ -229,12 +228,6 @@ MonoBehaviour:
     trunTime: 0.5
     hitTime: 0.5
     directRange: 10
-    attackRange: 2
-    attackTime: 1
-    MaxFireRange: 15
-    MinFireRange: 10
-    fireTime: 1
-    bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
     isAttack: 0
     hasAttack: 0
     isHit: 0
@@ -242,15 +235,25 @@ MonoBehaviour:
     groundLayer:
       serializedVersion: 2
       m_Bits: 0
-    boom: {fileID: 0}
+    boomForce: 10
+    boomDamage: 5
+    boomRange: 4
+    boom: {fileID: 8445824011612109456, guid: efb2d4efb73f3a04a82ca6f477cde873, type: 3}
   anim: {fileID: 0}
   rb: {fileID: 0}
   col: {fileID: 0}
   selfMyObject: {fileID: 0}
+  canGrab: 0
   targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
   minDistance: 1
   enemyType: 1
+  isThrown: 0
+  MaxFireRange: 15
+  MinFireRange: 10
+  fireTime: 1
+  bullet: {fileID: 3778554867432444585, guid: a7af1596fc559584994bb4fb8de1daa4, type: 3}
+  attackTime: 1
 --- !u!114 &-2669771171200353402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,10 +279,10 @@ GameObject:
   - component: {fileID: 923980522056661382}
   - component: {fileID: 5016867400159237830}
   - component: {fileID: 9145395674476618683}
-  - component: {fileID: 1727610341296870079}
+  - component: {fileID: 579504081929387921}
   m_Layer: 8
   m_Name: Body
-  m_TagString: Enemy
+  m_TagString: EnemyHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,7 +366,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1727610341296870079
+--- !u!114 &579504081929387921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -372,7 +375,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6346626515909951495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20da4b546725eda40a805b2da0c55a14, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ca7c0d75bb745a394fe41304061ebea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7477699445743372371
@@ -445,10 +448,10 @@ GameObject:
   - component: {fileID: 3542094990516107984}
   - component: {fileID: 210140487523340977}
   - component: {fileID: 467756322858976832}
-  - component: {fileID: 4186550916712343815}
+  - component: {fileID: 3792060185879642907}
   m_Layer: 8
   m_Name: Head
-  m_TagString: Enemy
+  m_TagString: EnemyHit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,7 +534,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4186550916712343815
+--- !u!114 &3792060185879642907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -540,7 +543,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7706744442249031693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bdc033dfe1529641b2d743893581a1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f4a9bf72e304ccc933f74741c4b25ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8142366535192876484

@@ -1,17 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using MyTimer;
 using Services;
 using Services.ObjectPools;
+using Unity.VisualScripting;
 using UnityEngine;
-
-public enum WaveState
-{
-    Start,
-    Fight, 
-    End
-}
 
 public enum SwitchWaveType
 {
@@ -19,94 +11,72 @@ public enum SwitchWaveType
     EnemyCount
 }
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : Service, IService
 {
-    
-    //实例化
-    public static WaveManager Instance;
-    
-    //波数
-    public List<Wave> Waves;
+    public override Type RegisterType => typeof(WaveManager);
 
-    private bool started;
-    private bool ended;
+    //对象池相关
+    private IObjectManager objectManager;
+    private List<string> enemyTypeToName= new List<string>()
+    {
+        "Zombie",
+        "RemoteEnemy",
+        "CrazyBiteEnemy",
+    };
     
-    public int currentWaveIndex;
-    public Wave currentWave;
     //传送门
     public GameObject portal;
     public Vector3 portalPosition;
     
-    //当前状态
-    public WaveState waveState=WaveState.Start;
-    
-    //对象池相关
-    private IObjectManager objectManager;
-    public List<string> enemyTypeToName;
+    private Level currentLevel;
+    public bool isRunning;
 
-    private void Awake()
+    protected internal override void Init()
     {
+        base.Init();
+        
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
-        Instance = this;
-        
         objectManager = ServiceLocator.Get<IObjectManager>();
     }
 
     private void Update()
     {
-        if (waveState == WaveState.Start)
+        if (isRunning)
         {
-            waveState = WaveState.Fight;
-        }
-        else if (waveState == WaveState.Fight)
-        {
-            if (!started)
+            if (currentLevel.CheckLevel())
             {
-                StartWave();
-                started = true;
+                currentLevel = null;
+                isRunning = false;
             }
-            
-            if (Waves.Count == 0)
+            else
             {
-                waveState = WaveState.End;
-            }
-        }
-        
-        else if (waveState == WaveState.End)
-        {
-            //生成一个传送门
-            if (!ended)
-            {
-                Instantiate(portal, portalPosition, Quaternion.identity);
-                ended = true;
+                currentLevel.LevelRun();
             }
         }
     }
 
-    void StartWave()
+    /// <summary>
+    /// 开始关卡
+    /// </summary>
+    /// <param name="level"></param>
+    public void StartLevel(Level level)
     {
-        currentWave = Instantiate(Waves[0], transform);
-        currentWaveIndex = 0;
-        StartCoroutine(SwitchWave());
+        Debug.Log("LevelInit");
+        //初始化关卡
+        currentLevel = level;
+        isRunning = true;
+        currentLevel.LevelInit();
     }
-
-    IEnumerator SwitchWave()
-    {
-        while (currentWaveIndex < Waves.Count)
-        {
-            if (currentWave.isEnd)
-            {
-                currentWaveIndex++;
-                if(currentWaveIndex < Waves.Count)
-                    currentWave = Instantiate(Waves[currentWaveIndex], transform);
-            }
-            yield return null;
-        }
-        waveState = WaveState.End;
-    }
+    
     public void EnemySpawn(EnemyType enemyType, Vector3 spawnPoint)
     {
+        Debug.Log("EnemySpawn");
         objectManager.Activate(enemyTypeToName[(int)enemyType], spawnPoint, Vector3.zero, transform);
+    }
+
+    public Wave GetCurrentWave()
+    {
+        return currentLevel.Waves[currentLevel.currentWaveIndex];
     }
 }

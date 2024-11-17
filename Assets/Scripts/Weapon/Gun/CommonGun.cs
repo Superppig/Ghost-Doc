@@ -47,13 +47,16 @@ public class CommonGun : Gun
         if (Physics.Raycast(fireRay, out hit, data.maxShootDistance,Physics.DefaultRaycastLayers&mask))
         {
             StartCoroutine(BulletStart(pos.position, hit.point));
-            if (hit.collider.CompareTag("Enemy"))
+            if (hit.collider.CompareTag("EnemyHit"))
             {
                 //相机振动
                 ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
                 ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
-                enemyBeHit.HitEnemy(new HitInfo(){damage = BuffSystem.Instance.GetBuffedAttack(data.damage)});
+                if(enemyBeHit as MonoBehaviour != null)
+                {
+                    enemyBeHit.HitEnemy(new HitInfo(){damage = BuffSystem.Instance.GetBuffedAttack(data.damage)});
+                }
             }
             else
             {

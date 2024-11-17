@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
-public class RemoteEnemyDeadState:EnemyStateBase
+public class RemoteEnemyDeadState:RemoteEnemyStateBase
 {
     public RemoteEnemyDeadState(Enemy enemy) : base(enemy)
+    {
+    }
+
+    public override void OnInit()
     {
     }
 
@@ -17,6 +21,10 @@ public class RemoteEnemyDeadState:EnemyStateBase
     {
     }
 
+    public override void OnShutdown()
+    {
+    }
+
     public override void OnUpdate()
     {
     }
@@ -25,7 +33,7 @@ public class RemoteEnemyDeadState:EnemyStateBase
     {
     }
 
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
     }
 }

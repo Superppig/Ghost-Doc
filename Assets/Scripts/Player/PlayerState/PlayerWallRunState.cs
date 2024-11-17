@@ -19,6 +19,11 @@ public class PlayerWallRunState : PlayerStateBase
     {
     }
 
+    public override void OnInit()
+    {
+        
+    }
+
     public override void OnEnter()
     {
         rb.velocity = blackboard.velocity;
@@ -35,6 +40,11 @@ public class PlayerWallRunState : PlayerStateBase
     {
         player.cameraTransform.DOLocalRotate(Vector3.zero, 0.25f);
     }
+
+    public override void OnShutdown()
+    {
+    }
+
     public override void OnUpdate()
     {
         WallRun();
@@ -43,7 +53,7 @@ public class PlayerWallRunState : PlayerStateBase
     {
         
     }
-    public override void OnFixUpdate()
+    public override void OnFixedUpdate()
     {
         if (wallTimer>=MaxWallTime)
         {

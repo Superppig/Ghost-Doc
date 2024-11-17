@@ -45,13 +45,13 @@ public class TestParticalCollision : MonoBehaviour
             //Debug.Log(pos);
             
             
-            /*var go=Instantiate(Blood, pos,Quaternion.LookRotation(-normal));
-            Destroy(go, 1);*/
+            var go=Instantiate(Blood, pos,Quaternion.LookRotation(-normal));
+            Destroy(go, 1);
             
             
-            bloodObject=objectManager.Activate(bloodPerfabName, pos, Quaternion.LookRotation(-normal).eulerAngles, null);
+            /*bloodObject=objectManager.Activate(bloodPerfabName, pos, Quaternion.LookRotation(-normal).eulerAngles, null);
             DOTween.To(() => bloodRecycleTime, a => bloodRecycleTime = a, 0, 1)
-                .OnComplete(() => BloodRecycle(bloodObject));
+                .OnComplete(() => BloodRecycle(bloodObject));*/
         }
     }
     
