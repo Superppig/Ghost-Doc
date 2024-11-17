@@ -25,6 +25,10 @@
     public override void OnUpdate()
     {
         CurrentFsm.Owner.isThrown = true;
+        if(blackboard.currentHealth<=0)
+        {
+            CurrentFsm.ChangeState<RemoteEnemyDeadState>();
+        }
     }
 
     public override void OnCheck()

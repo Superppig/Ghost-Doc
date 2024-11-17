@@ -24,6 +24,10 @@
 
     public override void OnUpdate()
     {
+        if(blackboard.currentHealth<=0)
+        {
+            CurrentFsm.ChangeState<ZombieDeadState>();
+        }
     }
 
     public override void OnCheck()

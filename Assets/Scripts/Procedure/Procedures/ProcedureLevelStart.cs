@@ -3,7 +3,7 @@ public class ProcedureLevelStart : ProcedureBase
 {
     //Debug
     private float timer;
-    private float waitTime = 10f;
+    private float waitTime = 3f;
     public override void OnInit()
     {
     }

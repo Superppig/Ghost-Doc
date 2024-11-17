@@ -210,7 +210,7 @@ MonoBehaviour:
     damage: 30
     commonHitRate: 1
     criticalStrikeRate: 2
-    speed: 5
+    speed: 3
     trunTime: 0.5
     hitTime: 0.5
     directRange: 10
@@ -230,6 +230,16 @@ MonoBehaviour:
   col: {fileID: 0}
   selfMyObject: {fileID: 0}
   canGrab: 0
+  wave:
+    isStart: 0
+    isEnd: 0
+    enemySpawnPoints: []
+    switchWaveType: 0
+    switchValue: 0
+    switchEnemyCount: 0
+    currentEnemyHealth: 0
+    currentEnemyMaxHealth: 0
+    currentEnemyCount: 0
   targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
   minDistance: 1

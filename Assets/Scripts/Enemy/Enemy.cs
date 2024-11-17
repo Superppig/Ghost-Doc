@@ -149,6 +149,7 @@ public class Enemy : MonoBehaviour
     {
         wave.currentEnemyCount--;
         wave.currentEnemyHealth-=(blackboard.commonHealth+blackboard.weakHealth);
+        transform.position = Vector3.zero;
         Debug.Log("敌人死亡");
     }
     protected virtual void EnemyOnInable()
@@ -183,8 +184,11 @@ public class Enemy : MonoBehaviour
             else if(collider.CompareTag("Enemy"))
             {
                 Enemy enemy = collider.transform.root.GetComponent<Enemy>();
-                TakeDamage(blackboard.boomDamage);
-                enemy.rb.AddForce((enemy.transform.position - transform.position).normalized * blackboard.boomForce, ForceMode.Impulse);
+                if (enemy != null)
+                {
+                    TakeDamage(blackboard.boomDamage);
+                    enemy.rb.AddForce((enemy.transform.position - transform.position).normalized * blackboard.boomForce, ForceMode.Impulse);
+                }
             }
         }
     }

@@ -22,6 +22,10 @@
     }
     public override void OnUpdate()
     {
+        if(blackboard.currentHealth<=0)
+        {
+            CurrentFsm.ChangeState<RemoteEnemyDeadState>();
+        }
     }
     public override void OnCheck()
     {

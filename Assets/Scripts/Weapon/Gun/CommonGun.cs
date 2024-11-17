@@ -30,8 +30,6 @@ public class CommonGun : Gun
          pos = position;
          fireWaitTime = 60f / data.fireRate;
          gunAnimator = model.Find("GunModel").GetComponent<Animator>();
-
-
     }
 
     protected override void Update()
@@ -114,8 +112,10 @@ public class CommonGun : Gun
     }
     IEnumerator switchAnimIEnumerator(float timer)
     {
-        gunAnimator.SetBool("exit",true);
+        if(gunAnimator!=null)
+            gunAnimator.SetBool("exit",true);
         yield return new WaitForSeconds(timer);
-        gunAnimator.SetBool("exit",false);
+        if(gunAnimator!=null)
+            gunAnimator.SetBool("exit",false);
     }
 }

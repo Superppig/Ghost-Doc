@@ -26,6 +26,10 @@ public class CrazyBiteEnemyStaggerState : CrazyBiteStateBase
 
     public override void OnUpdate()
     {
+        if(blackboard.currentHealth<=0)
+        {
+            CurrentFsm.ChangeState<CrazyBiteEnemyDeadState>();
+        }
     }
 
     public override void OnCheck()

@@ -19,6 +19,11 @@
     public override void OnUpdate()
     {
         CurrentFsm.Owner.isThrown = true;
+        
+        if(blackboard.currentHealth<=0)
+        {
+            CurrentFsm.ChangeState<ZombieDeadState>();
+        }
     }
     public override void OnCheck()
     {

@@ -24,6 +24,10 @@
     public override void OnUpdate()
     {
         CurrentFsm.Owner.isThrown = true;
+        if(blackboard.currentHealth<=0)
+        {
+            CurrentFsm.ChangeState<CrazyBiteEnemyDeadState>();
+        }
     }
 
     public override void OnCheck()

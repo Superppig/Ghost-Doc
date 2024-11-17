@@ -21,6 +21,7 @@ public class Wave
 
     public void WaveInit()
     {
+        Debug.Log("WaveInit");
         WaveManager waveManager = ServiceLocator.Get<WaveManager>();
         foreach (var enemySpawnPoint in enemySpawnPoints)
         {
