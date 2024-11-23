@@ -4,7 +4,8 @@ using UnityEngine;
 public class CrazyBiteEnemy : Enemy,IGrabObject
 {
     public EnemyType enemyType = EnemyType.CrazyBiteEnemy;
-    
+
+    private BuffSystem _buffSystem;
     
     //CrazyBiteEnemy
     public float biteSpeed =10f; //撕咬速度
@@ -24,6 +25,7 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
     {
         base.Awake();
         fsmManager = ServiceLocator.Get<FsmManager>();
+        _buffSystem = ServiceLocator.Get<BuffSystem>();
         List<FsmState<CrazyBiteEnemy>> states = new List<FsmState<CrazyBiteEnemy>>()
         {
             new CrazyBiteEnemyIdelState(this),
@@ -114,7 +116,7 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
 
     public void Use()
     {
-        BuffSystem.Instance.ActivateBuff(BuffType.KenKen);
+        _buffSystem.ActivateBuff(BuffType.KenKen);
         fsm.ChangeState<CrazyBiteEnemyDeadState>();
     }
 
@@ -123,7 +125,7 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
     {
         if(isThrown)
         {
-            ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
+            ServiceLocator.Get<ScreenControl>().ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
             Boom();
             fsm.ChangeState<CrazyBiteEnemyDeadState>();
         }

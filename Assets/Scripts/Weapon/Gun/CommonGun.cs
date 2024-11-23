@@ -48,24 +48,24 @@ public class CommonGun : Gun
             if (hit.collider.CompareTag("EnemyHit"))
             {
                 //相机振动
-                ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
-                ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
+                ServiceLocator.Get<ScreenControl>().CamShake(data.impulseTime, data.impulseAmplitude);
+                ServiceLocator.Get<ScreenControl>().ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 if(enemyBeHit as MonoBehaviour != null)
                 {
-                    enemyBeHit.HitEnemy(new HitInfo(){damage = BuffSystem.Instance.GetBuffedAttack(data.damage)});
+                    enemyBeHit.HitEnemy(new HitInfo(){damage = ServiceLocator.Get<BuffSystem>().GetBuffedAttack(data.damage)});
                 }
             }
             else
             {
-                ScreenControl.Instance.ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
+                ServiceLocator.Get<ScreenControl>().ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
             }
         }
         else
         {
             StartCoroutine(BulletStart(pos.position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
-        ScreenControl.Instance.ParticleRelease(data.fireParticle, pos.position, pos.forward);
+        ServiceLocator.Get<ScreenControl>().ParticleRelease(data.fireParticle, pos.position, pos.forward);
         audioPlayer.CreateAudioByGroup("Fire_Magnum", transform.position, -1, transform);
         StartCoroutine(CamChange());
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Services;
+using Services.Event;
 using UnityEngine;
 
 
@@ -8,6 +10,30 @@ public class Level : ScriptableObject
 {
     public List<Wave> Waves;
     [HideInInspector] public int currentWaveIndex;
+    
+    private IEventSystem eventSystem;
+    private IEventSystem EventSystem
+    {
+        get
+        {
+            eventSystem ??= ServiceLocator.Get<IEventSystem>();
+            return eventSystem;
+        }
+    }
+    private float m_LevelProgress;
+    public float LevelProgress
+    {
+        get => m_LevelProgress;
+        set
+        {
+            if (value != m_LevelProgress)
+            {
+                EventSystem.Invoke(EEvent.LevelProgressChange, value);
+                m_LevelProgress = value;
+            }
+        }
+    }
+    
     
     public void LevelInit()
     {
@@ -25,6 +51,8 @@ public class Level : ScriptableObject
 
     public void LevelRun()
     {
+        LevelProgress = (float)currentWaveIndex / Waves.Count;
+        
         if (currentWaveIndex < Waves.Count)
         {
             //初始化波

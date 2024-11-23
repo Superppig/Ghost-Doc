@@ -1,3 +1,4 @@
+using Services;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ public class PlayerJumpState : PlayerStateBase
 {
     private float jumpSpeed;
 
-    private float WalkSpeed => BuffSystem.Instance.GetBuffedSpeed(settings.walkSettings.walkSpeed);
+    private float WalkSpeed => ServiceLocator.Get<BuffSystem>().GetBuffedSpeed(settings.walkSettings.walkSpeed);
     private RaycastHit wall;
     private float JumpTime => settings.jumpSettings.jumpTime;
     
@@ -41,7 +42,7 @@ public class PlayerJumpState : PlayerStateBase
         {
             rb.velocity += new Vector3(0, jumpSpeed, 0);
         }
-        ScreenControl.Instance.ParticleRelease(settings.otherSettings.JumpParticle, player.GetGround().point, player.GetGround().normal);
+        ServiceLocator.Get<ScreenControl>().ParticleRelease(settings.otherSettings.JumpParticle, player.GetGround().point, player.GetGround().normal);
             
         /*}*/
         blackboard.velocity = rb.velocity;//提前写入速度

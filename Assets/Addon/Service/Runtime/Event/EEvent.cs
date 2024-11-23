@@ -12,5 +12,17 @@ namespace Services
         AfterLoadScene,
         PlayerHPChange,
         PlayerEnergyChange,
+        
+        /// <summary>
+        /// 关卡进度进展
+        /// </summary>
+        LevelProgressChange,
+        WaveProgressChange,
+        /// <summary>
+        /// 关卡完成
+        /// </summary>
+        LevelComplete,
+        NextLevel,
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Services;
+using Services.Event;
 using UnityEngine;
 
 [Serializable]
@@ -18,6 +19,30 @@ public class Wave
     [HideInInspector]public float currentEnemyHealth;
     [HideInInspector]public float currentEnemyMaxHealth;
     [HideInInspector]public int currentEnemyCount;
+    
+    private IEventSystem eventSystem;
+    private IEventSystem EventSystem
+    {
+        get
+        {
+            eventSystem ??= ServiceLocator.Get<IEventSystem>();
+            return eventSystem;
+        }
+    }
+    
+    private float m_WaveProgress;
+    public float WaveProgress
+    {
+        get => m_WaveProgress;
+        set
+        {
+            if (value != m_WaveProgress)
+            {
+                EventSystem.Invoke(EEvent.WaveProgressChange, value);
+                m_WaveProgress = value;
+            }
+        }
+    }
 
     public void WaveInit()
     {
@@ -42,13 +67,15 @@ public class Wave
             case SwitchWaveType.HealthPercentage:
                 if (currentEnemyMaxHealth > 0f)
                 {
-                    if (currentEnemyHealth / currentEnemyMaxHealth <= switchValue)
+                    WaveProgress = 1f - currentEnemyHealth / currentEnemyMaxHealth;
+                    if ( currentEnemyHealth / currentEnemyMaxHealth <= switchValue)
                     {
                         isEnd = true;
                     }
                 }
                 break;
             case SwitchWaveType.EnemyCount:
+                WaveProgress = 1f - (float)currentEnemyCount / switchEnemyCount;
                 if (currentEnemyCount <= switchEnemyCount)
                 {
                     isEnd = true;

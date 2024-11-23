@@ -1,4 +1,7 @@
+using System;
 using DG.Tweening;
+using Services;
+using Services.Event;
 using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
@@ -51,6 +54,14 @@ public class PlayerCam : MonoBehaviour
     private bool hasRotate;
     
     
+    private IEventSystem eventSystem;
+    
+    void Awake()
+    {
+        eventSystem = ServiceLocator.Get<IEventSystem>();
+        eventSystem.AddListener(EEvent.NextLevel, OnLevelStart);
+        eventSystem.AddListener(EEvent.LevelComplete, OnLevelComplete);
+    }
     
     void Start()
     {
@@ -136,6 +147,12 @@ public class PlayerCam : MonoBehaviour
         
         //walk时脚步效果
         WalkCamTransChange();
+    }
+
+    private void OnDisable()
+    {   
+        eventSystem.RemoveListener(EEvent.NextLevel, OnLevelStart);
+        eventSystem.RemoveListener(EEvent.LevelComplete, OnLevelComplete);
     }
 
     private void GunMove()
@@ -230,5 +247,21 @@ public class PlayerCam : MonoBehaviour
     float Sigmond(float x)
     {
         return 1 / (1 + Mathf.Exp(-x));
+    }
+    
+    
+    
+    /// <summary>
+    /// 鼠标显示
+    /// </summary>
+    void OnLevelStart()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    void OnLevelComplete()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

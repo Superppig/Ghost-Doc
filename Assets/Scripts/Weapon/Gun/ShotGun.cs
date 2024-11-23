@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Data.WeaponData;
+using Services;
 using UnityEngine;
 
 public class ShotGun : Gun
@@ -37,15 +38,15 @@ public class ShotGun : Gun
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     //相机振动
-                    ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
+                    ServiceLocator.Get<ScreenControl>().CamShake(data.impulseTime, data.impulseAmplitude);
                     //粒子效果
-                    ScreenControl.Instance.ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
+                    ServiceLocator.Get<ScreenControl>().ParticleRelease(data.hitEenemyParticle,hit.point,hit.normal);
                     IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                     enemyBeHit.HitEnemy(new HitInfo(){damage = data.damage});
                 }
                 else
                 {
-                    ScreenControl.Instance.ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
+                    ServiceLocator.Get<ScreenControl>().ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
                 }
             }
             else
@@ -53,7 +54,7 @@ public class ShotGun : Gun
                 //未击中
             }
         }
-        ScreenControl.Instance.ParticleRelease(data.fireParticle,pos.position,pos.forward);
-        ScreenControl.Instance.CamChange(new Vector3(-5,0,0),0.1f);
+        ServiceLocator.Get<ScreenControl>().ParticleRelease(data.fireParticle,pos.position,pos.forward);
+        ServiceLocator.Get<ScreenControl>().CamChange(new Vector3(-5,0,0),0.1f);
     }
 }

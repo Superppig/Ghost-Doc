@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Services;
 using Services.ObjectPools;
 using UnityEngine;
 
@@ -397,7 +398,7 @@ public class Melee : MonoBehaviour
         
         
         //屏幕晃动
-        ScreenControl.Instance.CamShake(0.1f,6);
+        ServiceLocator.Get<ScreenControl>().CamShake(0.1f,6);
 
         Invoke("EndCrtlCombo",0.1f);
     }

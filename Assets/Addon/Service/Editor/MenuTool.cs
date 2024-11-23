@@ -62,7 +62,7 @@ namespace Services
         }
 
         [MenuItem("Tools/File/OpenPersistantDataPath")]
-        public static void OpenPersistantDataPath()
+        public static void OpenPersistantDataPath() 
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
         }

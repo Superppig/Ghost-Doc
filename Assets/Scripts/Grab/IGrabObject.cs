@@ -6,7 +6,6 @@ public interface IGrabObject
     public void Released();
     public void Fly(Vector3 dir, float force);
     public bool CanGrab();
-
     public bool CanUse();
     public void Use();
 }

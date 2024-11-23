@@ -1,29 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Cinemachine;
+using Services;
 using Unity.VisualScripting;
 
-public class ScreenControl : MonoBehaviour
+public class ScreenControl : Service,IService
 {
-    private static ScreenControl instance;
-    public static ScreenControl Instance
-    {
-        get
-        {
-            if(instance==null)
-            {
-                instance = Transform.FindObjectOfType<ScreenControl>();
-            }
-            return instance;
-        }
-    }
+    public override Type RegisterType => typeof(ScreenControl);
+
     private bool isFrameFrozen = false;
     private bool isCamShaking = false;
     //noise组件
     public CinemachineVirtualCamera camImpulse;
     private CinemachineBasicMultiChannelPerlin noiseModule;
+    
     //camtrans
     public Player player;
     private Transform camTrans;
@@ -138,5 +131,15 @@ public class ScreenControl : MonoBehaviour
     public void PlaySound(AudioClip clip,Vector3 position)
     {
         AudioSource.PlayClipAtPoint(clip, position);
+    }
+    
+    
+    public void CamRegist(CinemachineVirtualCamera camImpulse)
+    {
+        this.camImpulse = camImpulse;
+    }
+    public void PlayerRegist(Player player)
+    {
+        this.player = player;
     }
 }

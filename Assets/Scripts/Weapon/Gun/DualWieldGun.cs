@@ -1,6 +1,7 @@
 using System;
 using Services.ObjectPools;
 using System.Collections;
+using Services;
 using UnityEngine;
 
 public class DualWieldGun : Gun
@@ -163,25 +164,25 @@ public class DualWieldGun : Gun
                     return;
                 }
                 //相机振动
-                ScreenControl.Instance.CamShake(data.impulseTime, data.impulseAmplitude);
+                ServiceLocator.Get<ScreenControl>().CamShake(data.impulseTime, data.impulseAmplitude);
                 IEnemyBeHit enemyBeHit = hit.collider.GetComponent<IEnemyBeHit>();
                 
                 enemyBeHit.HitEnemy(new HitInfo(){damage = data.damage});
             }
             else
             {
-                ScreenControl.Instance.ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
+                ServiceLocator.Get<ScreenControl>().ParticleRelease(data.hitBuildingParticle,hit.point,hit.normal);
             }
         }
 
         if (isLeft)
         {
-            ScreenControl.Instance.ParticleRelease(data.fireParticle,position[0].position,position[0].forward);
+            ServiceLocator.Get<ScreenControl>().ParticleRelease(data.fireParticle,position[0].position,position[0].forward);
             StartCoroutine(BulletStart(position[0].position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
         else
         {
-            ScreenControl.Instance.ParticleRelease(data.fireParticle,position[1].position,position[0].forward);
+            ServiceLocator.Get<ScreenControl>().ParticleRelease(data.fireParticle,position[1].position,position[0].forward);
             StartCoroutine(BulletStart(position[1].position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
         isLeft=!isLeft;

@@ -34,6 +34,9 @@ public class Player : MonoBehaviour
     private FsmManager fsmManager;
     private Fsm<Player> fsm;
 
+    
+    private BuffSystem buffSystem;
+    
     public Transform gunModel;
     public Transform gunTrans;
     public Rigidbody rb;
@@ -67,6 +70,13 @@ public class Player : MonoBehaviour
 
         fsm = fsmManager.CreateFsm(this, states.ToArray());
         fsm.Start<PlayerIdelState>();
+        
+        
+        buffSystem = ServiceLocator.Get<BuffSystem>();
+        buffSystem.AddPlayer(this);
+        
+        
+        ServiceLocator.Get<ScreenControl>().PlayerRegist(this);
     }
 
 

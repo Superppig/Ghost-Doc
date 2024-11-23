@@ -16,15 +16,15 @@ public class ScoreManager:Service,IService
     public float scoreReduceRate = 0.1f;
     
     public float currentScore = 0;
-    
-    
+    public ScoreLevel currentScoreLevel;
+
     //time
-    public float reduceScoreTime = 1;
+    public float reduceScoreTime = 3;
     private float timer;
     
-    public List<float> scoreLevels = new List<float>(){100,80,60,40};
+    public List<float> scoreLevels = new List<float>(){75,50,25,0};
     public List<Material> scoreMaterials = new List<Material>();
-    public List<float> materialValues = new List<float>(){0.5f,0.6f,0.7f,0.8f};
+    public List<float> materialValues = new List<float>(){0.8f,0.5f,0.25f,0f};
 
     protected internal override void Init()
     {
@@ -48,7 +48,8 @@ public class ScoreManager:Service,IService
         {
             if (currentScore >= scoreLevels[i])
             {
-                
+                currentScoreLevel = (ScoreLevel)i;
+                ChangeMaterial("_Scale", materialValues[i]);
                 return;
             }
         }
@@ -72,4 +73,8 @@ public class ScoreManager:Service,IService
         scoreMaterials.Add(material);
     }
 
+    public string GetCurScore()
+    {
+        return currentScoreLevel.ToString();
+    }
 }

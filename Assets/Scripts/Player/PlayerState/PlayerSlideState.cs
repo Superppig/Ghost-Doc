@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Services;
 using UnityEngine;
 
 public class PlayerSlideState : PlayerStateBase
@@ -38,7 +39,7 @@ public class PlayerSlideState : PlayerStateBase
         
         
         //粒子效果
-        slideParticle = ScreenControl.Instance.ParticleRelease(settings.otherSettings.SlideParticle,player.GetGround().point+Vector3.up*1f, player.GetGround().normal,rbTransform,ScreenControl.ParticleType.Loop);
+        slideParticle = ServiceLocator.Get<ScreenControl>().ParticleRelease(settings.otherSettings.SlideParticle,player.GetGround().point+Vector3.up*1f, player.GetGround().normal,rbTransform,ScreenControl.ParticleType.Loop);
     }
 
     public override void OnFixedUpdate()

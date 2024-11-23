@@ -21,12 +21,15 @@ public class RemoteEnemy:Enemy ,IGrabObject
     //状态机
     private FsmManager fsmManager;
     private Fsm<RemoteEnemy> fsm;
+    
+    BuffSystem _buffSystem;
 
     protected override void Awake()
     {
         base.Awake();
         
         fsmManager = ServiceLocator.Get<FsmManager>();
+        _buffSystem = ServiceLocator.Get<BuffSystem>();
         List<FsmState<RemoteEnemy>> states = new List<FsmState<RemoteEnemy>>()
         {
             new RemoteEnemyIdelState(this),
@@ -112,7 +115,7 @@ public class RemoteEnemy:Enemy ,IGrabObject
 
     public void Use()
     {
-        BuffSystem.Instance.ActivateBuff(BuffType.Remote);
+        _buffSystem.ActivateBuff(BuffType.Remote);
         
         //TODO:机关炮
 
@@ -123,7 +126,7 @@ public class RemoteEnemy:Enemy ,IGrabObject
     {
         if(isThrown)
         {
-            ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
+            ServiceLocator.Get<ScreenControl>().ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
             Boom();
             fsm.ChangeState<RemoteEnemyDeadState>();
         }

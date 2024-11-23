@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using Services;
 
 public class PlayerGrab : MonoBehaviour
 {
@@ -92,9 +93,9 @@ public class PlayerGrab : MonoBehaviour
         {
             //在num个方向上释放粒子
             Quaternion rotation = Quaternion.Euler(0, 360 / num * i, 0);
-            ScreenControl.Instance.ParticleRelease(usePartical, position,
+            ServiceLocator.Get<ScreenControl>().ParticleRelease(usePartical, position,
                 rotation.eulerAngles);
-            ScreenControl.Instance.FrameFrozen(30, 0.1f);
+            ServiceLocator.Get<ScreenControl>().FrameFrozen(30, 0.1f);
         }
     }
     

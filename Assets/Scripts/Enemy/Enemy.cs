@@ -21,7 +21,13 @@ public class Enemy : MonoBehaviour
     public Collider col;
     public MyObject selfMyObject;
 
+    
     public bool canGrab;
+    
+    //core
+    public bool hasCore;
+    public GameObject core;
+    public Vector3 corePosition;
     
     //wave
     public Wave wave;
@@ -33,11 +39,13 @@ public class Enemy : MonoBehaviour
     //存储路径
     public Path path;
     //判断玩家与航点的距离
-    public float nextWaypointDistance = 3;
+    public float nextWaypointDistance = 1;
     //对当前的航点进行编号
     protected int currentWaypoint = 0;
     public float minDistance = 1f;
     
+    //score
+    private ScoreManager scoreManager;
 
     protected virtual void Awake()
     {
@@ -46,16 +54,19 @@ public class Enemy : MonoBehaviour
         col = GetComponent<Collider>();
         
         waveManager = ServiceLocator.Get<WaveManager>();
+        scoreManager = ServiceLocator.Get<ScoreManager>();
         //注册对象池回调函数
         selfMyObject = GetComponent<MyObject>();
         selfMyObject.OnRecycle += EnemyOnDisable;
         selfMyObject.OnActivate += EnemyOnInable;
         selfMyObject.OnActivate+= ReBorn;
+        
+        
+        seeker = GetComponent<Seeker>();
     }
 
     protected virtual void Start()
     {
-        seeker = GetComponent<Seeker>();
         //注册回调函数，在Astar Path完成后调用此函数
         seeker.pathCallback += OnPathComplete;
         AstarPath.active.logPathResults = PathLog.None;//关闭寻路日志
@@ -104,7 +115,7 @@ public class Enemy : MonoBehaviour
         }
 
         //移动
-        transform.position += dir * (Time.fixedDeltaTime * blackboard.speed);
+        rb.velocity = dir * blackboard.speed;
 
         //当前位置与当前的航向点距离小于一个给定值后，转向下一个航向点
         if (Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]) < nextWaypointDistance)
@@ -150,7 +161,9 @@ public class Enemy : MonoBehaviour
         wave.currentEnemyCount--;
         wave.currentEnemyHealth-=(blackboard.commonHealth+blackboard.weakHealth);
         transform.position = Vector3.zero;
-        Debug.Log("敌人死亡");
+
+        scoreManager.AddScore(50f);
+        //Debug.Log("敌人死亡");
     }
     protected virtual void EnemyOnInable()
     {

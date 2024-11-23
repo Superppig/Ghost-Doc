@@ -1,6 +1,7 @@
 using Services;
 using Services.Event;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,9 +19,14 @@ public class PlayerBaseUI : MonoBehaviour
     private Transform father;
     private Player player;
 
+    public TMP_Text scoreText;
+    private ScoreManager scoreManager;
+
     private void Awake()
     {
         eventSystem = ServiceLocator.Get<IEventSystem>();
+        scoreManager = ServiceLocator.Get<ScoreManager>();
+        
         player = FindObjectOfType<Player>();
         Slider[] sliders = GetComponentsInChildren<Slider>();
         healthSlider = sliders[0];
@@ -47,6 +53,8 @@ public class PlayerBaseUI : MonoBehaviour
     private void FixedUpdate()
     {
         Flutter();
+
+        scoreText.text = "Score: " + scoreManager.GetCurScore();
     }
 
     private void ShowHealth(float health, float max)

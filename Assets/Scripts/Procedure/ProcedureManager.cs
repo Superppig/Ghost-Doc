@@ -21,6 +21,7 @@ public class ProcedureManager :Service,IService
             new ProcedureLevelStart(),
             new ProcedureLevelRun(),
             new ProcedureLevelEnd(),
+            new ProcedureGameOver(),
         };
 
         fsm = fsmManager.CreateFsm(this, procedures.ToArray());

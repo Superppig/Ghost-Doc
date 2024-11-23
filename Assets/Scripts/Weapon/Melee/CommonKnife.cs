@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using Services;
 using Unity.VisualScripting;
 
 
@@ -51,7 +52,7 @@ public class CommonKnife : Melee
             state=WeaponState.Attacking; 
             player.blackboard.isMeleeAttacking = true;
             AnimCon();
-            ScreenControl.Instance.CamChange(new Vector3(20,0,0),0.3f);
+            ServiceLocator.Get<ScreenControl>().CamChange(new Vector3(20,0,0),0.3f);
             StartCoroutine(StartAttack());
             //AttackPartical();
         }
@@ -175,8 +176,8 @@ public class CommonKnife : Melee
     //动画事件
     public void BlockTimeForzen()
     {
-        ScreenControl.Instance.FrameFrozen(blockFrame, blockStartTimeScale);
-        ScreenControl.Instance.CamShake(0.1f, 10f);
+        ServiceLocator.Get<ScreenControl>().FrameFrozen(blockFrame, blockStartTimeScale);
+        ServiceLocator.Get<ScreenControl>().CamShake(0.1f, 10f);
     }
 
     public void DashParticle()
@@ -189,6 +190,6 @@ public class CommonKnife : Melee
     }
     public void ParryParticle()
     {
-        ScreenControl.Instance.ParticleRelease(parryParticle,player.cameraTransform.position+player.cameraTransform.forward*0.5f,player.cameraTransform.forward,player.cameraTransform);
+        ServiceLocator.Get<ScreenControl>().ParticleRelease(parryParticle,player.cameraTransform.position+player.cameraTransform.forward*0.5f,player.cameraTransform.forward,player.cameraTransform);
     }
 }

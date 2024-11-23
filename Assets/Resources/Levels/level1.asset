@@ -13,46 +13,46 @@ MonoBehaviour:
   m_Name: level1
   m_EditorClassIdentifier: 
   Waves:
-  - isStart: 0
-    isEnd: 0
+  - isStart: 1
+    isEnd: 1
     enemySpawnPoints:
     - enemyCount: 2
       enemyType: 0
-      spawnPoint: {x: -8, y: 6, z: -10}
+      spawnPoint: {x: -18, y: -16, z: -312}
       spawnRange: 5
     - enemyCount: 1
       enemyType: 1
-      spawnPoint: {x: -8, y: 6, z: -12}
+      spawnPoint: {x: -18, y: -15, z: -312}
       spawnRange: 1
     - enemyCount: 1
       enemyType: 2
-      spawnPoint: {x: -10, y: 6, z: -10}
+      spawnPoint: {x: -18, y: -17, z: -312}
       spawnRange: 1
-    switchWaveType: 1
+    switchWaveType: 0
     switchValue: 0.1
     switchEnemyCount: 1
     currentEnemyHealth: 0
-    currentEnemyMaxHealth: 0
+    currentEnemyMaxHealth: 400
     currentEnemyCount: 0
-  - isStart: 0
-    isEnd: 0
+  - isStart: 1
+    isEnd: 1
     enemySpawnPoints:
     - enemyCount: 2
       enemyType: 0
-      spawnPoint: {x: -8, y: 6, z: -10}
+      spawnPoint: {x: -18, y: -16, z: -312}
       spawnRange: 5
     - enemyCount: 1
       enemyType: 1
-      spawnPoint: {x: -8, y: 6, z: -12}
+      spawnPoint: {x: -18, y: -15, z: -312}
       spawnRange: 1
     - enemyCount: 1
       enemyType: 2
-      spawnPoint: {x: -10, y: 6, z: -10}
+      spawnPoint: {x: -18, y: -17, z: -312}
       spawnRange: 1
-    switchWaveType: 1
-    switchValue: 0.1
+    switchWaveType: 0
+    switchValue: 0
     switchEnemyCount: 1
-    currentEnemyHealth: 0
-    currentEnemyMaxHealth: 0
-    currentEnemyCount: 0
-  currentWaveIndex: 0
+    currentEnemyHealth: 100
+    currentEnemyMaxHealth: 400
+    currentEnemyCount: 1
+  currentWaveIndex: 1

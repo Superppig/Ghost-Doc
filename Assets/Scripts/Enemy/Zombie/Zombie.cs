@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Mono.CompilerServices.SymbolWriter;
 using Services;
 using UnityEngine;
 
@@ -16,6 +14,7 @@ public class Zombie : Enemy,IGrabObject
     private FsmManager fsmManager;
     private Fsm<Zombie> fsm;
 
+    private BuffSystem _buffSystem;
     
     //投掷
     public bool isThrown;
@@ -23,6 +22,7 @@ public class Zombie : Enemy,IGrabObject
     {
         base.Awake();
         fsmManager = ServiceLocator.Get<FsmManager>();
+        
 
         List<FsmState<Zombie>> states = new List<FsmState<Zombie>>()
         {
@@ -113,7 +113,7 @@ public class Zombie : Enemy,IGrabObject
 
     public void Use()
     {
-        BuffSystem.Instance.ActivateBuff(BuffType.Zombie);
+        _buffSystem.ActivateBuff(BuffType.Zombie);
         fsm.ChangeState<ZombieDeadState>();
     }
 
@@ -122,7 +122,7 @@ public class Zombie : Enemy,IGrabObject
     {
         if(isThrown)
         {
-            ScreenControl.Instance.ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
+            ServiceLocator.Get<ScreenControl>().ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
             Boom();
             fsm.ChangeState<ZombieDeadState>();
         }

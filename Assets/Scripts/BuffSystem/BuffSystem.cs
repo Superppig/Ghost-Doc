@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Services;
 using UnityEngine;
 
 public enum BuffType
@@ -8,16 +9,11 @@ public enum BuffType
     Zombie,
     Remote,
 }
-public class BuffSystem : MonoBehaviour
+public class BuffSystem : Service,IService
 {
-    private static BuffSystem m_Instance;
-    public static BuffSystem Instance
-    {
-        get
-        {
-            return m_Instance;
-        }
-    }
+    public override Type RegisterType => typeof(BuffSystem);
+
+
     private Dictionary<BuffType, Buff> m_BuffDict = new Dictionary<BuffType, Buff>();
     private List<BuffType> m_BuffList = new List<BuffType>(){
         BuffType.KenKen,
@@ -35,19 +31,13 @@ public class BuffSystem : MonoBehaviour
     private float totalSpeedMultiplication = 1f;
     private float totalAttackAddition = 0f;
     private float totalAttackMultiplication = 1f;
-    private void Awake()
+
+    protected internal override void Init()
     {
-        m_Instance = this;
-        
+        base.Init();
         m_BuffDict.Add(BuffType.KenKen, new Buff(1,0,1,0,0,1));
         m_BuffDict.Add(BuffType.Zombie, new Buff(5,0,2,100,0,2));
         m_BuffDict.Add(BuffType.Remote, new Buff(10,0,1,100,0,1.5f));
-    }
-
-    private void Start()
-    {
-        m_Player = FindObjectOfType<Player>();
-        m_PlayerAttack = m_Player.GetComponent<PlayerAttack>();
     }
 
     private void Update()
@@ -117,5 +107,11 @@ public class BuffSystem : MonoBehaviour
                 isOrigin = false;
                 break;
         }
+    }
+    
+    public void AddPlayer(Player player)
+    {
+        m_Player = player;
+        m_PlayerAttack = m_Player.GetComponent<PlayerAttack>();
     }
 }

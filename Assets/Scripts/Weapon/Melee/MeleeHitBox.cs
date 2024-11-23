@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Net.Http.Headers;
+using Services;
 using UnityEngine;
 
 public class MeleeHitBox : MonoBehaviour
@@ -41,7 +42,7 @@ public class MeleeHitBox : MonoBehaviour
 
                     //粒子效果
                     HitPartical(other.ClosestPoint(transform.position), other.transform);
-                    ScreenControl.Instance.FrameFrozen(melee.attackFrame, melee.attackStartTimeScale);
+                    ServiceLocator.Get<ScreenControl>().FrameFrozen(melee.attackFrame, melee.attackStartTimeScale);
                     break;
                 case Melee.AttackType.Ctrl:
                     //ctrl组合技
@@ -63,7 +64,7 @@ public class MeleeHitBox : MonoBehaviour
                     //粒子效果
                     HitPartical(other.ClosestPoint(transform.position), other.transform);
                     //较长顿帧
-                    ScreenControl.Instance.FrameFrozen(melee.dashAttackFrame, melee.dashAttackStartTimeScale);
+                    ServiceLocator.Get<ScreenControl>().FrameFrozen(melee.dashAttackFrame, melee.dashAttackStartTimeScale);
                     break;
             }
         }
