@@ -14,7 +14,25 @@ public class LevelCompeleteUI : View
         eventSystem = ServiceLocator.Get<IEventSystem>();
         nextLevelBtn.onClick.AddListener(NextLevel);
         
-        exitBtn.onClick.AddListener(() => { Application.Quit(); });
+        exitBtn.onClick.AddListener(() =>
+        {
+            Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        });
+    }
+
+    public override void Show()
+    {
+        base.Show();
+        Time.timeScale = 0;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+        Time.timeScale = 1;
     }
 
     void NextLevel()

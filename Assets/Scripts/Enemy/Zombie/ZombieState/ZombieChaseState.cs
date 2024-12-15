@@ -23,9 +23,10 @@ public class ZombieChaseState:ZombieStateBase
 
     public override void OnUpdate()
     {
-        Chase();
-        
-        
+        if (enemy.OnGround())
+        {
+            Chase();
+        }
         //死亡
         if(blackboard.currentHealth<= 0f)
         {
@@ -60,5 +61,4 @@ public class ZombieChaseState:ZombieStateBase
     {
         enemy.Find(blackboard.player.transform.position);
     }
-    
 }

@@ -61,4 +61,9 @@ public class GrabbedObject : MonoBehaviour,IGrabObject
     {
         throw new System.NotImplementedException();
     }
+
+    public IGrabObject GetGrabObject()
+    {
+        return null;
+    }
 }

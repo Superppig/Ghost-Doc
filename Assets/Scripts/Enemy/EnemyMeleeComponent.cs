@@ -1,20 +1,24 @@
 ﻿using UnityEngine;
 
-public class CrazeBiteEnemyArm : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public class EnemyMeleeComponent: MonoBehaviour,IBlock
 {
     private Enemy enemy;
     private float damage;
-
     private void Awake()
     {
-        enemy = transform.root.GetComponent<Enemy>();
+        enemy = transform.parent.parent.GetComponent<Enemy>();
         damage = enemy.blackboard.damage;
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            other.transform.root.GetComponent<Player>().TakeDamage(damage);
+            FindObjectOfType<Player>().TakeDamage(damage);
         }
+    }
+    public void BeBlocked()
+    {
     }
 }

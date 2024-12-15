@@ -29,7 +29,10 @@ public class RemoteEnemyChaseState:RemoteEnemyStateBase
 
     public override void OnUpdate()
     {
-        Chase();
+        if (enemy.OnGround())
+        {
+            Chase();
+        }
         //死亡
         if(blackboard.currentHealth<= 0f)
         {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Services;
 using UnityEngine;
 
-public class Zombie : Enemy,IGrabObject
+public class Zombie : Enemy
 {
     //Zombie
     public float attackRange = 2f;//攻击范围
@@ -30,7 +30,6 @@ public class Zombie : Enemy,IGrabObject
             new ZombieChaseState(this),
             new ZombieAttackState(this),
             new ZombieStaggerState(this),
-            new ZombieBeTrownState(this),
             new ZombieHitState(this),
             new ZombieDeadState(this)
         };
@@ -42,6 +41,8 @@ public class Zombie : Enemy,IGrabObject
     {
         base.EnemyOnInable();
         fsm.ChangeState<ZombieIdelState>();
+        
+        enemyCore.enemyType = EnemyType.Zombie;
     }
 
     protected override void Update()
@@ -56,6 +57,7 @@ public class Zombie : Enemy,IGrabObject
 
     protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         fsm.OnFixedUpdate();
     }
 
@@ -76,55 +78,41 @@ public class Zombie : Enemy,IGrabObject
         blackboard.isHit = true;
     }
 
-    public Transform GetTransform()
+    public override Transform GetTransform()
     {
         return transform;
     }
 
-    public void Grabbed()
+    public override void Grabbed()
     {
         rb.isKinematic = true;
         col.enabled = false;
     }
 
-    public void Released()
+    public override void Released()
     {
         rb.isKinematic = false;
         col.enabled = true;
         rb.constraints = RigidbodyConstraints.None;
     }
 
-    public void Fly(Vector3 dir, float force)
+    public override void Fly(Vector3 dir, float force)
     {
-        Debug.Log("Fly");
-        fsm.ChangeState<ZombieBeTrownState>();
-        rb.AddForce(dir * force, ForceMode.Impulse);
     }
 
-    public bool CanGrab()
+    public override bool CanGrab()
     {
-        return canGrab;
+        return hasCore && canGrab;
     }
 
-    public bool CanUse()
+    public override bool CanUse()
     {
         return true;
     }
 
-    public void Use()
+    public override void Use()
     {
         _buffSystem.ActivateBuff(BuffType.Zombie);
         fsm.ChangeState<ZombieDeadState>();
-    }
-
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if(isThrown)
-        {
-            ServiceLocator.Get<ScreenControl>().ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
-            Boom();
-            fsm.ChangeState<ZombieDeadState>();
-        }
     }
 }

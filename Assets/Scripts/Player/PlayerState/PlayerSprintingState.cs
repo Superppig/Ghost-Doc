@@ -29,8 +29,8 @@ public class PlayerSprintingState : PlayerStateBase
 
     public override void OnEnter()
     {
-        firstSpeed = rb.velocity.magnitude;
-
+        Vector3 speed = player.rb.velocity;
+        firstSpeed = new Vector2(speed.x, speed.z).magnitude;
         sprintDir = blackboard.moveDir.magnitude > 0.1f ? blackboard.moveDir : player.orientation.forward.normalized;
         
         rb.velocity = Vector3.zero;

@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class RemoteEnemyBody: MonoBehaviour, IEnemyBeHit
+[RequireComponent(typeof(Collider))]
+public class EnemyHitComponent : MonoBehaviour, IEnemyBeHit
 {
     private Enemy enemy;
+    public bool isCriticalStrike;
     private float rate;
     private HitInfo lastHitInfo;
+    
     private void Awake()
     {
-        enemy = transform.root.GetComponent<Enemy>();
-        rate = enemy.blackboard.commonHitRate;
+        enemy = transform.parent.GetComponent<Enemy>();
+        rate = isCriticalStrike ? enemy.blackboard.criticalStrikeRate : enemy.blackboard.commonHitRate;
     }
     public bool CanBeHit()
     {
@@ -18,6 +21,5 @@ public class RemoteEnemyBody: MonoBehaviour, IEnemyBeHit
     public void HitEnemy(HitInfo hitInfo)
     {
         enemy.TakeDamage(rate*hitInfo.damage);
-        Debug.Log("身体被击中");
     }
 }

@@ -64,6 +64,8 @@ public class PlayerWalkingState : PlayerStateBase
     public override void OnUpdate()
     {
         Walk();
+        //重力修正
+        player.GravityFix();
 
         if (DirInput.magnitude>0)
         {

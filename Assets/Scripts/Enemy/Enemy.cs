@@ -11,7 +11,7 @@ public enum EnemyType
     CrazyBiteEnemy,
 }
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour,IGrabObject
 {
     public EnemyBlackboard blackboard;
     
@@ -27,7 +27,8 @@ public class Enemy : MonoBehaviour
     //core
     public bool hasCore;
     public GameObject core;
-    public Vector3 corePosition;
+    protected EnemyCore enemyCore;
+    public Vector3 corePosition = Vector3.zero;
     
     //wave
     public Wave wave;
@@ -77,6 +78,11 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void FixedUpdate()
     {
+        if (hasCore)
+        {
+            enemyCore.transform.localRotation = Quaternion.identity;
+            enemyCore.transform.localPosition = corePosition;
+        }
     }
     public virtual void TakeDamage(float damage)
     {
@@ -92,6 +98,7 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
+        
         //当前搜索点编号大于等于路径存储的总点数时，路径搜索结束
         if (currentWaypoint>=path.vectorPath.Count)
         {
@@ -140,22 +147,17 @@ public class Enemy : MonoBehaviour
         path = p;
         currentWaypoint = 0;
     }
-
-
     public float DistanceToPlayer()
     {
         return Vector3.Distance(transform.position, blackboard.player.transform.position);
     }
-    
     public Vector3 DirToPlayer()
     {
         return new Vector3(blackboard.player.transform.position.x - transform.position.x, 
             0,
             blackboard.player.transform.position.z - transform.position.z).normalized;
     }
-    
-    
-    
+
     protected virtual void EnemyOnDisable()
     {
         wave.currentEnemyCount--;
@@ -163,7 +165,14 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.zero;
 
         scoreManager.AddScore(50f);
-        //Debug.Log("敌人死亡");
+        //Debug.Log("敌人死亡")
+        //回收核心
+        if (hasCore)
+        {
+            enemyCore.transform.position = corePosition;
+            Destroy(enemyCore.gameObject);
+            hasCore = false;
+        }
     }
     protected virtual void EnemyOnInable()
     {
@@ -172,37 +181,55 @@ public class Enemy : MonoBehaviour
         wave.currentEnemyCount++;
         wave.currentEnemyMaxHealth+=(blackboard.commonHealth+blackboard.weakHealth);
         wave.currentEnemyHealth+=(blackboard.commonHealth+blackboard.weakHealth);
-        
-        
         Debug.Log("敌人生成");
+        
+        //生成核心
+        if (!hasCore)
+        {
+            enemyCore = Instantiate(core, transform).GetComponent<EnemyCore>();
+            enemyCore.transform.localPosition = corePosition;
+            enemyCore.boomDamage = blackboard.boomDamage;
+            enemyCore.boomForce = blackboard.boomForce;
+            enemyCore.boomRange = blackboard.boomRange;
+            enemyCore.boomParticle = blackboard.boom;
+            hasCore = true;
+        }
     }
-    
     void ReBorn()
     {
         blackboard.currentHealth = blackboard.commonHealth+ blackboard.weakHealth;
     }
-    
-    
-    protected void Boom()
+
+    public virtual Transform GetTransform()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, blackboard.boomRange);
-        if(colliders.Length==0)
-            return;
-        foreach (var collider in colliders)
+        return null;
+    }
+
+    public virtual void Grabbed(){}
+
+    public virtual void Released(){}
+
+    public virtual void Fly(Vector3 dir, float force){}
+
+    public virtual bool CanGrab(){return false;}
+
+    public virtual bool CanUse(){return false;}
+
+    public virtual void Use(){}
+
+    public IGrabObject GetGrabObject()
+    {
+        if (!hasCore)
         {
-            if (collider.CompareTag("Player"))
-            {
-                collider.transform.root.GetComponent<Player>().BoomJump(transform.position, blackboard.boomForce);
-            }
-            else if(collider.CompareTag("Enemy"))
-            {
-                Enemy enemy = collider.transform.root.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    TakeDamage(blackboard.boomDamage);
-                    enemy.rb.AddForce((enemy.transform.position - transform.position).normalized * blackboard.boomForce, ForceMode.Impulse);
-                }
-            }
+            return null;
         }
+        hasCore = false;
+        return enemyCore as IGrabObject;
+    }
+
+
+    public virtual bool OnGround()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 2f, LayerMask.GetMask("Ground"));
     }
 }

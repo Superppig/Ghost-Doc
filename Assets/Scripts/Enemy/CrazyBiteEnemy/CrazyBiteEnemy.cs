@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Services;
 using UnityEngine;
-public class CrazyBiteEnemy : Enemy,IGrabObject
+public class CrazyBiteEnemy : Enemy
 {
     public EnemyType enemyType = EnemyType.CrazyBiteEnemy;
 
@@ -32,7 +32,6 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
             new CrazyBiteEnemyChaseState(this),
             new CrazyBiteEnemyAttackState(this),
             new CrazyBiteEnemyStaggerState(this),
-            new CrazyBiteEnemyBeTrownState(this),
             new CrazyBiteEnemyHitState(this), 
             new CrazyBiteEnemyDeadState(this),
         };
@@ -45,6 +44,8 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
     {
         base.EnemyOnInable();
         fsm.ChangeState<CrazyBiteEnemyIdelState>();
+
+        enemyCore.enemyType = enemyType;
     }
 
     protected override void Update()
@@ -59,8 +60,8 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
 
     protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         fsm.OnFixedUpdate();
-        
     }
 
     void StateChange()
@@ -80,54 +81,41 @@ public class CrazyBiteEnemy : Enemy,IGrabObject
         blackboard.isHit = true;
     }
 
-    public Transform GetTransform()
+    public override Transform GetTransform()
     {
         return transform;
     }
 
-    public void Grabbed()
+    public override void Grabbed()
     {
         rb.isKinematic = true;
         col.enabled = false;
     }
 
-    public void Released()
+    public override void Released()
     {
         rb.isKinematic = false;
         col.enabled = true;
         rb.constraints = RigidbodyConstraints.None;
     }
 
-    public void Fly(Vector3 dir, float force)
+    public override void Fly(Vector3 dir, float force)
     {
-        fsm.ChangeState<CrazyBiteEnemyBeTrownState>();
-        rb.AddForce(dir * force, ForceMode.Impulse);
     }
 
-    public bool CanGrab()
+    public override bool CanGrab()
     {
-        return canGrab;
+        return hasCore&&canGrab;
     }
 
-    public bool CanUse()
+    public override bool CanUse()
     {
         return true;
     }
 
-    public void Use()
+    public override void Use()
     {
         _buffSystem.ActivateBuff(BuffType.KenKen);
         fsm.ChangeState<CrazyBiteEnemyDeadState>();
-    }
-
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if(isThrown)
-        {
-            ServiceLocator.Get<ScreenControl>().ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
-            Boom();
-            fsm.ChangeState<CrazyBiteEnemyDeadState>();
-        }
     }
 }

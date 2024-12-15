@@ -8,4 +8,5 @@ public interface IGrabObject
     public bool CanGrab();
     public bool CanUse();
     public void Use();
+    public IGrabObject GetGrabObject();
 }

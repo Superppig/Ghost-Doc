@@ -236,14 +236,27 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     boomForce: 10
-    boomDamage: 5
-    boomRange: 4
+    boomDamage: 30
+    boomRange: 10
     boom: {fileID: 8445824011612109456, guid: efb2d4efb73f3a04a82ca6f477cde873, type: 3}
   anim: {fileID: 0}
   rb: {fileID: 0}
   col: {fileID: 0}
   selfMyObject: {fileID: 0}
   canGrab: 0
+  hasCore: 0
+  core: {fileID: 7971140105594494487, guid: 3661d299c5000b54da91792cd8ed2803, type: 3}
+  corePosition: {x: 0, y: 0, z: 0}
+  wave:
+    isStart: 0
+    isEnd: 0
+    enemySpawnPoints: []
+    switchWaveType: 0
+    switchValue: 0
+    switchEnemyCount: 0
+    currentEnemyHealth: 0
+    currentEnemyMaxHealth: 0
+    currentEnemyCount: 0
   targetPosition: {x: 0, y: 0, z: 0}
   nextWaypointDistance: 3
   minDistance: 1
@@ -279,7 +292,7 @@ GameObject:
   - component: {fileID: 923980522056661382}
   - component: {fileID: 5016867400159237830}
   - component: {fileID: 9145395674476618683}
-  - component: {fileID: 579504081929387921}
+  - component: {fileID: 3567020304674444522}
   m_Layer: 8
   m_Name: Body
   m_TagString: EnemyHit
@@ -360,13 +373,13 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6346626515909951495}
   m_Material: {fileID: 13400000, guid: fc14c6c962906b249a1d37638414aded, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &579504081929387921
+--- !u!114 &3567020304674444522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,9 +388,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6346626515909951495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ca7c0d75bb745a394fe41304061ebea, type: 3}
+  m_Script: {fileID: 11500000, guid: 6708a54a13614c278abb0af9a9a7863d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCriticalStrike: 0
 --- !u!1 &7477699445743372371
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9141447071147000320}
   - component: {fileID: 1224456224451815738}
-  - component: {fileID: 6873809311422894460}
+  - component: {fileID: 4114606529591724627}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -424,7 +438,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.9426787, y: 1, z: 1.1156849}
   m_Center: {x: 0.07481177, y: -0.0000000037415493, z: 0.05784243}
---- !u!114 &6873809311422894460
+--- !u!114 &4114606529591724627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -433,7 +447,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7477699445743372371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ff6cbe2c1a697f438d7ca7fb024101f, type: 3}
+  m_Script: {fileID: 11500000, guid: 86b1f4b4caa441b1b657966c59f2d8c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7706744442249031693
@@ -448,7 +462,7 @@ GameObject:
   - component: {fileID: 3542094990516107984}
   - component: {fileID: 210140487523340977}
   - component: {fileID: 467756322858976832}
-  - component: {fileID: 3792060185879642907}
+  - component: {fileID: 1016616076646131414}
   m_Layer: 8
   m_Name: Head
   m_TagString: EnemyHit
@@ -529,12 +543,12 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7706744442249031693}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3792060185879642907
+--- !u!114 &1016616076646131414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -543,9 +557,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7706744442249031693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f4a9bf72e304ccc933f74741c4b25ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 6708a54a13614c278abb0af9a9a7863d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCriticalStrike: 1
 --- !u!1 &8142366535192876484
 GameObject:
   m_ObjectHideFlags: 0

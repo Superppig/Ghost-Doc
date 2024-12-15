@@ -46,6 +46,9 @@ public class Player : MonoBehaviour
     private bool lastGrounded;
 
     private IAudioPlayer audioPlayer;
+    
+    
+    private RaycastHit floorHit;
 
     private void Awake()
     {
@@ -95,16 +98,12 @@ public class Player : MonoBehaviour
         {
             WallCheck();
         }
-
-
         MyInput();
         fsm.OnCheck();
         fsm.OnUpdate();
-
         //一些状态的获取
         blackboard.velocity = rb.velocity;
         blackboard.speed = blackboard.velocity.magnitude;
-
     }
 
     private void FixedUpdate()
@@ -132,106 +131,6 @@ public class Player : MonoBehaviour
             StopCoroutine("JumpBuffer");
             StartCoroutine("JumpBuffer");
         }
-        // if (blackboard.isCombo)
-        // {
-        //     //组合技则直接变为air状态并停止输入
-        //     blackboard.lastState = blackboard.currentState;
-        //     blackboard.nextState = typeof(PlayerAirState);
-        //     fsm.ChangeState<PlayerAirState>();
-        // }
-        // else
-        // {
-        //     /*canClimb = !IsGrounded(settings.wallRunSettings.wallRunMinDisTance) &&
-        //                (blackboard.isWall
-        //                    ? (Vector3.Angle(blackboard.wallHit.normal , blackboard.moveDir) > 90f&& blackboard.moveDir.magnitude>0.1f)
-        //                    : false)
-        //                && !blackboard.hasClimbEnergyOut;*/
-        //     
-        //     //落地
-        //     if ((blackboard.currentState is PlayerJumpState || blackboard.currentState is PlayerAirState) &&
-        //         blackboard.grounded&&!blackboard.jumping)
-        //     {
-        //         blackboard.lastState = blackboard.currentState;
-        //         blackboard.nextState = typeof(PlayerWalkingState);
-        //         fsm.ChangeState<PlayerWalkingState>();
-        //     }
-        //
-        //     //下蹲
-        //     if (Input.GetKey(settings.keySettings.crouchKey)&& (!blackboard.isHoldingMelee||(blackboard.meleeState==Melee.WeaponState.Retracking&&!Input.GetMouseButton(1))))
-        //     {
-        //         if (CanSwitch(GetPlayerCurrentState(blackboard.currentState), GetPlayerCurrentState(typeof(PlayerCrouchState))))
-        //         {
-        //             blackboard.lastState = blackboard.currentState;
-        //             blackboard.nextState = typeof(PlayerCrouchState);
-        //             fsm.ChangeState<PlayerCrouchState>();
-        //         }
-        //     }
-        //
-        //     if (Input.GetKeyUp(settings.keySettings.crouchKey))
-        //     {
-        //         blackboard.lastState = blackboard.currentState;
-        //         blackboard.nextState = typeof(PlayerWalkingState);
-        //         fsm.ChangeState<PlayerWalkingState>();
-        //     }
-        //
-        //
-        //     //空中
-        //     if (!blackboard.grounded && !(blackboard.currentState is PlayerSprintingState))/*&&
-        //         !canClimb*///不是墙跑状态
-        //     {
-        //         if (CanSwitch(GetPlayerCurrentState(blackboard.currentState), GetPlayerCurrentState(typeof(PlayerAirState))))
-        //         {
-        //             blackboard.lastState = blackboard.currentState;
-        //             blackboard.nextState = typeof(PlayerAirState);
-        //             fsm.ChangeState<PlayerAirState>();
-        //         }
-        //     }
-        //
-        //
-        //     //冲刺
-        //     if (Input.GetKeyDown(settings.keySettings.sprintKey)&& (!blackboard.isHoldingMelee||(blackboard.meleeState==Melee.WeaponState.Retracking&&!Input.GetMouseButton(1))))
-        //     {
-        //         
-        //         if (CanSwitch(GetPlayerCurrentState(blackboard.currentState), EStateType.Sprinting))
-        //         {
-        //             if (blackboard.Energy > 100f)
-        //             {
-        //                 UseEnerge(100);
-        //                 Debug.Log("冲刺");
-        //                 //开始冲刺
-        //                 blackboard.lastState = blackboard.currentState;
-        //                 blackboard.nextState = typeof(PlayerSprintingState);
-        //                 fsm.ChangeState<PlayerSprintingState>();
-        //                 StartCoroutine(EndState(settings.sprintSettings.sprintDistance /
-        //                                         settings.sprintSettings.sprintSpeed));
-        //                 blackboard.lastState = typeof(PlayerSprintingState);
-        //             }
-        //             else
-        //             {
-        //                 TakeEnergeFailAudio();
-        //             }
-        //         }
-        //     }
-        //
-        //
-        //     //跳跃
-        //     if (Input.GetKeyDown(settings.keySettings.jumpkey)|| blackboard.isJumpBuffer)
-        //     {
-        //         if (blackboard.grounded||blackboard.doubleJump)
-        //         {
-        //             if (CanSwitch(GetPlayerCurrentState(blackboard.currentState), EStateType.Jumping))
-        //             {
-        //                 blackboard.lastState = blackboard.currentState;
-        //                 StartCoroutine(StartJump(0.3f));
-        //                 blackboard.nextState = typeof(PlayerJumpState);
-        //                 fsm.ChangeState<PlayerJumpState>();
-        //             }
-        //             blackboard.doubleJump = !blackboard.doubleJump;
-        //         }
-        //         
-        //     }
-        //     blackboard.isJumpBuffer = false;
-        // }
     }
 
     private void SlopJudgement()
@@ -270,7 +169,7 @@ public class Player : MonoBehaviour
     //检测人物是否离地面一定高度
     public bool IsGrounded(float height)
     {
-        bool cur = Physics.Raycast(transform.position, Vector3.down, settings.airSettings.playerHeight * 0.5f + height,
+        bool cur = Physics.Raycast(transform.position, Vector3.down, out floorHit,settings.airSettings.playerHeight * 0.5f + height,
             settings.otherSettings.groundLayer)||blackboard.isSlope;
         if (cur&&cur != lastGrounded)
         {
@@ -283,10 +182,7 @@ public class Player : MonoBehaviour
     //返回地面
     public RaycastHit GetGround()
     {
-        RaycastHit hit = new RaycastHit();
-        Physics.Raycast(transform.position, Vector3.down, out hit,
-            settings.airSettings.playerHeight * 0.5f + 5f, settings.otherSettings.groundLayer);
-        return hit;
+        return floorHit;
     }
 
     //检测墙壁
@@ -371,9 +267,14 @@ public class Player : MonoBehaviour
         blackboard.Health = Mathf.Clamp(blackboard.Health + health, 0, blackboard.maxHealth);
     }
     
-    public void BoomJump(Vector3 pos, float force)
+    //重力修正
+    public void GravityFix()
     {
-        Vector3 dir = (transform.position - pos).normalized;
-        rb.AddForce(dir * force, ForceMode.Impulse);
+        if (blackboard.isSlope)
+        {
+            //给一个反向重力的力和沿着斜坡的力
+            Vector3 dir = Vector3.down + blackboard.slopeHit.normal;
+            rb.AddForce(dir * Physics.gravity.y, ForceMode.Force);
+        }
     }
 }

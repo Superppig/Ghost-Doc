@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 6394809933492538677}
   - component: {fileID: 6394809933492538674}
   - component: {fileID: 8512502631960332569}
+  - component: {fileID: 5976751721582053527}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -334,6 +335,7 @@ MonoBehaviour:
       wallUpSpeed: 5
       exitWallTime: 0.3
       jumpBufferTime: 0.3
+      jumpTime: 0.2
     sprintSettings:
       sprintSpeed: 40
       sprintDistance: 5
@@ -394,9 +396,6 @@ MonoBehaviour:
     speed: 38.96124
     climbXZDir: {x: 0, y: 0, z: 0}
     climbSpeed: 59.784634
-    lastState: 0
-    currentState: 5
-    nextState: 5
     isWall: 0
     sprintingPause: 0
     isJumpBuffer: 0
@@ -430,6 +429,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5d7ab46164c334c8f4768747c18ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5976751721582053527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400941453571652568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d45ace33c4d3e4596df0d83f1b1f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grabRange: 10
+  grabScale: 1
+  grabTime: 0.1
+  localGrabPos: {x: 0, y: 0, z: 0}
+  throwForce: 20
+  holdLayer: Physics
+  grabKey: 324
+  releaseKey: 324
+  useKey: 101
+  usePartical: {fileID: 0}
+  num: 10
 --- !u!1 &2400941453953990343
 GameObject:
   m_ObjectHideFlags: 0

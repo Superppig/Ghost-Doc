@@ -3,7 +3,7 @@ using Services;
 using UnityEngine;
 
 
-public class RemoteEnemy:Enemy ,IGrabObject
+public class RemoteEnemy:Enemy
 {
     public EnemyType enemyType = EnemyType.RemoteEnemy;
     
@@ -36,7 +36,6 @@ public class RemoteEnemy:Enemy ,IGrabObject
             new RemoteEnemyChaseState(this),
             new RemoteEnemyAttackState(this),
             new RemoteEnemyStaggerState(this),
-            new RemoteEnemyBeTrownState(this),
             new RemoteEnemyHitState(this),
             new RemoteEnemyDeadState(this)
         };
@@ -48,6 +47,8 @@ public class RemoteEnemy:Enemy ,IGrabObject
     {
         base.EnemyOnInable();
         fsm.ChangeState<RemoteEnemyIdelState>();
+        
+        enemyCore.enemyType = EnemyType.RemoteEnemy;
     }
 
     protected override void Update()
@@ -62,6 +63,7 @@ public class RemoteEnemy:Enemy ,IGrabObject
 
     protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         fsm.OnFixedUpdate();
     }
 
@@ -84,36 +86,34 @@ public class RemoteEnemy:Enemy ,IGrabObject
         bullet1.damage = blackboard.damage;
     }
 
-    public Transform GetTransform()
+    public override Transform GetTransform()
     {
         return transform;
     }
-    public void Grabbed()
+    public override void Grabbed()
     {
         rb.isKinematic = true;
         col.enabled = false;
     }
-    public void Released()
+    public override void Released()
     {
         rb.isKinematic = false;
         col.enabled = true;
         rb.constraints = RigidbodyConstraints.None;
     }
-    public void Fly(Vector3 dir, float force)
+    public override void Fly(Vector3 dir, float force)
     {
-        fsm.ChangeState<RemoteEnemyBeTrownState>();
-        rb.AddForce(dir * force, ForceMode.Impulse);
     }
-    public bool CanGrab()
+    public override bool CanGrab()
     {
-        return canGrab;
+        return hasCore && canGrab;
     }
-    public bool CanUse()
+    public override bool CanUse()
     {
         return true;
     }
 
-    public void Use()
+    public override void Use()
     {
         _buffSystem.ActivateBuff(BuffType.Remote);
         
@@ -122,13 +122,4 @@ public class RemoteEnemy:Enemy ,IGrabObject
         fsm.ChangeState<RemoteEnemyDeadState>();
     }
     
-    private void OnCollisionEnter(Collision other)
-    {
-        if(isThrown)
-        {
-            ServiceLocator.Get<ScreenControl>().ParticleRelease(blackboard.boom,transform.position,Vector3.zero);
-            Boom();
-            fsm.ChangeState<RemoteEnemyDeadState>();
-        }
-    }
 }

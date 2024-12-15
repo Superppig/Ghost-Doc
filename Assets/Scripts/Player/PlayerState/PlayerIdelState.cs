@@ -16,6 +16,9 @@ public class PlayerIdelState : PlayerStateBase
 
     public override void OnUpdate()
     {
+        player.GravityFix();
+
+        
         player.rb.velocity = Vector3.zero;
         if (!blackboard.grounded)
         {
