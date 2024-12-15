@@ -12,6 +12,8 @@ public class CommonGun : Gun
     public Transform position;
     public Light pointLight;
     private IAudioPlayer audioPlayer;
+    
+    public string[] startAnim = {"switch","breath"};
 
     public MyObject m_MyObject;
 
@@ -29,7 +31,6 @@ public class CommonGun : Gun
         //初始化数据
          pos = position;
          fireWaitTime = 60f / data.fireRate;
-         gunAnimator = model.Find("GunModel").GetComponent<Animator>();
     }
 
     protected override void Update()
@@ -103,19 +104,11 @@ public class CommonGun : Gun
         
         pointLight.enabled = false;
     }
-
-
-
+    
+    
     void SwitchAnim()
     {
-        StartCoroutine(switchAnimIEnumerator(0.5f));
+        gunAnimatorController.PlaySequentially(startAnim);
     }
-    IEnumerator switchAnimIEnumerator(float timer)
-    {
-        if(gunAnimator!=null)
-            gunAnimator.SetBool("exit",true);
-        yield return new WaitForSeconds(timer);
-        if(gunAnimator!=null)
-            gunAnimator.SetBool("exit",false);
-    }
+    
 }

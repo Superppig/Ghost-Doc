@@ -49,11 +49,14 @@ public class Player : MonoBehaviour
     
     
     private RaycastHit floorHit;
+    
+    private PlayerAttack playerAttack;
 
     private void Awake()
     {
         audioPlayer = ServiceLocator.Get<IAudioPlayer>();
         rb = GetComponentInChildren<Rigidbody>();
+        playerAttack = GetComponent<PlayerAttack>();
         
         //初始化状态机
         
@@ -174,6 +177,10 @@ public class Player : MonoBehaviour
         if (cur&&cur != lastGrounded)
         {
             audioPlayer.CreateAudioByGroup("Landing", transform.position, -1);
+            
+            //枪械动画
+            playerAttack.GunJumpAnim();
+            
             blackboard.doubleJump = false;
         }
         lastGrounded = cur;

@@ -19,12 +19,7 @@ public class TestGunAnim : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            animationController.Play("shoot");
-            float timer = 0;
-            DOTween.To(() => timer, x => timer = x, 0.5f, 0.5f).OnComplete(() =>
-            {
-                animationController.Play("breath");
-            });
+            animationController.ImpulsePlay("shoot");
         }
     }
 }

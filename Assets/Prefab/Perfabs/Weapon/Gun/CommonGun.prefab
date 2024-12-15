@@ -46,12 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82136ef34ac34fdbbce975e3a56c926f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunAnimatorController: {fileID: 8124646656967164881}
   model: {fileID: 6416822841474230943}
   trans: {fileID: 1692378024807432174}
   firstFire: 0
   data: {fileID: 11400000, guid: 1a26a1231aa863543992e5bde7ce9b16, type: 2}
   position: {fileID: 4918822625142586606}
   pointLight: {fileID: 9183772815441703732}
+  startAnim:
+  - switch
+  - breath
   m_MyObject: {fileID: 0}
 --- !u!114 &6837051687211252879
 MonoBehaviour:
@@ -894,7 +898,7 @@ Animator:
   m_GameObject: {fileID: 7321602939281263436}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 22036f0c61f7abc499157cbbc864549f, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -904,6 +908,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8124646656967164881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321602939281263436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0ad451d2e34886b4c2f87464e48d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - clip: {fileID: 7400000, guid: 0f282991568f75b4a95a774d7d403af3, type: 2}
+    name: breath
+  - clip: {fileID: 7400000, guid: d6ed0de2cec92e4469f134d8603aa790, type: 2}
+    name: shoot
+  - clip: {fileID: 7400000, guid: f36a073a03565d9409657913f11773f4, type: 2}
+    name: shoot2
+  - clip: {fileID: 1827226128182048838, guid: 93b041f817be0f34b892a5b13689319b, type: 3}
+    name: switch
+  - clip: {fileID: 7400000, guid: 12cdfbf1db07f1043a462b3762e39703, type: 2}
+    name: jump1
+  - clip: {fileID: 7400000, guid: c8c9d30fd21654044b9b6ec8082f383d, type: 2}
+    name: jump2
+  - clip: {fileID: 7400000, guid: e6af006e7be64a9419f653ef8fd20d7f, type: 2}
+    name: jump3
 --- !u!4 &7984987385167385078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 93b041f817be0f34b892a5b13689319b, type: 3}

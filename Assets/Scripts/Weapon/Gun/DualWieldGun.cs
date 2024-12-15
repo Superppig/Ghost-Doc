@@ -114,7 +114,7 @@ public class DualWieldGun : Gun
         if ((fireing && canFire)||firstFire)
         {
             Fire();
-            gunAnimator.SetBool("fire",true);
+            //gunAnimator.SetBool("fire",true);
             
             //后坐力
             //_playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
@@ -125,7 +125,7 @@ public class DualWieldGun : Gun
         }
         else
         {
-            gunAnimator.SetBool("fire",false);
+            //gunAnimator.SetBool("fire",false);
             fireTimer += Time.deltaTime;
             if (fireTimer > fireWaitTime && !isReachMax)
             {
@@ -186,7 +186,7 @@ public class DualWieldGun : Gun
             StartCoroutine(BulletStart(position[1].position, orientation.transform.position+orientation.transform.forward.normalized*data.maxShootDistance));
         }
         isLeft=!isLeft;
-        gunAnimator.SetBool("isLeft",isLeft);
+        //gunAnimator.SetBool("isLeft",isLeft);
     }
     IEnumerator BulletStart(Vector3 start,Vector3 end)
     {

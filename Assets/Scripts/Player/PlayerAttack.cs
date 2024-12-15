@@ -41,103 +41,21 @@ public class PlayerAttack : MonoBehaviour
         weaponManager.WeaponInit(gunNames,meleeNames,currentType,gunIndex);
         if(weaponManager==null)
             Debug.LogWarning("weaponManager is null");
+        else
+        {
+            currentGun = weaponManager.GetComponentInChildren<Gun>();
+        }
     }
     
 
     private void Update()
     {
-        //PlayerInput();
+       PlayerInput();
     }
     
     private void PlayerInput()
     {
-        switchTimer+= Time.deltaTime;
-        switchTimer = Mathf.Clamp(switchTimer, 0, switchTime);
-        //左键打断收刀
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (currentType == WeaponType.Melee)
-            {
-                if (currentMelee.state==Melee.WeaponState.Retracking)
-                {
-                    SwitchWeapon(WeaponType.Gun,gunIndex);
-                    player.blackboard.isHoldingMelee = false;     
-                    //同时让gun第一次射击
-                    currentGun.firstFire = true;
-                }
-            }
-        }
-        
-        //右键为近战
-        if (Input.GetMouseButtonDown(1)&& meleeNames.Count>0)
-        {
-            if(currentType==WeaponType.Gun)
-                SwitchWeapon(WeaponType.Melee,meleeIndex);
-        }
-        //近战攻击后切回枪械
-        if (currentType == WeaponType.Melee && currentMelee.hasAttack)
-        {
-            SwitchWeapon(WeaponType.Gun,gunIndex);
-        }
-        
-        //鼠标滚轮相关
-        if (switchTimer >= switchTime)
-        {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
-            {
-                if (currentType == WeaponType.Gun)
-                {
-                    if (gunNames.Count>1)
-                    {
-                        gunIndex++;
-                        if (gunIndex >= gunNames.Count)
-                        {
-                            gunIndex = 0;
-                        }
-                        SwitchWeapon(WeaponType.Gun,gunIndex);
-                    }
-                }
-                else
-                {
-                    if (meleeNames.Count>1)
-                    {
-                        meleeIndex++;
-                        if (meleeIndex >= meleeNames.Count)
-                        {
-                            meleeIndex = 0;
-                        }
-                        SwitchWeapon(WeaponType.Melee,meleeIndex);
-                    }
-                }
-            }
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            {
-                if (currentType == WeaponType.Gun)
-                {
-                    if (gunNames.Count>1)
-                    {
-                        gunIndex--;
-                        if (gunIndex < 0)
-                        {
-                            gunIndex =gunNames.Count-1;
-                        }
-                        SwitchWeapon(WeaponType.Gun,gunIndex);
-                    }
-                }
-                else
-                {
-                    if (meleeNames.Count>1)
-                    {
-                        meleeIndex--;
-                        if (meleeIndex < 0)
-                        {
-                            meleeIndex = meleeNames.Count-1;
-                        }
-                        SwitchWeapon(WeaponType.Melee,meleeIndex);
-                    }
-                }
-            }
-        }
+
     }
 
     public void SwitchWeapon(WeaponType type, int index)
@@ -147,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
         switch (type)
         {
             case WeaponType.Gun:
-                currentGun = weaponParent.GetComponentInChildren<Gun>();
+                currentGun = weaponManager.GetComponentInChildren<Gun>();
                 player.gunModel = currentGun.model;
                 player.gunTrans = currentGun.trans;
                 //安全措施
@@ -161,11 +79,15 @@ public class PlayerAttack : MonoBehaviour
                 }
                 break;
             case WeaponType.Melee:
-                currentMelee = weaponParent.GetComponentInChildren<Melee>();
                 player.gunModel = currentMelee.transform;
                 player.gunTrans = currentMelee.transform;
                 break;
         }
         switchTimer = 0;
+    }
+
+    public void GunJumpAnim()
+    {
+        currentGun.gunAnimatorController.ImpulsePlay("jump3");
     }
 }

@@ -14,7 +14,8 @@ public class Gun: MonoBehaviour
     protected float fireTimer = 0f;
 
 
-    protected Animator gunAnimator;
+    public AnimationController gunAnimatorController;
+    
     protected Transform orientation;//摄像机的transform
     protected Rigidbody rb;
     protected Player player;
@@ -28,7 +29,6 @@ public class Gun: MonoBehaviour
     protected virtual void Start()
     {
         canFire = true;
-        gunAnimator = GetComponent<Animator>();
         player = GameObject.FindObjectOfType<Player>();
         rb = player.rb;
         orientation = player.cameraTransform;
@@ -63,8 +63,8 @@ public class Gun: MonoBehaviour
         if ((fireing && canFire)||firstFire)
         {
             Fire();
-            //gunAnimator.SetBool("fire",true);
-            
+            gunAnimatorController.ImpulsePlay("shoot");
+
             //后坐力
             //_playerCam.shotUp(Random.Range(-horOff,horOff),Random.Range(verOffMin,verOffMax),fireWaitTime);
             
@@ -74,7 +74,6 @@ public class Gun: MonoBehaviour
         }
         else
         {
-            //gunAnimator.SetBool("fire",false);
             fireTimer += Time.deltaTime;
             if (fireTimer > fireWaitTime)
             {
